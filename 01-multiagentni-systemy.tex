@@ -1,0 +1,3649 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[czech]{babel}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{parskip}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=1.4em}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\definecolor{linkblue}{RGB}{20,60,150}
+\definecolor{defbg}{RGB}{240,244,252}
+\definecolor{defframe}{RGB}{100,130,190}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{defbox}[1][]{colback=defbg,colframe=defframe,boxrule=0.6pt,arc=1.5mm,left=2mm,right=2mm,top=1mm,bottom=1mm,title={#1},fonttitle=\bfseries}
+\newtheorem{veta}{Věta}[section]
+\theoremstyle{definition}
+\newtheorem{definice}{Definice}[section]
+\usepackage[colorlinks=true,linkcolor=linkblue,urlcolor=linkblue]{hyperref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\title{\textbf{Multiagentní systémy}\\[0.3em]\large Učební text ke státní závěrečné zkoušce}
+\author{SZZ Umělá inteligence, MFF UK}
+\date{červenec 2026}
+
+\begin{document}
+\maketitle
+
+\vspace{-1.5em}
+
+\begin{center}
+\begin{minipage}{0.93\textwidth}
+\small
+Text pokrývá okruh \uv{Multiagentní systémy} magisterské SZZ oboru Umělá inteligence.
+Vychází z~přednášky NAIL106 \emph{Multiagentní systémy} (MFF UK) a~z~učebnic
+M.~Wooldridge: \emph{An Introduction to MultiAgent Systems} (2.~vyd., 2009),
+Y.~Shoham, K.~Leyton-Brown: \emph{Multiagent Systems} (2009)
+a~S.~Russell, P.~Norvig: \emph{Artificial Intelligence: A~Modern Approach}.
+Anglické termíny jsou při prvním výskytu uvedeny kurzívou v~závorce, protože zkoušející
+je běžně používá a~literatura je výhradně anglická.
+\end{minipage}
+\end{center}
+
+\section*{Mapování okruhu na kapitoly}
+\addcontentsline{toc}{section}{Mapování okruhu na kapitoly}
+
+\begin{center}
+\small
+\begin{tabular}{p{0.53\textwidth} p{0.40\textwidth}}
+\toprule
+\textbf{Položka oficiálního okruhu} & \textbf{Kapitola v~tomto textu} \\
+\midrule
+Architektura autonomního agenta; mechanismus výběru akcí
+  & \ref{sec:uvod}~Úvod, \ref{sec:architektura}~Architektura autonomního agenta \\
+Metody pro řízení agentů; symbolické reaktivní plánování
+  & \ref{sec:deliberativni}~Deliberativní architektury, \ref{sec:reaktivni}.1--\ref{sec:reaktivni}.3 \\
+Konekcionistické reaktivní plánování
+  & \ref{sec:reaktivni}.4 Agent network architecture (Maes) \\
+Hybridní přístupy
+  & \ref{sec:reaktivni}.6 Hybridní architektury, \ref{sec:reaktivni}.7 IDA \\
+Problém hledání cesty
+  & \ref{sec:cesta}~Hledání cesty (A*, D*~Lite, MAPF) \\
+Komunikace a~znalosti v~MAS, ontologie
+  & \ref{sec:ontologie}~Znalosti a~ontologie \\
+Řečové akty, FIPA-ACL, protokoly
+  & \ref{sec:komunikace}~Komunikace agentů \\
+Distribuované řešení problémů, kooperace
+  & \ref{sec:cdps}~Distribuované řešení problémů (CNET, BBS, DCOP) \\
+Nashova ekvilibria, Paretova efektivita
+  & \ref{sec:hry}~Interakce agentů a~teorie her (vč.\ koaličních her) \\
+(sociální volba jako doplněk k~agregaci preferencí)
+  & \ref{sec:volby}~Sociální volba a~volby \\
+Alokace zdrojů, aukce
+  & \ref{sec:aukce}~Alokace zdrojů, aukce, vyjednávání (+ návrh mechanismů) \\
+Metody pro učení agentů; zpětnovazební učení
+  & \ref{sec:uceni}~Učení agentů \\
+Metodologie návrhu, jazyky a~prostředí MAS
+  & \ref{sec:metodologie}~Metodologie, jazyky a~platformy \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\tableofcontents
+\newpage
+
+\section{Úvod: agent a multiagentní systém}
+\label{sec:uvod}
+
+\subsection{Motivace}
+
+Multiagentní systémy (\emph{multiagent systems}, MAS) vznikly jako samostatná oblast informatiky
+v~90.~letech jako odpověď na souběžné trendy: \emph{ubikvitnost} výpočetní techniky,
+\emph{konektivitu a~distribuovanost} (výpočet jako interakce), rostoucí \emph{složitost} úloh,
+\emph{delegaci} úloh na software a~tlak na snadnost použití. Klasické paradigma \uv{program
+dostane vstup, spočítá výstup, skončí} přestává stačit ve chvíli, kdy je software trvale zasazen
+do prostředí, které se mění nezávisle na něm a~kde vedle něj běží další nezávislé komponenty.
+
+MAS lze chápat ze čtyř různých pohledů, což vysvětluje šíři okruhu:
+\begin{itemize}
+\item \textbf{Softwarové inženýrství.} Agent je dalším stupněm abstrakce v~řadě
+  strojový kód $\to$ strukturované programy $\to$ objekty $\to$ distribuované objekty (CORBA)
+  $\to$ agenti. Klasický bonmot: \uv{objekty to dělají zadarmo, agenti proto, že chtějí}.
+\item \textbf{Distribuované a~paralelní systémy.} Desítky let výzkumu vyřešily mutex, deadlock
+  či konsensus. Rozdíl je v~tom, že agenti jsou \emph{autonomní}, koordinační mechanismy nejsou
+  dané dopředu a~vše se musí vyřešit až za běhu.
+\item \textbf{Umělá inteligence.} Tradičně: MAS je podoblast UI. Podle Russella a~Norviga je
+  naopak cílem UI návrh inteligentních agentů (tedy UI $\subseteq$ MAS); Etzioniho vyhrocené
+  \uv{MAS je 1~\% UI a~99~\% informatiky}. MAS používá techniky UI (reprezentace znalostí,
+  plánování), ale zdůrazňuje \emph{sociální} aspekty přehlížené klasickou UI.
+\item \textbf{Teorie her a~ekonomie.} Formální aparát pro racionální rozhodování více subjektů.
+  Matematická teorie her řeší hlavně otázky \emph{existence}, MAS naopak \emph{výpočetní}
+  aspekty (složitost, praktická použitelnost).
+\item \textbf{Sociologie.} Klíčovým pojmem MAS jsou \emph{společnosti agentů}, a~sociologie
+  studuje lidské společnosti --- inspirace se tedy nabízí. Platí zde ale stejná výhrada jako
+  u~vztahu UI a~lidské inteligence: inspirace ano, nutnost ne (letadla nemávají křídly).
+  Opačným směrem je vazba pevnější: sociologie, ekonomie i~ekologie používají agenty jako
+  stavební kámen svých simulačních modelů --- \emph{agentové modelování}
+  (\emph{agent-based modelling}, ABM), viz platformy v~kap.~\ref{sec:metodologie}.
+\end{itemize}
+
+\subsection{Co je agent}
+
+Jednotná definice agenta neexistuje --- Franklin a~Graesser (1996) v~článku
+\emph{Is it an agent, or just a program?} shromáždili desítky vzájemně nekompatibilních definic.
+Klíčové je odlišit agenta od běžné procedury či objektu. Nejčastěji citované formulace:
+
+\begin{defbox}[Agent --- pracovní definice]
+\textbf{Russell, Norvig (AIMA):} Agent je cokoli, co lze chápat jako entitu \emph{vnímající}
+své prostředí prostřednictvím senzorů a~\emph{působící} na toto prostředí pomocí efektorů.
+
+\textbf{Pattie Maes:} Autonomní agenti jsou výpočetní systémy, které obývají nějaké složité
+dynamické prostředí, autonomně v~něm vnímají a~jednají, a~tím naplňují množinu cílů či úkolů,
+pro které byly navrženy.
+
+\textbf{Wooldridge, Jennings:} Agent je počítačový systém zasazený do nějakého prostředí, schopný
+v~tomto prostředí \emph{autonomního jednání} vedoucího ke splnění delegovaných cílů.
+\end{defbox}
+
+\begin{defbox}[Multiagentní systém]
+Multiagentní systém je systém složený z~více agentů, kteří spolu \emph{interagují} ---
+nejčastěji výměnou zpráv po počítačové síti. Agenti \emph{nemusí sdílet společný cíl}; mohou mít
+vlastní, i~protichůdné zájmy. Proto je nutné studovat mechanismy vyjednávání, koordinace
+a~dynamického rozdělování zdrojů.
+\end{defbox}
+
+\textbf{Autonomie.} Člověk je plně autonomní, metoda v~Javě vůbec. Agent leží mezi: měl by
+autonomně volit \emph{způsob}, jak zadaný problém vyřešit (tedy volbu podcílů), nikoli
+však hlavní cíl --- ten je mu delegován.
+
+\subsection{Vlastnosti inteligentního agenta}
+
+\begin{itemize}
+\item \textbf{Reaktivita} (\emph{reactive}) --- vnímá prostředí a~je schopen reagovat na jeho
+  změny v~rozumném (reálném) čase.
+\item \textbf{Proaktivita} (\emph{proactive}) --- má vlastní cíle a~aktivně je naplňuje,
+  z~vlastní iniciativy, ne jen jako odpověď na podnět.
+\item \textbf{Sociálnost} (\emph{social ability}) --- umí komunikovat s~jinými agenty a~s~lidmi.
+\end{itemize}
+
+Dosáhnout \emph{čistě} reaktivního nebo \emph{čistě} cílově orientovaného chování je poměrně snadné.
+Obtížné je najít \textbf{rovnováhu mezi reaktivitou a~proaktivitou}: agent nesmí slepě
+následovat plán, který se stal nesmyslným, ale ani nesmí neustále přehodnocovat cíle a~nikam
+nedojít. Tento kompromis se v~různých podobách vrací v~celém textu (viz zejména
+commitment strategie v~kap.~\ref{sec:deliberativni} a~hybridní architektury v~kap.~\ref{sec:reaktivni}).
+
+\subsection{Intencionální systémy a~intencionální postoj}
+
+Když o~agentech mluvíme, přisuzujeme jim \emph{mentální stavy}: \uv{agent věří, že\dots},
+\uv{agent chce\dots}. Daniel Dennett definuje \textbf{intencionální systém} jako entitu, jejíž
+chování lze predikovat přisouzením vlastností jako přesvědčení (\emph{beliefs}), touhy
+(\emph{desires}) a~racionalita. Intencionální systémy tvoří hierarchii: systém \emph{prvního řádu}
+má přesvědčení a~touhy, systém \emph{druhého řádu} má přesvědčení a~touhy o~přesvědčeních a~touhách
+(svých i~cizích), atd.
+
+Dennett rozlišuje tři \emph{postoje} (\emph{stances}) k~predikci chování systému:
+\emph{fyzikální} (stačí fyzikální zákony --- hodím-li kamenem, nemusím mluvit o~jeho touhách,
+stačí hmotnost, rychlost a~gravitace), \emph{návrhový} (\emph{design stance}: neznám všechny
+fyzikální zákony, ale vím, k~jakému účelu byl systém navržen --- umím nastavit budík, aniž bych
+rozuměl jeho elektronice) a~\emph{intencionální} (popisuji systém pomocí přesvědčení, tužeb
+a~racionality).
+
+Shoham uvádí provokativní příklad: \uv{Vypínač v~místnosti je velmi kooperativní agent, který
+je z~vlastní vůle ochoten vést elektrický proud, ale činí tak jen tehdy, věří-li, že si to
+skutečně přejeme.} Popis je konzistentní a~elegantní, přesto většině lidí připadá absurdní ---
+\emph{protože pro vypínač máme jednodušší a~stejně přesný popis}. Intencionální postoj se
+vyplatí tam, kde fyzikální či návrhový popis neexistuje, nebo je nepraktický (i~se schématem
+počítače je těžké odvodit, proč se po kliknutí na ikonu otevře okno).
+\textbf{Z~pohledu informatiky je intencionální postoj především abstrakce pro zvládnutí
+složitosti} --- a~právě to je pro mnoho programátorů hlavní přínos MAS.
+
+Zbývá filozofická otázka, kterou Dennett klade: existuje intencionalita entit \emph{sama
+o~sobě}, nebo vzniká teprve \emph{v~procesu interpretace} pozorovatelem? Dennett se kloní
+k~druhé možnosti --- žádná intencionalita bez interpretace. Pro nás to má praktický důsledek:
+přisouzení přesvědčení a~tužeb agentovi je \emph{náš popis}, ne vlastnost implementace,
+a~je legitimní přesně do té míry, do jaké nám pomáhá predikovat chování.
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Agent = autonomní systém zasazený do prostředí, který v~něm vnímá a~jedná, aby splnil
+  delegované cíle. MAS = systém interagujících agentů \emph{bez nutně sdíleného cíle}.
+\item Klíčový problém návrhu agenta je \textbf{výběr akce} (\emph{action selection});
+  architektura agenta je softwarová architektura, která tento výběr realizuje.
+\item Tři vlastnosti inteligentního agenta: reaktivita, proaktivita, sociálnost;
+  těžké je jejich vyvážení.
+\item Dennett: intencionální systém a~tři postoje (fyzikální, návrhový, intencionální);
+  intencionální postoj je abstrakce pro zvládnutí složitosti.
+\item Odlišení MAS od: distribuovaných systémů (autonomie, koordinace až za běhu), objektů
+  (agent akci provede, jen když chce), klasické UI (důraz na sociální aspekty),
+  teorie her (důraz na výpočetní aspekty).
+\end{itemize}
+
+\section{Architektura autonomního agenta a~mechanismus výběru akcí}
+\label{sec:architektura}
+
+\subsection{Prostředí a~jeho vlastnosti}
+
+Chování agenta zásadně určuje typ prostředí, ve kterém se nachází. Standardní klasifikace
+(Russell, Norvig):
+
+\begin{center}
+\begin{tabular}{p{0.28\textwidth} p{0.64\textwidth}}
+\toprule
+\textbf{Dichotomie} & \textbf{Význam} \\
+\midrule
+plně / částečně pozorovatelné \newline (\emph{fully / partially observable})
+  & Senzory agenta mu dávají úplný stav prostředí --- nebo jen jeho část
+    (skryté informace, šum, omezený dosah). \\
+statické / dynamické \newline (\emph{static / dynamic})
+  & Prostředí se mění pouze v~důsledku akcí agenta --- nebo i~jinak (jiní agenti, přírodní děje).
+    Ve statickém prostředí si agent může \uv{v~klidu rozmyslet} další tah. \\
+deterministické / nedeterministické
+  & Každá akce má právě jeden možný výsledek --- nebo více (se známým či neznámým rozdělením
+    pravděpodobnosti; pak mluvíme o~stochastickém prostředí). \\
+diskrétní / spojité
+  & Konečný počet stavů a~akcí --- nebo spojité veličiny (poloha, rychlost). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Další běžně uváděné dichotomie: \emph{epizodické / sekvenční} (má dnešní akce vliv na budoucí
+odměny?), \emph{jednoagentní / multiagentní}, \emph{známé / neznámé} (zná agent dopředu
+přechodovou funkci?).
+
+\textbf{Nepříjemné konstatování:} většina zajímavých prostředí (reálný svět, internet)
+je spojitá, nedeterministická, dynamická a~jen částečně pozorovatelná. Právě proto nestačí
+naprogramovat agenta jako pevnou tabulku pravidel.
+
+\medskip
+\noindent\emph{Příklad --- termostat.} Ne příliš inteligentní agent, zasazený do prostředí
+(místnost). Dva vjemy (\uv{je zima}, \uv{teplota v~pořádku}), dvě akce (zapnout, vypnout),
+rozhodovací jednotka: zima $\Rightarrow$ zapni, OK $\Rightarrow$ vypni. Prostředí je přesto
+nedeterministické (někdo otevře dveře).
+
+\noindent\emph{Příklad --- softwarový démon.} Např.\ unixový \texttt{xbiff}: prostředím je
+operační systém, vnímá voláním systémových služeb, akcemi jsou softwarové operace (spustit
+poštovního klienta, změnit ikonu). Rozhodovací algoritmus je na úrovni termostatu.
+
+\subsection{Abstraktní architektura agenta}
+
+Nyní formalizujeme pohled na agenta a~jeho interakci s~prostředím. Předpokládáme, že prostředí
+je diskrétní --- což není omezující, každé spojité prostředí lze diskretizovat s~libovolnou
+přesností.
+
+\begin{defbox}[Prostředí, agent, běh]
+\textbf{Prostředí} může být v~jednom z~konečně mnoha diskrétních stavů,
+$E = \{e, e', \dots\}$. \textbf{Agent} má k~dispozici konečnou množinu akcí
+$A = \{a, a', \dots\}$.
+
+\textbf{Běh} (\emph{run}) agenta v~prostředí je posloupnost střídajících se stavů prostředí
+a~akcí:
+\[
+r = e_0 \xrightarrow{a_0} e_1 \xrightarrow{a_1} e_2 \xrightarrow{a_2} \cdots
+\xrightarrow{a_{n-1}} e_n .
+\]
+Označme $R$ množinu všech konečných běhů (nad $E$ a~$A$), $R^A \subseteq R$ ty, které končí akcí,
+a~$R^E \subseteq R$ ty, které končí stavem prostředí.
+\end{defbox}
+
+\begin{defbox}[Přechodová funkce prostředí (\emph{state transformer function})]
+\[
+\tau : R^A \to 2^E
+\]
+Funkce $\tau$ zobrazuje běh končící akcí na množinu stavů, do nichž se prostředí může
+po této akci dostat. Z~této definice plynou dva důsledky:
+\begin{itemize}
+\item \textbf{Prostředí má historii} --- následující stav nezávisí jen na poslední akci, ale na
+  celé historii běhu.
+\item \textbf{Prostředí je nedeterministické} --- výsledkem je množina stavů, dopředu nevíme, který
+  nastane.
+\end{itemize}
+Je-li $\tau(r) = \emptyset$, běh skončil. Dále předpokládáme, že všechny běhy skončí.
+
+\textbf{Prostředí} je trojice $\mathit{Env} = \langle E, e_0, \tau\rangle$, kde $e_0$ je počáteční stav.
+\end{defbox}
+
+\begin{defbox}[Agent a~systém]
+\textbf{Agent} je funkce zobrazující běhy končící stavem prostředí na akce:
+\[
+Ag : R^E \to A .
+\]
+Agent tedy rozhoduje na základě \emph{celé historie} systému a~rozhoduje se \emph{deterministicky}.
+Označme $\mathcal{AG}$ množinu všech agentů.
+
+\textbf{Systém} je dvojice $\langle Ag, \mathit{Env}\rangle$. Posloupnost
+$(e_0, a_0, e_1, a_1, \dots)$ je \emph{běh agenta $Ag$ v~prostředí $\mathit{Env}$}, právě když
+\begin{enumerate}
+\item $e_0$ je počáteční stav $\mathit{Env}$,
+\item $a_0 = Ag(e_0)$,
+\item pro každé $u > 0$ platí $e_u \in \tau\big((e_0,a_0,\dots,a_{u-1})\big)$
+  a~$a_u = Ag\big((e_0,a_0,\dots,e_u)\big)$.
+\end{enumerate}
+Množinu všech běhů agenta $Ag$ v~$\mathit{Env}$ značíme $R(Ag,\mathit{Env})$.
+\end{defbox}
+
+\begin{defbox}[Funkční ekvivalence agentů]
+Agenti $Ag_1$ a~$Ag_2$ jsou \textbf{funkčně ekvivalentní vzhledem k~$\mathit{Env}$}, právě když
+$R(Ag_1,\mathit{Env}) = R(Ag_2,\mathit{Env})$.
+
+Jsou \textbf{prostě funkčně ekvivalentní} (\emph{simply functionally equivalent}), pokud jsou
+funkčně ekvivalentní vzhledem ke \emph{všem} prostředím.
+\end{defbox}
+
+Funkční ekvivalence je důležitá jako nástroj pro srovnávání \emph{vyjadřovací síly} architektur:
+říká, že vnitřní implementace je nepodstatná, pokud vede ke stejným pozorovatelným běhům.
+
+\subsection{Čistě reaktivní agent a~agent s~vnitřním stavem}
+
+\begin{defbox}[Čistě reaktivní agent (\emph{purely reactive / tropistic agent})]
+\[
+Ag : E \to A
+\]
+Reaguje pouze na aktuální stav prostředí, historii ignoruje.
+
+\textbf{Vztah k~obecnému agentovi:} ke každému čistě reaktivnímu agentovi existuje funkčně
+ekvivalentní standardní agent; opačně to \emph{neplatí}.
+
+\emph{Termostat:} $Ag(e) = \mathrm{off}$ pro $e = $ \uv{teplota OK}, jinak $Ag(e) = \mathrm{on}$.
+\end{defbox}
+
+\begin{defbox}[Agent s~vnitřním stavem]
+Nechť $I$ je množina vnitřních stavů agenta a~$\mathit{Per}$ množina jeho vjemů. Agent je určen trojicí funkcí:
+\begin{align*}
+\mathit{see} &: E \to \mathit{Per} && \text{(vnímání)}\\
+\mathit{next} &: I \times \mathit{Per} \to I && \text{(aktualizace vnitřního stavu)}\\
+\mathit{action} &: I \to A && \text{(výběr akce)}
+\end{align*}
+\textbf{Cyklus:} agent startuje ve stavu $i_0$; vnímá prostředí ($\mathit{see}(e)$); aktualizuje
+stav ($i \leftarrow \mathit{next}(i, \mathit{see}(e))$); vybere akci ($a \leftarrow \mathit{action}(i)$);
+vykoná ji a~opakuje.
+
+\textbf{Věta (bez důkazu):} Ke každému agentovi s~vnitřním stavem existuje funkčně ekvivalentní
+standardní agent. Vnitřní stav tedy \emph{nezvyšuje vyjadřovací sílu}, ale je zásadní pro
+\emph{efektivitu} a~přehlednost implementace.
+\end{defbox}
+
+Funkce $\mathit{see}$ současně formalizuje \textbf{pozorovatelnost}: pokud $\mathit{see}$ zobrazí
+dva různé stavy $e_1 \ne e_2$ na tentýž vjem, agent je nedokáže rozlišit --- prostředí je pro něj
+jen částečně pozorovatelné. Krajní případy: $|\mathit{Per}| = |E|$ a~$\mathit{see}$ prostá
+(plně pozorovatelné) versus $|\mathit{Per}| = 1$ (agent nevidí nic).
+
+\subsection{Jak agentovi říct, co má dělat: utilita}
+
+Nechceme agenty s~natvrdo zadrátovaným chováním. Chceme agentovi říct, \emph{co} má dělat,
+nikoli \emph{jak}. Standardní postup UI je definovat cíl \emph{nepřímo}, mírou úspěšnosti.
+
+\begin{defbox}[Utilita]
+\textbf{Utilita stavu:} $u : E \to \mathbb{R}$. Cílem agenta je dostat se do stavů s~vysokou
+hodnotou utility.
+
+Hodnocení jednotlivých stavů je krátkozraké. Proto zavádíme \textbf{utilitu běhu}:
+\[
+u : R \to \mathbb{R} .
+\]
+Ta lépe odpovídá agentům, kteří běží dlouhodobě. Utilitu běhu lze odvodit ze stavů např.\ jako
+utilitu \emph{nejhoršího} navštíveného stavu nebo jako \emph{průměrnou} utilitu navštívených
+stavů --- co je lepší, závisí na úloze.
+\end{defbox}
+
+\begin{defbox}[Optimální agent]
+Nechť $P(r \mid Ag, \mathit{Env})$ je pravděpodobnost běhu $r$ agenta $Ag$ v~prostředí $\mathit{Env}$,
+přičemž $\sum_{r \in R(Ag,\mathit{Env})} P(r \mid Ag,\mathit{Env}) = 1$. Optimální agent maximalizuje
+\emph{očekávanou utilitu}:
+\[
+Ag_{\mathrm{opt}} = \arg\max_{Ag \in \mathcal{AG}} \sum_{r \in R(Ag,\mathit{Env})}
+u(r)\, P(r \mid Ag, \mathit{Env}).
+\]
+\end{defbox}
+
+Definice je elegantní, ale \textbf{nekonstruktivní}: neříká, jak takového agenta navrhnout.
+Navíc bývá obtížné utilitní funkci vůbec zadat. (Poznámka: peníze nejsou pro člověka dobrou
+utilitou --- utilita peněz je nelineární a~liší se pro bohaté a~chudé.)
+
+\medskip
+\noindent\textbf{Příklad: Tileworld.} Klasické testovací prostředí pro agentní architektury.
+Agenti se pohybují po šachovnici do čtyř směrů, na desce jsou díry, překážky a~bloky; cílem
+je zatlačit bloky do děr. Prostředí je \emph{dynamické} --- díry, překážky i~bloky náhodně
+vznikají a~zanikají. Utilita běhu:
+\[
+u(r) = \frac{N_f}{N_a},
+\]
+kde $N_f$ je počet děr zaplněných agentem během běhu $r$ a~$N_a$ počet všech děr, které se
+během $r$ objevily. Agent musí umět \emph{reagovat} na změny (blok, který tlačím, zmizel)
+i~\emph{využívat příležitosti} (vedle mě se objevil nový blok). Tileworld se historicky používal
+právě ke zkoumání kompromisu mezi reaktivitou a~proaktivitou (viz odhodlání agentů,
+sekce~\ref{ssec:commitment}).
+
+\subsection{Predikátová specifikace úlohy}
+
+Speciálním případem utility je zobrazení do $\{0,1\}$: běh je buď úspěšný ($u(r)=1$), nebo ne.
+
+\begin{defbox}[Prostředí úlohy (\emph{task environment})]
+Nechť $\Psi : R \to \{0,1\}$ je \textbf{predikátová specifikace}: $\Psi(r)$ platí, právě když
+$u(r) = 1$. \textbf{Prostředí úlohy} je dvojice $\langle \mathit{Env}, \Psi \rangle$; specifikuje
+jak vlastnosti systému (přes $\mathit{Env}$), tak kritérium splnění úlohy (přes $\Psi$).
+
+Označme $R_\Psi(Ag,\mathit{Env}) = \{ r \in R(Ag,\mathit{Env}) \mid \Psi(r) \}$.
+\end{defbox}
+
+Kdy agent úlohu \emph{řeší}? Existují tři výklady:
+\begin{itemize}
+\item \textbf{Pesimistický:} $R_\Psi(Ag,\mathit{Env}) = R(Ag,\mathit{Env})$ --- \emph{všechny} běhy
+  splňují $\Psi$.
+\item \textbf{Optimistický:} $\exists r \in R(Ag,\mathit{Env}): \Psi(r)$ --- \emph{alespoň jeden} běh.
+\item \textbf{Realistický:} rozšíříme $\tau$ o~rozdělení pravděpodobnosti a~měříme úspěch
+  pravděpodobností
+  $P(\Psi \mid Ag,\mathit{Env}) = \sum_{r \in R_\Psi(Ag,\mathit{Env})} P(r \mid Ag,\mathit{Env})$.
+\end{itemize}
+
+\begin{defbox}[Typy úloh]
+\textbf{Úlohy dosažení} (\emph{achievement tasks}) --- \uv{něco najít}. Je dána množina cílových
+stavů $G \subseteq E$; $\Psi(r)$ platí, pokud se v~běhu $r$ vyskytne alespoň jeden stav z~$G$.
+Typicky každá klasická úloha UI (prohledávání).
+
+\textbf{Úlohy udržení} (\emph{maintenance tasks}) --- \uv{něčemu se vyhnout}. Je dána množina
+\uv{špatných} stavů $B \subseteq E$; $\Psi(r)$ neplatí, pokud se v~$r$ vyskytne stav z~$B$.
+Typicky hry, kde $B$ jsou prohrané pozice a~prostředím je soupeř.
+
+\textbf{Kombinace:} dosáhnout stavu z~$G$ a~přitom se vyhnout stavům z~$B$.
+\end{defbox}
+
+\subsection{Mechanismus výběru akcí --- přehled}
+\label{ssec:vyber-akci}
+
+\begin{defbox}[Mechanismus výběru akcí (\emph{action selection mechanism})]
+Procedura, kterou agent v~každém okamžiku rozhoduje, kterou z~dostupných akcí provede,
+na základě vjemů z~prostředí a~svého vnitřního stavu. \textbf{Architektura agenta} je
+softwarová architektura, která takový mechanismus realizuje --- podle Maes (1991)
+\uv{konkrétní metodologie stavby agentů, která určuje, jak lze agenta rozložit na množinu
+komponent a~jak mají tyto komponenty interagovat, aby dohromady odpověděly na otázku, jak data
+ze senzorů a~aktuální vnitřní stav určují akce a~budoucí vnitřní stav agenta.}
+\end{defbox}
+
+Následující dvě kapitoly probírají hlavní rodiny mechanismů výběru akcí:
+
+\begin{center}
+\small
+\begin{tabular}{p{0.20\textwidth} p{0.34\textwidth} p{0.38\textwidth}}
+\toprule
+\textbf{Rodina} & \textbf{Mechanismus výběru akce} & \textbf{Typický zástupce} \\
+\midrule
+symbolická / deliberativní
+  & logická dedukce nad databází formulí; plánování
+  & deduktivní agent, STRIPS, BDI, PRS \\
+reaktivní (symbolická)
+  & sada pravidel \uv{situace $\to$ akce} s~pevnou prioritou
+  & subsumpční architektura (Brooks) \\
+reaktivní (konekcionistická)
+  & šíření aktivace v~síti modulů, vyhrává nejaktivnější
+  & agent network architecture (Maes) \\
+hybridní
+  & vrstvy různé abstrakce + arbitráž mezi nimi
+  & TouringMachines, InteRRaP \\
+koaliční
+  & soutěž dynamicky vznikajících koalic procesů o~\uv{vědomí}
+  & IDA / globální pracovní prostor \\
+naučená
+  & maximalizace naučené $Q$-funkce / stochastická politika
+  & Q-learning, actor-critic (kap.~\ref{sec:uceni}) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Prostředí: 4 dichotomie (pozorovatelnost, statické/dynamické, determinismus, diskrétnost);
+  reálná prostředí jsou v~nejtěžší variantě.
+\item Formalismus: $E$, $A$, běh $r = e_0 a_0 e_1 \dots e_n$, $R^A$/$R^E$,
+  přechodová funkce $\tau : R^A \to 2^E$ (odtud historie + nedeterminismus),
+  $\mathit{Env}=\langle E,e_0,\tau\rangle$, agent $Ag : R^E \to A$, systém $\langle Ag,\mathit{Env}\rangle$.
+\item Funkční ekvivalence (vzhledem k~prostředí / prostá).
+\item Čistě reaktivní agent $Ag: E \to A$ (slabší); agent s~vnitřním stavem
+  ($\mathit{see}$, $\mathit{next}$, $\mathit{action}$) --- oba převeditelné na standardního agenta.
+\item Utilita: $u : E \to \mathbb{R}$ vs.\ $u : R \to \mathbb{R}$; optimální agent maximalizuje
+  \emph{očekávanou} utilitu --- definice je nekonstruktivní.
+\item Prostředí úlohy $\langle \mathit{Env}, \Psi\rangle$; pesimista/optimista/realista;
+  úlohy dosažení ($G$) a~udržení ($B$).
+\item Tileworld a~utilita $N_f/N_a$ jako standardní benchmark reaktivity vs.\ proaktivity.
+\end{itemize}
+
+\section{Deliberativní architektury: symbolické uvažování, BDI, PRS}
+\label{sec:deliberativni}
+
+\subsection{Klasický přístup UI a~deduktivní agent}
+
+Klasický způsob, jakým UI staví \uv{inteligentní systém}, stojí na dvou pilířích:
+\begin{enumerate}
+\item \textbf{Symbolická reprezentace} prostředí a~chování --- zde konkrétně logickými formulemi.
+\item \textbf{Syntaktická manipulace} s~touto reprezentací --- tedy logická dedukce, dokazování vět.
+\end{enumerate}
+Teorie o~chování agenta je pak zároveň programem --- \emph{spustitelnou specifikací}, která
+generuje konkrétní akce. Tento přístup naráží na dva klasické problémy:
+\begin{itemize}
+\item \textbf{Problém transdukce} (\emph{transduction problem}): jak převést reálný svět do
+  symbolické reprezentace (počítačové vidění, zpracování přirozeného jazyka, učení).
+  Goethem řečeno: \uv{Šedá, milý příteli, je všechna teorie, a~zelený je zlatý strom života.}
+\item \textbf{Problém reprezentace a~uvažování}: jak znalosti reprezentovat a~jak nad nimi
+  efektivně odvozovat (dokazovače, plánovače).
+\end{itemize}
+
+\medskip
+\noindent\textbf{Odbočka: dedukce vs.\ indukce.}
+\emph{Dedukce} je odvození závěrů, které jsou pravdivé, jsou-li pravdivé předpoklady ---
+postup od obecného ke konkrétnímu (sylogismus: \uv{Všichni lidé jsou smrtelní, Sókratés je
+člověk, tedy Sókratés je smrtelný}). \emph{Indukce} znamená, že při pravdivých předpokladech
+je závěr spíše pravdivý než nepravdivý --- od konkrétního k~obecnému. Sherlock Holmes ve
+skutečnosti používá indukci, i~když jí říká dedukce; matematická indukce je naopak dedukce.
+
+\begin{defbox}[Deduktivní agent (agent jako dokazovač vět)]
+Nechť $L$ je množina formulí predikátové logiky prvního řádu a~$D = 2^L$ množina databází těchto
+formulí. Vnitřní stav agenta je databáze $\mathit{DB} \in D$. Uvažování je realizováno
+odvozovacími pravidly $\rho$:
+\[
+\mathit{DB} \vdash_\rho \varphi \quad\text{---\ formuli } \varphi \text{ lze odvodit z } \mathit{DB}
+\text{ pomocí pravidel } \rho .
+\]
+Agent je pak trojice funkcí
+$\mathit{see} : E \to \mathit{Per}$, $\mathit{next} : D \times \mathit{Per} \to D$,
+$\mathit{action} : D \to A$, přičemž $\mathit{action}$ je definována procedurou níže.
+\end{defbox}
+
+\noindent\textbf{Výběr akce jako dokazování.}
+\begin{algorithmic}[1]
+\Function{action}{$\mathit{DB} : D$} : $A$
+  \ForAll{$a \in A$}
+    \If{$\mathit{DB} \vdash_\rho \mathit{Do}(a)$} \Return $a$ \EndIf
+  \EndFor
+  \ForAll{$a \in A$}
+    \If{$\mathit{DB} \not\vdash_\rho \neg \mathit{Do}(a)$} \Return $a$ \EndIf
+  \EndFor
+  \State \Return $\mathit{null}$
+\EndFunction
+\end{algorithmic}
+
+První cyklus hledá akci, kterou lze \emph{dokázat} jako žádoucí (odvodí se $\mathit{Do}(a)$).
+Pokud žádná taková není, druhý cyklus hledá akci alespoň \emph{konzistentní} s~databází
+(nelze dokázat, že by se dělat neměla). Pokud selže i~to, agent nedělá nic.
+
+\medskip
+\noindent\textbf{Příklad: vysavačový svět 3$\times$3.}
+Predikáty: $\mathit{In}(x,y)$ (agent je na pozici $(x,y)$), $\mathit{Dirt}(x,y)$ (na $(x,y)$ je
+špína), $\mathit{Facing}(d)$ (agent je otočen směrem $d$). Pravidla pro odvození akce:
+\begin{align*}
+\mathit{In}(x,y) \wedge \mathit{Dirt}(x,y) &\Rightarrow \mathit{Do}(\mathit{suck}) \\
+\mathit{In}(0,0) \wedge \mathit{Facing}(\mathit{north}) \wedge \neg\mathit{Dirt}(0,0)
+  &\Rightarrow \mathit{Do}(\mathit{forward}) \\
+\mathit{In}(0,2) \wedge \mathit{Facing}(\mathit{north}) \wedge \neg\mathit{Dirt}(0,2)
+  &\Rightarrow \mathit{Do}(\mathit{turn}) \qquad \dots
+\end{align*}
+Agent tak systematicky projde svět ve tvaru \uv{hada} 00--01--02--12--11--10--\dots
+Všimněte si, že úklid má vyšší prioritu než pohyb (pravidlo pro $\mathit{suck}$ je uvedeno první
+a~ostatní pravidla mají v~předpokladu negaci $\mathit{Dirt}$).
+
+\medskip
+\noindent\textbf{Klady a~zápory.}
+\begin{itemize}
+\item[$+$] Elegantní, s~jasnou (a~krásnou) sémantikou; specifikace = program.
+\item[$-$] Prakticky nepoužitelné pro netriviální úlohy: dokazování je pomalé, nemusí skončit.
+\item[$-$] \textbf{Problém vypočitatelné racionality} (\emph{calculative rationality}): agent
+  odvodí optimální akci pro stav prostředí, jaký byl \emph{na začátku} odvozování --- mezitím se
+  prostředí změnilo a~akce už optimální není. Katastrofa v~rychle se měnícím prostředí.
+\item[$-$] Těžko se navrhuje funkce $\mathit{see}$ (jak z~obrázku udělat formule, jak
+  reprezentovat čas).
+\end{itemize}
+Přesto se jednotlivé prvky tohoto přístupu objevují v~pozdějších architekturách, zejména v~BDI.
+
+\subsection{Praktické uvažování: architektura BDI}
+
+\begin{defbox}[Praktické uvažování (\emph{practical reasoning})]
+Inspirováno lidským rozhodováním. \emph{Teoretické} uvažování (Sókratés) vede jen k~tomu,
+co si o~světě myslíme; \emph{praktické} uvažování vede k~\textbf{akcím}. Má dvě fáze:
+\begin{itemize}
+\item \textbf{Deliberace} (\emph{deliberation}) --- \emph{čeho chceme dosáhnout}
+  (\uv{chci dodělat magisterské studium}).
+\item \textbf{Uvažování o~prostředcích} (\emph{means-ends reasoning}), tedy plánování ---
+  \emph{jak toho dosáhneme} (vytvořit plán, jak dostudovat).
+\end{itemize}
+A~obojí nesmí trvat příliš dlouho.
+\end{defbox}
+
+\begin{defbox}[Beliefs --- Desires --- Intentions]
+\textbf{Beliefs} (přesvědčení) --- informační stav agenta, jeho znalosti o~světě.
+V~MAS jim záměrně neříkáme \uv{znalosti}, abychom zdůraznili, že jsou \emph{subjektivní},
+\emph{nemusí být pravdivé} a~\emph{mohou se v~budoucnu změnit}. Mohou obsahovat i~odvozovací
+pravidla umožňující dopředné řetězení.
+
+\textbf{Desires} (touhy) --- motivační stav agenta, cíle nebo situace, kterých by chtěl
+dosáhnout. Touhy \emph{mohou být vzájemně nekonzistentní} (chci se učit i~jít na pivo).
+
+\textbf{Intentions} (záměry) --- stavy světa, kterých se agent \emph{zavázal} dosáhnout.
+Záměry vedou k~akcím: agent kvůli nim plánuje. Záměry \textbf{přetrvávají}, dokud
+\begin{enumerate}
+\item jich agent nedosáhne, nebo
+\item nezačne věřit, že jsou nedosažitelné, nebo
+\item nepominou důvody, které k~nim vedly.
+\end{enumerate}
+Záměry navíc \emph{omezují další deliberaci} (nebudu znovu zvažovat možnosti neslučitelné
+s~přijatým záměrem) a~\emph{ovlivňují budoucí přesvědčení} (počítám s~tím, že se mi záměr podaří).
+\end{defbox}
+
+\noindent\textbf{Rozdíl mezi touhou a~záměrem} ilustruje Bratman (1990):
+\uv{Moje touha zahrát si dnes odpoledne basketbal je pouze potenciálním vlivem na moje odpolední
+chování. Musí soupeřit s~mými dalšími relevantními touhami\dots{} Naproti tomu jakmile
+\emph{zamýšlím} hrát dnes odpoledne basketbal, je věc rozhodnuta: obvykle už nemusím dál vážit
+pro a~proti; až odpoledne přijde, prostě svůj záměr vykonám.}
+
+\begin{defbox}[Funkce deliberace]
+Označme $B \subseteq \mathit{Bel}$ aktuální přesvědčení, $D \subseteq \mathit{Des}$ aktuální touhy
+a~$I \subseteq \mathit{Int}$ aktuální záměry agenta. Deliberace se skládá ze tří funkcí:
+\begin{itemize}
+\item $\mathit{brf} : 2^{\mathit{Bel}} \times \mathit{Per} \to 2^{\mathit{Bel}}$ ---
+  \emph{belief revision function}, aktualizace přesvědčení podle vjemu;
+\item $\mathit{options} : 2^{\mathit{Bel}} \times 2^{\mathit{Int}} \to 2^{\mathit{Des}}$ ---
+  generování možností (tužeb) z~přesvědčení a~stávajících záměrů;
+\item $\mathit{filter} : 2^{\mathit{Bel}} \times 2^{\mathit{Des}} \times 2^{\mathit{Int}}
+  \to 2^{\mathit{Int}}$ --- výběr záměrů z~možností.
+\end{itemize}
+Rozdělení deliberace na \emph{generování možností} a~\emph{filtrování} je klíčové: generování
+je levné a~široké, filtrování je vlastní rozhodování (bere v~úvahu i~stávající závazky).
+\end{defbox}
+
+\subsection{Plánování: STRIPS}
+
+\begin{defbox}[Uvažování o~prostředcích / plánování]
+Proces rozhodování, jak dosáhnout cíle (záměru) pomocí dostupných prostředků (akcí).
+\begin{itemize}
+\item \textbf{Vstup:} cíl (= záměr $I$); aktuální stav prostředí (= přesvědčení $B$);
+  akce dostupné agentovi ($\mathit{Ac}$).
+\item \textbf{Výstup:} plán = posloupnost akcí, po jejímž provedení je cíl splněn.
+\end{itemize}
+\end{defbox}
+
+\textbf{STRIPS} (Fikes, Nilsson, 1971) modeluje svět množinou formulí logiky prvního řádu.
+Každá akce je popsána \emph{schématem} s~předpoklady a~efekty (přidávané a~mazané fakty).
+Plánovací algoritmus najde rozdíl mezi cílem a~aktuálním stavem a~vhodnou akcí ho zmenší
+(\emph{means-ends analysis}). Je to hezké, ale ne příliš praktické --- algoritmus se často
+utápí v~detailech nízké úrovně.
+
+\begin{defbox}[Deskriptor akce, plánovací problém, plán]
+\textbf{Deskriptor akce} $a$ je trojice $\langle P_a, D_a, A_a\rangle$:
+$P_a$ --- předpoklady (\emph{preconditions}), $D_a$ --- mazaná množina (\emph{delete list}),
+$A_a$ --- přidávaná množina (\emph{add list}); pro jednoduchost jde o~uzemněné atomické formule
+(bez spojek a~proměnných).
+
+\textbf{Plánovací problém} je trojice $\langle B_0, O, G\rangle$, kde $B_0$ jsou počáteční
+přesvědčení, $O = \{\langle P_a,D_a,A_a\rangle : a \in \mathit{Ac}\}$ deskriptory všech akcí
+a~$G$ množina formulí popisujících cíl.
+
+\textbf{Plán} $\pi = (a_1,\dots,a_n)$, $a_i \in \mathit{Ac}$, určuje posloupnost databází
+\[
+B_i = (B_{i-1} \setminus D_{a_i}) \cup A_{a_i}, \qquad i = 1,\dots,n .
+\]
+Plán je \textbf{přípustný} (\emph{admissible}), pokud $B_{i-1} \models P_{a_i}$ pro každé $i$.
+Plán je \textbf{korektní/validní} (\emph{correct}), pokud je přípustný a~navíc $B_n \models G$.
+
+\textbf{Plánování} znamená pro zadaný $\langle B_0,O,G\rangle$ najít korektní plán, nebo prohlásit,
+že neexistuje.
+\end{defbox}
+
+\medskip
+\noindent\textbf{Příklad: svět kostek (\emph{blocks world}).}
+Predikáty: $\mathit{On}(x,y)$ ($x$ je na $y$), $\mathit{OnTable}(x)$, $\mathit{Clear}(x)$
+(na $x$ nic není), $\mathit{Holding}(x)$ (rameno drží $x$), $\mathit{ArmEmpty}$.
+Akce:
+\begin{center}
+\small
+\begin{tabular}{p{0.20\textwidth} p{0.36\textwidth} p{0.36\textwidth}}
+\toprule
+\textbf{Akce} & \textbf{Pre / Del} & \textbf{Add} \\
+\midrule
+$\mathit{Stack}(x,y)$
+  & Pre: $\{\mathit{Clear}(y), \mathit{Holding}(x)\}$ \newline
+    Del: $\{\mathit{Clear}(y), \mathit{Holding}(x)\}$
+  & $\{\mathit{ArmEmpty}, \mathit{On}(x,y)\}$ \\
+$\mathit{UnStack}(x,y)$
+  & Pre: $\{\mathit{On}(x,y),$ $\mathit{Clear}(x),\mathit{ArmEmpty}\}$ \newline
+    Del: $\{\mathit{On}(x,y),\mathit{ArmEmpty}\}$
+  & $\{\mathit{Holding}(x), \mathit{Clear}(y)\}$ \\
+$\mathit{Pickup}(x)$
+  & Pre: $\{\mathit{OnTable}(x),$ $\mathit{Clear}(x),\mathit{ArmEmpty}\}$ \newline
+    Del: $\{\mathit{OnTable}(x),\mathit{ArmEmpty}\}$
+  & $\{\mathit{Holding}(x)\}$ \\
+$\mathit{PutDown}(x)$
+  & Pre: $\{\mathit{Holding}(x)\}$ \newline
+    Del: $\{\mathit{Holding}(x)\}$
+  & $\{\mathit{ArmEmpty}, \mathit{OnTable}(x)\}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Počáteční stav $B_0 = \{\mathit{Clear}(A), \mathit{On}(A,B), \mathit{OnTable}(B),
+\mathit{OnTable}(C), \mathit{Clear}(C), \mathit{ArmEmpty}\}$,
+cíl $G = \{\mathit{OnTable}(A), \mathit{OnTable}(B), \mathit{OnTable}(C)\}$.
+
+\noindent Korektní plán: $\pi = (\mathit{UnStack}(A,B),\ \mathit{PutDown}(A))$. Ověření:
+\begin{itemize}
+\item $B_0 \models \{\mathit{On}(A,B),\mathit{Clear}(A),\mathit{ArmEmpty}\}$, tedy první akce
+  je přípustná; po ní
+  \[
+  B_1 = \big(B_0 \setminus \{\mathit{On}(A,B),\mathit{ArmEmpty}\}\big) \cup
+  \{\mathit{Holding}(A),\mathit{Clear}(B)\}.
+  \]
+\item $B_1 \models \{\mathit{Holding}(A)\}$, tedy i~druhá akce je přípustná; po ní
+  \[
+  B_2 = \big(B_1 \setminus \{\mathit{Holding}(A)\}\big) \cup
+  \{\mathit{ArmEmpty},\mathit{OnTable}(A)\}.
+  \]
+\item $B_2 \models G$, plán je korektní.
+\end{itemize}
+
+\begin{defbox}[Pomocné funkce nad plány]
+$\mathit{Plan}$ --- množina všech plánů nad $\mathit{Ac}$;
+$\mathit{pre}(\pi)$ --- předpoklad plánu; $\mathit{body}(\pi)$ --- tělo plánu (posloupnost akcí);
+$\mathit{empty}(\pi)$ --- je plán prázdný?;
+$\mathit{execute}(\pi)$ --- provede všechny akce plánu;
+$\mathit{hd}(\pi)$ --- první akce; $\mathit{tail}(\pi)$ --- zbytek;
+$\mathit{sound}(\pi,I,B)$ --- plán $\pi$ je korektní vzhledem k~záměrům $I$ a~přesvědčením $B$.
+
+Plánovací funkce agenta:
+$\mathit{plan} : 2^{\mathit{Bel}} \times 2^{\mathit{Int}} \times 2^{\mathit{Ac}} \to \mathit{Plan}$.
+\end{defbox}
+
+\textbf{Knihovna plánů.} Agent nemusí konstruovat plány online --- to je drahé. Velmi často je
+$\mathit{plan}()$ implementována jako \emph{knihovna hotových plánů}: stačí ji jednou projít
+a~zkontrolovat, zda předpoklady plánu odpovídají aktuálním přesvědčením a~efekty plánu odpovídají
+cíli. Tento nápad je jádrem architektury PRS (sekce~\ref{ssec:prs}).
+
+\subsection{Implementace BDI agenta}
+
+\noindent\textbf{Hlavní řídicí smyčka BDI agenta:}
+\begin{algorithmic}[1]
+\State $B \gets B_0;\quad I \gets I_0$
+\While{$\mathbf{true}$}
+  \State $v \gets \mathit{see}()$
+  \State $B \gets \mathit{brf}(B,v)$
+  \State $D \gets \mathit{options}(B,I)$
+  \State $I \gets \mathit{filter}(B,D,I)$
+  \State $\pi \gets \mathit{plan}(B,I,\mathit{Ac})$
+  \While{$\neg\big(\mathit{empty}(\pi) \vee \mathit{succeeded}(I,B) \vee \mathit{impossible}(I,B)\big)$}
+    \State $a \gets \mathit{hd}(\pi);\quad \mathit{execute}(a);\quad \pi \gets \mathit{tail}(\pi)$
+    \State $v \gets \mathit{see}();\quad B \gets \mathit{brf}(B,v)$
+    \If{$\mathit{reconsider}(I,B)$}
+      \State $D \gets \mathit{options}(B,I);\quad I \gets \mathit{filter}(B,D,I)$
+    \EndIf
+    \If{$\neg\,\mathit{sound}(\pi,I,B)$}
+      \State $\pi \gets \mathit{plan}(B,I,\mathit{Ac})$ \Comment{přeplánování}
+    \EndIf
+  \EndWhile
+\EndWhile
+\end{algorithmic}
+
+Význam predikátů: $\mathit{succeeded}(I,B)$ --- záměry $I$ platí za předpokladu přesvědčení $B$;
+$\mathit{impossible}(I,B)$ --- záměry $I$ nemohou platit za předpokladu $B$.
+Vnitřní cyklus tedy končí, když je plán vyčerpán, cíl splněn, nebo se stal nedosažitelným.
+
+\subsection{Odhodlání agenta (\emph{commitment})}
+\label{ssec:commitment}
+
+\begin{defbox}[Strategie odhodlání vůči záměrům]
+Kdy má agent opustit cíl?
+\begin{itemize}
+\item \textbf{Slepé odhodlání} (\emph{blind commitment}, též \emph{fanatical}) --- agent udržuje
+  záměr, dokud \emph{nezačne věřit, že ho dosáhl}. (Nikdy se nevzdá.)
+\item \textbf{Jednosměrné odhodlání} (\emph{single-minded commitment}) --- udržuje záměr, dokud
+  nezačne věřit, že ho dosáhl, \emph{nebo} že už není dosažitelný.
+\item \textbf{Otevřené odhodlání} (\emph{open-minded commitment}) --- záměr přetrvává, dokud
+  agent věří, že je stále dosažitelný (a~stále chtěný) --- tedy může být opuštěn i~při změně motivace.
+\end{itemize}
+\end{defbox}
+
+\textbf{Odhodlání vůči plánu} versus \textbf{odhodlání vůči cíli}. Agent v~algoritmu výše je
+odhodlán jednomu plánu; opustí ho, když věří, že cíl je splněn, že je nedosažitelný, nebo když
+je plán prázdný. Zbývá ale těžší otázka: kdy má agent \emph{přehodnotit sám záměr}?
+
+Klasické dilema: deliberace \textbf{trvá čas} a~prostředí se během ní mění.
+\begin{itemize}
+\item Agent, který záměry \emph{nepřehodnocuje}, se může upnout k~cílům, jichž už nelze dosáhnout.
+\item Agent, který přehodnocuje \emph{příliš často}, je tak zaneprázdněn uvažováním, že nic nestihne.
+\end{itemize}
+
+\textbf{Metařízení} (Wooldridge, Parsons, 1999): funkce $\mathit{reconsider}()$, která je
+\emph{výpočetně jednodušší} než samotné přehodnocení. Kritérium kvality: $\mathit{reconsider}()$
+funguje dobře, pokud pokaždé, když navrhne přehodnocení, agent po deliberaci \emph{skutečně}
+záměr změní (a~naopak).
+
+\begin{defbox}[Odvážný vs.\ opatrný agent]
+\textbf{Odvážný agent} (\emph{bold agent}) --- přehodnocuje záměry až po dokončení celého plánu
+(nikdy plán nepřeruší kvůli deliberaci).
+
+\textbf{Opatrný agent} (\emph{cautious agent}) --- přehodnocuje po každé akci plánu.
+
+\textbf{Míra odvahy} (\emph{level of boldness}) --- kolik akcí agent provede mezi dvěma deliberacemi.
+
+\textbf{Dynamičnost prostředí} (\emph{rate of world change}) --- kolikrát se prostředí změní
+během jednoho cyklu agenta.
+
+\textbf{Efektivita agenta} $=$ počet dosažených záměrů $/$ počet všech záměrů.
+\end{defbox}
+
+\textbf{Experimentální výsledek (Kinny, Georgeff, v~Tileworldu):}
+\begin{itemize}
+\item Mění-li se svět \emph{pomalu}, jsou efektivnější \textbf{odvážní} agenti --- deliberace by
+  byla zbytečná režie.
+\item Mění-li se svět \emph{rychle}, překonávají je \textbf{opatrní} agenti --- plány rychle
+  zastarávají.
+\end{itemize}
+Toto je konkrétní kvantitativní podoba obecného kompromisu reaktivita vs.\ proaktivita.
+
+\subsection{Procedurální odvozovací systém (PRS)}
+\label{ssec:prs}
+
+\begin{defbox}[PRS --- \emph{Procedural Reasoning System}]
+Georgeff a~kol., 80.~léta, Stanford. \textbf{První implementace architektury BDI} a~patrně
+nejúspěšnější agentní architektura vůbec --- byla mnohokrát reimplementována:
+\textbf{AgentSpeak/Jason}, \textbf{JAM}, \textbf{JACK}, \textbf{Jadex}.
+
+Praktická nasazení: OASIS (systém řízení letového provozu v~Sydney), SPOC (organizace
+podnikových procesů), SWARMM (letecký simulátor australského letectva).
+\end{defbox}
+
+\textbf{Komponenty PRS agenta:} databáze \emph{beliefs} (atomy FOL, prologovského typu),
+\emph{desires} (cíle), \emph{knihovna plánů} (\emph{plan library}), zásobník \emph{intentions}
+a~\emph{interpret}, který vše propojuje. Data ze senzorů vstupují do beliefs, interpret vydává akce.
+
+\begin{defbox}[Plán v~PRS]
+Agent má knihovnu hotových plánů reprezentujících jeho \emph{procedurální znalosti}.
+\textbf{Neplánuje se od nuly}, pouze se z~knihovny \emph{vybírá}. Plán má tři části:
+\begin{itemize}
+\item \textbf{Goal} (též \emph{invocation condition} / \emph{cue}) --- podmínka, která má platit
+  po vykonání plánu; určuje, na jaký cíl se plán hodí.
+\item \textbf{Context} --- podmínka nutná pro spuštění plánu (musí být konzistentní s~přesvědčeními).
+\item \textbf{Body} --- akce, které se mají vykonat.
+\end{itemize}
+Tělo plánu \emph{není} jen lineární posloupnost akcí --- může obsahovat další \emph{cíle}:
+\uv{dosáhni $f$}, \uv{dosáhni $f$ nebo $g$}, \uv{dosahuj $f$, dokud nenastane $g$}. Tím vzniká
+hierarchické rozkládání cílů na podcíle.
+\end{defbox}
+
+\textbf{Běh interpretu:}
+\begin{enumerate}
+\item Inicializace: počáteční přesvědčení $B_0$ a~cíl nejvyšší úrovně (\emph{top-level goal}).
+\item Zásobník záměrů obsahuje aktuální cíle v~různých stavech rozpracovanosti.
+\item Interpret vezme záměr z~vrcholu zásobníku a~v~knihovně plánů hledá plány s~odpovídajícím cílem.
+\item Z~nalezených plánů vybere ty, jejichž \emph{kontext} je konzistentní s~aktuálními
+  přesvědčeními --- ty tvoří aktuální \emph{options} / \emph{desires}.
+\item \textbf{Deliberace} = výběr jednoho záměru z~možností:
+  \begin{itemize}
+  \item Původní PRS používal \emph{metaplány} --- plány o~plánech, které modifikovaly záměry agenta.
+    Ukázalo se to příliš složité.
+  \item Praktičtější varianta: každý plán má číselné \emph{ohodnocení} (očekávanou utilitu),
+    vybere se plán s~nejvyšší hodnotou.
+  \end{itemize}
+\item Vybraný plán se vykoná, což může vést k~přidání dalších záměrů na zásobník.
+\item Selže-li plán, agent zvolí jiný záměr z~možností a~pokračuje.
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Ukázka --- Jason/AgentSpeak} (agent nosí majiteli pivo z~ledničky):
+\begin{quote}\small\ttfamily
+\noindent available(beer,fridge).\ \ limit(beer,10).\ \ \ \ /* počáteční beliefs */\\
+too\_much(B) :- .count(consumed(\_,\_,\_,B),Q) \& limit(B,L) \& Q > L.\ \ /* pravidlo */\\[0.3em]
++!has(owner,beer)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ /* spouštěcí událost */\\
+\hspace*{1em}: available(beer,fridge) \& not too\_much(beer)\ \ \ \ /* kontext */\\
+\hspace*{1em}<- !at(robot,fridge); open(fridge); get(beer); close(fridge);\ \ /* tělo */\\
+\hspace*{2em} !at(robot,owner); hand\_in(beer).\\[0.3em]
++!at(robot,P) : not at(robot,P) <- move\_towards(P); !at(robot,P).
+\end{quote}
+Zápis \texttt{+!g : c <- b} čte se: \uv{nastane-li událost přidání cíle \texttt{g} a~platí-li
+kontext \texttt{c}, vykonej tělo \texttt{b}}. Symbol \texttt{!} označuje \emph{achievement goal}
+(dosáhni), \texttt{+}/\texttt{-} přidání/odebrání přesvědčení nebo cíle,
+\texttt{.send} a~\texttt{.count} jsou vestavěné akce.
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item \textbf{Deduktivní agent}: $\mathit{DB} \in 2^L$, $\mathit{DB} \vdash_\rho \mathit{Do}(a)$;
+  dvoufázový výběr akce (dokazatelná akce $\to$ konzistentní akce $\to$ nic).
+  Elegantní, ale nepraktický; problém transdukce a~vypočitatelné racionality.
+\item \textbf{BDI}: dvě fáze --- deliberace ($\mathit{brf}$, $\mathit{options}$, $\mathit{filter}$)
+  a~means-ends reasoning (plánování). Beliefs jsou subjektivní a~omylné, desires mohou být
+  nekonzistentní, intentions jsou závazky, které přetrvávají a~omezují další deliberaci.
+\item \textbf{STRIPS}: deskriptor akce $\langle P_a,D_a,A_a\rangle$, plánovací problém
+  $\langle B_0,O,G\rangle$, $B_i = (B_{i-1}\setminus D_{a_i})\cup A_{a_i}$;
+  plán \emph{přípustný} ($B_{i-1}\models P_{a_i}$) vs.\ \emph{korektní} (navíc $B_n \models G$).
+  Umět projít svět kostek.
+\item \textbf{BDI smyčka} a~role $\mathit{reconsider}$ a~$\mathit{sound}$.
+\item \textbf{Commitment}: blind / single-minded / open-minded; bold vs.\ cautious agent;
+  efektivita $=$ dosažené/všechny záměry; pomalé prostředí $\to$ bold, rychlé $\to$ cautious.
+\item \textbf{PRS}: první implementace BDI; plán = Goal + Context + Body; knihovna plánů místo
+  plánování; zásobník záměrů; deliberace metaplány nebo utilitou; potomci AgentSpeak/Jason,
+  JAM, JACK, Jadex.
+\end{itemize}
+
+\section{Reaktivní a~hybridní architektury}
+\label{sec:reaktivni}
+
+\subsection{Reaktivní přístup a~jeho východiska}
+
+V~80.\ a~90.\ letech se ukázalo, že drobné úpravy symbolického přístupu nestačí, a~vznikly
+alternativní paradigmata UI. Jejich společným jmenovatelem je \textbf{odmítnutí symbolické
+reprezentace} a~uvažování založeného na syntaktické manipulaci. Tři klíčové teze:
+
+\begin{defbox}[Tři principy reaktivního přístupu]
+\textbf{Interakce} (\emph{situatedness}) --- inteligentní chování závisí na prostředí, ve kterém
+je agent \emph{zasazen}; nelze ho studovat izolovaně.
+
+\textbf{Ztělesnění} (\emph{embodiment}) --- inteligentní chování není jen logika, je produktem
+agenta, který \emph{má tělo} a~fyzicky interaguje se světem.
+
+\textbf{Emergence} --- inteligentní chování \emph{vzniká} (emerguje) interakcí mnoha
+jednoduchých chování; není nikde explicitně naprogramováno.
+\end{defbox}
+
+\textbf{Charakteristiky reaktivních agentů:} jsou \emph{behaviorální} (důraz na vývoj
+a~kombinaci jednotlivých chování), \emph{situovaní} a~\emph{reaktivní} (agent v~podstatě jen
+reaguje na prostředí, nedeliberuje). Reprezentace je \textbf{subsymbolická}:
+konekcionistické sítě, konečné automaty, jednoduchá pravidla typu IF--THEN.
+
+\subsection{Symbolické reaktivní plánování: subsumpční architektura}
+
+\begin{defbox}[Subsumpční architektura (\emph{subsumption architecture})]
+Rodney Brooks, 1986--1991; nejúspěšnější reaktivní přístup. Tři Brooksovy teze:
+\begin{enumerate}
+\item Inteligentní chování lze generovat \emph{bez symbolické reprezentace}.
+\item Inteligentní chování lze generovat \emph{bez explicitního abstraktního uvažování}.
+\item Inteligence je \emph{emergentní vlastnost} určitých složitých systémů.
+\end{enumerate}
+
+Inteligence agenta je realizována množinou jednoduchých cílově orientovaných \textbf{chování}
+(\emph{behaviours}), pro něž platí:
+\begin{itemize}
+\item Každé chování je samo o~sobě mechanismus výběru akce (dvojice \emph{situace $\to$ akce}).
+\item Každé chování přijímá vjemy a~transformuje je na akce, je odpovědné za jeden dílčí cíl
+  a~má jednoduchou strukturu pravidla.
+\item Chování běží \emph{paralelně} a~\emph{soupeří} spolu o~kontrolu nad agentem.
+\item Chování jsou uspořádána do \textbf{subsumpční hierarchie}, která definuje jejich priority
+  (vyšší vrstva \uv{pohlcuje} = potlačuje nižší).
+\end{itemize}
+\end{defbox}
+
+\noindent\textbf{Mechanismus výběru akce v~subsumpční architektuře:}
+\begin{algorithmic}[1]
+\Function{action}{vjem $p$}
+  \State $\mathit{fired} \gets \{\, b \in \mathit{Behaviours} \mid p \text{ splňuje podmínku } b \,\}$
+    \Comment{chování, která \uv{vystřelí}}
+  \ForAll{$b \in \mathit{fired}$}
+    \If{neexistuje $b' \in \mathit{fired}$ takové, že $b' \prec b$}
+      \Comment{$b$ není nikým inhibováno}
+      \State \Return akce příslušná chování $b$
+    \EndIf
+  \EndFor
+  \State \Return \textbf{null} \Comment{nevystřelilo nic, agent nedělá nic}
+\EndFunction
+\end{algorithmic}
+
+Formálně: chování je dvojice $\langle c, a\rangle$, kde $c \subseteq \mathit{Per}$ je podmínka
+a~$a \in A$ akce; na množině chování $R$ je definována relace inhibice
+$\prec\ \subseteq R \times R$ (striktní totální uspořádání). Pozor na směr ---
+u~Wooldridge i~na přednášce znamená $b_1 \prec b_2$, že \textbf{$b_1$ inhibuje $b_2$},
+tedy $b_1$ je \emph{níže} v~subsumpční hierarchii a~má \emph{přednost}.
+Zápis $b_1 \prec b_2 \prec \dots \prec b_n$ tak vyjmenovává chování od nejvyšší priority
+k~nejnižší.
+
+\textbf{Vlastnosti:} mechanismus je \emph{jednoduchý} (ale při desítkách chování bývají priority
+záludné) a~\emph{velmi rychlý} --- lze ho implementovat hardwarově a~má konstantní složitost.
+
+\medskip
+\noindent\textbf{Příklad: Steelsův průzkumník Marsu.}
+Cílem je sbírat vzácné vzorky hornin na vzdálené planetě rojem robotických průzkumníků.
+Prostředky: základna vysílá navigační signál (roboti nemusí umět nic víc než detekovat
+\emph{gradient} signálu); každý robot má radioaktivní drobky pro \emph{nepřímou komunikaci}
+(stigmergii) s~ostatními. Přímá komunikace není potřeba.
+
+\emph{První iterace} --- náhodná procházka a~návrat jednoho robota (priorita klesá shora dolů):
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+R1 & \textbf{if} vidím překážku \textbf{then} změň směr \\
+R2 & \textbf{if} nesu vzorek \textbf{and} jsem na základně \textbf{then} polož vzorek \\
+R3 & \textbf{if} nesu vzorek \textbf{and} nejsem na základně \textbf{then} jdi po gradientu nahoru \\
+R4 & \textbf{if} vidím vzorek \textbf{then} seber ho \\
+R5 & \textbf{if} true \textbf{then} pohybuj se náhodně \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\emph{Druhá iterace} --- lepší průzkum pomocí stigmergie. Vzorky se často vyskytují ve shlucích;
+robot, který jeden našel, o~tom \uv{řekne} ostatním tím, že cestou domů rozhazuje drobky:
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+R6 & \textbf{if} nesu vzorek \textbf{and} jsem na základně \textbf{then} polož vzorek \\
+R7 & \textbf{if} nesu vzorek \textbf{and} nejsem na základně \textbf{then} polož 2 drobky
+     a~jdi po gradientu nahoru \\
+R8 & \textbf{if} cítím drobek \textbf{then} seber 1~drobek a~jdi po gradientu dolů \\
+\bottomrule
+\end{tabular}
+\end{center}
+Priority (v~notaci \uv{levé inhibuje pravé}, tedy od nejvyšší priority):
+$\mathrm{R1} \prec \mathrm{R6} \prec \mathrm{R7} \prec \mathrm{R4} \prec
+\mathrm{R8} \prec \mathrm{R5}$. Robot sledující stopu bere po jednom drobku, takže se stopa
+postupně \emph{vypaří}, jakmile je shluk vytěžen. Roj vykazuje kooperativní chování, přestože
+žádný robot nemá model světa ani neposílá zprávy.
+
+\subsection{Konekcionistické reaktivní plánování: agent network architecture}
+
+Subsumpční architektura řeší konflikty \emph{pevnou} prioritou, což je rigidní. Konekcionistický
+přístup nahradí pevné priority \textbf{spojitou aktivací šířenou sítí} --- výběr akce je
+výsledkem dynamiky sítě, ne pevného pořadí. Jde o~\uv{reaktivní plánování}: agent se chová, jako
+by plánoval, ale žádný explicitní plán nikdy nevytvoří.
+
+\begin{defbox}[Agent network architecture / \emph{spreading activation networks}]
+Pattie Maes, 1989--1991. Agent je množina \textbf{kompetenčních modulů} (\emph{competence modules}),
+podobných Brooksovým chováním. Každý modul $i$ má:
+\begin{itemize}
+\item \textbf{předpoklady} $c_i$ (\emph{preconditions}) --- co musí platit, aby byl modul
+  \emph{proveditelný} (\emph{executable});
+\item \textbf{efekty}: \emph{add list} $a_i$ a~\emph{delete list} $d_i$ (jako u~STRIPS);
+\item \textbf{úroveň aktivace} $\alpha_i$ a~globální \textbf{práh aktivace} $\theta$.
+\end{itemize}
+Moduly jsou propojeny v~orientovaném grafu na základě svých podmínek --- shoda pre- a~postpodmínek
+tvoří hrany, k~nimž přibývají hrany reprezentující časovou následnost a~konflikty.
+V~každém kroku se šíří aktivace; \textbf{vybrán je proveditelný modul s~nejvyšší aktivací},
+pokud překročí práh $\theta$.
+\end{defbox}
+
+\textbf{Tři zdroje a~tři cesty šíření aktivace:}
+\begin{itemize}
+\item \textbf{Ze stavu světa} (\emph{state}): moduly, jejichž předpoklady jsou momentálně splněny,
+  dostávají aktivaci --- \uv{teď se dá udělat tohle}.
+\item \textbf{Z~cílů} (\emph{goals}): moduly, jejichž add list obsahuje cíl, dostávají aktivaci
+  --- \uv{tohle vede k~cíli}.
+\item \textbf{Z~ochranných cílů} (\emph{protected goals}): moduly, jejichž delete list obsahuje
+  již splněný cíl, jsou \emph{inhibovány} --- \uv{tohle by zbořilo, co už mám}.
+\end{itemize}
+Aktivace se dále šíří mezi moduly třemi typy spojů:
+\begin{itemize}
+\item \textbf{Následnické spoje} (\emph{successor links}): modul $x$ posílá aktivaci modulu $y$,
+  pokud $y$ přidává něco, co $x$ potřebuje jako předpoklad --- \emph{dopředné} řetězení
+  (\uv{až budu hotov, půjde to dál}).
+\item \textbf{Předchůdcovské spoje} (\emph{predecessor links}): modul $x$, který není proveditelný,
+  posílá aktivaci modulům, které by mu splnily chybějící předpoklad --- \emph{zpětné} řetězení
+  (\uv{pomoz mi, ať můžu běžet}).
+\item \textbf{Konfliktní spoje} (\emph{conflictor links}): modul $x$ \emph{inhibuje} modul $y$,
+  který ruší jeho předpoklady.
+\end{itemize}
+Chování sítě řídí pět globálních parametrů: $\theta$ (práh aktivace, jediný práh v~systému),
+$\phi$ (aktivace vpravená do sítě stavem světa), $\gamma$ (aktivace vpravená cíli),
+$\delta$ (aktivace odebraná chráněnými cíli) a~$\pi$ (\emph{průměrná} úroveň aktivace, na kterou
+se síť po každém kroku normalizuje, aby se celková energie neměnila).
+Poměr $\gamma/\phi$ přesně vyjadřuje kompromis \textbf{proaktivita vs.\ reaktivita};
+$\theta$ určuje \textbf{uvážlivost vs.\ rychlost} (vysoký práh $\to$ agent déle váhá, ale
+rozhoduje se lépe). Pokud v~daném kroku práh nepřekročí žádný proveditelný modul, $\theta$
+se sníží o~10~\% a~zkouší se znovu --- síť tak nemůže \uv{zamrznout}.
+
+\textbf{Jak se aktivace v~jednom kroku počítá.} Aktualizace probíhá ve čtyřech fázích:
+(1)~\emph{vstup z~prostředí} --- každý pravdivý fakt rozdělí kvantum $\phi$ rovným
+dílem mezi moduly, které jej mají v~předpokladech; (2)~\emph{vstup od cílů} --- každý
+cíl rozdělí $\gamma$ mezi moduly, které ho přidávají, a~každý chráněný cíl
+\emph{odebere} $\delta$ modulům, které by ho rušily; (3)~\emph{šíření mezi moduly} ---
+proveditelný modul posílá část své aktivace dopředu následníkům (opět rozdělenou
+rovným dílem mezi příjemce), neproveditelný modul posílá aktivaci zpět modulům, které
+mu mohou splnit chybějící předpoklad, a~konfliktní spoje odpovídající díl aktivace
+odečítají; (4)~\emph{normalizace} --- aktivace všech modulů se přeškálují tak, aby
+jejich průměr byl $\pi$ (celková energie sítě zůstává konstantní). Poté se vybere
+proveditelný modul s~aktivací nad prahem $\theta$; provedený modul svou aktivaci
+vynuluje.
+
+\emph{Poznámka k~přednášce:} slidy uvádějí práh aktivace jako vlastnost jednotlivého modulu
+(a~mluví o~něm jako o~prioritě); v~Maesově původním modelu je práh $\theta$ \emph{globální}
+a~roli \uv{priority} hraje aktuální úroveň aktivace $\alpha_i$, která se dynamicky mění.
+
+\medskip\noindent
+\textbf{Srovnání se subsumpcí:} pořadí chování není pevné, ale vzniká \emph{dynamicky} z~aktuálního
+stavu světa a~cílů. Síť tak dokáže vygenerovat i~vícekrokové \uv{plánovité} sekvence (aktivace se
+řetězí zpět od cíle přes předchůdcovské spoje), aniž by se kdy vytvořila explicitní datová
+struktura plánu --- odtud název \emph{reaktivní plánování}. Cenou je citlivost na nastavení
+parametrů a~nemožnost zaručit optimalitu či úplnost.
+
+\subsection{Omezení reaktivních architektur}
+
+\begin{itemize}
+\item Reaktivní agenti \textbf{nemají model světa}; vše musí odvodit z~aktuálních vjemů.
+  Někdy proto musí \emph{měnit prostředí}, aby si \uv{zapamatovali} informaci
+  (radioaktivní drobky) --- externalizovaná paměť, stigmergie.
+\item Mají jen \textbf{krátkodobý pohled}: jednají podle aktuálního stavu a~lokální informace,
+  je obtížné zohlednit globální podmínky a~dlouhodobé cíle.
+\item Emergence \textbf{není dobrý inženýrský postup}: chování je třeba vyladit experimentálně,
+  chybí metodologie i~možnost verifikace.
+\item Návrh je zvládnutelný pro několik vrstev; \textbf{s~desítkami chování se stává neřešitelným}
+  (počet interakcí roste kvadraticky).
+\end{itemize}
+
+\subsection{Hybridní architektury}
+
+Ani čistě reaktivní, ani čistě deliberativní architektura není ideální. Hybridní architektury
+kombinují obojí:
+\begin{itemize}
+\item \textbf{Deliberativní / plánovací komponenta} pracuje na symbolické úrovni, vytváří
+  reprezentace a~plány.
+\item \textbf{Reaktivní komponenta} zajišťuje okamžité reakce bez složitých výpočtů.
+\end{itemize}
+Komponenty jsou obvykle uspořádány do \textbf{vrstev} (\emph{layered architectures}), přičemž
+reaktivní vrstvy mají zpravidla \emph{přednost} před deliberativními (bezpečnost před optimalitou).
+
+\begin{defbox}[Horizontální vs.\ vertikální vrstvení]
+\textbf{Horizontální vrstvení:} všechny vrstvy jsou \emph{paralelně} připojeny k~senzorům
+i~k~efektorům. Každá vrstva je jako samostatný agent a~navrhuje akci.
+\begin{itemize}
+\item[$+$] Koncepčně jednoduché: pro $n$ druhů chování stačí $n$ vrstev.
+\item[$-$] Vrstvy se navzájem ovlivňují a~jejich návrhy si odporují; je nutná
+  \textbf{mediační funkce} (\emph{mediator function}), která konflikt rozhodne.
+  Ta je úzkým hrdlem: musí uvažovat $m^n$ kombinací ($n$ vrstev, $m$ možných návrhů) a~je
+  kritickým bodem selhání.
+\end{itemize}
+
+\textbf{Vertikální vrstvení:} vrstvy jsou zapojeny \emph{sériově}.
+\begin{itemize}
+\item \emph{One-pass}: vjem vstoupí do nejnižší vrstvy, prochází nahoru, akce vystupuje z~nejvyšší.
+  Přirozené uspořádání a~hierarchie chování.
+\item \emph{Two-pass}: vjemy putují \emph{zdola nahoru}, řídicí povely (akce) \emph{shora dolů}.
+  Tok připomíná řízení ve skutečné firmě.
+\item[$+$] Odpadá potřeba mediace, složitost interakcí je lineární ($n-1$ rozhraní).
+\item[$-$] Není robustní: selhání kterékoli vrstvy shodí celého agenta.
+\end{itemize}
+\end{defbox}
+
+\begin{defbox}[TouringMachines (Ferguson, 1992)]
+\textbf{Horizontální} třívrstvá architektura pro simulovaného agenta v~dopravním prostředí.
+\begin{itemize}
+\item \textbf{Modelovací vrstva} (\emph{modelling layer}) --- symbolické modely agenta, prostředí
+  a~ostatních agentů; předvídá a~řeší konflikty, stanovuje cíle a~posílá je plánovací vrstvě.
+\item \textbf{Plánovací vrstva} (\emph{planning layer}) --- proaktivní chování; vybírá
+  z~předpřipravených plánů (podobně jako PRS) a~sestavuje z~nich plán cesty.
+\item \textbf{Reaktivní vrstva} (\emph{reactive layer}) --- klasická reaktivní pravidla
+  \emph{situace $\to$ akce}, rychlá okamžitá reakce (vyhýbání překážkám).
+\end{itemize}
+Vrstvy pracují paralelně a~jejich výstupy sjednocuje sada \textbf{řídicích pravidel}
+(\emph{control rules}) --- konkrétní podoba mediační funkce; ta mohou vstupy a~výstupy vrstev
+potlačovat (\emph{censor} a~\emph{suppressor} pravidla).
+\end{defbox}
+
+\begin{defbox}[InteRRaP (Müller, 1994)]
+\textbf{Vertikální dvouprůchodová} (\emph{two-pass}) třívrstvá architektura.
+\begin{itemize}
+\item \textbf{Vrstva kooperativního plánování} (\emph{cooperative planning layer}) --- sociální
+  interakce, společné plány s~ostatními agenty.
+\item \textbf{Vrstva lokálního plánování} (\emph{local planning layer}) --- běžné individuální
+  plánování.
+\item \textbf{Behaviorální vrstva} (\emph{behaviour-based layer}) --- reaktivní chování.
+\end{itemize}
+Každá vrstva má \emph{vlastní znalostní bázi} na příslušné úrovni abstrakce (znalosti o~světě /
+plány / společné plány a~modely ostatních agentů). Vrstvy komunikují dvěma operacemi:
+\emph{aktivace zdola nahoru} (nižší vrstva neumí situaci zvládnout a~předá ji výš)
+a~\emph{zásah shora dolů} (vyšší vrstva používá nižší k~vykonání svých rozhodnutí).
+\end{defbox}
+
+\medskip
+\noindent\textbf{Reálný příklad: Stanley} (Volkswagen Touareg R5, Stanford). Autonomní vůz,
+který vyhrál DARPA Grand Challenge 2005 (212~km Mohavskou pouští); přímý předchůdce dnešních
+autonomních vozidel. Vrstvená architektura:
+\begin{itemize}
+\item vrstva senzorů $\to$ vrstva abstraktní percepce $\to$ vrstva plánování a~řízení
+  (plán trasy a~řízení vozu) $\to$ vrstva rozhraní vozidla;
+\item plus vrstva uživatelského rozhraní (panel, start) a~vrstva globálních služeb
+  (souborový systém, komunikace, hodiny).
+\end{itemize}
+
+\subsection{Komplexní architektury: IDA a~globální pracovní prostor}
+\label{ssec:ida}
+
+Poslední rodina architektur jde opačným směrem než reaktivní minimalismus: snaží se do jednoho
+agenta integrovat \emph{všechno} --- výběr akce, paměť, deliberaci, emoce.
+
+\begin{defbox}[IDA --- \emph{Intelligent Distribution Agent} (S.~Franklin)]
+Patrně \textbf{nejsložitější agentní architektura}, jaká byla postavena. Vznikla pro reálnou
+úlohu amerického námořnictva --- přidělování personálu na nová služební místa (odtud
+\uv{distribution}); distribuovaná je i~sama architektura.
+
+\textbf{Východisko: teorie globálního pracovního prostoru} (\emph{global workspace theory},
+Baars, 1988--97) --- jedna z~teorií vědomí:
+\begin{itemize}
+\item Mysl \emph{je} multiagentní systém: skládá se z~mnoha jednoduchých, převážně
+  nevědomých procesů provádějících specializované operace.
+\item Procesy spolu komunikují \emph{zřídka} a~pouze přes sdílenou paměť typu \emph{blackboard},
+  organizovanou jako asociativní pole (srov.\ kap.~\ref{sec:cdps}).
+\item Procesy dynamicky vytvářejí \textbf{koalice} vyšších řádů.
+\item \textbf{Mechanismus výběru akce:} koalice, která nejlépe odpovídá aktuálním vstupům,
+  se dostane do \uv{vědomí} (globálního pracovního prostoru) a~je vykonána.
+\item Existuje \emph{hierarchie kontextů} reprezentujících svět na různých úrovních ---
+  kontext cílů, vjemů, smyslů, konceptů, kulturní kontext.
+\end{itemize}
+\textbf{Hodnocení:} kombinuje mnoho přístupů z~MAS i~zbytku UI (výběr akce, paměť, deliberace,
+emoce), a~právě to je jeho slabina --- řada rozhodnutí je \emph{ad hoc} a~sladit tak
+heterogenní kolekci modelů do optimálně spolupracujícího celku je velmi obtížné.
+\end{defbox}
+
+Pro srovnání mechanismů výběru akce je IDA užitečný jako \emph{čtvrtý} typ arbitráže:
+subsumpce rozhoduje \textbf{pevnou prioritou}, síť Maes \textbf{úrovní aktivace},
+vrstvené architektury \textbf{mediační funkcí}, IDA \textbf{soutěží dynamicky vznikajících
+koalic} o~přístup do globálního pracovního prostoru.
+
+\subsection{Srovnání architektur}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.15\textwidth}
+  >{\raggedright\arraybackslash}p{0.19\textwidth}
+  >{\raggedright\arraybackslash}p{0.19\textwidth}
+  >{\raggedright\arraybackslash}p{0.17\textwidth}
+  >{\raggedright\arraybackslash}p{0.17\textwidth}@{}}
+\toprule
+& \textbf{Deduktivní} & \textbf{BDI / PRS} & \textbf{Reaktivní} & \textbf{Hybridní} \\
+\midrule
+Reprezentace & symbolická (FOL) & symbolická (beliefs, plány) & subsymbolická / pravidla
+  & smíšená po vrstvách \\
+Výběr akce & dokazování $\mathit{Do}(a)$ & deliberace + plán z~knihovny
+  & priorita / aktivace & vrstvy + arbitráž \\
+Model světa & úplný & částečný, revidovatelný & žádný & po vrstvách \\
+Rychlost & velmi nízká & střední & vysoká (konst.) & vysoká v~reflexu \\
+Reaktivita & špatná & střední (laditelná) & výborná & dobrá \\
+Proaktivita & dobrá & výborná & žádná & dobrá \\
+Návrh & obtížný, ale formální & systematický & experimentální & složitý \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Reaktivní přístup stojí na trojici \emph{situatedness --- embodiment --- emergence};
+  odmítá symbolickou reprezentaci.
+\item \textbf{Subsumpce} (Brooks): množina jednoduchých chování \emph{situace~$\to$~akce},
+  běžících paralelně, uspořádaných do pevné priority. Umět Steelsova průzkumníka Marsu
+  a~roli stigmergie (drobky).
+\item \textbf{Agent network architecture} (Maes) = konekcionistické reaktivní plánování:
+  moduly s~pre/add/delete, aktivace se šíří následnickými, předchůdcovskými a~konfliktními spoji,
+  zdroje aktivace jsou stav světa, cíle a~inhibice od chráněných cílů; vybere se
+  proveditelný modul s~nejvyšší aktivací nad prahem. Parametry $\gamma/\phi$ ladí
+  proaktivitu vs.\ reaktivitu.
+\item Omezení reaktivních agentů: bez modelu světa, krátkodobý pohled, neinženýrský návrh,
+  neškálovatelné množství vrstev.
+\item \textbf{Hybridní}: horizontální (paralelní vrstvy + mediátor, $m^n$ kombinací, úzké hrdlo)
+  vs.\ vertikální (sériové, one-pass/two-pass, $n-1$ rozhraní, křehké).
+\item \textbf{TouringMachines} = horizontální 3~vrstvy (modelling, planning, reactive) + řídicí
+  pravidla. \textbf{InteRRaP} = vertikální two-pass 3~vrstvy (kooperativní plánování, lokální
+  plánování, behaviorální) + vlastní KB na vrstvu. \textbf{Stanley} jako reálné nasazení.
+\item \textbf{IDA} (Franklin) + \emph{global workspace theory} (Baars): mysl jako MAS
+  jednoduchých nevědomých procesů komunikujících přes blackboard; koalice procesů soutěží
+  o~vstup do \uv{vědomí} a~vítězná se vykoná; hierarchie kontextů. Nejsložitější architektura,
+  mnoho ad hoc rozhodnutí.
+\end{itemize}
+
+\section{Problém hledání cesty}
+\label{sec:cesta}
+
+\subsection{Formulace a~zařazení}
+
+Hledání cesty (\emph{pathfinding}) je nejčastější konkrétní podúloha, kterou musí situovaný agent
+řešit --- ať už jako součást plánovací vrstvy hybridní architektury, jako akce
+\texttt{move\_towards(P)} v~BDI plánu, nebo jako služba poskytovaná jiným agentům.
+V~multiagentním kontextu se navíc objevují dvě specifika, která jednoagentní verze nezná:
+prostředí je \textbf{dynamické} (mapa se mění, překážky se objevují) a~ostatní agenti jsou
+\textbf{pohyblivé překážky}, se kterými je nutné se koordinovat.
+
+\begin{defbox}[Problém hledání cesty]
+Je dán ohodnocený graf $G = (V,E)$ s~nezáporným ohodnocením hran $w : E \to \mathbb{R}_0^+$,
+počáteční vrchol $s \in V$ a~cílový vrchol $g \in V$ (nebo množina cílů $G_{\mathrm{goal}}$).
+Hledáme cestu $s = v_0, v_1, \dots, v_k = g$ minimalizující $\sum_{i} w(v_{i-1},v_i)$.
+
+Graf bývá zadán \emph{implicitně} nástupnickou funkcí (mřížka 4-/8-souvislá, navigační síť,
+graf viditelnosti, mřížka konfiguračního prostoru robota).
+\end{defbox}
+
+\subsection{A* a~příbuzné algoritmy}
+
+Prohledávání typu \emph{best-first} udržuje pro každý vrchol $n$ hodnoty
+\begin{align*}
+g(n) &= \text{cena nejlepší dosud nalezené cesty } s \to n, \\
+h(n) &= \text{heuristický odhad ceny } n \to g_{\mathrm{cil}}, \\
+f(n) &= g(n) + h(n) \quad \text{--- odhad ceny nejlepší cesty } s \to g_{\mathrm{cil}}
+  \text{ vedoucí přes } n .
+\end{align*}
+
+\noindent\textbf{Algoritmus A*} (Hart, Nilsson, Raphael, 1968):
+\begin{algorithmic}[1]
+\State $\mathit{OPEN} \gets \{s\}$ (prioritní fronta podle $f$), $\mathit{CLOSED} \gets \emptyset$
+\State $g(s) \gets 0$, $f(s) \gets h(s)$, ostatní $g \gets \infty$
+\While{$\mathit{OPEN} \ne \emptyset$}
+  \State $n \gets \arg\min_{x \in \mathit{OPEN}} f(x)$; odeber $n$ z~$\mathit{OPEN}$
+  \If{$n$ je cíl} \Return rekonstruovaná cesta \EndIf
+  \State přidej $n$ do $\mathit{CLOSED}$
+  \ForAll{$m \in \mathit{succ}(n)$}
+    \State $g_{\mathrm{new}} \gets g(n) + w(n,m)$
+    \If{$g_{\mathrm{new}} < g(m)$}
+      \State $g(m) \gets g_{\mathrm{new}}$; $\mathit{parent}(m) \gets n$;
+             $f(m) \gets g(m) + h(m)$
+      \State vlož/aktualizuj $m$ v~$\mathit{OPEN}$ (a~odeber z~$\mathit{CLOSED}$, byl-li tam)
+    \EndIf
+  \EndFor
+\EndWhile
+\State \Return \uv{cesta neexistuje}
+\end{algorithmic}
+
+\begin{defbox}[Přípustnost a~konzistence heuristiky]
+Heuristika $h$ je \textbf{přípustná} (\emph{admissible}), pokud nikdy nenadhodnocuje:
+$h(n) \le h^*(n)$ pro všechna $n$, kde $h^*(n)$ je skutečná cena nejlevnější cesty z~$n$ do cíle.
+
+Heuristika je \textbf{konzistentní} (\emph{consistent}, monotónní), pokud pro každou hranu
+$(n,m)$ platí trojúhelníková nerovnost
+\[
+h(n) \le w(n,m) + h(m), \qquad h(g_{\mathrm{cil}}) = 0 .
+\]
+\textbf{Vlastnosti:} konzistence $\Rightarrow$ přípustnost. Při přípustné heuristice je A*
+\emph{optimální} (najde nejlevnější cestu). Při konzistentní heuristice je navíc $f$ podél
+každé cesty neklesající a~každý vrchol je expandován \emph{nejvýše jednou} (netřeba znovu
+otevírat vrcholy z~$\mathit{CLOSED}$). A* je také \emph{optimálně efektivní}: žádný jiný
+optimální algoritmus používající tutéž heuristiku neexpanduje méně vrcholů.
+\end{defbox}
+
+\textbf{Speciální případy a~varianty:}
+\begin{itemize}
+\item $h \equiv 0$ $\Rightarrow$ A* degeneruje na \textbf{Dijkstrův algoritmus}
+  (resp.\ uniform-cost search).
+\item Typické heuristiky na mřížce: manhattanská $|\Delta x| + |\Delta y|$ (pohyb do 4~směrů),
+  oktilová $\max + (\sqrt{2}-1)\min$ (8~směrů), eukleidovská (libovolný úhel).
+\item \textbf{Weighted A*}: $f = g + \varepsilon h$, $\varepsilon > 1$ --- rychlejší, ale
+  \emph{$\varepsilon$-suboptimální} (nalezená cesta je nejvýše $\varepsilon\times$ dražší).
+\item \textbf{IDA*} --- iterativní prohlubování podle $f$; paměť $O(d)$ místo exponenciální.
+\item \textbf{JPS} (\emph{Jump Point Search}) --- na uniformních mřížkách přeskakuje symetrické
+  cesty, řádové zrychlení bez ztráty optimality.
+\item \textbf{Theta*} / \emph{any-angle} --- povoluje hrany mimo mřížku (kontrola přímé
+  viditelnosti), dává realističtější trajektorie.
+\item \textbf{Hierarchické} plánování (HPA*) --- mapa se rozdělí na clustery, cesta se hledá
+  nejprve v~abstraktním grafu.
+\end{itemize}
+
+\medskip
+\noindent\textbf{Malý příklad.} Mřížka $3\times3$, pohyb do 4~směrů, cena hrany $1$,
+start $(0,0)$, cíl $(2,2)$, překážka na $(1,1)$; manhattanská heuristika
+$h(x,y) = |2-x| + |2-y|$ je přípustná i~konzistentní. Start má $f=0+4=4$; nástupci $(1,0)$
+a~$(0,1)$ mají $g=1$, $h=3$, $f=4$; dále $(2,0)$ a~$(0,2)$ s~$g=2,h=2,f=4$, pak $(2,1)$ a~$(1,2)$
+s~$g=3,h=1,f=4$ a~konečně cíl $(2,2)$ s~$g=4,h=0,f=4$. Všechny vrcholy na optimální cestě mají
+$f=4$ --- typický projev konzistentní heuristiky, která zbytek cesty odhaduje přesně.
+
+\subsection{Hledání cesty v~dynamickém prostředí}
+
+Agent se typicky pohybuje a~průběžně zjišťuje, že mapa je jinde jiná (nová překážka, změněná cena).
+Přeplánovat A* od nuly v~každém kroku je drahé. Řešením jsou \textbf{inkrementální}
+prohledávací algoritmy, které při lokální změně přepočítají jen zasaženou část.
+
+\begin{defbox}[LPA*, D* a~D*~Lite]
+\textbf{LPA*} (\emph{Lifelong Planning A*}, Koenig, Likhachev, 2001) --- inkrementální verze A*
+pro \emph{pevný} start a~cíl. Ke každému vrcholu udržuje kromě $g(n)$ i~hodnotu
+\emph{rhs}$(n)$ (\emph{right-hand side}), tzv.\ \emph{lookahead} hodnotu odvozenou z~$g$ předchůdců:
+\[
+\mathit{rhs}(n) = \begin{cases}
+0 & n = s,\\
+\min_{p \in \mathit{pred}(n)} \big(g(p) + w(p,n)\big) & \text{jinak.}
+\end{cases}
+\]
+Vrchol je \textbf{lokálně konzistentní}, pokud $g(n) = \mathit{rhs}(n)$. Změní-li se cena hrany,
+stanou se některé vrcholy nekonzistentními, zařadí se do prioritní fronty a~algoritmus
+propaguje změnu jen tam, kde je to potřeba.
+
+\textbf{D*} (\emph{Dynamic A*}, Stentz, 1994) --- původní algoritmus pro robota, který se pohybuje
+a~objevuje překážky. Prohledává \emph{od cíle ke startu} (aby hodnoty zůstaly použitelné, když se
+robot posune).
+
+\textbf{D*~Lite} (Koenig, Likhachev, 2002) --- LPA* prohledávaný od cíle, s~korekcí prioritní
+fronty při pohybu robota. Funkčně ekvivalentní D*, ale výrazně jednodušší; \emph{de facto}
+standard v~mobilní robotice. Řádově rychlejší než opakované volání A* --- typicky se přepočítá
+jen malé okolí změny.
+
+\textbf{Ostatní varianty:} \emph{Anytime Repairing A*} (ARA*) --- vrací rychle suboptimální řešení
+a~postupně ho vylepšuje; \emph{AD*} --- kombinace anytime a~dynamického přeplánování;
+\emph{Field D*} --- interpolace pro spojitý pohyb.
+\end{defbox}
+
+\medskip
+\noindent\textbf{A~co spojitý prostor?} Předchozí algoritmy potřebují graf. Ve
+\emph{spojitém konfiguračním prostoru} robota (poloha $\times$ orientace $\times$ klouby)
+se graf buď vyrobí diskretizací, nebo \emph{vzorkováním}:
+\begin{itemize}
+\item \textbf{PRM} (\emph{probabilistic roadmap}) --- náhodně nasampluj volné konfigurace,
+  spoj blízké dvojice lokálním plánovačem, ve vzniklé \uv{silniční síti} hledej klasicky
+  (A*). Vhodné pro opakované dotazy ve statické mapě.
+\item \textbf{RRT} (\emph{rapidly-exploring random tree}) a~\textbf{RRT*} --- inkrementálně
+  rostoucí strom směrem k~náhodným vzorkům; jednorázové dotazy, zvládá i~kinodynamická
+  omezení. RRT je \emph{pravděpodobnostně úplný} (najde řešení s~pravděpodobností jdoucí
+  k~1), RRT* navíc \emph{asymptoticky optimální}.
+\item \textbf{Potenciálová pole} --- cíl přitahuje, překážky odpuzují; velmi rychlé
+  a~reaktivní (blíží se subsumpci), ale uvíznou v~\emph{lokálních minimech}.
+\end{itemize}
+Společné pro MAS je, že tyto plánovače bývají \emph{lokální/nízkoúrovňovou} vrstvou
+hybridní architektury, zatímco koordinace mezi agenty (MAPF) se řeší nad diskrétním grafem.
+
+\textbf{Alternativa: plánování s~volným prostorem.} V~neznámém prostředí se často používá
+\emph{optimistický předpoklad} (\emph{freespace assumption}): neznámé buňky se považují za
+průchodné, agent jde po naplánované cestě, a~jakmile narazí, přeplánuje. To je přesně scénář,
+pro nějž byl D* navržen.
+
+\subsection{Hledání cest pro více agentů (MAPF)}
+
+\begin{defbox}[Multi-Agent Path Finding, MAPF]
+Vstup: graf $G=(V,E)$ a~$k$ agentů, agent $i$ má start $s_i$ a~cíl $g_i$ (všechny různé).
+Čas je diskrétní; v~každém kroku každý agent buď přejde po hraně, nebo počká na místě.
+
+\textbf{Konflikty} --- řešení musí být \emph{bezkonfliktní}:
+\begin{itemize}
+\item \emph{vrcholový konflikt} --- dva agenti jsou ve stejném čase ve stejném vrcholu;
+\item \emph{hranový / \uv{swap} konflikt} --- dva agenti si v~jednom kroku vymění pozice
+  (projdou skrz sebe);
+\item podle varianty i~\emph{following} konflikt (agent vstoupí do vrcholu, který soused právě
+  opouští) a~\emph{cyklické} rotace.
+\end{itemize}
+\textbf{Účelová funkce:} \emph{sum-of-costs} $\sum_i \mathit{cost}_i$, nebo \emph{makespan}
+$\max_i \mathit{cost}_i$.
+
+\textbf{Složitost:} nalezení \emph{optimálního} řešení je NP-těžké (pro obě účelové funkce);
+rozhodnutí, zda existuje \emph{nějaké} řešení, je na obecných grafech polynomiální.
+\end{defbox}
+
+\textbf{Přístupy k~MAPF} se dělí na svázané a~rozvázané:
+
+\begin{center}
+\small
+\begin{tabular}{p{0.22\textwidth} p{0.36\textwidth} p{0.34\textwidth}}
+\toprule
+\textbf{Typ} & \textbf{Princip} & \textbf{Vlastnosti} \\
+\midrule
+\textbf{svázaný} (\emph{coupled})
+  & A* v~\emph{sdruženém} stavovém prostoru $V^k$ (společný stav = pozice všech agentů)
+  & optimální a~úplný, ale stavový prostor roste exponenciálně s~$k$; prakticky do
+    několika agentů \\
+\textbf{rozvázaný} (\emph{decoupled})
+  & každý agent plánuje sám, konflikty se řeší dodatečně (priority, rezervace)
+  & rychlý, škáluje, ale \emph{není úplný ani optimální} \\
+\textbf{hybridní / vyhledávání nad konflikty}
+  & prohledávání prostoru \emph{omezení}, nikoli pozic (CBS, ICTS, M*)
+  & optimální a~přitom prakticky použitelný pro desítky agentů \\
+\textbf{redukce}
+  & převod na SAT, ILP, ASP nebo CSP a~použití hotového solveru
+  & optimální, velmi silné na hustých instancích \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{defbox}[Prioritizované plánování (\emph{prioritized planning})]
+Nejjednodušší rozvázaný přístup (Erdmann, Lozano-Pérez, 1987):
+\begin{enumerate}
+\item Uspořádej agenty podle nějaké priority.
+\item Pro $i = 1,\dots,k$: naplánuj cestu agenta $i$ algoritmem A* v~\emph{prostoru--čase}
+  (stav = dvojice $\langle$vrchol, čas$\rangle$) tak, aby se \emph{vyhnul} již naplánovaným
+  trajektoriím agentů $1,\dots,i-1$; ty jsou uloženy v~\textbf{rezervační tabulce}
+  (\emph{reservation table}).
+\end{enumerate}
+Tato varianta se nazývá \textbf{Cooperative A*} (Silver, 2005); rozšíření
+\emph{Hierarchical Cooperative A*} používá abstraktní heuristiku ignorující ostatní agenty
+a~\emph{Windowed HCA*} plánuje jen na omezené časové okno (potřebné pro real-time hry).
+
+\textbf{Slabina:} algoritmus je \emph{neúplný} --- existují instance řešitelné, ale
+neřešitelné žádným pořadím priorit (klasicky dva agenti v~úzkém koridoru, kde jeden musí
+uhnout do výklenku).
+\end{defbox}
+
+\begin{defbox}[Conflict-Based Search (CBS)]
+Sharon a~kol., 2012--2015. Dvouúrovňový optimální algoritmus.
+
+\textbf{Nízká úroveň:} pro každého agenta se hledá optimální cesta v~prostoru--čase pomocí A*
+při respektování množiny \emph{omezení} (\emph{constraints}) tvaru
+$\langle a_i, v, t\rangle$ (\uv{agent $i$ nesmí být ve vrcholu $v$ v~čase $t$}), případně
+hranových omezení $\langle a_i, (u,v), t\rangle$.
+
+\textbf{Vysoká úroveň:} prohledává \emph{strom omezení} (\emph{constraint tree}) do šířky
+podle ceny:
+\begin{enumerate}
+\item Kořen: prázdná množina omezení, každý agent má individuálně optimální cestu.
+\item Vezmi uzel s~nejnižší cenou řešení; ověř, zda jsou cesty bezkonfliktní.
+  Pokud ano, \textbf{vrať řešení} --- je optimální.
+\item Jinak vyber první konflikt $\langle a_i, a_j, v, t\rangle$ a~\emph{rozvětvi} na dva potomky:
+  do prvního přidej omezení $\langle a_i, v, t\rangle$, do druhého $\langle a_j, v, t\rangle$.
+  V~každém potomku přeplánuj \emph{jen} dotčeného agenta.
+\end{enumerate}
+\textbf{Klíčová myšlenka:} nikdy se neprohledává sdružený stavový prostor $V^k$; větví se
+pouze podle skutečně nastalých konfliktů, kterých bývá málo. CBS je \emph{úplný} a~\emph{optimální}
+(sum-of-costs).
+
+\textbf{Vylepšení:} ICBS/CBSH (silnější heuristiky pro vysokou úroveň, klasifikace konfliktů na
+kardinální/semikardinální/nekardinální), \emph{meta-agent} CBS (agenty s~mnoha vzájemnými
+konflikty sloučí do jednoho meta-agenta a~ty řeší svázaně), ECBS (\emph{bounded suboptimal},
+řádově rychlejší za cenu faktoru $1+\varepsilon$).
+\end{defbox}
+
+\medskip
+\noindent\textbf{Příklad běhu CBS.} Koridor $1 - 2 - 3$ s~výklenkem $4$ napojeným na $2$;
+agent $a_1$ jde $1 \to 3$, agent $a_2$ jde $3 \to 1$.
+\begin{itemize}
+\item \textbf{Kořen} (prázdná množina omezení): individuálně optimální cesty
+  $a_1: (1,2,3)$ a~$a_2: (3,2,1)$, cena $2+2=4$. V~čase $t=1$ jsou oba ve vrcholu $2$ ---
+  vrcholový konflikt $\langle a_1,a_2,2,1\rangle$.
+\item \textbf{První větvení:} levý potomek přidá omezení $\langle a_1,2,1\rangle$, pravý
+  $\langle a_2,2,1\rangle$; v~každém se přeplánuje \emph{jen} dotčený agent. Vlevo tedy
+  $a_1 = (1,1,2,3)$ (počká), cena uzlu $3+2 = 5$. Tím ale vznikne \emph{swap} konflikt:
+  mezi $t=1$ a~$t=2$ jde $a_1$ po hraně $1\to2$ a~$a_2$ po téže hraně $2\to1$.
+  Symetricky vpravo.
+\item \textbf{Další větvení} na hranovém konfliktu donutí jednoho z~agentů zajet do výklenku.
+  Optimální řešení má cenu $\mathbf{7}$: $a_1 = (1,1,2,3)$ za $3$ a~$a_2 = (3,2,4,2,1)$ za $4$.
+  (Cena $5$ ani $6$ neexistuje: agent jdoucí přímo přes vrchol $2$ vždy způsobí buď vrcholový,
+  nebo swap konflikt --- vyzkoušejte si všechny čtyři kombinace cest délky~3.)
+\end{itemize}
+Příklad ilustruje dvě typické vlastnosti CBS: cena uzlů podél větve \emph{neklesá}
+($4 \to 5 \to 7$) a~zabrat musí \emph{oba} agenti, ne jen ten „ustupující“.
+Bez výklenku je instance vůbec \textbf{neřešitelná} a~základní CBS by větvil donekonečna ---
+úplnost CBS je zaručena jen pro řešitelné instance, neřešitelnost se musí testovat zvlášť.
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item A*: $f = g+h$; \emph{přípustnost} $h \le h^*$ $\Rightarrow$ optimalita;
+  \emph{konzistence} $h(n) \le w(n,m)+h(m)$ $\Rightarrow$ každý vrchol se expanduje jednou.
+  $h\equiv 0$ dá Dijkstru; weighted A* je $\varepsilon$-suboptimální.
+\item Dynamické prostředí: LPA* (hodnoty $g$ a~\emph{rhs}, lokální konzistence
+  $g=\mathit{rhs}$), D* a~D*~Lite (prohledávání od cíle, inkrementální oprava),
+  freespace assumption.
+\item MAPF: definice, vrcholové a~hranové (swap) konflikty, sum-of-costs vs.\ makespan;
+  optimální MAPF je NP-těžký.
+\item Rozvázané řešení: prioritizované plánování / Cooperative A* s~rezervační tabulkou,
+  plánování v~prostoru--čase --- rychlé, ale neúplné.
+\item \textbf{CBS}: nízká úroveň = A* s~omezeními pro jednoho agenta, vysoká úroveň = binární
+  větvení stromu omezení podle nalezeného konfliktu; optimální a~úplný, vyhýbá se
+  exponenciálnímu sdruženému prostoru.
+\end{itemize}
+
+\section{Znalosti a~ontologie}
+\label{sec:ontologie}
+
+\subsection{Od agenta k~multiagentnímu systému}
+
+Umíme navrhnout jednoho agenta. Aby agenti tvořili systém, musí spolu komunikovat, a~k~tomu
+potřebují vyřešit:
+\begin{itemize}
+\item \textbf{reprezentaci znalostí} --- v~čem jsou znalosti vyjádřeny;
+\item \textbf{společný slovník} --- aby stejné slovo znamenalo totéž (to je úloha \emph{ontologií});
+\item \textbf{standardní zprávy} --- syntaxi a~sémantiku komunikace (\emph{ACL});
+\item \textbf{předvídatelné chování při komunikaci} --- \emph{interakční protokoly};
+\item \textbf{technické problémy} --- distribuovanost, mobilita agentů, asynchronnost,
+  nespolehlivé komunikační kanály.
+\end{itemize}
+
+\subsection{Uvažování o~znalostech: epistemická logika a~společná znalost}
+
+Dříve než se budeme zabývat \emph{reprezentací} znalostí (ontologiemi), je třeba říci,
+jak se o~znalostech agentů formálně \emph{uvažuje}.
+
+\begin{defbox}[Epistemická logika a~společná znalost]
+Znalost agenta se modeluje modálním operátorem $K_i\varphi$ (\uv{agent $i$ \emph{ví},
+že $\varphi$}) s~\textbf{kripkovskou sémantikou možných světů}: $K_i\varphi$ platí
+ve světě $w$, právě když $\varphi$ platí ve \emph{všech} světech, které agent $i$
+neumí od $w$ odlišit (relace nerozlišitelnosti --- ekvivalence).
+\textbf{Znalost} se axiomatizuje systémem \textbf{S5} (KT45); klíčový je axiom
+\textbf{T}: $K_i\varphi \Rightarrow \varphi$ (co vím, to platí).
+\textbf{Přesvědčení} (\emph{belief}, operátor $B_i$, srov.\ BDI a~sémantiku FIPA SL)
+se axiomatizuje systémem \textbf{KD45}, kde axiom~T nahrazuje slabší \textbf{D}:
+$\neg B_i\bot$ --- přesvědčení musí být konzistentní, ale \emph{mohou být mylná}.
+Rozdíl znalost vs.\ přesvědčení je tedy formálně právě axiom~T.
+
+Pro skupinu agentů $G$ se definuje: $E_G\varphi$ --- \emph{každý} v~$G$ ví $\varphi$;
+\textbf{společná znalost} (\emph{common knowledge})
+$C_G\varphi \equiv E_G\varphi \wedge E_G E_G\varphi \wedge E_G E_G E_G\varphi \wedge \dots$
+(všichni vědí, že všichni vědí, že\dots); \emph{distribuovaná znalost} $D_G\varphi$
+--- $\varphi$ plyne ze sjednocení znalostí všech členů skupiny.
+
+\textbf{Koordinovaný útok} (\emph{coordinated attack}, problém dvou generálů):
+dva generálové se přes nespolehlivého posla domlouvají na současném útoku. Žádný
+konečný počet doručených potvrzení nevytvoří společnou znalost dohody --- po $k$
+zprávách platí nejvýše $E_G^k\varphi$, nikdy $C_G\varphi$. Poučení pro MAS:
+\emph{nespolehlivá komunikace nikdy nevytvoří společnou znalost}; dokonalá koordinace
+proto vyžaduje buď spolehlivé kanály, nebo slabší cíle (časově omezené či
+pravděpodobnostní varianty společné znalosti).
+
+\emph{Problém logické vševědoucnosti}: v~kripkovské sémantice agent automaticky zná
+všechny logické důsledky svých znalostí i~všechny tautologie --- reálný, výpočetně
+omezený agent nikoli. To je hlavní námitka proti přímočarému použití epistemické
+logiky jako implementačního nástroje (srov.\ potíže deduktivních agentů,
+kap.~\ref{sec:deliberativni}).
+\end{defbox}
+
+\subsection{Co je ontologie}
+
+\begin{defbox}[Ontologie]
+\emph{Filozoficky} (z~řeckého \emph{to on} = jsoucí, \emph{logos} = slovo): nauka o~bytí,
+podle Aristotela \uv{první filozofie}, součást metafyziky.
+
+\emph{V~informatice}: \textbf{explicitní a~formalizovaný popis části reality}. Obvykle formální
+deklarativní popis obsahující \emph{glosář} (definice konceptů) a~\emph{tezaurus} (definice vztahů
+mezi koncepty). Ontologie je jakýsi slovník pro ukládání a~výměnu znalostí o~doméně
+standardním způsobem.
+
+\textbf{Gruber (1995):} \uv{Ontologie je popis (podobný formální specifikaci programu) konceptů
+a~vztahů, které mohou pro agenta nebo komunitu agentů formálně existovat.}
+Často citovaná zkrácená verze: \emph{ontologie je explicitní specifikace konceptualizace}.
+\end{defbox}
+
+\textbf{Motivační příklad} (dialog dvou lidí --- nebo dvou agentů). \uv{Slyšel jsi 7777?
+--- Ne, co to je? --- To je nové CD kapely SRPR, takový alt.rock s~elektronikou a~skvělými
+texty. --- Aha.} Aby si rozuměli, musí sdílet:
+7777 je album; spadá do žánrů alt.rock a~electronica; má skladby, interpreta (SRPR), autory
+hudby a~textů; SRPR je kapela, má členy, ti hrají na nástroje\dots
+
+\begin{defbox}[Formalismus ontologie]
+\begin{itemize}
+\item \textbf{Třídy} (\emph{classes}, koncepty) --- věci mající něco společného.
+\item \textbf{Instance} (\emph{individuals}, objekty) --- konkrétní jedinci ze tříd.
+\item \textbf{Vlastnosti} (\emph{properties}) --- atributy tříd a~instancí.
+\item \textbf{Relace mezi třídami}, zejména \textbf{podtřída} (\emph{is-a}) --- \emph{tranzitivní}
+  relace.
+\item Další relace a~vlastnosti (základní znalosti o~doméně).
+\end{itemize}
+\textbf{Strukturální část} (třídy, relace, axiomy) se obvykle nazývá vlastní \emph{ontologie};
+spolu s~\textbf{fakty o~konkrétních jedincích} tvoří \textbf{znalostní bázi}
+(\emph{knowledge base}).
+\end{defbox}
+
+\textbf{Ontologie ontologií podle síly formalizace} (od slabých k~silným):
+slovník (řízený slovník vybraných termínů) $\to$ glosář (definice významů v~přirozeném jazyce)
+$\to$ tezaurus (synonyma) $\to$ neformální hierarchie (Amazon, wiki) $\to$
+formální \emph{is-a} hierarchie (subsumpce tříd) $\to$ třídy s~vlastnostmi $\to$
+omezení hodnot (\uv{každý člověk má právě jednu matku}) $\to$ libovolná logická omezení
+(vede na složité odvozovací algoritmy).
+
+\textbf{Ontologie ontologií podle rozsahu:}
+\begin{itemize}
+\item \textbf{Aplikační} --- nejběžnější v~praxi, těžko znovupoužitelné.
+\item \textbf{Doménové} --- oblíbený předmět výzkumu sémantického webu.
+\item \textbf{Horní} (\emph{upper ontologies}) --- měly by popisovat \uv{všechno}
+  (Thing, Living thing, \dots) a~sloužit jako základ doménových ontologií:
+  BFO, GFO, UFO; WordNet a~IDEAS nejsou vhodné pro formální odvozování.
+  Vůči snaze o~univerzální ontologii existují metodologické námitky
+  (Wittgenstein, \emph{Tractatus logico-philosophicus}).
+\end{itemize}
+
+\subsection{Ontologické jazyky}
+
+Ontologické jazyky jsou formální deklarativní jazyky pro reprezentaci znalostí; obsahují fakta
+a~odvozovací pravidla a~nejčastěji se opírají o~logiku prvního řádu nebo o~\emph{deskripční logiku}.
+
+\textbf{Rámce} (\emph{frames}) --- historický předchůdce (Minsky), oblíbený v~klasické UI
+a~expertních systémech. Odpovídají objektovému programování:
+
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Terminologie rámců} & \textbf{Objektová terminologie} \\
+\midrule
+Frame (rámec) & třída objektů \\
+Slot & vlastnost / atribut objektu \\
+Trigger, accessor, mutator & metoda \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{XML} nebyl pro ontologie vytvořen, ale používá se: hlavní výhodou je možnost definovat
+vlastní značky, které přirozeně reprezentují slovník:
+\begin{quote}\small\ttfamily
+<product typ=\textquotedbl CD\textquotedbl>\\
+\hspace*{1em}<title>7777</title>\\
+\hspace*{1em}<artist>SRPR</artist>\\
+</product>
+\end{quote}
+Chybí mu ovšem definovaná sémantika --- popisuje jen strukturu dokumentu, ne význam.
+
+\begin{defbox}[RDF --- \emph{Resource Description Framework}]
+Standardní nástroj pro reprezentaci znalostí (nejen) pro web. Je \textbf{jednoduchý}:
+málo expresivní, zato s~rychlými odvozovacími algoritmy.
+
+Vše je vyjádřeno \textbf{trojicemi} \emph{subjekt -- predikát -- objekt}, tedy
+$\mathit{Predikát}(\mathit{Subjekt},\mathit{Objekt})$. Například
+$\mathit{MarriedTo}(\mathit{Karel},\mathit{Jája})$,
+$\mathit{FatherOf}(\mathit{Karel},\mathit{Péťa})$.
+Množina trojic tvoří orientovaný ohodnocený graf (\emph{RDF graph}); zdroje se identifikují
+pomocí IRI. Serializace: RDF/XML, Turtle, N-Triples, JSON-LD. Dotazovacím jazykem je SPARQL.
+Nadstavba \textbf{RDFS} přidává třídy, \texttt{subClassOf}, \texttt{domain}, \texttt{range}.
+\end{defbox}
+
+\begin{defbox}[OWL --- \emph{Web Ontology Language}]
+Rovněž pochází ze (sémantického) webu, existuje ve verzích 1 a~2. Je to \emph{kolekce několika
+formalismů} pro popis ontologií; syntaxe může být XML, RDF, funkcionální notace, Manchester
+syntax nebo Turtle. Snaha o~formální, a~přesto prakticky použitelný jazyk.
+
+Základem je \textbf{deskripční logika} --- \emph{rozhodnutelný fragment} logiky prvního řádu.
+
+\textbf{Předpoklad otevřeného světa} (\emph{open world assumption}, OWA): co nevíme, je
+\emph{nedefinované} --- na rozdíl od předpokladu uzavřeného světa (databáze, Prolog), kde je
+vše, co nevíme, \emph{nepravdivé}.
+\end{defbox}
+
+\begin{defbox}[Deskripční logika]
+Tři druhy entit: \textbf{koncepty} (třídy), \textbf{role} (vlastnosti, predikáty)
+a~\textbf{individua} (objekty). \textbf{Axiom} je logický výraz o~rolích a~konceptech
+--- na rozdíl od rámců a~objektového programování, které třídu popisují \emph{úplně}, axiomy
+popisují třídu jen \emph{částečně} (a~mohou přicházet z~více zdrojů).
+
+Jde o~celou rodinu logických systémů podle povolených konstruktorů. Základní
+$\mathcal{ALC}$: negace, konjunkce a~disjunkce konceptů, omezené existenční
+a~univerzální kvantifikátory. Rozšíření: hierarchie rolí ($\mathcal{H}$), tranzitivita
+($\mathcal{S}$), inverzní role ($\mathcal{I}$), kardinalitní omezení ($\mathcal{N}$, $\mathcal{Q}$),
+nominály ($\mathcal{O}$).
+
+Znalostní báze se dělí na \textbf{T-Box} (terminologie --- axiomy o~konceptech a~rolích)
+a~\textbf{A-Box} (asertivní část --- fakta o~individuích).
+\end{defbox}
+
+\textbf{Profily OWL.} \emph{OWL~1 Lite} ($\mathcal{SHIF}$) --- nejjednodušší, blízko RDF, mnoho
+omezení kvůli rychlému strojovému zpracování; \emph{OWL~1 DL} ($\mathcal{SHOIN}$) --- odpovídá
+deskripční logice (umožňuje např.\ vyjádřit disjunktnost tříd), je úplný a~rozhodnutelný;
+\emph{OWL~1 Full} --- největší vyjadřovací síla, ale mnoho problémů je nerozhodnutelných.
+\emph{OWL~2} ($\mathcal{SROIQ}$) přidává profily: \emph{EL} (odvozování v~polynomiálním čase,
+velké lékařské ontologie typu SNOMED), \emph{QL} (dotazy nad znalostní bází, napojení na
+relační databáze) a~\emph{RL} (axiomy ve tvaru pravidel).
+
+\begin{defbox}[KIF --- \emph{Knowledge Interchange Format}]
+Reprezentace znalostí v~logice prvního řádu, LISPovská prefixová syntaxe. Byl navržen v~rámci
+projektu DARPA \emph{Knowledge Sharing Effort} jako \textbf{vnitřní jazyk} zpráv (obsah),
+zatímco KQML byl \emph{vnějším} jazykem (obálka). Příklady:
+\begin{quote}\small\ttfamily
+(salary 015-46-3946 widgets 72000)\\
+(> (* (width chip1) (length chip1)) (* (width chip2) (length chip2)))\\
+(forall (?F ?T) (=> (and (instance ?F Farmer) (instance ?T Tractor)) (likes ?F ?T)))\\
+(exists (?F ?T) (and (instance ?F Farmer) (instance ?T Tractor) (likes ?F ?T)))
+\end{quote}
+\end{defbox}
+
+\textbf{DAML+OIL} --- DARPA Agent Markup Language + Ontology Interchange Language, přímý
+předchůdce OWL, opuštěn v~roce 2006.
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Epistemická logika: $K_i\varphi$ + možné světy; znalost = S5 (axiom~T: co vím,
+  platí), přesvědčení = KD45 (jen konzistence). Společná znalost $C_G\varphi$
+  (\uv{všichni vědí, že všichni vědí\dots}) nevznikne nespolehlivou komunikací
+  (koordinovaný útok); logická vševědoucnost jako hlavní slabina.
+\item Ontologie = explicitní formalizovaný popis části reality (glosář + tezaurus);
+  Gruberova definice. Formalismus: třídy, instance, vlastnosti, relace (zejména tranzitivní
+  \emph{is-a}), fakta. Ontologie + fakta = znalostní báze.
+\item Škála formalizace od slovníku po libovolná logická omezení; dělení na aplikační, doménové
+  a~horní ontologie.
+\item RDF = trojice \emph{subjekt--predikát--objekt}, jednoduché a~rychlé; RDFS přidává třídy.
+\item OWL = deskripční logika (rozhodnutelný fragment FOL), \emph{open world assumption},
+  T-Box vs.\ A-Box; profily Lite/DL/Full ($\mathcal{SHIF}$, $\mathcal{SHOIN}$),
+  OWL~2 = $\mathcal{SROIQ}$ + profily EL/QL/RL.
+\item KIF = FOL v~LISPovské syntaxi, obsah zprávy; KQML = obálka.
+\end{itemize}
+
+\section{Komunikace agentů: řečové akty, ACL, protokoly}
+\label{sec:komunikace}
+
+\subsection{Proč je komunikace agentů jiná}
+
+V~objektovém programování znamená \uv{komunikace} volání metody objektu s~parametry ---
+volaný objekt \emph{musí} vyhovět. Agenti nemohou přinutit jiného agenta, aby něco udělal,
+ani nemohou přímo měnit jeho vnitřní proměnné. Musí \textbf{provést komunikační akt}
+s~cílem
+\begin{itemize}
+\item vyměnit si informace, nebo
+\item \emph{ovlivnit} jiné agenty, aby něco udělali.
+\end{itemize}
+Ostatní agenti mají vlastní cíle a~je jen na nich, jak s~přijatou informací, žádostí či dotazem
+naloží. To je zásadní rozdíl: \textbf{komunikace v~MAS je akce, ne volání}.
+
+\subsection{Teorie řečových aktů}
+
+\begin{defbox}[Řečové akty (\emph{speech acts}) --- Austin, 1962]
+Některé části užívání jazyka mají charakter \textbf{akcí}, protože mění stav světa podobně jako
+fyzické akce --- to jsou řečové akty:
+\begin{itemize}
+\item \uv{Prohlašuji vás mužem a~ženou.}
+\item \uv{Vyhlašuji válku.}
+\end{itemize}
+Jde o~\emph{pragmatickou} teorii jazyka: jak se řeč používá k~dosahování cílů.
+Typická performativní slovesa: \emph{request}, \emph{inform}, \emph{promise}.
+\end{defbox}
+
+\begin{defbox}[Tři vrstvy řečového aktu]
+\begin{itemize}
+\item \textbf{Lokuční akt} (\emph{locutionary act}) --- \emph{co bylo řečeno}; samotný výrok.
+  \uv{Udělej mi čaj.}
+\item \textbf{Ilokuční akt} (\emph{illocutionary act}) --- \emph{co bylo míněno};
+  lokuce + performativní význam (dotaz, žádost, \dots). \uv{Požádal mě o~čaj.}
+\item \textbf{Perlokuční akt} (\emph{perlocutionary act}) --- \emph{co se skutečně stalo};
+  efekt řečového aktu. \uv{Přiměla mě, abych jí uvařil čaj.}
+\end{itemize}
+Pro MAS je klíčová \textbf{ilokuční} část --- ta je obsahem zprávy (performativa).
+\end{defbox}
+
+\textbf{Searle} rozpracoval podmínky, za nichž je řečový akt \uv{zdařilý}.
+Pro akt \emph{MLUVČÍ požádá POSLUCHAČE o~akci}:
+\begin{itemize}
+\item \textbf{Standardní vstupně-výstupní podmínky}: posluchač slyší, nejde o~scénu ve filmu\dots
+\item \textbf{Předpoklady} (co musí platit, aby mluvčí mohl tento akt zvolit): posluchač je
+  schopen akci provést; mluvčí věří, že je schopen ji provést; není zřejmé, že by ji posluchač
+  provedl i~bez požádání.
+\item \textbf{Upřímnost} (\emph{sincerity}): mluvčí opravdu chce, aby se akce provedla.
+\end{itemize}
+
+\begin{defbox}[Searlovy kategorie řečových aktů]
+Starší dělení: \emph{request}, \emph{advice}, \emph{statement}, \emph{promise}, \dots
+
+Novější (a~standardní) dělení do pěti tříd:
+\begin{itemize}
+\item \textbf{Asertiva} (\emph{assertives}, reprezentativa) --- informují posluchače
+  (\emph{inform}).
+\item \textbf{Direktiva} (\emph{directives}) --- žádají posluchače o~akci (\emph{request}).
+\item \textbf{Komisiva} (\emph{commissives}) --- mluvčí se k~něčemu zavazuje (\emph{promise}).
+\item \textbf{Expresiva} (\emph{expressives}) --- mluvčí vyjadřuje mentální stav, emoci
+  (\uv{děkuji}).
+\item \textbf{Deklarace} (\emph{declarations}) --- mění stav věcí (válka, sňatek).
+\end{itemize}
+Řečový akt má vždy dvě složky: \textbf{performativní sloveso} (request, query, inform)
+a~\textbf{propoziční obsah} (\uv{okno je zavřené}).
+\end{defbox}
+
+\begin{defbox}[Plánovací teorie řečových aktů (Cohen, Perrault, 1979)]
+\uv{\dots modelování [řečových aktů] v~plánovacím systému jako operátorů definovaných\dots{}
+pomocí přesvědčení a~cílů mluvčích a~posluchačů. S~řečovými akty se tak zachází stejně jako
+s~fyzickými akcemi.}
+
+Sémantika řečových aktů je tedy dána v~duchu \textbf{STRIPS} (předpoklady -- delete -- add),
+jen se používají modální operátory pro \emph{beliefs}, \emph{abilities} a~\emph{wants}.
+\end{defbox}
+
+\noindent\textbf{Příklad: Request a~Inform.}
+\begin{center}\small
+\begin{tabular}{p{0.16\textwidth} p{0.38\textwidth} p{0.38\textwidth}}
+\toprule
+& \textbf{Request(S,H,A)} & \textbf{Inform(S,H,$\varphi$)} \\
+\midrule
+Předpoklad \emph{cando}
+  & $(S\ \mathrm{believe}\ (H\ \mathrm{cando}\ A))\ \wedge$ \newline
+    $(S\ \mathrm{believe}\ (H\ \mathrm{believe}\ (H\ \mathrm{cando}\ A)))$
+  & $(S\ \mathrm{believe}\ \varphi)$ \\
+Předpoklad \emph{want}
+  & $(S\ \mathrm{believe}\ (S\ \mathrm{want}\ \mathrm{requestInstance}))$
+  & $(S\ \mathrm{believe}\ (S\ \mathrm{want}\ \mathrm{informInstance}))$ \\
+Efekt
+  & $(H\ \mathrm{believe}\ (S\ \mathrm{believe}\ (S\ \mathrm{want}\ A)))$
+  & $(H\ \mathrm{believe}\ (S\ \mathrm{believe}\ \varphi))$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Povšimněte si, že efektem \emph{Inform} \emph{není} \uv{posluchač uvěří $\varphi$}, ale jen
+\uv{posluchač uvěří, že mluvčí věří $\varphi$}. Autonomní agent není povinen věřit tomu, co mu
+kdo řekne --- to je přesně ten rozdíl oproti volání metody.
+
+\subsection{KQML a~FIPA-ACL}
+
+\begin{defbox}[KQML --- \emph{Knowledge Query and Manipulation Language}]
+Vznikl v~90.~letech v~rámci projektu DARPA \emph{Knowledge Sharing Effort} (KSE) společně s~KIF.
+\begin{itemize}
+\item \textbf{KQML} = \emph{vnější} komunikační jazyk (\uv{obálka dopisu}); nese
+  \emph{ilokuční} část zprávy.
+\item \textbf{KIF} = \emph{vnitřní} jazyk; propoziční obsah zprávy, reprezentace znalostí.
+\end{itemize}
+Zpráva je seznam \emph{performativa} a~pojmenovaných parametrů:
+\begin{quote}\small\ttfamily
+(ask-one\\
+\hspace*{1em}:content (PRICE IBM ?price)\\
+\hspace*{1em}:receiver stock-server\\
+\hspace*{1em}:language LPROLOG\\
+\hspace*{1em}:ontology NYSE-TICKS)
+\end{quote}
+\textbf{Parametry:} content, force, reply-with, in-reply-to, sender, receiver, language, ontology.
+
+\textbf{Performativa:} achieve, advertise, ask-about, ask-one, ask-all, ask-if,
+break, sorry, error, broadcast, forward, recruit-one, recruit-all, reply, subscribe, tell, \dots
+\end{defbox}
+
+\textbf{Kritika KQML:} chyběl performativ \emph{commit} (závazek), sémantika nebyla přesně
+definována, množina performativ byla nesystematická a~zbytečně velká, transportní mechanismus
+nebyl standardizován.
+
+\begin{defbox}[FIPA-ACL --- \emph{Agent Communication Language}]
+FIPA (\emph{Foundation for Intelligent Physical Agents}, dnes standardizační komise IEEE)
+navrhla ACL jako \textbf{zjednodušení a~zpřesnění KQML}: menší a~systematičtější množina
+performativ a~\emph{formálně definovaná sémantika}. Praktická implementace: platforma JADE.
+
+\textbf{Struktura zprávy} (13 polí --- performativ a~12 parametrů; povinné je jen
+\texttt{performative}):
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Pole} & \textbf{Význam} \\
+\midrule
+\texttt{performative} & typ komunikačního aktu (ilokuční síla) --- \emph{povinné} \\
+\texttt{sender}, \texttt{receiver}, \texttt{reply-to} & identifikátory agentů (AID) \\
+\texttt{content} & vlastní obsah zprávy \\
+\texttt{language} & jazyk obsahu (SL, KIF, \dots) \\
+\texttt{encoding}, \texttt{ontology} & kódování a~ontologie pro interpretaci obsahu \\
+\texttt{protocol} & interakční protokol, jehož je zpráva součástí \\
+\texttt{conversation-id}, \texttt{reply-with}, \texttt{in-reply-to} & párování zpráv do konverzace \\
+\texttt{reply-by} & termín, do kdy se očekává odpověď \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{quote}\small\ttfamily
+(inform\\
+\hspace*{1em}:sender agent1\\
+\hspace*{1em}:receiver agent2\\
+\hspace*{1em}:content (price good2 150)\\
+\hspace*{1em}:language sl\\
+\hspace*{1em}:ontology hpl-auction)
+\end{quote}
+\end{defbox}
+
+\textbf{Performativa FIPA-ACL} (22 celkem, nejdůležitější):
+\begin{center}\small
+\begin{tabular}{p{0.24\textwidth} p{0.70\textwidth}}
+\toprule
+\textbf{Skupina} & \textbf{Performativa} \\
+\midrule
+předávání informace & \texttt{inform}, \texttt{inform-if}, \texttt{inform-ref},
+  \texttt{confirm}, \texttt{disconfirm} \\
+žádost o~informaci & \texttt{query-if}, \texttt{query-ref}, \texttt{subscribe} \\
+žádost o~akci & \texttt{request}, \texttt{request-when}, \texttt{request-whenever},
+  \texttt{cancel} \\
+vyjednávání & \texttt{cfp} (\emph{call for proposals}), \texttt{propose},
+  \texttt{accept-proposal}, \texttt{reject-proposal} \\
+provádění akcí & \texttt{agree}, \texttt{refuse}, \texttt{failure} \\
+chyby, směrování & \texttt{not-understood}, \texttt{proxy}, \texttt{propagate} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{defbox}[Sémantika FIPA-ACL: FP a~RE]
+Sémantika je definována v~jazyce SL (\emph{Semantic Language}) --- modální logice
+s~operátory $B_i\varphi$ (agent $i$ věří $\varphi$), $U_i\varphi$ (je nejistý),
+$I_i\varphi$ (má záměr), $\mathrm{Feasible}$, $\mathrm{Done}$. Ke každému performativu jsou dány:
+\begin{itemize}
+\item \textbf{FP} (\emph{feasibility precondition}) --- co musí platit, aby odesílatel mohl
+  akt provést;
+\item \textbf{RE} (\emph{rational effect}) --- efekt, kvůli němuž akt provádí. Příjemce
+  \emph{není povinen} RE naplnit (autonomie!) --- RE je jen důvod odesílatele.
+\end{itemize}
+Například pro $\langle i, \mathrm{inform}(j,\varphi)\rangle$:
+\[
+\text{FP: } B_i\varphi \wedge \neg B_i\big(\mathit{Bif}_j\varphi \vee \mathit{Uif}_j\varphi\big),
+\qquad
+\text{RE: } B_j\varphi .
+\]
+Tedy: \uv{já $\varphi$ věřím a~nevěřím, že už $j$ o~$\varphi$ ví (že by věděl, zda platí, či
+neplatí --- $\mathit{Bif}$ --- ani že by o~tom měl mínění s~nejistotou --- $\mathit{Uif}$);
+chci, aby $j$ uvěřil $\varphi$.}
+Pro $\langle i, \mathrm{request}(j,\alpha)\rangle$:
+$\text{FP: } \mathit{FP}(\alpha)[i \backslash j] \wedge B_i \mathrm{Agent}(j,\alpha)
+\wedge \neg B_i I_j \mathrm{Done}(\alpha)$, $\text{RE: } \mathrm{Done}(\alpha)$.
+
+\textbf{Praktický problém:} tato sémantika je neverifikovatelná --- nelze zvenčí ověřit,
+že agent skutečně věří tomu, co tvrdí (\emph{sincerity assumption}). To je známá slabina
+mentalistické sémantiky ACL; alternativou jsou \emph{sociální} sémantiky založené na veřejných
+závazcích (\emph{commitments}).
+\end{defbox}
+
+\subsection{Interakční protokoly}
+
+Jednotlivá zpráva nestačí; agenti vedou \textbf{konverzace} s~předepsanou strukturou.
+Interakční protokol (\emph{interaction protocol}) je vzor přípustných posloupností zpráv;
+FIPA jich standardizuje kolem tuctu (specifikace FIPA-IP, notace AUML).
+
+\begin{center}\small
+\begin{tabular}{p{0.26\textwidth} p{0.68\textwidth}}
+\toprule
+\textbf{Protokol} & \textbf{Průběh} \\
+\midrule
+\textbf{FIPA-Request}
+  & $I \to P$: \texttt{request}. $P \to I$: \texttt{refuse} (konec), nebo \texttt{agree};
+    po vykonání \texttt{inform-done} / \texttt{inform-result}, případně \texttt{failure}.
+    Odpovědí může být i~\texttt{not-understood}. \\
+\textbf{FIPA-Query}
+  & $I \to P$: \texttt{query-if} / \texttt{query-ref}. $P$: \texttt{refuse} nebo \texttt{agree},
+    dále \texttt{inform} s~výsledkem nebo \texttt{failure}. \\
+\textbf{FIPA-Contract-Net}
+  & viz níže: \texttt{cfp} $\to$ $n\times$(\texttt{propose} / \texttt{refuse}) $\to$
+    \texttt{accept-proposal} vítězi + \texttt{reject-proposal} ostatním $\to$
+    \texttt{inform-done} / \texttt{failure}. \\
+\textbf{FIPA-Iterated-Contract-Net}
+  & jako CNET, ale iniciátor může po přijetí nabídek vyhlásit \emph{další kolo}
+    \texttt{cfp} (vyjednávání o~lepších podmínkách). \\
+\textbf{FIPA-Subscribe}
+  & $I$: \texttt{subscribe}; $P$ posílá \texttt{inform} pokaždé, když se sledovaná
+    hodnota změní, dokud nepřijde \texttt{cancel}. \\
+\textbf{FIPA-Brokering / Recruiting}
+  & $I$ požádá zprostředkovatele (\emph{broker}), ten najde vhodné poskytovatele, deleguje
+    na ně požadavek a~výsledky vrátí (příp.\ je nechá odpovědět přímo). \\
+\textbf{Aukční protokoly}
+  & FIPA-English-Auction, FIPA-Dutch-Auction (viz kap.~\ref{sec:aukce}). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Poznámka k~návrhu.} Protokol určuje, jaké zprávy jsou v~daném stavu konverzace legální ---
+tím zavádí \emph{předvídatelnost} do jinak autonomního chování a~umožňuje implementovat agenta
+jako konečný automat nad stavy konverzace (přesně to dělá JADE třídami typu
+\texttt{AchieveREInitiator}, \texttt{ContractNetResponder} apod.).
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Komunikace agentů je \emph{akce}, ne volání metody --- příjemce není povinen vyhovět.
+\item Austin: řečové akty; lokuce / ilokuce / perlokuce; Searle: podmínky zdařilosti
+  a~pět kategorií (asertiva, direktiva, komisiva, expresiva, deklarace); performativní sloveso
+  + propoziční obsah.
+\item Cohen \& Perrault: sémantika řečových aktů ve stylu STRIPS (pre / efekt) s~modálními
+  operátory; umět napsat Request(S,H,A) a~Inform(S,H,$\varphi$) --- efektem Inform je
+  \emph{$H$ věří, že $S$ věří $\varphi$}.
+\item KQML (obálka) + KIF (obsah); parametry a~performativa; kritika (chybí commit, nejasná
+  sémantika).
+\item FIPA-ACL: struktura zprávy (performative, sender/receiver, content, language, ontology,
+  protocol, conversation-id, reply-by), 22 performativ, sémantika přes FP a~RE v~jazyce SL;
+  problém neverifikovatelnosti.
+\item Protokoly: FIPA-Request, FIPA-Query, Contract Net (+ iterovaný), Subscribe, Brokering,
+  aukční protokoly.
+\end{itemize}
+
+\section{Distribuované řešení problémů a~kooperace}
+\label{sec:cdps}
+
+\subsection{Koherence a~koordinace}
+
+Agenti mají různé cíle, jsou autonomní, pracují v~čase a~rozhodují se za běhu; musí být schopni
+\emph{dynamické koordinace}. Sdílejí přitom dvě věci: \textbf{úlohy} (\emph{task sharing})
+a~\textbf{informace} (\emph{result sharing}).
+
+\begin{defbox}[Koherence a~koordinace]
+\textbf{Koherence} (\emph{coherence}) --- jak dobře systém funguje \emph{jako celek}
+(kvalita řešení, efektivita využití zdrojů, degradace při poruchách).
+
+\textbf{Koordinace} (\emph{coordination}) --- jak dobře se agentům daří \emph{minimalizovat režii}
+spojenou se synchronizací: vyhnout se zbytečně duplicitní práci, konfliktům o~zdroje a~zbytečné
+komunikaci.
+
+Systém může být koherentní i~při špatné koordinaci (agenti udělají práci třikrát, ale výsledek
+je správný) --- za cenu plýtvání.
+\end{defbox}
+
+\begin{defbox}[CDPS --- \emph{Cooperative Distributed Problem Solving}]
+Lesser a~kol., 80.~léta. Kooperace jednotlivých agentů při řešení problému, který přesahuje
+jejich individuální schopnosti (informace, zdroje, výpočetní kapacitu).
+
+Klíčový předpoklad: agenti \emph{implicitně sdílejí společný cíl} a~nemají konflikty ---
+\textbf{benevolence}. Měřítkem úspěchu je \emph{výkon systému jako celku}; agent pomáhá celku,
+i~když je to pro něj samotného nevýhodné. Benevolence \emph{enormně zjednodušuje} návrh systému.
+\end{defbox}
+
+\begin{center}\small
+\begin{tabular}{p{0.14\textwidth} p{0.38\textwidth} p{0.40\textwidth}}
+\toprule
+& \textbf{Charakteristika} & \textbf{Rozdíl} \\
+\midrule
+\textbf{PPS} \newline (\emph{parallel problem solving})
+  & Bond, Gasser, 80.~léta; důraz na paralelní řešení, homogenní a~jednoduché procesory
+  & agenti nejsou autonomní, jde v~podstatě o~paralelní algoritmus \\
+\textbf{CDPS}
+  & heterogenní agenti se sofistikovanými schopnostmi, sdílený cíl, benevolence
+  & konflikty se neřeší, protože nevznikají \\
+\textbf{MAS}
+  & společnost agentů s~\emph{vlastními} cíli, které \emph{nesdílejí}
+  & je nutné řešit: proč a~jak kooperovat, jak identifikovat a~řešit konflikty, jak
+    vyjednávat a~smlouvat \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Sdílení úloh a~sdílení výsledků}
+
+\textbf{Obecný postup CDPS} má tři fáze:
+\begin{enumerate}
+\item \textbf{Dekompozice problému} --- hierarchická, rekurzivní. Otázky: \emph{jak} rozložit
+  a~\emph{kdo} rozklad provede. Krajní varianta --- model ACTORS: pro každý podproblém vznikne
+  nový agent, až na úroveň jednotlivých instrukcí.
+\item \textbf{Řešení podproblémů} --- agenti si během něj typicky sdílejí informace a~mohou
+  potřebovat synchronizovat akce.
+\item \textbf{Syntéza řešení} --- opět hierarchická, skládání dílčích výsledků.
+\end{enumerate}
+
+\textbf{Sdílení úloh} vyžaduje \emph{dohodu} agentů (kdo co udělá) --- typickým mechanismem
+je Contract Net. \textbf{Sdílení výsledků} může být \emph{proaktivní} (agent pošle výsledek,
+o~němž si myslí, že se bude hodit) nebo \emph{reaktivní} (pošle ho na vyžádání).
+
+\begin{defbox}[Přínosy sdílení výsledků]
+\begin{itemize}
+\item \textbf{Jistota} (\emph{confidence}) --- nezávislá řešení téhož problému lze porovnat;
+  shoda zvyšuje důvěru ve výsledek.
+\item \textbf{Úplnost} (\emph{completeness}) --- agenti sdílejí své \emph{lokální} pohledy
+  a~tím vzniká globálnější představa o~problému.
+\item \textbf{Přesnost} (\emph{precision}) --- sdílení může zpřesnit celkové řešení.
+\item \textbf{Včasnost} (\emph{timeliness}) --- zjevná výhoda distribuce: zkrácení času.
+\end{itemize}
+\end{defbox}
+
+\subsection{Contract Net}
+
+\begin{defbox}[Contract Net Protocol (CNET)]
+Smith a~Davis, 1977--1980. Metafora \textbf{sdílení úloh pomocí smluv} podle vzoru trhu:
+agent v~nouzi je \emph{manažer} (\emph{manager}), ostatní jsou \emph{dodavatelé}
+(\emph{contractors}). Čtyři fáze:
+\begin{enumerate}
+\item \textbf{Rozpoznání} (\emph{recognition}) --- agent zjistí, že má problém, který nezvládne
+  sám (chybí mu schopnost, zdroje, informace, nebo by to bylo horší řešení).
+\item \textbf{Ohlášení} (\emph{announcement}) --- rozešle (typicky broadcastem) oznámení úlohy:
+  \emph{popis úlohy} (může být i~spustitelný), \emph{omezení} (termín, cena, kvalita)
+  a~\emph{meta-informace} (kdo se smí hlásit).
+\item \textbf{Nabídky} (\emph{bidding}) --- příjemci se rozhodnou, zda mají zájem a~schopnosti,
+  a~pošlou nabídku (\emph{tender}) s~cenou / časem / kvalitou.
+\item \textbf{Přidělení a~realizace} (\emph{awarding, expediting}) --- manažer vybere vítěze,
+  uzavře s~ním smlouvu; ten úlohu vykoná a~vrátí výsledek.
+\end{enumerate}
+\textbf{Vlastnosti:} jednoduchý, decentralizovaný, robustní vůči výpadkům; dodavatel se
+může sám stát manažerem podúlohy, což vede k~\emph{hierarchickým kaskádám subkontraktů}.
+Dynamicky rozděluje zátěž. Je nejčastěji implementovaným koordinačním mechanismem vůbec
+(v~FIPA je standardizován jako FIPA-Contract-Net; v~JADE jako hotové chování).
+
+\textbf{Limity:} broadcast je drahý při mnoha agentech; předpokládá benevolenci (dodavatel
+nelže o~svých schopnostech) --- jinak je nutné použít aukční mechanismy odolné vůči manipulaci
+(kap.~\ref{sec:aukce}).
+\end{defbox}
+
+\subsection{Systémy s~tabulí (blackboard)}
+
+\begin{defbox}[Blackboard system (BBS)]
+Vůbec první schéma pro kooperativní řešení problémů (HEARSAY-II, rozpoznávání řeči, 70.~léta).
+Výsledky se sdílejí přes společnou datovou strukturu --- \textbf{tabuli} (\emph{blackboard}).
+
+Metafora: kolem tabule sedí několik expertů, kteří na ni mohou psát i~z~ní číst. Na tabuli
+se dynamicky objevují úlohy; jakmile některý expert vidí úlohu, kterou umí řešit, zapíše na
+tabuli částečné řešení. Takto se pokračuje, dokud se na tabuli neobjeví řešení celé úlohy.
+
+\textbf{Role:}
+\begin{itemize}
+\item \textbf{Tabule} --- sdílená paměť; typicky strukturovaná do několika \emph{úrovní
+  abstrakce} (hierarchie cílů a~akcí). Zásadní je formalismus reprezentace informace.
+\item \textbf{Experti} (\emph{knowledge sources}) --- agenti řešící konkrétní typ úlohy;
+  reagují na cíle na tabuli, svůj cíl přebírají z~tabule a~po vybrání vykonají akci.
+  Mají seznam schopností a~efektivitu.
+\item \textbf{Arbitr} (\emph{arbiter}, \emph{control component}) --- vybírá, který expert
+  smí k~tabuli. Může být čistě reaktivní, nebo může uvažovat plány a~maximalizovat očekávanou
+  utilitu. Odpovídá za řešení problému na vyšší úrovni.
+\end{itemize}
+\textbf{Nutnost vzájemného vyloučení} nad tabulí --- úzké hrdlo systému.
+\end{defbox}
+
+\textbf{Klady a~zápory BBS:}
+\begin{itemize}
+\item[$+$] Jednoduchý mechanismus koordinace, kooperace, sdílení úloh i~výsledků.
+\item[$+$] Experti o~sobě \emph{nemusí vědět} a~přesto spolupracují (\emph{loose coupling});
+  přidání experta nevyžaduje změnu ostatních.
+\item[$+$] Zprávy na tabuli lze přepisovat --- delegovat úlohy, vytvářet podúlohy, měnit experty.
+\item[$-$] Všichni agenti musí mít přístup k~tabuli a~sdílet stejnou architekturu; kolem tabule
+  bývá \uv{narváno} (částečně řeší distribuované hašovací tabulky).
+\end{itemize}
+
+\medskip
+\noindent\textbf{Příklad: BBWar.} Tabule je hašovací tabulka mapující požadované schopnosti na
+úlohy; \uv{otevřené mise} jsou publikovány na tabuli. Experti tvoří hierarchii: agent
+\emph{velitel} hledá úlohy typu \uv{dobyj město} (\texttt{ATTACK-CITY}) a~převádí je na
+několik úloh \uv{zaútoč na pozici} (\texttt{ATTACK-LOCATION}); vojáci různých typů si pak
+z~tabule vybírají mise, na které mají schopnosti.
+
+\medskip
+\noindent\textbf{Příklad: FELINE} (Wooldridge, Jennings, 1990) --- distribuovaný expertní systém
+z~doby před KQML a~ACL. Sdílení znalostí a~distribuce podúloh; každý agent je pravidlový systém,
+který si udržuje:
+\emph{Skills} --- \uv{umím dokázat/vyvrátit následující\dots} a~\emph{Interests} ---
+\uv{zajímá mě, zda následující platí\dots}. Komunikace je trojice
+(odesílatel, příjemce, obsah), kde obsah je hypotéza + řečový akt (request, response, inform).
+
+\subsection{Distribuované omezující podmínky (DisCSP a~DCOP)}
+
+CNET i~blackboard jsou \emph{protokoly}. Vedle nich stojí formální větev distribuovaného
+řešení problémů, kde je úloha zadána jako soustava omezení rozprostřená mezi agenty.
+
+\begin{defbox}[DisCSP a~DCOP]
+\textbf{Distribuovaný CSP} (\emph{distributed constraint satisfaction problem}): proměnné
+$x_1,\dots,x_n$ s~doménami $D_i$ jsou rozděleny mezi agenty (typicky jedna proměnná na agenta)
+a~omezení propojují proměnné \emph{různých} agentů. Hledá se přiřazení splňující všechna
+omezení; žádný agent přitom nevidí celý problém a~komunikuje jen se sousedy v~grafu omezení.
+
+\textbf{DCOP} (\emph{distributed constraint optimization}) je optimalizační varianta: omezení
+jsou \emph{měkká}, tj.\ zadaná funkcemi ceny $f_{ij}(x_i,x_j)$, a~maximalizuje se
+$\sum_{ij} f_{ij}$ --- tedy sociální blahobyt (kap.~\ref{sec:hry}).
+
+\textbf{Algoritmy:} \emph{ABT} (\emph{asynchronous backtracking}, Yokoo) --- agenti jsou
+uspořádáni, posílají si zprávy \texttt{ok?} (své přiřazení níž) a~\texttt{nogood}
+(zpět nahoru při konfliktu), přičemž naučené \emph{nogoods} zabraňují cyklení;
+\emph{ADOPT} (asynchronní, s~mezemi, optimální), \emph{DPOP} (dynamické programování nad
+pseudostromem --- lineárně mnoho zpráv, ale exponenciálně velké) a~\emph{Max-Sum}
+(šíření zpráv nad faktorovým grafem, přibližné, ale velmi škálovatelné).
+
+\textbf{Typické aplikace:} rozvrhování schůzek, přidělování sledovacích úkolů senzorům,
+alokace frekvencí, koordinace při MAPF. Na rozdíl od CDPS zde \emph{není} nutná benevolence:
+DCOP se dá kombinovat s~mechanismy z~kap.~\ref{sec:aukce}.
+\end{defbox}
+
+\subsection{Společné záměry a~sociální zákony}
+
+Co přesně znamená, že tým agentů něco dělá \emph{společně}? Odpovědí je multiagentní
+zobecnění commitmentu z~kap.~\ref{ssec:commitment}:
+
+\begin{defbox}[Teorie společných záměrů (\emph{joint intentions}, Cohen--Levesque)]
+Tým $G$ má \textbf{společný trvalý cíl} (\emph{joint persistent goal}) $\varphi$, pokud:
+(1)~všichni členové věří, že $\varphi$ zatím neplatí, a~chtějí, aby platil;
+(2)~je to mezi nimi vzájemně známo;
+(3)~každý člen drží cíl, dokud se nedozví, že $\varphi$ je \emph{splněn},
+\emph{nesplnitelný}, nebo \emph{irelevantní} --- a~kdo to zjistí, přebírá
+\textbf{závazek dát to vědět ostatním} (stav týmu se stává jeho individuálním cílem
+oznámit). Právě komunikační povinnost v~bodě (3) odlišuje týmovou činnost od náhodné
+shody individuálních záměrů (Searlův příklad: běžci, kteří se před deštěm rozeběhnou
+ke stejnému altánu, nejsou tým). Na teorii staví praktické modely týmové spolupráce:
+Jenningsův model \emph{společných závazků} (\emph{joint commitments})
+s~\emph{konvencemi} --- explicitními pravidly, kdy smí agent závazek opustit a~koho
+musí informovat --- a~systém \textbf{STEAM} (Tambe); alternativní formalizací je
+\emph{SharedPlans} (Grosz--Kraus).
+\end{defbox}
+
+\textbf{Sociální zákony a~konvence} (Shoham--Tennenholtz): koordinace nemusí probíhat
+za běhu komunikací --- lze ji zajistit \emph{offline} pravidly, která předem omezují
+akce všech agentů (vzorový příklad: \uv{jezdi vpravo}). Sociální zákon je
+\emph{užitečný}, pokud každému agentovi ponechává možnost dosáhnout jeho cílů;
+syntéza užitečného sociálního zákona je obecně NP-těžká. Konvence mohou také
+\emph{emergovat} zdola opakovanou interakcí (srov.\ Axelrodovy turnaje,
+kap.~\ref{sec:hry}). Wooldridge shrnuje čtyři základní koordinační techniky:
+\textbf{organizační strukturování} (role a~hierarchie, srov.\ Gaia,
+kap.~\ref{sec:metodologie}), \textbf{kontraktování} (CNET), \textbf{multiagentní
+plánování} a~\textbf{vyjednávání} (kap.~\ref{sec:aukce}).
+
+\subsection{Interakce agentů v~prostředí}
+
+Agenti si mohou navzájem pomáhat i~překážet, a~to i~\emph{bez komunikace}, prostě tím, že
+ovlivňují prostředí:
+\begin{itemize}
+\item Roboti mohou přenést cihlu, jen když tlačí ze dvou stran současně (pozitivní interakce,
+  vyžaduje synchronizaci).
+\item Roboti se natlačí ke dveřím a~nemohou je otevřít (negativní interakce, vyžaduje koordinaci).
+\end{itemize}
+Agenti mohou vytvářet společenství, hierarchie i~nepřátelství. \textbf{Je nutné znát typy
+interakcí} v~konkrétním MAS --- jinak nelze navrhnout efektivní řídicí mechanismy.
+Nejjednodušší modelový případ, kterým se zabývá následující kapitola, je interakce dvou
+racionálních (sobeckých) agentů v~prostředí připomínajícím hru.
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Koherence (výkon celku) vs.\ koordinace (minimalizace synchronizační režie).
+\item CDPS: benevolence + sdílený cíl; odlišit od PPS (homogenní procesory, paralelní algoritmus)
+  a~od MAS (vlastní cíle, konflikty, vyjednávání).
+\item Tři fáze CDPS: dekompozice --- řešení podproblémů --- syntéza. Sdílení úloh (dohoda)
+  vs.\ sdílení výsledků (proaktivní/reaktivní) a~jeho čtyři přínosy: jistota, úplnost,
+  přesnost, včasnost.
+\item CNET: recognition --- announcement --- bidding --- awarding/expediting; manažer
+  a~dodavatel, hierarchické subkontrakty; standardizován jako FIPA-Contract-Net.
+\item BBS: tabule (hierarchie abstrakce, mutex), experti (skills), arbitr (výběr experta);
+  volná vazba mezi experty; úzké hrdlo přístupu k~tabuli.
+\item DisCSP / DCOP: proměnné a~omezení rozdělené mezi agenty, nikdo nevidí celý problém;
+  ABT (\texttt{ok?} / \texttt{nogood}), ADOPT, DPOP, Max-Sum; DCOP maximalizuje sociální
+  blahobyt.
+\item Společný trvalý cíl (joint persistent goal): tým drží cíl, dokud není splněn /
+  nesplnitelný / irelevantní, a~kdo to zjistí, musí to oznámit ostatním; sociální
+  zákony = offline koordinace omezením akcí (\uv{jezdi vpravo}).
+\end{itemize}
+
+\section{Interakce agentů a~teorie her}
+\label{sec:hry}
+
+\subsection{Sobecký agent}
+
+Proč by měl být agent upřímný ohledně svých schopností? Proč by měl dokončit přidělenou úlohu?
+Je-li systém homogenní (celý navržený námi), je benevolence dobrá strategie. Většinou ale systém
+obsahuje agenty s~různými zájmy --- konflikt mezi společným cílem a~cíli jednotlivců
+(např.\ řízení letového provozu: všichni chtějí bezpečnost, ale každá aerolinka chce přistát
+první). Někdy ani není zřejmé, co je společný zájem. Pak je lépe uvažovat \textbf{sobecké}
+(\emph{self-interested}) agenty.
+
+\begin{defbox}[Sobecký agent]
+Množina možných výsledků $O = \{o_1, o_2, \dots\}$ je \emph{společná} pro všechny agenty,
+ale preference nikoli: každý agent $i$ má vlastní \textbf{utilitní funkci}
+$u_i : O \to \mathbb{R}$, která výsledky uspořádá.
+
+\textbf{Strategické myšlení:} maximalizuj svou utilitu za předpokladu, že všichni ostatní
+jednají rovněž racionálně. Toto \emph{nemaximalizuje} společnou utilitu, ale je to
+\emph{robustní} strategie.
+
+\emph{Poznámka:} peníze nejsou dobrou utilitou pro člověka --- utilitní funkce peněz je nelineární
+a~liší se pro bohaté a~chudé.
+\end{defbox}
+
+\subsection{Hra v~normální formě}
+
+\begin{defbox}[Hra dvou hráčů v~normální formě]
+Agenti $i$ a~$j$ s~množinami akcí $A_i$, $A_j$. Výsledek je dán oběma:
+$e : A_i \times A_j \to O$. Agent volí \textbf{strategii} $s_i$:
+\begin{itemize}
+\item \textbf{ryzí} (\emph{pure}) --- deterministická volba jedné akce;
+\item \textbf{smíšená} (\emph{mixed}) --- rozdělení pravděpodobnosti nad ryzími strategiemi
+  (náhodný výběr).
+\end{itemize}
+Hru zapisujeme \textbf{výplatní maticí} (\emph{payoff matrix}): řádky = strategie hráče $i$,
+sloupce = strategie hráče $j$, buňka obsahuje dvojici $u_i / u_j$.
+
+Obecně: hra v~normální formě je trojice $\langle N, (A_i)_{i \in N}, (u_i)_{i \in N}\rangle$,
+kde $N$ je množina hráčů.
+\end{defbox}
+
+\begin{defbox}[Dominance]
+Strategie $s_i$ \textbf{silně dominuje} strategii $s_i'$, pokud dává agentovi $i$
+\emph{striktně} lepší výsledek proti \emph{všem} strategiím protihráče;
+\textbf{slabě dominuje}, pokud dává výsledek alespoň stejně dobrý proti všem a~striktně lepší
+alespoň proti jedné (tak dominanci definuje i~přednáška). Strategie je \textbf{dominantní},
+pokud dominuje všem ostatním strategiím agenta $i$.
+
+Rozdíl není akademický: pravdomluvnost ve Vickreyově aukci je jen \emph{slabě} dominantní
+(kap.~\ref{sec:aukce}).
+
+Racionální agent hraje dominantní strategii, existuje-li. \emph{Iterované odstraňování
+dominovaných strategií} (IESDS) je základní řešicí technika: dominovanou strategii nikdy nikdo
+nezahraje, lze ji tedy z~matice vyškrtnout, což může učinit dominovanými další strategie.
+Při odstraňování \emph{silně} dominovaných strategií nezáleží na pořadí a~výsledek je
+jednoznačný; u~\emph{slabě} dominovaných strategií na pořadí \textbf{záleží} a~lze přijít
+o~některá ekvilibria.
+\end{defbox}
+
+\begin{defbox}[Nashovo ekvilibrium]
+Dvojice strategií $(s_1^*, s_2^*)$ je v~\textbf{Nashově ekvilibriu}, pokud:
+\begin{itemize}
+\item hraje-li agent $i$ strategii $s_1^*$, je pro agenta $j$ nejlepší hrát $s_2^*$, a~zároveň
+\item hraje-li agent $j$ strategii $s_2^*$, je pro agenta $i$ nejlepší hrát $s_1^*$.
+\end{itemize}
+Tedy $s_1^*$ a~$s_2^*$ jsou \emph{vzájemně nejlepší odpovědi} (\emph{mutual best responses}).
+Obecně pro $n$ hráčů: profil $s^* = (s_1^*,\dots,s_n^*)$ je NE, pokud pro každého $i$ a~každou
+jeho strategii $s_i$ platí
+\[
+u_i(s_i^*, s_{-i}^*) \ge u_i(s_i, s_{-i}^*),
+\]
+kde $s_{-i}$ značí strategie všech ostatních. \textbf{Žádný hráč nemá jednostranný důvod se
+odchýlit.}
+
+Naivní hledání ekvilibrií pro $n$ agentů a~$m$ strategií vyžaduje projít $m^n$ profilů.
+Tato definice se týká \emph{ryzích} strategií --- ne každá hra má NE v~ryzích strategiích
+(kámen--nůžky--papír) a~některé hry jich mají více.
+\end{defbox}
+
+\begin{veta}[Nashova věta, 1950]
+Každá hra s~konečným počtem hráčů a~konečným počtem strategií má alespoň jedno Nashovo
+ekvilibrium \emph{ve smíšených strategiích}.
+\end{veta}
+
+\textbf{Výpočetní složitost.} Hledání NE je \emph{totální} vyhledávací problém (řešení vždy
+existuje, jde jen o~to ho najít). Od roku 2006 (Daskalakis, Goldberg, Papadimitriou) víme, že je
+\textbf{PPAD-úplný} --- velmi zjednodušeně řečeno \uv{o~něco méně beznadějné než NP-úplnost}
+(NP-úplnost pro problém, který má vždy řešení, ani nedává smysl).
+
+\begin{defbox}[Paretova efektivita a~sociální blahobyt]
+Profil strategií je \textbf{Pareto-optimální} (\emph{Pareto efficient}), pokud neexistuje jiný
+profil, který by zlepšil výsledek jednoho agenta, aniž by zhoršil výsledek některého jiného.
+Ne-Pareto-optimální řešení lze tedy zlepšit \uv{zadarmo}.
+
+\textbf{Sociální blahobyt} (\emph{social welfare}) profilu je součet utilit všech agentů:
+$\mathit{sw}(o) = \sum_{i \in N} u_i(o)$. Maximalizace sociálního blahobytu dává smysl
+v~kooperativních scénářích --- když jsou agenti z~jednoho týmu, mají jednoho vlastníka, řeší
+jednu úlohu; čím homogennější systém, tím lépe. Maximum sociálního blahobytu je vždy
+Pareto-optimální, opačně to neplatí.
+\end{defbox}
+
+\subsection{Klasické hry}
+
+\begin{defbox}[Vězňovo dilema (\emph{Prisoner's dilemma})]
+\begin{center}
+\begin{tabular}{c|cc}
+$i \backslash j$ & $C$ (spolupráce) & $D$ (zrada) \\
+\hline
+$C$ & $3/3$ & $0/4$ \\
+$D$ & $4/0$ & $1/1$ \\
+\end{tabular}
+\end{center}
+$C$ = \emph{cooperate}, spolupracovat se spolupachatelem; $D$ = \emph{defect}, udat ho a~dostat
+nižší trest. Kanonické značení výplat: $R$ (\emph{reward} za oboustrannou spolupráci),
+$P$ (\emph{punishment} za oboustrannou zradu), $T$ (\emph{temptation} --- zradím spolupracujícího),
+$S$ (\emph{sucker's payoff} --- jsem zrazen). Podmínky vězňova dilematu:
+\[
+T > R > P > S \qquad\text{a často navíc}\qquad 2R > T + S .
+\]
+\begin{itemize}
+\item $R > P$: oboustranná spolupráce je lepší než oboustranná zrada.
+\item $T > R$ a~$P > S$: \emph{zrada je dominantní strategie pro oba agenty}.
+\item $(D,D)$ je \textbf{jediné Nashovo ekvilibrium}.
+\item $(D,D)$ je zároveň \textbf{jediné ne-Pareto-optimální} řešení hry.
+\item $(C,C)$ maximalizuje sociální blahobyt ($3+3=6$).
+\end{itemize}
+\textbf{Racionalita každého jednotlivce tedy vede ke kolektivně nejhoršímu výsledku.}
+\end{defbox}
+
+\textbf{Důsledky vězňova dilematu:}
+\begin{itemize}
+\item \textbf{Tragédie obecní pastviny} (\emph{tragedy of the commons}): sdílený zdroj
+  (pastvina, rybolov, atmosféra) je vyčerpán, protože každý jednotlivec maximalizuje svůj užitek.
+\item Otázka, \emph{co vlastně znamená být racionální} --- a~zda jsou lidé racionální
+  (experimentálně lidé spolupracují častěji, než teorie předpovídá).
+\item \textbf{Stín budoucnosti} (\emph{shadow of the future}): v~\emph{iterovaném} vězňově
+  dilematu se situace mění.
+\end{itemize}
+
+\begin{defbox}[Iterované vězňovo dilema a~Axelrodovy turnaje]
+Hraje-li se PD \emph{konečněkrát a~oba to vědí}, zpětnou indukcí vyjde $D$ v~každém kole
+(v~posledním kole není důvod spolupracovat, tedy ani v~předposledním, \dots). Hraje-li se
+\emph{nekonečně} (nebo s~neznámým koncem, tj.\ s~pravděpodobností pokračování), stává se
+spolupráce racionální --- \emph{folk theorem}: každý výplatní profil lepší než minimax lze
+podepřít jako ekvilibrium opakované hry.
+
+Robert Axelrod uspořádal v~roce 1980 turnaje strategií pro iterované PD. Vyhrála (dvakrát)
+nejjednodušší přihlášená strategie \textbf{Tit For Tat} (TFT, \uv{půjčka za oplátku}):
+\emph{v~prvním kole spolupracuj, pak vždy zopakuj poslední tah soupeře}. Axelrod z~výsledků
+odvodil čtyři vlastnosti úspěšných strategií:
+\begin{itemize}
+\item \textbf{slušnost} (\emph{nice}) --- nezrazuj jako první;
+\item \textbf{odvetnost} (\emph{retaliating}) --- na zradu okamžitě odpověz;
+\item \textbf{odpouštění} (\emph{forgiving}) --- po návratu soupeře ke spolupráci mu odpusť;
+\item \textbf{nezávistivost} (\emph{non-envious}) --- neusiluj o~to porazit \emph{konkrétního}
+  soupeře; TFT nikdy nezískal víc bodů než jeho protihráč, a~přesto vyhrál turnaj.
+\end{itemize}
+Jako pátou vlastnost Axelrod uvádí \textbf{srozumitelnost} (\emph{clarity}): strategie musí být
+pro protihráče čitelná, jinak s~ní nelze navázat spolupráci.
+Slabina TFT: při šumu (chybně provedený tah) se dva TFT hráči zaseknou ve vzájemné odvetě ---
+proto varianty \emph{Generous TFT} (občas odpustí) a~\emph{Tit for Two Tats}.
+\end{defbox}
+
+\begin{defbox}[Koordinační hra]
+\begin{center}
+\begin{tabular}{c|cc}
+$i \backslash j$ & Balet & Zápas \\
+\hline
+Balet & $1/2$ & $0/0$ \\
+Zápas & $0/0$ & $2/1$ \\
+\end{tabular}
+\end{center}
+Známá též jako \emph{Battle of the Sexes} (BoS) nebo \emph{Bach or Stravinsky}. Výplaty podporují
+\emph{shodu} strategií, hráči se ale liší v~tom, na které shodě jim záleží víc.
+\begin{itemize}
+\item Nashova ekvilibria v~ryzích strategiích: (Balet, Balet) a~(Zápas, Zápas).
+\item Sociální blahobyt i~Paretova optimalita: opět obě tyto dvojice.
+\item \textbf{Smíšené NE}: každý hráč hraje svou \emph{preferovanější} možnost
+  s~pravděpodobností $2/3$ a~méně preferovanou s~$1/3$. Očekávaná utilita ve smíšeném
+  ekvilibriu je jen $2/3$ --- \emph{méně} než v~kterémkoli ryzím ekvilibriu.
+\end{itemize}
+
+\emph{Výpočet smíšeného NE (obecný recept pro hry $2\times2$):} hráč $j$ volí pravděpodobnost
+$q$ hraní Baletu tak, aby byl hráč $i$ \emph{indiferentní} mezi svými akcemi:
+\[
+u_i(\text{Balet}) = 1\cdot q + 0\cdot(1-q), \qquad u_i(\text{Zápas}) = 0\cdot q + 2\cdot(1-q).
+\]
+Rovnost $q = 2 - 2q$ dává $q = 2/3$, tj.\ hráč $j$ hraje Balet (svou preferovanou volbu)
+s~pravděpodobností $2/3$. Symetricky hráč $i$ hraje Zápas s~pravděpodobností $2/3$.
+Očekávaná utilita hráče $i$ je pak $1 \cdot \frac{2}{3} = \frac{2}{3}$.
+\textbf{Klíčové pravidlo: ve smíšeném NE volí každý hráč pravděpodobnosti tak, aby byl
+\emph{protihráč} indiferentní.}
+\end{defbox}
+
+\begin{defbox}[Antikoordinační hra]
+\begin{center}
+\begin{tabular}{c|cc}
+$i \backslash j$ & Chicken (uhnu) & Dare (nedám se) \\
+\hline
+Chicken & $5/5$ & $1/6$ \\
+Dare & $6/1$ & $0/0$ \\
+\end{tabular}
+\end{center}
+Známá též jako \emph{Chicken}, \emph{Hawk--Dove} nebo \emph{Snowdrift}. Výplaty podporují
+volbu \emph{různých} strategií. V~koordinačních hrách přináší sdílení zdroje prospěch všem;
+v~antikoordinačních hrách je sdílení nákladné (srážka aut).
+\begin{itemize}
+\item Nashova ekvilibria v~ryzích strategiích: (Chicken, Dare) a~(Dare, Chicken).
+\item Maximum sociálního blahobytu: (Chicken, Chicken) --- $5+5=10$, což \emph{není} NE
+  (oběma se vyplatí odchýlit se na Dare: $6 > 5$).
+\item \textbf{Symetrické smíšené NE}: hraje-li protihráč Chicken s~pravděpodobností $p$, je
+  $u_i(\text{Chicken}) = 5p + 1(1-p) = 1+4p$ a~$u_i(\text{Dare}) = 6p$; z~indiference
+  $1+4p = 6p$ plyne $p = 1/2$. Oba tedy hrají obě akce s~pravděpodobností $1/2$
+  a~očekávaná utilita je $3$ --- méně než $5$ při (Chicken, Chicken), ale nikdo se nemůže
+  jednostranně zlepšit.
+\end{itemize}
+\end{defbox}
+
+\medskip
+\noindent\textbf{Doplněk: hra bez ryzího NE.} \emph{Matching pennies} (a~stejně tak
+kámen--nůžky--papír) je hra s~nulovým součtem:
+\begin{center}
+\begin{tabular}{c|cc}
+$i \backslash j$ & Hlava & Orel \\
+\hline
+Hlava & $1/-1$ & $-1/1$ \\
+Orel & $-1/1$ & $1/-1$ \\
+\end{tabular}
+\end{center}
+Žádné ryzí NE neexistuje. Smíšené NE: oba hrají $(1/2, 1/2)$, očekávaná utilita $0$.
+Motiv je obdobný jako u~Condorcetova paradoxu z~následující kapitoly: individuálně racionální
+volby nemají \uv{stabilní} deterministický výsledek.
+
+\subsection{Kooperativní (koaliční) hry}
+
+Vše dosavadní byly hry \textbf{nekooperativní}: základní jednotkou je \emph{jednotlivec}
+a~jeho strategie, dohody nejsou vynutitelné. \textbf{Kooperativní} teorie her mění jednotku
+na \emph{skupinu} a~ptá se: kdo se s~kým spojí a~jak si rozdělí společný zisk. Pro MAS je to
+formální model tvorby týmů a~dělení odměny.
+
+\begin{defbox}[Koaliční hra s~přenositelnou utilitou]
+Dvojice $\langle N, v\rangle$, kde $N$ je množina agentů a~\textbf{charakteristická funkce}
+$v : 2^N \to \mathbb{R}$ přiřazuje každé \emph{koalici} $C \subseteq N$ hodnotu, kterou si
+její členové umějí zajistit vlastními silami ($v(\emptyset)=0$). Utilita je
+\emph{přenositelná}: hodnotu $v(C)$ lze mezi členy libovolně rozdělit (\uv{penězi}).
+
+Hra je \textbf{superaditivní}, pokud $v(C \cup D) \ge v(C) + v(D)$ pro disjunktní $C,D$ ---
+pak se vždy vyplatí vytvořit \emph{velkou koalici} $N$ a~zbývá jen otázka dělení.
+
+\textbf{Řešení} je vektor $(x_1,\dots,x_n)$ s~$\sum_i x_i = v(N)$ (\emph{feasibility}).
+\end{defbox}
+
+\begin{defbox}[Jádro a~Shapleyho hodnota]
+\textbf{Jádro} (\emph{the core}) --- množina rozdělení, která \emph{žádná} koalice nechce
+opustit:
+\[
+\text{core} = \Big\{ x : \sum_{i \in N} x_i = v(N) \ \wedge\
+\forall C \subseteq N:\ \sum_{i \in C} x_i \ge v(C) \Big\}.
+\]
+Jde o~obdobu Nashova ekvilibria pro skupiny (\emph{stabilita}). Jádro ale může být
+\textbf{prázdné} --- pak žádné stabilní rozdělení neexistuje --- a~může být i~velmi velké,
+takže neříká, které rozdělení je \emph{férové}.
+
+\textbf{Shapleyho hodnota} (1953) --- odpověď na otázku férovosti. Agent dostane svůj
+\emph{průměrný mezní příspěvek} přes všechna pořadí, v~nichž se koalice může skládat:
+\[
+\varphi_i(v) = \sum_{C \subseteq N \setminus \{i\}}
+\frac{|C|!\,(|N|-|C|-1)!}{|N|!}\,\big(v(C \cup \{i\}) - v(C)\big).
+\]
+Je to \emph{jediné} rozdělení splňující současně: efektivitu ($\sum_i \varphi_i = v(N)$),
+symetrii (zaměnitelní agenti dostanou totéž), \emph{dummy} (agent s~nulovým mezním
+příspěvkem dostane nic) a~aditivitu.
+
+\emph{Příklad (rukavice):} agenti 1 a~2 mají levou rukavici, agent 3 pravou; pár má hodnotu 1,
+jednotlivá rukavice 0. Tedy $v(\{1,3\}) = v(\{2,3\}) = v(N) = 1$, jinak 0. Jádro obsahuje
+\emph{jediný} bod $(0,0,1)$ --- agent 3 si vezme vše, protože o~něj mají 1 a~2 nouzi.
+Shapleyho hodnota je $(1/6,\,1/6,\,2/3)$ --- férovější, ale nestabilní.
+
+\textbf{Výpočetní stránka} (proč to zajímá MAS): charakteristická funkce má $2^n$ hodnot, takže
+už její \emph{reprezentace} je problém (používají se kompaktní jazyky, hry nad grafy);
+rozhodnout neprázdnost jádra i~spočítat Shapleyho hodnotu je obecně těžké,
+a~úloha \emph{coalition structure generation} (najít optimální rozklad na koalice, když hra
+není superaditivní) je NP-těžká.
+\end{defbox}
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Sobecký agent maximalizuje \emph{svoji} očekávanou utilitu za předpokladu, že ostatní
+  dělají totéž; společná utilita se tím nemaximalizuje.
+\item Hra v~normální formě, ryzí vs.\ smíšené strategie, dominance a~dominantní strategie,
+  iterované odstraňování dominovaných strategií.
+\item \textbf{Nashovo ekvilibrium} = vzájemně nejlepší odpovědi, nikdo nemá důvod se jednostranně
+  odchýlit; naivní hledání $m^n$; \textbf{Nashova věta} (existence ve smíšených strategiích);
+  hledání je PPAD-úplné.
+\item \textbf{Paretova optimalita} (nelze zlepšit jednomu, aniž by se jinému přitížilo)
+  vs.\ \textbf{sociální blahobyt} (součet utilit); maximum sw je Pareto-optimální, obráceně ne.
+\item \textbf{Vězňovo dilema}: $T>R>P>S$; $D$ dominantní; $(D,D)$ jediné NE a~jediné
+  ne-Pareto-optimální; $(C,C)$ maximalizuje sw. Tragedy of the commons.
+  Iterované PD, stín budoucnosti, Axelrod a~TFT (slušná, odvetná, odpouštějící, srozumitelná).
+\item \textbf{Koordinační hra} (BoS): dvě ryzí NE + smíšené $2/3$--$1/3$ s~horší utilitou;
+  \textbf{antikoordinační} (Chicken): dvě asymetrická NE, sw maximalizuje ne-ekvilibriový profil.
+\item Umět spočítat smíšené NE pro $2\times2$: pravděpodobnosti volím tak, aby byl
+  \emph{protihráč} indiferentní.
+\item \textbf{Kooperativní hry}: charakteristická funkce $v : 2^N \to \mathbb{R}$,
+  superaditivita a~velká koalice; \textbf{jádro} (žádná koalice nechce odejít, může být
+  prázdné) vs.\ \textbf{Shapleyho hodnota} (průměrný mezní příspěvek; efektivita, symetrie,
+  dummy, aditivita). Příklad s~rukavicemi: jádro $(0,0,1)$, Shapley $(1/6,1/6,2/3)$.
+\end{itemize}
+
+\section{Sociální volba a~volby}
+\label{sec:volby}
+
+\subsection{Agregace preferencí}
+
+Předchozí kapitola řešila, jak se agenti chovají, mají-li protichůdné zájmy. Nyní se ptáme
+opačně: jak z~individuálních preferencí \emph{odvodit} kolektivní rozhodnutí. To je předmětem
+\textbf{teorie sociální volby} (\emph{social choice theory}).
+
+\begin{defbox}[Sociální blahobyt vs.\ sociální volba]
+\textbf{Funkce sociálního blahobytu} (\emph{social welfare function}) agreguje individuální
+preference do \emph{úplného uspořádání} kandidátů $>_{sw}$.
+
+\textbf{Funkce sociální volby} (\emph{social choice function}) vybírá jen \emph{jednoho}
+vítěze (nebo množinu vítězů).
+
+\emph{Příklad:} voliči $A: o_2 > o_1 > o_3$, $B: o_3 > o_2 > o_1$, $C: o_2 > o_3 > o_1$.
+Sociální blahobyt: $o_2 > o_3 > o_1$. Sociální volba: $o_2$.
+\end{defbox}
+
+\begin{defbox}[Hlasovací lístek a~preferenční plán]
+\textbf{Hlasovací lístek} (\emph{ballot}) --- jak volič vyjadřuje své preference. Tradičně:
+\uv{vyber svého favorita ze seznamu}. \textbf{Preferenční lístek} (\emph{preference ballot})
+--- volič seřadí \emph{všechny} možnosti podle preference.
+
+Jednotlivé lístky se sloučí do \textbf{preferenčního plánu} (\emph{preference schedule});
+z~něj \textbf{volební schéma} (\emph{voting scheme}) určí vítěze.
+\end{defbox}
+
+\subsection{Volební systémy}
+
+\begin{itemize}
+\item \textbf{Většinový} (\emph{majority}) --- vítěz získá více než 50~\% hlasů; pro dva
+  kandidáty triviální.
+\item \textbf{Prostá většina} (\emph{plurality}) --- kandidát dostane bod za každé první místo,
+  vyhrává ten s~nejvíce body; v~praxi lístek obsahuje jen první volbu, při rovnosti následuje
+  \emph{run-off} dvou nejlepších.
+\item \textbf{Prostá většina s~vyřazováním} (\emph{plurality with elimination}, \emph{instant
+  runoff}) --- opakovaně vyřaď kandidáta s~nejméně prvními místy a~\emph{přerozděl} jeho hlasy
+  na další volbu příslušných voličů, dokud vítěz nemá většinu. Využívá už zaznamenané preference
+  bez druhého kola a~potlačuje neupřímné hlasování (Australská sněmovna, MOV).
+\item \textbf{Sekvenční většinové volby} (\emph{sequential majority}) --- kandidáti hrají
+  v~dvojicích turnajová kola, vítěz postupuje (pavouk). \emph{Pořadí zápasů ovlivňuje výsledek}
+  (agenda setting).
+\item \textbf{Condorcetova metoda} --- simuluj \emph{všechny} párové souboje; drahé a~nemusí
+  dát vítěze.
+\item \textbf{Bordova metoda} (\emph{Borda count}) --- každý volič odevzdá úplné preference,
+  kandidát dostane $N-1$ bodů za první místo, $N-2$ za druhé, \dots, $0$ za poslední, body se
+  sečtou. Jde spíše o~\emph{konsenzuální} než většinové hlasování (Slovinsko, Nauru, Island,
+  akademické instituce).
+\item \textbf{Slaterův systém} --- z~párových většinových soubojů sestav turnajový graf a~hledej
+  \emph{acyklické} uspořádání minimalizující počet obrácených hran. \textbf{NP-těžké}.
+\item \textbf{Kombinace s~Bordou} (všechny dávají Condorcetova vítěze, existuje-li):
+  \emph{Black} (Condorcetova metoda, jinak Bordův vítěz); \emph{Baldwin} (opakovaně vyřaď
+  kandidáta s~nejnižším Bordovým skóre a~přepočítej); \emph{Nanson} (opakovaně vyřaď všechny
+  kandidáty pod průměrem).
+\end{itemize}
+
+\medskip
+\noindent\textbf{Vítěz prosté většiny nemusí být vítězem většinovým.} Příklad:
+$o_1$ --- 40~\%, $o_2$ --- 30~\%, $o_3$ --- 30~\%. Vítězí $o_1$, ale 60~\% voličů ho nechtělo.
+Vede to na \textbf{taktické (neupřímné) hlasování} (\emph{insincere / tactical voting}):
+jsou-li $o_2$ a~$o_3$ podobní (ze stejné strany), budou voliči $o_2$ hlasovat pro $o_3$,
+aby porazili $o_1$. V~praxi se používá prostá většina s~podmínkou nadpoloviční většiny
+a~případným druhým kolem dvou nejlepších (české prezidentské a~senátní volby).
+
+\begin{defbox}[Condorcetův paradox]
+Existují situace, kdy \emph{ať zvolíme kterýkoli výsledek, většina voličů s~ním bude
+nespokojena}.
+
+\emph{Příklad:} $V_1: A > B > C$, \quad $V_2: B > C > A$, \quad $V_3: C > A > B$.
+Párové souboje: $A$ porazí $B$ (2:1), $B$ porazí $C$ (2:1), $C$ porazí $A$ (2:1).
+\textbf{Kolektivní preference je cyklická}, přestože všechny individuální preference jsou
+lineární. Neexistuje \emph{Condorcetův vítěz}.
+
+Situace je obdobná jako neexistence Nashova ekvilibria v~ryzích strategiích u~hry
+kámen--nůžky--papír: individuálně racionální (lineární) preference se skládají do cyklu,
+který nemá stabilní deterministický vrchol. Nejde o~formální redukci, ale o~stejný motiv.
+
+Marquis de Condorcet (1743--94), francouzský filozof a~matematik, aktivní ve Francouzské
+revoluci, zemřel ve vězení. Navrhl několik \emph{kritérií spravedlnosti} a~založil tak
+matematickou teorii voleb.
+\end{defbox}
+
+\subsection{Řešený příklad: jeden preferenční plán, čtyři vítězové}
+\label{ssec:volby-priklad}
+
+Typická zkoušková úloha: je dán preferenční plán, spočítejte vítěze podle jednotlivých
+systémů. Následující plán je zvolen tak, aby \emph{čtyři} systémy daly \emph{čtyři různé}
+vítěze. Kandidáti $A, B, C, D$, celkem 17 voličů:
+
+\begin{center}\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Počet voličů} & 5 & 6 & 4 & 2 \\
+\midrule
+1.\ místo & $A$ & $C$ & $D$ & $B$ \\
+2.\ místo & $D$ & $B$ & $B$ & $A$ \\
+3.\ místo & $B$ & $D$ & $A$ & $C$ \\
+4.\ místo & $C$ & $A$ & $C$ & $D$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textbf{1. Prostá většina (plurality).} První místa: $C\,{=}\,6$, $A\,{=}\,5$,
+$D\,{=}\,4$, $B\,{=}\,2$. \textbf{Vítěz $C$} (nikdo nemá nadpoloviční většinu, tj.\ 9 hlasů).
+
+\medskip
+\noindent\textbf{2. Prostá většina s~vyřazováním (IRV).}
+\begin{itemize}
+\item Kolo 1: nikdo nemá 9 hlasů; vyřadíme $B$ (2 první místa). Jeho voliči
+  ($B\!>\!A\!>\!C\!>\!D$) mají jako další volbu $A$: $A = 5+2 = 7$, $C = 6$, $D = 4$.
+\item Kolo 2: stále nikdo nemá 9; vyřadíme $D$ (4). Jeho voliči ($D\!>\!B\!>\!A\!>\!C$)
+  mají po vyřazení $B$ další volbu $A$: $A = 7+4 = 11$, $C = 6$.
+\item $A$ má 11 z~17, tj.\ většinu --- \textbf{vítěz $A$}.
+\end{itemize}
+
+\medskip
+\noindent\textbf{3. Bordova metoda} (4 kandidáti, tedy $3/2/1/0$ bodů):
+\begin{align*}
+A &= 5\cdot3 + 6\cdot0 + 4\cdot1 + 2\cdot2 = 23, &
+B &= 5\cdot1 + 6\cdot2 + 4\cdot2 + 2\cdot3 = 31, \\
+C &= 5\cdot0 + 6\cdot3 + 4\cdot0 + 2\cdot1 = 20, &
+D &= 5\cdot2 + 6\cdot1 + 4\cdot3 + 2\cdot0 = 28 .
+\end{align*}
+\textbf{Vítěz $B$} (kontrola součtu: $23{+}31{+}20{+}28 = 102 = 17\cdot(3{+}2{+}1{+}0)$).
+
+\medskip
+\noindent\textbf{4. Párové souboje (Condorcet).} Stačí projít souboje kandidáta $D$:
+\[
+D : A = 10 : 7, \qquad D : B = 9 : 8, \qquad D : C = 9 : 8 .
+\]
+(Např.\ $D$ vs.\ $B$: pro $D$ hlasují skupiny \uv{4} a~\uv{5} $= 9$, pro $B$ skupiny
+\uv{6} a~\uv{2} $= 8$.) Kandidát $D$ poráží všechny --- je \textbf{Condorcetovým vítězem},
+a~vyhrál by tedy i~\emph{sekvenční většinové volby} při libovolném pavouku.
+Zbylé souboje dávají $B\!:\!A = 12\!:\!5$, $B\!:\!C = 11\!:\!6$, $A\!:\!C = 11\!:\!6$,
+takže turnajový graf je acyklický a~Slaterovo uspořádání je $D > B > A > C$ (bez obrácených
+hran).
+
+\medskip
+\noindent\textbf{Co si z~příkladu odnést.}
+\begin{itemize}
+\item Týž preferenční plán dává \textbf{čtyři různé vítěze}: plurality $C$, IRV $A$,
+  Borda $B$, Condorcet/sekvenční $D$. \uv{Kdo vyhrál volby} tedy není vlastnost voličů,
+  ale volby \emph{pravidel}.
+\item Vítěz prosté většiny $C$ je zde dokonce \textbf{Condorcetův poražený} --- prohrává
+  \emph{každý} párový souboj ($11\!:\!6$, $11\!:\!6$, $9\!:\!8$). To je nejsilnější možná
+  ilustrace, proč plurality nesplňuje podmínku Condorcetova vítěze.
+\item Ani Borda, ani IRV Condorcetova vítěze $D$ nezvolily --- ani jeden z~nich podmínku
+  Condorcetova vítěze nesplňuje. Právě proto vznikly kombinace Black / Baldwin / Nanson.
+\item Bordovo pořadí ($B > D > A > C$) se liší od pořadí podle párové většiny
+  ($D > B > A > C$) --- rozdíl mezi \emph{konsenzuálním} a~\emph{většinovým} hlasováním.
+\end{itemize}
+Rozdílné výsledky téhož plánu jsou konkrétní podobou toho, co obecně říká Arrowova věta.
+
+\subsection{Vlastnosti volebních systémů}
+
+\begin{defbox}[Kritéria]
+\textbf{Paretova podmínka} (\emph{Pareto property}, jednomyslnost): pokud \emph{každý} volič
+preferuje $X$ před $Y$, pak má platit $X >_{sw} Y$.
+\emph{Splňuje:} většinový systém a~Bordova metoda. \emph{Nesplňuje:} sekvenční většinové volby.
+
+\textbf{Podmínka Condorcetova vítěze}: kandidát, který porazí všechny ostatní v~párovém
+srovnání (\emph{Condorcetův vítěz}), má být celkovým vítězem.
+\emph{Splňuje:} sekvenční většinové volby a~Bordovy kombinace (Black, Baldwin, Nanson).
+\emph{Nesplňuje:} prostá většina, samotná Bordova metoda.
+
+\textbf{Nezávislost na irelevantních alternativách} (\emph{independence of irrelevant
+alternatives}, IIA): zda $X >_{sw} Y$, má záviset \emph{pouze} na relativním pořadí $X$ a~$Y$
+v~preferencích voličů. Změní-li se pořadí jiných kandidátů $Z$, $W$, nesmí se relace mezi
+$X$ a~$Y$ obrátit.
+\emph{Nesplňuje:} prostá většina, sekvenční většinové volby ani Bordova metoda ---
+prakticky žádný běžný systém.
+
+\textbf{Neomezený definiční obor / univerzalita} (\emph{unrestricted domain}): systém musí
+připustit \emph{libovolné} preference \emph{všech} voličů (a~žádné jiné vstupy), a~pro ně
+deterministicky vrátit \emph{úplné} uspořádání společenských voleb.
+
+\textbf{Diktátorství} (\emph{dictatorship}): výsledek je určen preferencemi jediného voliče.
+\emph{Nediktátorství:} neexistuje volič $i$ takový, že kdykoli $i$ striktně preferuje $x$
+před $y$, je $x$ společensky zvoleno před $y$.
+\end{defbox}
+
+\begin{veta}[Arrowova věta o~nemožnosti, 1951]
+Pro tři a~více kandidátů neexistuje žádný preferenční volební systém, který by převedl
+individuální uspořádaná hodnocení na úplné a~tranzitivní společenské uspořádání a~zároveň
+splňoval všechna následující kritéria:
+\begin{itemize}
+\item neomezený definiční obor,
+\item nediktátorství,
+\item Paretovu efektivitu (jednomyslnost),
+\item nezávislost na irelevantních alternativách.
+\end{itemize}
+\end{veta}
+
+\textbf{Jednodušší (ekvivalentní) formulace:} pro volby s~více než dvěma kandidáty je jediná
+volební procedura splňující Paretovu podmínku a~IIA \emph{diktatura}, v~níž je společenský
+výsledek prostě dán jedním z~voličů.
+
+\textbf{Interpretace.} Jde o~\emph{negativní} výsledek ukazující zásadní limity kolektivního
+rozhodování. Rozhodně z~něj \emph{neplyne}, že jediným funkčním systémem je diktatura ---
+plyne z~něj, že každý reálný volební systém musí některé z~kritérií obětovat (nejčastěji IIA)
+a~že se každý systém dá v~nějaké situaci manipulovat.
+
+\medskip
+\noindent\textbf{Gibbardova--Satterthwaiteova věta} (doplněk): každá funkce sociální volby
+pro tři a~více kandidátů, která je \emph{surjektivní} a~\emph{nediktátorská}, je
+\textbf{manipulovatelná} --- existuje situace, kdy se voliči vyplatí hlasovat neupřímně.
+To je pro MAS zásadní: agent je počítač, taktické hlasování mu nedělá morální problém.
+Proto se v~MAS hledají mechanismy \emph{odolné vůči manipulaci} (\emph{strategy-proof}),
+což je téma následující kapitoly o~aukcích.
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Sociální blahobyt (úplné uspořádání) vs.\ sociální volba (jeden vítěz);
+  ballot a~preferenční plán.
+\item Systémy: majority, plurality, plurality with elimination (IRV), sekvenční většinové
+  (pořadí rozhoduje), Condorcetova metoda, Borda ($N-1,\dots,0$), Slater (NP-těžký),
+  kombinace Black / Baldwin / Nanson.
+\item \textbf{Condorcetův paradox}: $A>B>C$, $B>C>A$, $C>A>B$ dává cyklickou kolektivní
+  preferenci; Condorcetův vítěz nemusí existovat.
+\item Umět odpracovat preferenční plán (sekce~\ref{ssec:volby-priklad}): týž plán dá
+  plurality $C$, IRV $A$, Bordu $B$ a~Condorceta $D$ --- a~vítěz prosté většiny může být
+  Condorcetův \emph{poražený}.
+\item Kritéria: Pareto (má majority a~Borda, nemá sekvenční), Condorcetův vítěz (má sekvenční
+  a~Bordovy kombinace), IIA (nemá skoro nic), univerzalita, nediktátorství.
+\item \textbf{Arrowova věta}: pro $\ge 3$ kandidáty nelze mít současně univerzalitu,
+  nediktátorství, Pareto a~IIA. Jednodušší verze: Pareto + IIA $\Rightarrow$ diktatura.
+\item Gibbard--Satterthwaite: každý rozumný volební systém lze manipulovat neupřímným
+  hlasováním.
+\end{itemize}
+
+\section{Alokace zdrojů, aukce a~vyjednávání}
+\label{sec:aukce}
+
+\subsection{Aukce jako mechanismus alokace zdrojů}
+
+\begin{defbox}[Aukce]
+Aukce je \textbf{tržní instituce}, v~níž zprávy od obchodníků obsahují cenovou informaci ---
+nabídku ke koupi za danou cenu (\emph{bid}), nebo nabídku k~prodeji za danou cenu (\emph{ask})
+--- a~která dává přednost vyšším nabídkám ke koupi a~nižším nabídkám k~prodeji.
+
+V~MAS je aukce především \textbf{mechanismus, jak rozdělit vzácné zdroje mezi agenty}.
+\emph{Reálně:} eBay, Sotheby's, těžební povolení, frekvenční pásma pro mobilní operátory.
+\emph{V~informatice:} přidělení procesorového času, šířky pásma, výpočetních úloh,
+reklamních pozic.
+
+\textbf{Efektivita aukce:} přidělí zdroj agentovi, který ho chce nejvíce (má nejvyšší ocenění).
+Prodávající chce \emph{maximalizovat} cenu, kupující \emph{minimalizovat}; každý kupující má
+vlastní utilitní funkci.
+\end{defbox}
+
+\begin{defbox}[Klasifikace aukcí]
+\textbf{Podle ocenění předmětu:}
+\begin{itemize}
+\item \emph{soukromá hodnota} (\emph{private value}) --- hodnota závisí jen na kupujícím
+  (lístek na koncert);
+\item \emph{společná hodnota} (\emph{common value}) --- hodnota je pro všechny stejná, jen ji
+  neznají (těžební práva) --- odtud \emph{prokletí vítěze} (\emph{winner's curse}):
+  vyhrává ten, kdo se nejvíce spletl směrem nahoru;
+\item \emph{korelovaná hodnota} --- kombinace.
+\end{itemize}
+\textbf{Podle protokolu:} vítěz platí první / druhou cenu; otevřené vyvolávání (\emph{open cry})
+vs.\ obálková metoda (\emph{sealed bid}); jedno kolo vs.\ více kol.
+\end{defbox}
+
+\subsection{Návrh mechanismů (\emph{mechanism design})}
+\label{ssec:mechanism}
+
+Aukce není jen \uv{jak se draží}; je to speciální případ obecnější úlohy. Teorie her se ptá
+\emph{jak se agenti zachovají při daných pravidlech}; \textbf{návrh mechanismů} je
+\uv{obrácená teorie her}: \emph{jaká pravidla zvolit, aby racionální sobečtí agenti sami
+od sebe dělali to, co chceme} --- typicky mluvili pravdu.
+
+\begin{defbox}[Mechanismus a~jeho žádoucí vlastnosti]
+\textbf{Mechanismus} je dvojice: \emph{pravidlo výběru výsledku}, které z~ohlášených
+preferencí agentů $\hat v = (\hat v_1,\dots,\hat v_n)$ vybere výsledek $x(\hat v)$,
+a~\emph{platební pravidlo} $p_i(\hat v)$. Užitek agenta je
+$u_i = v_i(x(\hat v)) - p_i(\hat v)$ (\emph{kvazilineární} utilita).
+Žádoucí vlastnosti:
+\begin{itemize}
+\item \textbf{Kompatibilita s~motivací} (\emph{incentive compatibility}, IC) --- agentovi se
+  vyplatí ohlásit pravdu, $\hat v_i = v_i$. Nejsilnější varianta: pravdomluvnost je
+  \emph{dominantní} strategie (\emph{strategy-proof}, DSIC) --- tak funguje Vickrey a~VCG.
+\item \textbf{Individuální racionalita} (\emph{individual rationality}) --- účastí nikdo
+  neproděl\'a ($u_i \ge 0$), jinak by se agenti nezúčastnili.
+\item \textbf{Efektivita} --- zvolený výsledek maximalizuje sociální blahobyt $\sum_i v_i(x)$.
+\item \textbf{Vyrovnaný rozpočet} (\emph{budget balance}) --- platby se \uv{nerozplynou}
+  ($\sum_i p_i = 0$, resp.\ nezáporný výnos pro pořadatele).
+\item \textbf{Výpočetní zvládnutelnost} --- výsledek i~platby musí jít spočítat
+  (typicky problém MAS, který ekonomii nezajímá).
+\end{itemize}
+Tyto vlastnosti nelze mít vždy všechny současně: Myersonova--Satterthwaiteova věta říká,
+že pro bilaterální obchod nelze mít zároveň IC, individuální racionalitu, efektivitu
+i~vyrovnaný rozpočet. VCG obětuje rozpočet, jiné mechanismy efektivitu.
+\end{defbox}
+
+\begin{defbox}[Princip odhalení (\emph{revelation principle})]
+Ke každému mechanismu, v~němž agenti hrají nějaké (třeba velmi složité) rovnovážné
+strategie, existuje \textbf{přímý} mechanismus, v~němž agenti prostě \emph{pravdivě ohlásí}
+své preference a~výsledek je stejný --- \uv{lhaní} se zabuduje dovnitř mechanismu.
+
+\emph{Důsledek pro nás:} při hledání dobrého mechanismu se stačí omezit na pravdomluvné
+přímé mechanismy. Proto se teorie točí kolem Vickreyho a~VCG.
+\emph{Meze:} Gibbardova--Satterthwaiteova věta (kap.~\ref{sec:volby}) ukazuje, že bez peněz
+(pouze s~ordinálními preferencemi) je pravdomluvný nediktátorský mechanismus nemožný ---
+teprve \emph{platby} v~kvazilineárním prostředí umožňují Vickreyho a~VCG obejít tuto bariéru.
+\end{defbox}
+
+\subsection{Čtyři základní typy aukcí}
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.15\textwidth}
+  >{\raggedright\arraybackslash}p{0.23\textwidth}
+  >{\raggedright\arraybackslash}p{0.24\textwidth}
+  >{\raggedright\arraybackslash}p{0.27\textwidth}@{}}
+\toprule
+\textbf{Aukce} & \textbf{Protokol} & \textbf{Racionální strategie} & \textbf{Poznámky} \\
+\midrule
+\textbf{Anglická}
+  & otevřené vyvolávání, \emph{rostoucí} cena, platí se první (nejvyšší) cena
+  & \emph{dominantní}: přihazovat po $\varepsilon$, dokud cena nedosáhne mého ocenění,
+    pak odejít
+  & Nejběžnější (starožitnosti, umění, internet --- asi 95~\% aukcí). Typický případ, kdy
+    kupující cenu přeplatí. \\
+\textbf{Holandská}
+  & otevřené vyvolávání, \emph{klesající} cena, první, kdo přijme, platí aktuální cenu
+  & dominantní strategie \emph{neexistuje}; čekat, až cena klesne těsně pod mé ocenění ---
+    ale je to hazard
+  & Rychlá; zboží podléhající zkáze (květiny, ryby). Oblíbená u~prodávajících.
+    Neumožňuje odhadnout tržní cenu ani preference ostatních. \\
+\textbf{FPSB} \newline (\emph{first-price sealed bid})
+  & jedno kolo, uzavřené obálky, vyhrává nejvyšší nabídka a~platí svou cenu
+  & dominantní strategie \emph{neexistuje}; nabídnout \emph{méně} než své ocenění
+    (\emph{bid shading}) --- optimum závisí na odhadu ostatních
+  & Prodej nemovitostí, státních dluhopisů. Nenutí kupující použít svou utilitní funkci,
+    neodhalí tržní cenu. \emph{Strategicky ekvivalentní holandské aukci.} \\
+\textbf{Vickreyova} \newline (\emph{second-price sealed bid})
+  & jedno kolo, uzavřené obálky, vyhrává nejvyšší nabídka, ale platí \emph{druhou} nejvyšší
+  & \emph{dominantní}: nabídnout \textbf{pravdivě} své ocenění
+  & Teoreticky nejoblíbenější; Google AdWords, filatelistické aukce.
+    \emph{Ekvivalentní anglické aukci} (se soukromými hodnotami). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{defbox}[Proč je pravdomluvnost dominantní strategií ve Vickreyově aukci]
+Nechť moje ocenění je $v$, nabídnu $b$ a~nejvyšší nabídka ostatních je $p$ (tu neznám).
+Vyhraji, právě když $b > p$, a~pak platím $p$; můj zisk je $v - p$.
+\begin{itemize}
+\item \textbf{Nabídnu $b > v$ (nadhodnotím):} oproti $b=v$ se něco změní jen když
+  $v < p < b$. Pak vyhraji, ale platím $p > v$ --- zisk $v - p < 0$. \emph{Škodí mi.}
+\item \textbf{Nabídnu $b < v$ (podhodnotím):} oproti $b=v$ se něco změní jen když
+  $b < p < v$. Pak prohraji, ačkoli bych vyhrál se ziskem $v - p > 0$. \emph{Přijdu o~zisk.}
+\item V~žádném případě \emph{nemohu} nabídkou $b \ne v$ získat oproti $b = v$ víc.
+\end{itemize}
+Tedy $b = v$ je (slabě) dominantní strategie --- bez ohledu na to, co dělají ostatní.
+Aukce je \textbf{odolná vůči manipulaci} (\emph{strategy-proof}, \emph{incentive compatible})
+a~zároveň \emph{efektivní} (vyhrává ten s~nejvyšším oceněním).
+\end{defbox}
+
+\medskip
+\noindent\textbf{Příklad --- srovnání výnosů.} Tři kupující s~oceněními
+$A = 80$~Kč, $B = 60$~Kč, $C = 30$~Kč. V~ideálním scénáři (bez dodatečné informace, bez
+podvádění) dopadnou aukce takto:
+\begin{center}\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Aukce} & \textbf{Vítěz} & \textbf{Cena} \\
+\midrule
+Anglická & $A$ & $\approx 61$ (přihazuje se, dokud neodstoupí $B$ na 60) \\
+Holandská & $A$ & $80$ nebo o~něco méně (79) --- $A$ nesmí riskovat, že přijme až pozdě \\
+FPSB & $A$ & $80$ (resp.\ $60+\varepsilon$, zná-li $A$ ocenění ostatních) \\
+Vickreyova & $A$ & $60$ (druhá nejvyšší nabídka) \\
+\bottomrule
+\end{tabular}
+\end{center}
+Ve všech případech získá předmět agent s~nejvyšším oceněním (aukce jsou \emph{efektivní}),
+liší se ale cena a~informace, kterou aukce odhalí.
+
+\emph{Proč u~FPSB vychází 80, když se má nabízet pod svým oceněním?} Protože scénář
+předpokládá \emph{nulovou} informaci o~ostatních: agent $A$ neví, jak vysoko půjde $B$,
+a~jakýkoli ústup od 80 riskuje prohru. Míra podhodnocení je funkcí přesvědčení o~ostatních
+--- proto FPSB (a~holandská aukce) \textbf{nemá dominantní strategii}. Zná-li $A$ ocenění
+ostatních, nabídne $60+\varepsilon$ a~výnos prodávajícího spadne na úroveň Vickreyovy aukce
+(srov.\ větu o~ekvivalenci výnosů níže). U~anglické a~Vickreyovy aukce naproti tomu
+dominantní strategie existuje a~nezávisí na tom, co dělají ostatní.
+
+\begin{defbox}[Věta o~ekvivalenci výnosů (\emph{revenue equivalence theorem})]
+Vickrey (1961), Myerson, Riley--Samuelson. Za předpokladů: rizikově neutrální kupující,
+nezávislé soukromé hodnoty ze stejného spojitého rozdělení, předmět získá kupující s~nejvyšším
+oceněním a~kupující s~nejnižším možným oceněním má nulový očekávaný zisk ---
+\textbf{všechny čtyři základní aukce dávají prodávajícímu stejný očekávaný výnos.}
+
+Rozdíly v~praxi tedy pramení z~porušení předpokladů: averze k~riziku (pak jsou lepší
+FPSB/holandská), společné hodnoty a~prokletí vítěze (pak je lepší anglická, protože odhaluje
+informaci), možnost koluze mezi kupujícími (anglická je zranitelnější), náklady na komunikaci
+(sealed bid je levnější).
+\end{defbox}
+
+\subsection{Kombinatorické aukce a~VCG}
+
+\begin{defbox}[Kombinatorická aukce]
+Draží se \emph{více předmětů současně} a~kupující podávají nabídky na \emph{podmnožiny}
+(\emph{bundles}). Motivace: hodnoty předmětů nejsou aditivní ---
+\emph{komplementarita} (levá a~pravá bota, dva sousední frekvenční bloky:
+$v(\{x,y\}) > v(x)+v(y)$) a~\emph{substituce} (dva letenky na tentýž let:
+$v(\{x,y\}) < v(x)+v(y)$).
+
+\textbf{Problém určení vítězů} (\emph{winner determination problem}, WDP): vybrat takovou
+množinu vzájemně disjunktních nabídek, která maximalizuje součet cen. Jde o~zobecnění
+množinového pakování --- \textbf{NP-těžký} problém (a~dokonce těžko aproximovatelný).
+Řeší se ILP solvery, větvením a~mezemi (CABOB, CPLEX).
+
+Druhý problém je \emph{reprezentační}: nabídek na podmnožiny je $2^m - 1$; používají se
+kompaktní jazyky (OR, XOR, OR-of-XOR).
+\end{defbox}
+
+\begin{defbox}[Mechanismus VCG (Vickrey--Clarke--Groves)]
+Zobecnění Vickreyovy aukce na libovolnou alokaci. Princip:
+\begin{enumerate}
+\item Každý agent $i$ ohlásí své ocenění $\hat v_i(\cdot)$.
+\item Zvolí se alokace $x^*$ maximalizující \emph{sociální blahobyt}
+  $\sum_i \hat v_i(x)$.
+\item Agent $i$ platí \textbf{externalitu, kterou způsobuje ostatním}:
+\[
+p_i \;=\; \underbrace{\max_{x} \sum_{j \ne i} \hat v_j(x)}_{\text{blahobyt ostatních, kdyby } i
+\text{ neexistoval}} \;-\; \underbrace{\sum_{j \ne i} \hat v_j(x^*)}_{\text{blahobyt ostatních
+při zvolené alokaci}} .
+\]
+\end{enumerate}
+\textbf{Vlastnosti:} pravdomluvnost je dominantní strategie (\emph{incentive compatible}),
+alokace maximalizuje sociální blahobyt (\emph{efficient}), agenti mají nezáporný zisk
+(\emph{individually rational}). Pro jeden předmět se VCG redukuje přesně na Vickreyovu aukci.
+
+\textbf{Nevýhody:} výpočetní náročnost (nutno vyřešit WDP $n+1$-krát), možný nulový nebo záporný
+výnos prodávajícího, zranitelnost vůči koluzi a~falešným identitám (\emph{shill bidding}),
+a~nutnost odhalit svá skutečná ocenění (problém soukromí).
+\end{defbox}
+
+\medskip
+\noindent\textbf{Příklad VCG.} Draží se předměty $\{x, y\}$. Nabídky:
+agent 1: $\{x\} \to 5$; agent 2: $\{y\} \to 4$; agent 3: $\{x,y\} \to 8$.
+\begin{itemize}
+\item Optimální alokace: $x \to$ agent 1, $y \to$ agent 2, celkový blahobyt $5+4=9 > 8$.
+\item Platba agenta 1: bez agenta 1 by byla nejlepší alokace \uv{$\{x,y\} \to$ agent 3}
+  s~hodnotou $8$; s~alokací $x^*$ mají ostatní hodnotu $4$ (jen agent 2).
+  Tedy $p_1 = 8 - 4 = 4$. Zisk agenta 1 je $5 - 4 = 1$.
+\item Symetricky $p_2 = 8 - 5 = 3$, zisk agenta 2 je $4-3=1$.
+\item Celkový výnos prodávajícího $4+3 = 7$, což je \emph{méně} než $8$, co nabízel agent 3 ---
+  typická ukázka, že VCG nemaximalizuje výnos prodávajícího.
+\end{itemize}
+
+\subsection{Další typy aukcí a~alokace zdrojů}
+
+\begin{itemize}
+\item \emph{All-pay auction} --- platí všichni, vyhrává nejvyšší nabídka; model lobbingu,
+  úplatků, sportovních klání a~patentových závodů.
+\item \emph{Tichá} --- písemná varianta anglické. \emph{Amsterodamská} --- začne jako anglická,
+  zbudou-li dva zájemci, přepne se na holandskou s~dvojnásobnou cenou.
+  \emph{Tsukiji} (tokijský rybí trh) --- všichni nabídnou najednou, remízy se řeší
+  kámen--nůžky--papír.
+\item \emph{Dvojitá aukce} --- nabídky zadávají kupující i~prodávající a~párují se; model burzy.
+\end{itemize}
+
+\begin{defbox}[Alokace zdrojů obecně (MARA)]
+\emph{Multiagent resource allocation}: rozdělit množinu zdrojů mezi agenty podle jejich preferencí.
+Aukce je jen jedním z~mechanismů (\emph{tržní}); jinými jsou centralizovaná optimalizace,
+vyjednávání nebo férové dělení. Kritéria kvality alokace:
+\begin{itemize}
+\item \textbf{utilitární} --- maximalizuje $\sum_i u_i$ (sociální blahobyt);
+\item \textbf{egalitářské} --- maximalizuje $\min_i u_i$ (nejhůř postavený agent);
+\item \textbf{Nashův blahobyt} --- maximalizuje $\prod_i u_i$ (kompromis);
+\item \textbf{proporcionalita} --- každý z~$n$ agentů dostane alespoň $1/n$ své celkové hodnoty;
+\item \textbf{beze závisti} (\emph{envy-freeness}) --- žádný agent nepreferuje příděl jiného
+  agenta před svým.
+\end{itemize}
+Pro dělitelné zdroje (\uv{dělení dortu}) existují klasické protokoly
+(\emph{cut and choose} pro dva agenty, \emph{Dubins--Spanier} pro $n$); pro nedělitelné
+předměty jsou proporcionalita i~envy-freeness obecně nedosažitelné.
+\end{defbox}
+
+\subsection{Vyjednávání}
+
+Aukce vyžaduje centrálního aukcionáře. Alternativou je přímé \textbf{vyjednávání}
+(\emph{negotiation}) mezi agenty. Klasický model:
+
+\begin{defbox}[Monotónní protokol ústupků a~Zeuthenova strategie]
+\textbf{Vyjednávací množina} (\emph{negotiation set}) --- individuálně racionální
+a~Pareto-optimální dohody.
+
+\textbf{Monotónní protokol ústupků} (\emph{monotonic concession protocol}): v~každém kole
+oba agenti současně navrhnou dohodu. Skončí, pokud návrh jednoho je pro druhého alespoň tak dobrý
+jako jeho vlastní návrh; jinak musí v~dalším kole alespoň jeden \emph{ustoupit} (navrhnout
+dohodu, která je pro protějšek lepší), jinak vyjednávání ztroskotá.
+
+\textbf{Zeuthenova strategie} odpovídá na otázku \emph{kdo má ustoupit}: ten, kdo má
+menší \uv{ochotu riskovat} konflikt,
+\[
+\mathrm{Risk}_i = \frac{u_i(\text{vlastní návrh}) - u_i(\text{návrh protějšku})}
+{u_i(\text{vlastní návrh})},
+\]
+tedy poměr toho, co ztratí přijetím cizího návrhu, k~tomu, co by ztratil konfliktem.
+Ustupuje agent s~\emph{nižším} $\mathrm{Risk}$. Ustoupit má právě tak málo, aby se poměry
+obrátily. Dvojice Zeuthenových strategií je v~Nashově ekvilibriu, výsledná dohoda maximalizuje
+\emph{Nashovo vyjednávací řešení} (součin utilit).
+\end{defbox}
+
+Rosenschein a~Zlotkin zavedli pro tento typ vyjednávání formalismus
+\textbf{úlohově orientovaných domén} (\emph{task-oriented domains}, TOD): dvojici
+agentů jsou přiděleny množiny úloh, \emph{dohoda} (\emph{deal}) $\delta$ je
+přerozdělení úloh mezi ně a~užitek $u_i(\delta)$ jsou náklady, které agent dohodou
+ušetří oproti samostatnému splnění vlastních úloh; \emph{konfliktní dohoda} $\Theta$
+znamená, že se nedohodnou a~každý si nese své úlohy sám. V~TOD se může vyplatit
+\textbf{klamání}: agent může deklarovat \emph{fantomové} (\emph{phantom})
+a~\emph{návnadové} (\emph{decoy}) úlohy, které nemá (aby vypadal zatíženější
+a~ustupoval méně), nebo naopak část svých úloh \emph{zamlčet} (\emph{hidden tasks});
+zda se lhaní vyplatí, závisí na strukturních vlastnostech domény. Dalšími modely
+vyjednávání jsou \textbf{Rubinsteinův protokol střídavých nabídek}
+(\emph{alternating offers}), kde trpělivost agentů modeluje diskontní faktor
+a~v~ekvilibriu se dohoda uzavře hned v~prvním kole, a~\emph{argumentační
+vyjednávání}, kde agenti kromě návrhů vyměňují i~důvody (hrozby, sliby, apely).
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Aukce = mechanismus alokace vzácných zdrojů; efektivní aukce dá zdroj tomu, kdo ho oceňuje
+  nejvíc. Dimenze: private/common value, open cry/sealed bid, first/second price, počet kol.
+\item \textbf{Návrh mechanismů} = obrácená teorie her (navrhuji pravidla, ne strategii).
+  Vlastnosti: kompatibilita s~motivací, individuální racionalita, efektivita, vyrovnaný
+  rozpočet, vypočitatelnost --- nelze mít vše najednou. \textbf{Princip odhalení}: stačí
+  uvažovat přímé pravdomluvné mechanismy. Bez plateb naráží na
+  Gibbarda--Satterthwaita.
+\item Čtyři základní typy a~jejich strategie: anglická (přihazuj po $\varepsilon$
+  do svého ocenění) a~Vickrey (nabídni pravdivě) mají \emph{dominantní} strategii;
+  holandská (čekej na ocenění $-\varepsilon$) a~FPSB (nabídni pod svým oceněním)
+  dominantní strategii \textbf{nemají}. Umět \textbf{důkaz pravdomluvnosti} Vickreyho.
+\item Ekvivalence: anglická $\leftrightarrow$ Vickreyova, holandská $\leftrightarrow$ FPSB.
+  \textbf{Věta o~ekvivalenci výnosů} a~kdy neplatí (averze k~riziku, common values,
+  prokletí vítěze, koluze).
+\item Umět příklad s~oceněními 80/60/30 a~vypočítat cenu ve všech čtyřech aukcích.
+\item Kombinatorické aukce: nabídky na podmnožiny (komplementarita/substituce),
+  WDP je NP-těžký. \textbf{VCG}: alokace maximalizující sociální blahobyt + platba rovná
+  externalitě, kterou agent způsobuje ostatním; pravdomluvný a~efektivní, ale drahý a~s~malým
+  výnosem.
+\item Alokace zdrojů: utilitární / egalitářské / Nashovo kritérium, proporcionalita,
+  envy-freeness.
+\item Vyjednávání: monotónní protokol ústupků + Zeuthenova strategie (ustupuje ten s~nižším
+  rizikem); task-oriented domains a~tři typy klamání (fantomové / návnadové / skryté úlohy);
+  Rubinsteinovy střídavé nabídky s~diskontem.
+\end{itemize}
+
+\section{Učení agentů a~zpětnovazební učení}
+\label{sec:uceni}
+
+\subsection{Proč a~jak se agenti učí}
+
+Inteligentní agenti v~MAS by měli být \emph{adaptivní}. Učení je změna chování agenta
+na základě zkušenosti; metod je celá škála:
+
+\begin{defbox}[Metody pro učení agentů]
+\begin{itemize}
+\item \textbf{Podle učebního signálu} (tři klasická paradigmata strojového učení):
+  \emph{učení s~učitelem} (agent dostává správné odpovědi --- např.\ učení modelu
+  protivníka z~pozorovaných tahů, klasifikace vjemů), \emph{učení bez učitele}
+  (hledání struktury v~pozorováních --- shlukování situací, objevování rolí)
+  a~\textbf{zpětnovazební učení} (k~dispozici je jen skalární odměna z~prostředí;
+  pro autonomní agenty nejpřirozenější, viz zbytek kapitoly).
+\item \textbf{Imitační učení} (\emph{learning from demonstration}): agent se učí
+  politiku z~trajektorií předvedených expertem --- přímé kopírování
+  (\emph{behavioral cloning}), nebo \emph{inverzní RL}, kde se z~chování experta
+  rekonstruuje odměnová funkce.
+\item \textbf{Evoluční metody}: populace kontrolérů (parametrů reaktivních chování,
+  vah neuronové sítě, pravidel) se šlechtí genetickým algoritmem podle dosažené
+  utility --- typický způsob, jak se \uv{experimentálně ladí} reaktivní architektury
+  z~kap.~\ref{sec:reaktivni}; patří sem i~\emph{learning classifier systems}
+  a~neuroevoluce.
+\item \textbf{Podle toho, co se agent učí}: model prostředí (přechodovou funkci),
+  model protivníka (\emph{opponent modelling}), hodnotovou funkci, přímo politiku,
+  u~PRS ohodnocení plánů.
+\item \textbf{Individuální vs.\ sociální učení}: agent se učí jen z~vlastní
+  zkušenosti, nebo i~napodobováním a~sdílením zkušeností s~ostatními (učení
+  v~roji, sdílené zkušenosti v~MARL).
+\end{itemize}
+\end{defbox}
+
+Nejběžnějším a~teoreticky nejpropracovanějším přístupem k~učení v~MAS
+je \textbf{zpětnovazební učení} (\emph{reinforcement learning}, RL) --- změna chování metodou
+pokus--omyl na základě \emph{odměn} z~prostředí. RL zapadá do formalismu z~kapitoly
+\ref{sec:architektura} přirozeně: politika $\pi$ je mechanismus výběru akce a~odměna
+je operacionalizací utility.
+
+Rozlišujeme:
+\begin{itemize}
+\item \textbf{Učení jednoho agenta} --- snazší, lze použít klasické algoritmy RL (Q-learning).
+\item \textbf{Multiagentní RL} (\emph{MARL}) --- agenti se učí \emph{současně}; formalizuje se
+  Markovskými hrami (Nashova a~Paretova optimalita), state of the art je hluboké MARL (MADRL).
+\end{itemize}
+
+\subsection{Markovský rozhodovací proces}
+
+\begin{defbox}[MDP --- \emph{Markov Decision Process}]
+MDP je pětice $\langle S, A, T, R, \gamma\rangle$:
+\begin{itemize}
+\item $S$ --- prostor stavů; $A$ --- prostor akcí;
+\item $T : S \times A \times S \to [0,1]$ --- přechodová funkce,
+  $T(s,a,s') = P(s_{t+1}=s' \mid s_t=s, a_t=a)$;
+\item $R : S \times A \times S \to \mathbb{R}$ --- funkce odměny (okamžitá odměna za přechod);
+\item $0 \le \gamma < 1$ --- diskontní faktor, kompromis mezi okamžitou a~budoucí odměnou.
+\end{itemize}
+Platí \textbf{Markovská vlastnost}: následující stav a~odměna závisí pouze na aktuálním stavu
+a~akci, nikoli na celé historii. (Srovnej s~přechodovou funkcí $\tau : R^A \to 2^E$
+z~abstraktní architektury, která historii \emph{má} --- MDP je její markovské zjednodušení
+obohacené o~pravděpodobnosti a~odměny.)
+
+\textbf{Politika} (\emph{policy}) $\pi : S \to A$ (nebo stochasticky $\pi(a|s)$).
+Cílem je najít \emph{optimální politiku} $\pi^*$ maximalizující očekávaný diskontovaný součet
+budoucích odměn:
+\[
+\mathbb{E}\Big[ \sum_{t=0}^{\infty} \gamma^t R(s_t, a_t, s_{t+1}) \Big].
+\]
+\textbf{Hodnotová funkce} $V^\pi : S \to \mathbb{R}$ přiřazuje stavu očekávanou utilitu,
+sleduje-li agent politiku $\pi$; \textbf{akční hodnotová funkce}
+$Q^\pi(s,a)$ totéž pro dvojici stav--akce.
+\end{defbox}
+
+\begin{defbox}[Bellmanovy rovnice]
+Pro danou politiku (\emph{Bellmanova rovnice pro evaluaci}):
+\[
+V^\pi(s) = \sum_{s'} T(s,\pi(s),s') \big[ R(s,\pi(s),s') + \gamma V^\pi(s') \big].
+\]
+Pro optimální politiku (\emph{Bellmanova rovnice optimality}):
+\begin{align*}
+V^*(s) &= \max_{a \in A} \sum_{s'} T(s,a,s') \big[ R(s,a,s') + \gamma V^*(s')\big], \\
+Q^*(s,a) &= \sum_{s'} T(s,a,s')\big[R(s,a,s') + \gamma \max_{a'} Q^*(s',a')\big].
+\end{align*}
+Optimální politika se z~$Q^*$ získá jako $\pi^*(s) = \arg\max_a Q^*(s,a)$.
+\end{defbox}
+
+\noindent\textbf{Iterace hodnot} (\emph{value iteration}) --- známe-li úplný popis MDP:
+\begin{algorithmic}[1]
+\State inicializuj $V_0(s) \gets 0$ pro všechna $s$
+\Repeat
+  \ForAll{$s \in S$}
+    \State $V_{k+1}(s) \gets \max_{a} \sum_{s'} T(s,a,s')\big[R(s,a,s') + \gamma V_k(s')\big]$
+  \EndFor
+\Until{$\max_s |V_{k+1}(s) - V_k(s)| < \varepsilon$}
+\State \Return $\pi(s) = \arg\max_a \sum_{s'} T(s,a,s')[R(s,a,s') + \gamma V(s')]$
+\end{algorithmic}
+Bellmanův operátor je kontrakce s~koeficientem $\gamma$, takže iterace konverguje ke $V^*$
+geometricky rychle. Alternativou je \textbf{iterace politiky} (\emph{policy iteration}):
+střídavě \emph{vyhodnoť} aktuální politiku (vyřeš soustavu lineárních rovnic) a~\emph{zlepši} ji
+(hladově podle $V^\pi$); konverguje v~konečně mnoha krocích, protože politik je konečně mnoho.
+
+\subsection{Q-learning a~SARSA}
+
+Ve skutečnosti obvykle \textbf{neznáme} $T$ ani $R$. Agent se proto učí ze zkušenosti
+interakcí s~prostředím v~diskrétních krocích --- to je \emph{model-free} RL.
+
+\begin{defbox}[Q-learning (Watkins, 1989)]
+Agent si udržuje \emph{tabulku} $Q(s,a)$ --- odhad diskontovaného součtu budoucích odměn při
+provedení akce $a$ ve stavu $s$. Po každém přechodu $s \xrightarrow{a} s'$ s~odměnou $r$:
+\[
+Q(s,a) \;\leftarrow\; Q(s,a) + \alpha\Big[\, \underbrace{r + \gamma \max_{a'} Q(s',a')}
+_{\text{cíl (TD target)}} - Q(s,a) \Big],
+\qquad 0 \le \alpha \le 1 \text{ je rychlost učení,}
+\]
+ekvivalentně $Q(s,a) \leftarrow (1-\alpha)Q(s,a) + \alpha\big(r + \gamma\max_{a'}Q(s',a')\big)$.
+
+\textbf{Off-policy:} cíl používá $\max_{a'}$, tedy se učí hodnotu \emph{optimální} politiky
+bez ohledu na to, jakou politikou agent skutečně jedná. Za předpokladu, že každá dvojice
+$(s,a)$ je navštívena nekonečněkrát a~$\alpha$ vhodně klesá, konverguje $Q \to Q^*$.
+\end{defbox}
+
+\begin{defbox}[Dilema průzkumu a~využití; $\varepsilon$-greedy]
+Agent musí \emph{využívat} (\emph{exploit}) to, co už umí, ale zároveň \emph{zkoušet}
+(\emph{explore}) nové akce. Standardní řešení:
+\[
+\pi(s) = \begin{cases}
+\text{náhodná akce z } A & \text{s pravděpodobností } \varepsilon,\\
+\arg\max_a Q(s,a) & \text{s pravděpodobností } 1-\varepsilon .
+\end{cases}
+\]
+$\varepsilon$ se typicky v~čase snižuje (\emph{annealing}). Alternativy:
+softmax/Boltzmann $\pi(a|s) \propto e^{Q(s,a)/\tau}$, optimistická inicializace $Q$,
+UCB (horní meze spolehlivosti).
+\end{defbox}
+
+\medskip
+\noindent\textbf{Konkrétní krok Q-learningu.} Nechť $\alpha = 0{,}5$, $\gamma = 0{,}9$.
+Agent je ve stavu $s_1$, provede akci $a_1$, dostane odměnu $r = 10$ a~přejde do $s_2$.
+Aktuální hodnoty: $Q(s_1,a_1) = 4$, $Q(s_2,a_1) = 6$, $Q(s_2,a_2) = 8$.
+\begin{align*}
+\max_{a'} Q(s_2,a') &= \max(6,\,8) = 8, \\
+\text{TD cíl} &= r + \gamma \max_{a'} Q(s_2,a') = 10 + 0{,}9 \cdot 8 = 17{,}2, \\
+\text{TD chyba} &= 17{,}2 - Q(s_1,a_1) = 17{,}2 - 4 = 13{,}2, \\
+Q(s_1,a_1) &\leftarrow 4 + 0{,}5 \cdot 13{,}2 = \mathbf{10{,}6}.
+\end{align*}
+
+\begin{defbox}[SARSA]
+\emph{State--Action--Reward--State--Action}. Aktualizace používá \emph{skutečně zvolenou}
+následující akci $a'$ (podle stejné politiky, kterou agent jedná):
+\[
+Q(s,a) \leftarrow Q(s,a) + \alpha\big[r + \gamma\, Q(s',a') - Q(s,a)\big].
+\]
+\textbf{On-policy:} učí se hodnotu politiky, kterou agent skutečně provádí (včetně náhodného
+průzkumu). Důsledek: SARSA je \emph{opatrnější} --- v~úloze \uv{chůze po útesu} (\emph{cliff
+walking}) se Q-learning naučí optimální cestu těsně u~propasti (a~při $\varepsilon$-greedy do ní
+občas spadne), zatímco SARSA se naučí bezpečnější cestu dál od okraje, protože započítá
+riziko vlastního průzkumu.
+
+Zobecnění obou: $\mathrm{TD}(\lambda)$ s~\emph{eligibility traces}, které rozprostírají
+kredit na více předchozích kroků.
+\end{defbox}
+
+\subsection{Metody založené na politice}
+
+\begin{defbox}[Policy gradient, REINFORCE]
+Namísto hodnotových funkcí optimalizujeme \emph{přímo politiku}. Politiku parametrizujeme
+vektorem $z$, tedy $\pi(a \mid s, z)$, a~hledáme optimální parametry $z^*$
+gradientním výstupem po očekávaném výnosu $J(z)$.
+
+\textbf{REINFORCE} (Williams, 1992) --- odhaduje gradient z~Monte Carlo simulací celých epizod:
+\[
+z_{t+1} = z_t + \alpha\, G_t\, \frac{\nabla_z \pi(A_t \mid S_t, z_t)}{\pi(A_t \mid S_t, z_t)}
+= z_t + \alpha\, G_t\, \nabla_z \ln \pi(A_t \mid S_t, z_t),
+\]
+kde $G_t$ je výnos (návratnost) od času $t$. Intuice: zvyš pravděpodobnost akcí, po nichž
+následoval vysoký výnos.
+
+\textbf{Výhody oproti hodnotovým metodám:} zvládá \emph{spojité} akční prostory, přirozeně
+vytváří \emph{stochastické} politiky (nutné v~multiagentních hrách se smíšenými ekvilibrii),
+lepší konvergenční vlastnosti při aproximaci funkcí.
+\textbf{Nevýhoda:} vysoký rozptyl odhadu gradientu (řeší se odečtením \emph{baseline}).
+\end{defbox}
+
+\begin{defbox}[Actor--critic]
+Kombinace obou přístupů:
+\begin{itemize}
+\item \textbf{Actor} (herec) reprezentuje \emph{politiku} --- mechanismus výběru akce; optimalizuje ji.
+\item \textbf{Critic} (kritik) se učí \emph{hodnotovou funkci} --- odhaduje, jak dobrý je
+  hercův výkon, a~tím snižuje rozptyl.
+\end{itemize}
+Učí-li se kritik jak $Q(s,a)$, tak $V(s)$, lze použít \textbf{funkci výhody}
+(\emph{advantage function})
+\[
+A(s,a) = Q(s,a) - V(s),
+\]
+tj.\ relativní výhodnost akce $a$ oproti průměru --- gradient politiky se pak škáluje $A(s,a)$
+místo $G_t$, což výrazně snižuje rozptyl.
+
+\textbf{A3C} (\emph{Asynchronous Advantage Actor-Critic}) --- více pracovních vláken
+asynchronně počítá gradienty nad vlastními kopiemi prostředí a~aktualizuje sdílené parametry;
+ztrátová funkce se skládá z~\emph{policy loss} pro herce a~\emph{value loss} pro kritika
+(plus entropický regularizátor podporující průzkum). Modernější varianty: A2C (synchronní),
+PPO, SAC, DDPG.
+\end{defbox}
+
+\textbf{Hluboké učení.} \textbf{DQN} (\emph{Deep Q-Network}) nahrazuje tabulku $Q$
+neuronovou sítí (dopřednou, nebo rekurentní pro částečně pozorovatelná prostředí);
+klíčové triky jsou \emph{experience replay} (rozbití korelací mezi vzorky) a~\emph{target network}
+(stabilizace cíle). U~metod založených na politice reprezentuje politiku neuronová síť
+(vstupem je stav, výstupem akce či její rozdělení, vahami jsou parametry $z$).
+
+\subsection{Multiagentní zpětnovazební učení}
+
+\begin{defbox}[Markovská hra (\emph{Markov game}, stochastická hra)]
+Zobecnění MDP pro $N$ agentů: $\langle N, S, (A_i)_{i\in N}, T, (R_i)_{i \in N}, \gamma\rangle$.
+\begin{itemize}
+\item \textbf{Sdružený akční prostor} je součin individuálních:
+  $\mathbf{A} = A_1 \times \cdots \times A_N$.
+\item $T : S \times \mathbf{A} \times S \to [0,1]$ --- přechod závisí na akcích \emph{všech} agentů.
+\item Každý agent má \emph{vlastní} funkci odměny $R_i$ a~vlastní politiku $\pi_i$,
+  ale jeho hodnotová funkce $V^{\boldsymbol\pi}_i$ závisí na politikách \emph{všech} agentů.
+\end{itemize}
+\textbf{Spojení s~teorií her:} politika agenta je \emph{nejlepší odpovědí} na sdružené politiky
+ostatních, pokud maximalizuje jeho hodnotovou funkci. Sdružené politiky mohou být
+v~\textbf{Nashově ekvilibriu} a~mohou být \textbf{Pareto-optimální}.
+Speciální případy: $N=1$ dává MDP; hra s~jedním stavem dává hru v~normální formě;
+$N=2$ s~nulovým součtem dává \emph{minimax} hru.
+\end{defbox}
+
+\begin{defbox}[Minimax-Q a~Nash-Q]
+\textbf{Minimax-Q} (Littman, 1994) --- pro hry dvou agentů s~nulovým součtem. Místo
+$\max_{a'} Q(s',a')$ se v~aktualizaci použije hodnota \emph{smíšeného minimaxového ekvilibria}
+matice $Q(s',\cdot,\cdot)$:
+\[
+V(s') = \max_{\sigma \in \Delta(A_1)} \min_{a_2 \in A_2} \sum_{a_1} \sigma(a_1)\, Q(s',a_1,a_2),
+\]
+což je lineární program. Konverguje k~minimaxové (a~tedy Nashově) politice bez ohledu na
+chování protivníka --- za cenu \emph{konzervativnosti} (nevyužije slabšího soupeře).
+
+\textbf{Nash-Q} (Hu, Wellman) --- pro hry s~obecným součtem; agent si udržuje $Q_i$ pro
+\emph{všechny} agenty a~v~aktualizaci používá hodnotu Nashova ekvilibria stavové hry.
+Konverguje jen za silných (a~prakticky neověřitelných) předpokladů na jednoznačnost ekvilibrií.
+Příbuzné: \emph{Friend-or-Foe Q}, \emph{correlated-Q}.
+\end{defbox}
+
+\begin{defbox}[Problémy MARL]
+Teorie her dává hezké formalizace (pro málo agentů), praxe naráží na:
+\begin{itemize}
+\item prostředí je jen \textbf{částečně pozorovatelné} (formálně Dec-POMDP, jehož optimální
+  řešení je NEXP-úplné);
+\item stavové a~akční prostory mohou být \textbf{spojité}; sdružený akční prostor roste
+  \emph{exponenciálně} s~počtem agentů;
+\item agenti aktualizují politiky \textbf{současně}, takže je prostředí z~pohledu jednoho agenta
+  \textbf{nestacionární} --- porušuje se základní předpoklad konvergence RL
+  (\uv{pohyblivý cíl});
+\item agenti mohou konvergovat k~\textbf{suboptimálním} řešením nebo \textbf{oscilovat} mezi více
+  Nashovými ekvilibrii;
+\item \textbf{rozptyl} odhadů hodnotové funkce může být velký;
+\item \textbf{přiřazení zásluh} (\emph{credit assignment}) --- při společné odměně není jasné,
+  který agent přispěl.
+\end{itemize}
+\textbf{Standardní protiopatření:} \emph{centralizované učení s~decentralizovaným prováděním}
+(CTDE) --- kritik během tréninku vidí stav i~akce všech agentů, herec při běhu jen svá lokální
+pozorování (MADDPG, COMA, QMIX); dále \emph{parameter sharing} mezi homogenními agenty
+a~\emph{opponent modelling}.
+\end{defbox}
+
+\textbf{Self-play.} Agent se učí hraním proti sobě samému (případně proti dřívějším verzím
+sebe sama --- \emph{fictitious self-play}, ligy protivníků). V~hrách s~nulovým součtem a~úplnou
+informací vede self-play spolehlivě k~silným strategiím: TD-Gammon (Tesauro, 1992),
+AlphaGo Zero a~AlphaZero (self-play + prohledávání MCTS + hluboká síť), AlphaStar
+(liga protivníků pro StarCraft~II). Riziko: \emph{cyklické} preference strategií
+(kámen--nůžky--papír), kdy naivní self-play osciluje --- proto ligy a~populační metody
+(\emph{Policy-Space Response Oracles}).
+
+\textbf{LLM agenti} (aktuální trend). Velké jazykové modely se používají jako mechanismus výběru
+akce (politika), jako plánovač, jako kritik v~actor-critic schématu a~pro učení s~člověkem
+ve smyčce. Typické aplikace v~agentních simulacích: šíření informací v~grafu sociálních
+interakcí a~syntetické volební panely (LLM agenti reprezentují populaci podle sociologických
+průzkumů a~odhadují volební výsledky).
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Metody učení agentů: s~učitelem / bez učitele / zpětnovazební; imitační učení
+  a~inverzní RL; evoluční metody (LCS, neuroevoluce); co se agent učí (model prostředí,
+  model protivníka, politiku); individuální vs.\ sociální učení. RL je nejběžnější.
+\item \textbf{MDP} $= \langle S,A,T,R,\gamma\rangle$, Markovská vlastnost, politika $\pi$,
+  hodnotové funkce $V^\pi$, $Q^\pi$; Bellmanova rovnice optimality; value iteration
+  (kontrakce, konverguje) a~policy iteration.
+\item \textbf{Q-learning}: $Q(s,a) \leftarrow Q(s,a) + \alpha[r + \gamma\max_{a'}Q(s',a') - Q(s,a)]$,
+  off-policy, tabulkový; umět spočítat jeden krok s~čísly.
+\item \textbf{SARSA}: $\dots + \alpha[r + \gamma Q(s',a') - Q(s,a)]$, on-policy, opatrnější
+  (cliff walking). $\varepsilon$-greedy jako řešení dilematu průzkum/využití.
+\item \textbf{Policy gradient} (REINFORCE, $\nabla \ln \pi$ krát výnos) a~\textbf{actor-critic}
+  (herec = politika, kritik = hodnotová funkce, výhoda $A = Q - V$); A3C; DQN
+  (replay buffer, target network).
+\item \textbf{Markovská hra} = MDP pro $N$ agentů se sdruženým akčním prostorem a~individuálními
+  odměnami; nejlepší odpověď, Nashovo ekvilibrium, Pareto-optimalita sdružených politik.
+\item \textbf{Minimax-Q} (hry s~nulovým součtem, LP v~každé aktualizaci), Nash-Q
+  (obecný součet, silné předpoklady).
+\item Problémy MARL: nestacionarita, exponenciální sdružený akční prostor, částečná
+  pozorovatelnost, přiřazení zásluh; řešení CTDE. Self-play a~AlphaZero.
+\end{itemize}
+
+\section{Metodologie návrhu, jazyky a~prostředí MAS}
+\label{sec:metodologie}
+
+\subsection{Agentově orientované softwarové inženýrství}
+
+Objektově orientované metodologie (UML) nestačí, protože agenti jsou autonomní (nelze přímo
+volat jejich metody), mají vlastní cíle a~vztahy mezi nimi jsou \emph{organizační}
+(role, protokoly, závazky), nikoli strukturální. Vznikly proto metodologie
+\textbf{AOSE} (\emph{agent-oriented software engineering}).
+
+\begin{defbox}[Gaia (Wooldridge, Jennings, Kinny, 2000)]
+Nejcitovanější AOSE metodologie. Klíčová metafora: MAS je \textbf{organizace}, agenti hrají
+\textbf{role}. Postupuje od požadavků přes analýzu k~návrhu (implementaci nechává na
+konkrétní platformě).
+
+\textbf{Fáze analýzy} --- dva abstraktní modely. \emph{Model rolí} (\emph{roles model}): každá
+role je popsána čtyřmi atributy --- \emph{permissions} (jaké zdroje smí číst/měnit),
+\emph{responsibilities} (co má zajistit; dělí se na \emph{liveness} vlastnosti \uv{něco dobrého
+se stane}, popsané regulárním výrazem nad aktivitami a~protokoly, a~\emph{safety} vlastnosti
+\uv{nic špatného se nestane}, popsané invarianty), \emph{activities} (výpočty prováděné rolí
+samotnou) a~\emph{protocols} (interakce s~jinými rolemi). \emph{Model interakcí}: definice
+protokolů mezi rolemi (účel, iniciátor, respondér, vstupy, výstupy).
+
+\textbf{Fáze návrhu} --- tři konkrétní modely: \emph{model agentů} (přiřazení rolí typům agentů
+a~počty instancí), \emph{model služeb} (funkce poskytované rolí --- vstupy, výstupy, předpoklady,
+efekty) a~\emph{model známostí} (\emph{acquaintance model}: orientovaný graf, kdo s~kým
+komunikuje --- kontrola úzkých hrdel a~přílišné provázanosti).
+
+\textbf{Omezení:} původní Gaia předpokládá uzavřený systém s~kooperativními agenty a~statickou
+organizaci; rozšíření \emph{ROADMAP} a~\emph{Gaia v.2} tato omezení uvolňují.
+\end{defbox}
+
+\begin{defbox}[Prometheus a~Tropos]
+\textbf{Prometheus} (Padgham, Winikoff, 2002) --- praktická metodologie zaměřená na
+\textbf{BDI agenty}, s~nástrojem PDT a~generováním kostry kódu pro JACK/Jason. Tři fáze:
+\emph{specifikace systému} (aktéři a~scénáře, cíle, \emph{funkcionality} jako soudržné celky
+chování, rozhraní s~okolím --- \emph{percepts} a~\emph{actions}); \emph{architektonický návrh}
+(z~funkcionalit se odvodí \emph{typy agentů} podle soudržnosti a~provázanosti, definují se
+protokoly a~zprávy); \emph{detailní návrh} (vnitřek agenta: \emph{capabilities}, plány,
+události a~datové struktury --- přímo stavební kameny BDI).
+
+\textbf{Tropos} (Castro, Giorgini, Mylopoulos, 2002) --- postaven na \textbf{modelování aktérů
+a~cílů} (framework $i^*$); jako jediný pokrývá i~fázi \emph{raných požadavků}. Pět fází:
+early requirements, late requirements, architectural design, detailed design, implementation.
+Pojmy: \emph{actor}, \emph{goal} (a~\emph{softgoal} = nefunkční požadavek bez ostrého kritéria
+splnění), \emph{plan}, \emph{resource} a~\emph{dependency} (aktér závisí na jiném kvůli cíli,
+plánu či zdroji). Analýza probíhá means-ends rozkladem cílů a~\emph{contribution links}
+($+$/$-$) k~softgoals; tytéž pojmy prostupují celý vývoj od podnikové analýzy po kód.
+\end{defbox}
+
+\textbf{Další metodologie} (jen pro orientaci): \textbf{MaSE} (od případů užití k~automatům,
+s~nástrojem agentTool), \textbf{INGENIAS} (metamodel + generování kódu),
+\textbf{ADELFE} (adaptivní/emergentní systémy), \textbf{O-MaSE}, \textbf{PASSI}.
+
+\subsection{Standard FIPA a~architektura platformy}
+
+\begin{defbox}[Referenční architektura agentní platformy podle FIPA]
+\begin{itemize}
+\item \textbf{AMS} (\emph{Agent Management System}) --- povinná komponenta; \uv{matrika}
+  platformy: eviduje agenty, přiděluje jim jednoznačné \emph{AID} (agent identifier),
+  řídí životní cyklus (create, suspend, resume, terminate) a~poskytuje bílé stránky
+  (\emph{white pages}).
+\item \textbf{DF} (\emph{Directory Facilitator}) --- žluté stránky (\emph{yellow pages}):
+  agenti u~něj registrují \emph{služby}, které nabízejí, a~vyhledávají poskytovatele služeb.
+\item \textbf{MTS} (\emph{Message Transport Service}) --- doručování ACL zpráv v~rámci
+  platformy i~mezi platformami (protokoly IIOP, HTTP; kódování bitefficient, XML, string).
+\item \textbf{ACC} (\emph{Agent Communication Channel}) --- rozhraní k~MTS.
+\end{itemize}
+Standard dále definuje jazyk ACL, obsahové jazyky (SL), interakční protokoly a~správu ontologií.
+\end{defbox}
+
+\subsection{Jazyky a~platformy}
+
+Historickým východiskem je \textbf{agentově orientované programování}
+(\emph{agent-oriented programming}, AOP; Shoham 1993) --- paradigma, v~němž je stav
+programu tvořen \emph{mentálními kategoriemi} (přesvědčení, závazky ---
+\emph{commitments} --- a~schopnosti) a~program je množinou \emph{pravidel závazků}
+(\emph{commitment rules}), která na základě příchozích zpráv a~aktuálního mentálního
+stavu vytvářejí nové závazky. Prvním jazykem AOP byl Shohamův \textbf{AGENT-0}:
+agent = schopnosti + počáteční přesvědčení + počáteční závazky + pravidla závazků;
+komunikuje se třemi typy zpráv (\texttt{request}, \texttt{unrequest},
+\texttt{inform}). Jinou cestou jde \textbf{Concurrent MetateM} (Fisher): agent je
+\emph{přímo spustitelná specifikace} v~temporální logice --- pravidla tvaru
+\uv{minulost $\Rightarrow$ budoucnost} se za běhu vyhodnocují a~agent jedná tak, aby
+svou specifikaci učinil pravdivou. Oba jazyky navazují na linii deduktivních agentů
+(kap.~\ref{sec:deliberativni}); prakticky nejúspěšnějším představitelem agentních
+jazyků je dnes AgentSpeak/Jason (viz tabulka).
+
+\begin{center}\small
+\begin{tabular}{p{0.15\textwidth} p{0.20\textwidth} p{0.57\textwidth}}
+\toprule
+\textbf{Systém} & \textbf{Typ} & \textbf{Charakteristika} \\
+\midrule
+\textbf{JADE}
+  & Java, FIPA platforma
+  & \emph{Java Agent DEvelopment Framework}, nejrozšířenější middleware pro MAS, plně
+    v~souladu s~FIPA. Agent = třída dědící z~\texttt{Agent} s~metodou \texttt{setup()};
+    chování se skládá z~objektů \texttt{Behaviour} (\texttt{OneShot}, \texttt{Cyclic},
+    \texttt{Ticker}, \texttt{FSMBehaviour}, \texttt{SequentialBehaviour}), které plánuje
+    kooperativní (nepreemptivní) plánovač uvnitř jednoho vlákna agenta. Zprávy:
+    \texttt{ACLMessage}, \texttt{send()}/\texttt{blockingReceive()}, \texttt{MessageTemplate}.
+    Hotové třídy pro protokoly (\texttt{ContractNetInitiator}, \texttt{AchieveREResponder}),
+    ladicí nástroje (RMA, Sniffer, Introspector), kontejnery a~mobilita agentů. \\
+\textbf{Jason}
+  & interpret AgentSpeak(L) v~Javě
+  & Referenční implementace \textbf{AgentSpeak}, tedy \textbf{BDI} jazyka (logické programování
+    + BDI), přímý potomek PRS. Program agenta = počáteční \emph{beliefs}, \emph{rules}
+    a~\emph{knihovna plánů} ve tvaru \texttt{spouštěč : kontext <- tělo}. Spouštěčem je
+    \emph{událost} (\texttt{+b} přidání přesvědčení, \texttt{+!g} přidání cíle, \texttt{-!g}
+    selhání cíle). Cyklus interpretu: vnímej $\to$ aktualizuj beliefs $\to$ vyber událost $\to$
+    najdi \emph{relevantní} plány (podle spouštěče) $\to$ vyber \emph{aplikovatelné}
+    (podle kontextu) $\to$ vytvoř záměr $\to$ vykonej krok. S~\texttt{CArtAgO} (prostředí)
+    a~\texttt{Moise} (organizace) tvoří \emph{JaCaMo}. \\
+\textbf{NetLogo}
+  & prostředí pro ABM
+  & Jazyk odvozený od Logo pro \emph{agent-based modeling}. Entity: \emph{turtles} (mobilní
+    agenti), \emph{patches} (buňky prostředí), \emph{links} a~\emph{observer}. Knihovna modelů
+    (Segregation, Wolf Sheep Predation, Ants, Flocking), \emph{BehaviorSpace} pro parametrické
+    studie. Určeno pro emergentní chování a~výuku, ne pro FIPA komunikaci. \\
+\textbf{SPADE}
+  & Python, XMPP
+  & \emph{Smart Python Agent Development Environment}. Komunikace přes standardní
+    \textbf{XMPP} místo vlastního MTS, agent = třída s~\emph{behaviours}
+    (\texttt{CyclicBehaviour}, \texttt{PeriodicBehaviour}, \texttt{FSMBehaviour}), asyncio,
+    webové rozhraní; populární díky napojení na Python ekosystém strojového učení. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Další prostředí:} \emph{Jadex}, \emph{JACK} a~\emph{JAM} (další implementace BDI/PRS,
+Jadex staví BDI vrstvu nad JADE); \emph{MASON}, \emph{Repast}, \emph{GAMA}, \emph{AnyLogic}
+a~\emph{Mesa} (simulační platformy pro agentní modely v~sociologii, ekonomii, epidemiologii);
+\emph{PettingZoo}, \emph{Gymnasium}, \emph{OpenSpiel} a~\emph{SMAC} (standardní prostředí pro
+multiagentní zpětnovazební učení); \emph{LangGraph} a~\emph{AutoGen} (orchestrace LLM agentů).
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item Proč nestačí OO metodologie: autonomie, vlastní cíle, organizační (nikoli strukturální)
+  vztahy.
+\item \textbf{Gaia}: organizace + role; analýza = model rolí (permissions, responsibilities
+  s~liveness a~safety, activities, protocols) + model interakcí; návrh = model agentů,
+  služeb a~známostí. Předpoklad kooperativních agentů a~statické organizace.
+\item \textbf{Prometheus}: specifikace systému (cíle, funkcionality, percepts/actions) $\to$
+  architektonický návrh (typy agentů, protokoly, zprávy) $\to$ detailní návrh
+  (capabilities, plány, události) --- cíleno na BDI.
+\item \textbf{Tropos}: aktéři, cíle a~softgoals, závislosti; pokrývá i~rané požadavky ($i^*$).
+\item \textbf{FIPA platforma}: AMS (bílé stránky, životní cyklus, AID), DF (žluté stránky,
+  služby), MTS/ACC (doručování ACL zpráv).
+\item Agentově orientované programování (Shoham): stav = mentální kategorie, program =
+  pravidla závazků; AGENT-0; Concurrent MetateM = spustitelná temporální specifikace.
+\item \textbf{JADE} = Java, FIPA, \texttt{Agent} + \texttt{Behaviour} + \texttt{ACLMessage},
+  hotové protokoly a~ladicí nástroje. \textbf{Jason/AgentSpeak} = BDI jazyk,
+  plán \texttt{spouštěč : kontext <- tělo}, potomek PRS. \textbf{NetLogo} = ABM simulace
+  (turtles/patches/links). \textbf{SPADE} = Python + XMPP.
+\end{itemize}
+
+\section*{Závěrem: jak na zkoušku}
+\addcontentsline{toc}{section}{Závěrem: jak na zkoušku}
+
+Okruh je široký; zkoušející obvykle ověřuje, že rozumíte \emph{souvislostem}. Čtyři osy,
+kolem kterých se otázky točí:
+\begin{enumerate}
+\item \textbf{Reaktivita vs.\ proaktivita} --- od definice inteligentního agenta přes commitment
+  strategie (bold vs.\ cautious) a~parametry $\gamma/\phi$ v~síti Maes až po vrstvy hybridních
+  architektur.
+\item \textbf{Individuální vs.\ kolektivní racionalita} --- sobecký agent vede k~$(D,D)$ ve
+  vězňově dilematu, k~tragédii obecní pastviny i~k~taktickému hlasování; odtud potřeba
+  mechanism designu (Vickrey, VCG), tedy návrhu \emph{pravidel}, za nichž se sobeckému agentovi
+  vyplatí být pravdomluvný.
+\item \textbf{Symbolická vs.\ subsymbolická reprezentace} --- FOL, STRIPS, ontologie a~ACL versus
+  subsumpce, aktivační sítě a~neuronové sítě v~RL; praxe je hybridní.
+\item \textbf{Teorie vs.\ praxe} --- elegantní, ale nekonstruktivní definice (optimální agent,
+  Nashova věta, Arrowova věta) versus použitelné algoritmy (A*, CBS, Q-learning, CNET, JADE).
+  Nezapomeňte na složitost: PPAD-úplnost hledání NE, NP-těžkost WDP, optimálního MAPF
+  i~Slaterova systému.
+\end{enumerate}
+
+Drobnosti, na které se často ptají: rozdíl mezi \emph{desire} a~\emph{intention}; proč efektem
+\texttt{inform} \emph{není}, že příjemce uvěří; proč je $(D,D)$ jediné \emph{ne}-Pareto-optimální
+řešení vězňova dilematu; proč je pravdomluvnost dominantní ve Vickreyově aukci; rozdíl mezi
+off-policy Q-learningem a~on-policy SARSA; a~co dělá CBS na vysoké a~co na nízké úrovni.
+
+
+
+\end{document}
