@@ -14,7 +14,7 @@
 \definecolor{defbg}{RGB}{240,244,252}
 \definecolor{defframe}{RGB}{100,130,190}
 \usepackage[most]{tcolorbox}
-\newtcolorbox{defbox}[1][]{colback=defbg,colframe=defframe,boxrule=0.6pt,arc=1.5mm,left=2mm,right=2mm,top=1mm,bottom=1mm,title={#1},fonttitle=\bfseries}
+\newtcolorbox{defbox}[1][]{breakable,colback=defbg,colframe=defframe,boxrule=0.6pt,arc=1.5mm,left=2mm,right=2mm,top=1mm,bottom=1mm,title={#1},fonttitle=\bfseries}
 \newtheorem{veta}{Věta}[section]
 \theoremstyle{definition}
 \newtheorem{definice}{Definice}[section]
@@ -833,8 +833,8 @@ Toto je konkrétní kvantitativní podoba obecného kompromisu reaktivita vs.\ p
 \label{ssec:prs}
 
 \begin{defbox}[PRS --- \emph{Procedural Reasoning System}]
-Georgeff a~kol., 80.~léta, Stanford. \textbf{První implementace architektury BDI} a~patrně
-nejúspěšnější agentní architektura vůbec --- byla mnohokrát reimplementována:
+Georgeff a~kol., 80.~léta, Stanford. \textbf{První implementace architektury BDI} a~jedna z~prakticky nejúspěšnějších
+agentních architektur --- byla mnohokrát reimplementována:
 \textbf{AgentSpeak/Jason}, \textbf{JAM}, \textbf{JACK}, \textbf{Jadex}.
 
 Praktická nasazení: OASIS (systém řízení letového provozu v~Sydney), SPOC (organizace
@@ -1196,7 +1196,7 @@ Poslední rodina architektur jde opačným směrem než reaktivní minimalismus:
 agenta integrovat \emph{všechno} --- výběr akce, paměť, deliberaci, emoce.
 
 \begin{defbox}[IDA --- \emph{Intelligent Distribution Agent} (S.~Franklin)]
-Patrně \textbf{nejsložitější agentní architektura}, jaká byla postavena. Vznikla pro reálnou
+Jedna z~nejsložitějších agentních architektur, jaké byly postaveny. Vznikla pro reálnou
 úlohu amerického námořnictva --- přidělování personálu na nová služební místa (odtud
 \uv{distribution}); distribuovaná je i~sama architektura.
 
@@ -1338,7 +1338,10 @@ h(n) \le w(n,m) + h(m), \qquad h(g_{\mathrm{cil}}) = 0 .
 \emph{optimální} (najde nejlevnější cestu). Při konzistentní heuristice je navíc $f$ podél
 každé cesty neklesající a~každý vrchol je expandován \emph{nejvýše jednou} (netřeba znovu
 otevírat vrcholy z~$\mathit{CLOSED}$). A* je také \emph{optimálně efektivní}: žádný jiný
-optimální algoritmus používající tutéž heuristiku neexpanduje méně vrcholů.
+optimální algoritmus používající tutéž heuristiku neexpanduje méně vrcholů. Tvrzení je
+ovšem třeba brát s~rezervou: platí pro vrcholy s~$f(n) < C^*$ (kde $C^*$ je cena optima) ---
+ty musí expandovat každý optimální algoritmus --- kdežto na vrcholech s~$f(n) = C^*$ záleží
+na rozhodování remíz, a~šťastnější strategie tam může expandovat méně.
 \end{defbox}
 
 \textbf{Speciální případy a~varianty:}
@@ -2377,9 +2380,11 @@ ekvilibrium \emph{ve smíšených strategiích}.
 \end{veta}
 
 \textbf{Výpočetní složitost.} Hledání NE je \emph{totální} vyhledávací problém (řešení vždy
-existuje, jde jen o~to ho najít). Od roku 2006 (Daskalakis, Goldberg, Papadimitriou) víme, že je
-\textbf{PPAD-úplný} --- velmi zjednodušeně řečeno \uv{o~něco méně beznadějné než NP-úplnost}
-(NP-úplnost pro problém, který má vždy řešení, ani nedává smysl).
+existuje, jde jen o~to ho najít). Od roku 2006 víme, že je \textbf{PPAD-úplný} --- velmi
+zjednodušeně řečeno \uv{o~něco méně beznadějné než NP-úplnost} (NP-úplnost pro problém,
+který má vždy řešení, ani nedává smysl). Pro tři a~více hráčů to dokázali Daskalakis,
+Goldberg a~Papadimitriou; těsně poté Chen a~Deng doplnili i~zbývající a~nejtěžší případ
+\emph{dvou} hráčů.
 
 \begin{defbox}[Paretova efektivita a~sociální blahobyt]
 Profil strategií je \textbf{Pareto-optimální} (\emph{Pareto efficient}), pokud neexistuje jiný
@@ -3472,7 +3477,7 @@ volat jejich metody), mají vlastní cíle a~vztahy mezi nimi jsou \emph{organiz
 \textbf{AOSE} (\emph{agent-oriented software engineering}).
 
 \begin{defbox}[Gaia (Wooldridge, Jennings, Kinny, 2000)]
-Nejcitovanější AOSE metodologie. Klíčová metafora: MAS je \textbf{organizace}, agenti hrají
+Jedna z~nejcitovanějších AOSE metodologií. Klíčová metafora: MAS je \textbf{organizace}, agenti hrají
 \textbf{role}. Postupuje od požadavků přes analýzu k~návrhu (implementaci nechává na
 konkrétní platformě).
 
@@ -3556,7 +3561,7 @@ jazyků je dnes AgentSpeak/Jason (viz tabulka).
 \midrule
 \textbf{JADE}
   & Java, FIPA platforma
-  & \emph{Java Agent DEvelopment Framework}, nejrozšířenější middleware pro MAS, plně
+  & \emph{Java Agent DEvelopment Framework}, jedna z~nejrozšířenějších platforem pro MAS, plně
     v~souladu s~FIPA. Agent = třída dědící z~\texttt{Agent} s~metodou \texttt{setup()};
     chování se skládá z~objektů \texttt{Behaviour} (\texttt{OneShot}, \texttt{Cyclic},
     \texttt{Ticker}, \texttt{FSMBehaviour}, \texttt{SequentialBehaviour}), které plánuje

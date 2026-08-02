@@ -14,7 +14,7 @@
 \definecolor{defbg}{RGB}{240,244,252}
 \definecolor{defframe}{RGB}{100,130,190}
 \usepackage[most]{tcolorbox}
-\newtcolorbox{defbox}[1][]{colback=defbg,colframe=defframe,boxrule=0.6pt,arc=1.5mm,left=2mm,right=2mm,top=1mm,bottom=1mm,title={#1},fonttitle=\bfseries}
+\newtcolorbox{defbox}[1][]{breakable,colback=defbg,colframe=defframe,boxrule=0.6pt,arc=1.5mm,left=2mm,right=2mm,top=1mm,bottom=1mm,title={#1},fonttitle=\bfseries}
 \newtheorem{veta}{Věta}[section]
 \theoremstyle{definition}
 \newtheorem{definice}{Definice}[section]
@@ -403,7 +403,7 @@ teorie & schémata & konvergence, 1/5 pravidlo & --- & bloat, schémata \\
 Dnes se hranice mezi větvemi stírají (např.\ EP a~ES prakticky splynuly)
 a~mluvíme jednotně o~evolučních algoritmech.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item EA = populační stochastické prohledávání; cyklus \emph{inicializace $\to$
@@ -588,7 +588,7 @@ Nové fitness: $(228{,}8;\, 438{,}8;\, 174{,}6;\, 327{,}9)$; podíl nejlepšího
 klesl z~$49{,}2\,\%$ na $37{,}5\,\%$ --- selekční tlak je zmírněn a~nejhorší
 jedinec neztrácí šanci.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item SGA = binární řetězce + ruleta + 1-bodové křížení + bit-flip mutace
@@ -648,7 +648,7 @@ a~operátory se tomu přizpůsobují.
   $x_i' = x_i + \sigma_i \cdot N(0,1)$. Parametr $\sigma$ (šířka kroku) je
   klíčový; může být pevný, deterministicky klesající
   (např.\ $\sigma(t) = 1 - 0{,}9\,t/T$), adaptivní (pravidlo 1/5) nebo
-  samoadaptivní (součást genomu --- viz kap.~\ref{sec:es}).
+  samoadaptivní (součást genomu, viz kap.~\ref{sec:es}).
 \item \textbf{Cauchyho mutace:} těžší chvosty $\Rightarrow$ častější velké skoky
   $\Rightarrow$ lepší únik z~lokálních extrémů (používá se ve \emph{fast EP}).
 \item \textbf{Uniformní mutace:} $x_i'$ náhodně z~$[a_i, b_i]$ --- nezaujatá.
@@ -825,7 +825,7 @@ Stromy (kap.~\ref{sec:gp}), grafy a~DAG (Cartesian GP, neuroevoluce),
 matice (rozvrhy, TSP jako matice předchůdců), konečné automaty (EP),
 seznamy pravidel (LCS, kap.~\ref{sec:lcs}), agenti umělého života.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item Reprezentace $+$ operátory $=$ fitness krajina. Pro nominální atributy
@@ -1100,7 +1100,7 @@ a~ten odhad je vychýlený ze dvou důvodů:
 Přesto zůstává TST užitečnou intuicí: \emph{co je krátké, jednoduché a~dobré,
 to se šíří}.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item Schéma = slovo nad $\{0,1,*\}$; $o(S)$ = počet pevných pozic;
@@ -1235,7 +1235,7 @@ smrskne na $2^{2l}$.
 \item Pevné body složeného $\mathcal{G}$ nejsou obecně známy; jejich hledání
   je hlavní otevřený problém. Chování je kombinací zaostřování a~rozostřování,
   které se projevuje jako \textbf{přerušované rovnováhy}
-  (\emph{punctuated equilibria}) --- dlouhá období metastability střídaná
+  (\emph{punctuated ekvilibria}) --- dlouhá období metastability střídaná
   rychlými přechody. Tento jev je znám i~z~biologie.
 \end{itemize}
 
@@ -1362,7 +1362,7 @@ geny ležet, se algoritmus naučí sám.
   přesně to, co Hollandově větě chybí.
 \end{itemize}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item Voseho model: řetězce ztotožníme s~čísly $0..2^l-1$; populaci popisuje
@@ -1502,7 +1502,6 @@ $k$ & název & geometrie mutace \\
 \midrule
 $1$ & jedno globální $\sigma$ & izotropní --- vrstevnice hustoty jsou koule \\
 $n$ & nekorelované mutace & elipsoid s~osami rovnoběžnými se souřadnicemi \\
-$2n$ & částečně korelované & $n$ odchylek $+$ $n$ hlavních úhlů natočení \\
 $n(n+1)/2$ & korelované mutace & obecný elipsoid ($n$ odchylek $+$ $n(n-1)/2$
   úhlů natočení $\alpha_{ij}$), odpovídá plné kovarianční matici \\
 \bottomrule
@@ -1609,7 +1608,7 @@ EA ($\theta$ = rodičovská populace), ES ($\theta$ = střed a~rozptyl gaussovky
 EDA ($\theta$ = parametry modelu, např.\ Bayesovské sítě),
 simulované žíhání ($\theta$ = aktuální bod a~teplota).
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item ES: reálné vektory, mutace hlavní operátor, náhodná rodičovská selekce,
@@ -1779,7 +1778,7 @@ adaptace měřítka & žádná & explicitní (v~genomu) & implicitní (z~populac
 \end{tabular}
 \end{center}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item DE/rand/1/bin: dárce $\vec v = \vec x_a + F(\vec x_b - \vec x_c)$;
@@ -2103,7 +2102,7 @@ Vyhraje-li náhodné křížení, znamená to, že v~dané úloze/kódování st
 bloky nejsou --- špatné kódování, špatný operátor, nebo úloha pro křížení
 nevhodná.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item Stromové GP (Koza): terminály + neterminály, uzavřenost a~dostatečnost;
@@ -2260,7 +2259,7 @@ T > R > P > S \quad (\text{a pro iterovanou verzi } 2R > T+S).
 \]
 Typicky $R=-1$, $T=0$, $P=-2$, $S=-3$. Protože $T > R$ a~$P > S$, je zrada
 \textbf{dominantní strategií} obou hráčů; $DD$ je \textbf{Nashovo
-equilibrium}, ale jako jediný výsledek \textbf{není Pareto-optimální} ---
+ekvilibrium}, ale jako jediný výsledek \textbf{není Pareto-optimální} ---
 $CC$ maximalizuje společný zisk.
 \end{defbox}
 
@@ -2271,14 +2270,14 @@ vyplatí čerpat sdílený zdroj o~něco víc, a~zdroj proto zanikne. Otázka
 \uv{co je vlastně racionální (a~chovají se tak lidé?)} je jádrem celé
 diskuse kolem vězňova dilematu.
 
-\begin{defbox}[Dominantní strategie, Nashovo equilibrium, Pareto optimalita]
+\begin{defbox}[Dominantní strategie, Nashovo ekvilibrium, Pareto optimalita]
 Strategie $s$ je \emph{dominantní} pro hráče $i$, dává-li stejný nebo lepší
 výsledek než kterákoli jiná strategie $i$ proti \emph{všem} strategiím
-protihráče. Dvojice $(s_i, s_j)$ je v~\emph{Nashově equilibriu}, jsou-li
+protihráče. Dvojice $(s_i, s_j)$ je v~\emph{Nashově ekvilibriu}, jsou-li
 vzájemně nejlepšími odpověďmi (žádný hráč nemá důvod jednostranně změnit
 strategii). Řešení je \emph{Pareto-optimální}, pokud nelze zlepšit výsledek
 jednoho hráče, aniž by se zhoršil výsledek jiného.
-Nashova věta: každá hra s~konečně mnoha strategiemi má equilibrium
+Nashova věta: každá hra s~konečně mnoha strategiemi má ekvilibrium
 ve \emph{smíšených} strategiích (náhodná volba mezi čistými) ---
 např.\ kámen--nůžky--papír.
 \end{defbox}
@@ -2301,9 +2300,12 @@ Axelrod (1980) uspořádal turnaje strategií:
 
 \paragraph{Čtyři vlastnosti úspěšných strategií:}
 \emph{slušnost} (niceness --- nezrazuj první),
-\emph{dráždivost} (provocability --- zradu potrestej okamžitě),
+\emph{dráždivost} (provocability/retaliation --- zradu potrestej okamžitě),
 \emph{odpouštění} (forgiveness --- ale rychle se uklidni),
-\emph{srozumitelnost} (clarity --- buď jednoduchý, aby ti ostatní rozuměli).
+\emph{nezávistivost} (non-enviousness --- neusiluj o~to porazit \emph{konkrétního}
+soupeře; TFT nikdy nezískala víc bodů než její protihráč, a~přesto vyhrála turnaj).
+Jako pátou vlastnost Axelrod uvádí \emph{srozumitelnost} (clarity --- buď jednoduchý,
+aby s~tebou ostatní vůbec dokázali navázat spolupráci).
 Žádná strategie nevyhraje proti všem; je nutné být úspěšný proti velmi
 rozmanitým soupeřům (ALL-D, TFTT, RANDOM, TRIGGER) a~umět hrát dobře sám
 se sebou.
@@ -2503,7 +2505,7 @@ jen pořadí místo čísel, prokládat lidské hodnocení naučeným
 \emph{surrogate} modelem, nebo použít IEC jen k~občasnému nasměrování jinak
 automatické evoluce.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item Koevoluce = kontextová fitness + dynamická krajina.
@@ -2514,9 +2516,9 @@ automatické evoluce.
   královny, průměrné stabilní stavy, přespecializace, zapomínání.
   Léky: archivy (hall of fame), sdílená fitness, měření proti pevné sadě.
 \item Vězňovo dilema: $T>R>P>S$, $2R > T+S$; $D$ dominantní, $DD$ Nashovo
-  equilibrium a~jediné Pareto-neoptimální; iterovaná verze $\Rightarrow$ TFT;
+  ekvilibrium a~jediné Pareto-neoptimální; iterovaná verze $\Rightarrow$ TFT;
   čtyři vlastnosti úspěšné strategie (slušnost, dráždivost, odpouštění,
-  srozumitelnost); Pavlov v~zašuměném prostředí.
+  nezávistivost) $+$ srozumitelnost jako pátá; Pavlov v~zašuměném prostředí.
 \item Diverzita: fitness sharing, crowding, speciace, ostrovní model,
   nenáhodné páření.
 \item Dynamická fitness: diploidie, hypermutace, náhodná migrace, udržování
@@ -2779,7 +2781,7 @@ skládání proteinů, detekce hran v~obraze, rozvrhování.
   terminologický zmatek než nové principy.
 \end{itemize}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item PSO: rovnice
@@ -3046,7 +3048,7 @@ možné.
   Lepší jedinci žijí déle, velikost populace je odvozená dynamická veličina.
 \end{itemize}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item Hill climbing: steepest ascent / first improvement / stochastic /
@@ -3238,7 +3240,7 @@ Z~matice záměn (TP, FP, FN, TN):
 Fitness pravidlového systému bývá kombinací přesnosti, pokrytí
 a~jednoduchosti (počet pravidel) --- tedy přirozeně vícekriteriální úloha.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Michigan}: jedinec = jedno pravidlo, řešením je celá populace,
@@ -3427,7 +3429,7 @@ hlubokých sítí se popisuje třemi osami:
   obrázků) zůstává zpětné šíření chyby výrazně rychlejší.
 \end{itemize}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item Co se evolvuje: váhy / topologie / obojí / hyperparametry učení.
@@ -3598,7 +3600,7 @@ Fitness = celkový čas výroby (\emph{makespan}). \textbf{Kritické je kódová
   evoluční operátory. Náročnější na návrh, ale výkonnější.
 \end{itemize}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item Batoh: bitová mapa, triviální operátory, problém s~omezením kapacity.
@@ -3796,8 +3798,7 @@ rovnoměrnost pokrytí fronty.
 kvalitativní \emph{indikátor} --- typicky hypervolume ($S$-metriku). Algoritmus
 je steady-state: vytvoří se jeden potomek, spojí se s~populací a~vyřadí se
 ten jedinec (z~nejhorší fronty), jehož odebrání sníží hypervolume nejméně
-(nejmenší \emph{hypervolume contribution}). Teoreticky nejlépe podložený
-přístup (maximalizace hypervolume implikuje Pareto-optimalitu), ale výpočet
+(nejmenší \emph{hypervolume contribution}). Z~teoretického hlediska nejlépe podložený přístup (maximalizace hypervolume implikuje Pareto-optimalitu), ale výpočet
 hypervolume je exponenciálně drahý v~počtu kritérií.
 
 \subsection{Metriky kvality aproximace}
@@ -3848,12 +3849,12 @@ NSGA-II & fronty + crowding & crowding distance & elitismus, $O(kN^2)$, standard
 NSGA-III & fronty + referenční body & referenční směry & many-objective \\
 SPEA2 & síla dominujících & $\sigma$-tý soused, truncation & externí archiv \\
 MOEA/D & skalarizované podúlohy & rovnoměrné váhové vektory & sousedství, škáluje \\
-SMS-EMOA & příspěvek k~hypervolume & implicitní & teoreticky nejčistší, drahé \\
+SMS-EMOA & příspěvek k~hypervolume & implicitní & teoreticky nejlépe podložené, drahé \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item Dominance ($x \prec y$: ve všech kritériích ne horší a~alespoň v~jednom

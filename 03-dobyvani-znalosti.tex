@@ -14,7 +14,7 @@
 \definecolor{defbg}{RGB}{240,244,252}
 \definecolor{defframe}{RGB}{100,130,190}
 \usepackage[most]{tcolorbox}
-\newtcolorbox{defbox}[1][]{colback=defbg,colframe=defframe,boxrule=0.6pt,arc=1.5mm,left=2mm,right=2mm,top=1mm,bottom=1mm,title={#1},fonttitle=\bfseries}
+\newtcolorbox{defbox}[1][]{breakable,colback=defbg,colframe=defframe,boxrule=0.6pt,arc=1.5mm,left=2mm,right=2mm,top=1mm,bottom=1mm,title={#1},fonttitle=\bfseries}
 \newtheorem{veta}{Věta}[section]
 \theoremstyle{definition}
 \newtheorem{definice}{Definice}[section]
@@ -207,7 +207,7 @@ U~intervalové škály je klíčové, že \emph{intervaly mají v~celém rozsahu
 \item \textbf{Temporální data} (\emph{temporal}) --- např.\ časové řady kurzů akcií. Typickou úlohou je predikce budoucích hodnot; řada se transformuje do tabulky posuvným oknem: vstupy $y(t_0),y(t_1),y(t_2),y(t_3)$ $\to$ výstup $y(t_4)$; $y(t_1),\dots,y(t_4)\to y(t_5)$ atd.
 \item \textbf{Prostorová data} (\emph{spatial}) --- geografické informační systémy; implicitní relace sousedství (hodnoty atributů sousedních objektů se od sebe příliš neliší), užitečné zejména pro interpretaci.
 \item \textbf{Strukturní data} (\emph{structural}) --- např.\ chemické sloučeniny zapsané řetězci SMILES nebo soubory faktů v~Prologu; úlohou je třeba klasifikace látek podle struktury.
-\item \textbf{Textová a webová data, multimédia, grafy a sítě} --- vyžadují specifickou reprezentaci (vektorový model, grafové modely --- viz kap.~\ref{sec:sna}).
+\item \textbf{Textová a webová data, multimédia, grafy a sítě} --- vyžadují specifickou reprezentaci (vektorový model, grafové modely, viz kap.~\ref{sec:sna}).
 \end{itemize}
 
 \subsection{Metodologie dobývání znalostí}
@@ -261,7 +261,7 @@ Počet fází & 5 & 6 & 5 + PM \\
 \end{tabular}
 \end{center}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{KDD} = netriviální proces získávání implicitních, dosud neznámých a potenciálně užitečných informací z~dat; interaktivní a iterativní.
@@ -505,7 +505,7 @@ Další techniky redukce dimenze: SVD, faktorová analýza, náhodné projekce (
 
 \textbf{Redukce počtu hodnot} (\emph{numerosity reduction}): parametrické (regresní model místo dat), neparametrické (histogramy, shlukování, vzorkování). \textbf{Komprese dat}: waveletová transformace, PCA jako ztrátová komprese.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Cíl předzpracování:} vybrat relevantní data a převést je do jedné tabulky ve formě vhodné pro algoritmus. Časově nejnáročnější fáze.
@@ -683,7 +683,7 @@ Heuristické / stochastické prohledávání & Genetické algoritmy, simulované
 
 Typický kompromis v~praxi: nejprve filtrem odstranit zjevně irelevantní a redundantní atributy (levné), pak nad zbytkem spustit wrapper (drahé, ale přesné) --- a výsledek validovat na \emph{oddělené} testovací množině, protože samotný výběr atributů je zdrojem přeučení (musí probíhat uvnitř křížové validace, nikoli před ní).
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Filter} (nezávisle na modelu, rychlé), \textbf{wrapper} (model jako černá skříňka, přesné, drahé; bottom-up / top-down), \textbf{embedded} (LASSO, stromy, random forest).
@@ -1086,7 +1086,7 @@ Sekvence $s_1=\langle a_1\cdots a_r\rangle$ je \emph{podsekvencí} sekvence $s_2
 
 \textbf{Algoritmus GSP} (\emph{Generalized Sequential Pattern}) generuje sekvenční vzory podobně jako Apriori: po hladinách podle délky, s~generováním kandidátů spojením a jejich prořezáním na základě apriori vlastnosti (každá podsekvence frekventované sekvence je frekventovaná). Rozdíl oproti Apriori je ve spojovacím kroku: dvě $k$-sekvence $s_1$, $s_2$ se spojí, je-li sekvence vzniklá odstraněním první položky $s_1$ shodná se sekvencí vzniklou odstraněním poslední položky $s_2$; poslední položka $s_2$ se pak přidá k~$s_1$ buď jako součást posledního prvku (byla-li v~$s_2$ součástí prvku), nebo jako nový prvek. GSP navíc umí pracovat s~časovými omezeními (\emph{min-gap}, \emph{max-gap}, \emph{sliding window}) a s~taxonomií položek. Alternativní algoritmy: SPADE (vertikální formát), PrefixSpan (růst vzorů, obdoba FP-Growth).
 
-\subsection{Rozšíření: vícúrovňová a kvantitativní pravidla}
+\subsection{Rozšíření: víceúrovňová a kvantitativní pravidla}
 
 \textbf{Vícúrovňová asociační pravidla} (\emph{multilevel association rules}) využívají koncepční hierarchii položek (mléko $\to$ polotučné mléko $\to$ Tatra polotučné 1,5~l). Strategie prahů:
 \begin{itemize}
@@ -1149,7 +1149,7 @@ Realizace: uživatel zadá své očekávání (\uv{soft belief} systémy), syst�
 
 Prakticky se doporučuje kombinace: nejprve prah na support (aby pravidlo bylo statisticky opřené), pak prah na confidence, pak nulově invariantní míra (Kulczynski / cosine) doplněná koeficientem nevyváženosti, a nakonec subjektivní filtr doménového experta.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Support} $=$ podíl transakcí obsahujících $i\cup j$; \textbf{confidence} $=\mathrm{sup}(i\cup j)/\mathrm{sup}(i)$; \textbf{lift} $=\frac{P(i\wedge j)}{P(i)P(j)}$; $\mathrm{lift}<1$ $\to$ negace závěru dá lepší pravidlo.
@@ -1632,7 +1632,7 @@ Klasifikace objektu $\vec z$ metodou $k$ \emph{nejbližších sousedů} (\emph{$
 Vážená varianta dává sousedům váhu $1/d(\vec z,\vec x_i)^2$.
 \end{defbox}
 
-Vlastnosti: žádná fáze učení, ale drahá klasifikace ($O(p\,n)$ na dotaz, urychlení pomocí k-d stromů, ball-tree nebo LSH); nutná normalizace atributů (jinak dominují atributy s~velkým rozsahem --- viz kap.~\ref{sec:priprava}); silná citlivost na irelevantní atributy a prokletí dimenzionality; hranice mezi třídami je libovolně složitá (neparametrický model). Volba $k$: malé $k$ $\to$ vysoký rozptyl (citlivost na šum), velké $k$ $\to$ vysoké zkreslení; $k$ se volí křížovou validací, obvykle liché (kvůli remízám).
+Vlastnosti: žádná fáze učení, ale drahá klasifikace ($O(p\,n)$ na dotaz, urychlení pomocí k-d stromů, ball-tree nebo LSH); nutná normalizace atributů (jinak dominují atributy s~velkým rozsahem, viz kap.~\ref{sec:priprava}); silná citlivost na irelevantní atributy a prokletí dimenzionality; hranice mezi třídami je libovolně složitá (neparametrický model). Volba $k$: malé $k$ $\to$ vysoký rozptyl (citlivost na šum), velké $k$ $\to$ vysoké zkreslení; $k$ se volí křížovou validací, obvykle liché (kvůli remízám).
 
 \subsection{Support Vector Machines}
 
@@ -1975,7 +1975,7 @@ Lék & složitější model, více atributů, boosting & více dat, regularizace
 \end{tabular}
 \end{center}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{TDIDT / ID3}: hladově shora dolů, kritérium \emph{maximální informační zisk} $=$ minimální vážená entropie. Umět spočítat $H(S)$, $H(A(v))$, $H(A)$ a $\mathrm{GAIN}$ na malé tabulce.
@@ -2169,7 +2169,9 @@ Souhrnně se proto používá \textbf{plocha pod ROC křivkou} (\emph{Area Under
 \item je-li klasifikátor dokonalý, jeho AUC je 1;
 \item hádá-li klasifikátor zcela náhodně, jeho AUC je 0,5.
 \end{itemize}
-Interpretace: AUC je pravděpodobnost, že náhodně zvolený pozitivní případ dostane vyšší skóre než náhodně zvolený negativní případ. AUC je \emph{necitlivá na nevyváženost tříd} --- proto se u~nevyvážených úloh doporučuje spíše \emph{PR křivka} (precision proti recall) a AUPRC.
+Interpretace: AUC je pravděpodobnost, že náhodně zvolený pozitivní případ dostane vyšší skóre než náhodně zvolený negativní případ.
+
+\textbf{Pozor na nevyvážené třídy.} ROC křivka je \emph{invariantní vůči poměru tříd} --- obě její osy jsou normalizované uvnitř jedné třídy (TPR jen podle $P$, FPR jen podle $N$), takže se hodnota AUC nezmění, ani když negativních případů tisíckrát přibude. To zní jako přednost, ale při silné nevyváženosti je to past: absolutní počet falešných pozitiv roste s~$N$, zatímco FPR zůstává malá, takže model s~impozantní AUC $0{,}95$ může mít v~provozu \emph{precision} pod 10~\%. Proto se u~nevyvážených úloh vedle ROC vykresluje \emph{PR křivka} (precision proti recall) a~uvádí AUPRC --- ta na poměr tříd reaguje, protože precision má počet negativních případů ve jmenovateli. Základní úroveň PR křivky navíc není $0{,}5$, ale podíl pozitivní třídy $P/(P+N)$.
 \end{defbox}
 
 \subsection{Přeučení a srovnávání klasifikátorů}
@@ -2195,7 +2197,7 @@ Obrana: prořezávání, regularizace ($L_1$, $L_2$), předčasné zastavení, v
 
 \textbf{Cenově citlivé hodnocení:} má-li chyba různý dopad (FN u~detekce nádoru vs.\ FP), definuje se matice nákladů $c(i,j)$ a minimalizují se očekávané náklady $\sum_{i,j}c(i,j)\cdot n_{ij}$ místo chybovosti. Odpovídající prahová hodnota skóre je $\frac{c(FP)}{c(FP)+c(FN)}$.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Kritéria}: přesnost, efektivita, robustnost, škálovatelnost, interpretovatelnost, kompaktnost.
@@ -2483,7 +2485,7 @@ Rozšíření:
 
 Detekce odlehlých hodnot (\emph{outlier / anomaly detection}) je samostatná deskriptivní úloha KDD (kap.~\ref{sec:paradigmata}); univariátní přístup přes IQR a box plot byl v~kap.~\ref{sec:priprava}, zde jde o~vícerozměrné metody. Rozlišujeme \emph{globální} odlehlost (objekt je daleko od všech ostatních dat) a \emph{lokální} (objekt je odlehlý jen vzhledem k~hustotě svého okolí --- např.\ bod na okraji řídkého shluku globálně nevyčnívá).
 
-\begin{defbox}[Přístupy k~detekci odlehlých hodnot]
+\textbf{Přístupy k~detekci odlehlých hodnot.}
 \begin{itemize}
 \item \textbf{Statistické}: objekt je odlehlý, je-li málo pravděpodobný podle předpokládaného modelu dat --- vzdálenost přes $3\sigma$ od průměru, Mahalanobisova vzdálenost (zohlední kovarianci), malá hustota podle GMM.
 \item \textbf{Vzdálenostní}: skóre objektu = vzdálenost k~jeho $k$-tému nejbližšímu sousedovi; velká hodnota $\Rightarrow$ globální outlier. Jednoduché, ale selhává při shlucích různé hustoty.
@@ -2493,7 +2495,6 @@ kde $\mathrm{lrd}_k$ je \emph{lokální dosažitelná hustota} (převrácená ho
 \item \textbf{Modelové}: \emph{jednotřídní SVM} (naučí se hranici kolem normálních dat, vše vně je anomálie), \emph{izolační les} (\emph{isolation forest}) --- anomálie se v~náhodně stavěných stromech oddělí krátkou cestou od kořene, skóre = průměrná hloubka izolace; \emph{autoenkodér} --- anomálie mají velkou rekonstrukční chybu.
 \end{itemize}
 DBSCAN označí šum jako vedlejší produkt shlukování (binárně); specializované metody výše dávají každému objektu spojité \emph{skóre odlehlosti}, takže lze řídit počet hlášených anomálií. Typické aplikace: detekce podvodů, průniků do sítě (kap.~\ref{sec:praxe}), chyb měření.
-\end{defbox}
 
 \subsection{Další přístupy}
 
@@ -2577,7 +2578,7 @@ LVQ & s~učitelem & ano & kulovité & střední & $O(tnm d)$ \\
 
 \textbf{Volba algoritmu závisí na konkrétní aplikaci!} Praktická vodítka: kulovité shluky podobné velikosti a velká data $\to$ $k$-means (s~$k$-means++); neznámý počet shluků a nepravidelné tvary $\to$ DBSCAN; potřeba hierarchie nebo malá data $\to$ aglomerativní shlukování s~dendrogramem; nenumerická data nebo silné odlehlé hodnoty $\to$ $k$-medoids; pravděpodobnostní model a měkké přiřazení $\to$ EM/GMM.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Metriky:} Hammingova ($L^{(1)}$), euklidovská ($L^{(2)}$), Čebyševova ($L^{(\infty)}$), Minkowského $L^{(z)}$, Mahalanobisova (různé rozptyly, kovarianční matice). Vždy normalizovat!
@@ -2750,7 +2751,7 @@ Akceschopnost & lze na jeho základě jednat (subjektivní míra) \\
 
 \textbf{Klasická past:} pravidlo s~vysokou $t$-weight, ale $d$-weight rovnou apriornímu podílu třídy, není objevem, i když vypadá impozantně (\uv{80~\% klientů s~hypotékou má bankovní účet} --- ale ten má i 80~\% klientů bez hypotéky).
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Charakterizace} popisuje cílovou třídu; \textbf{diskriminace} ji porovnává s~kontrastními třídami.
@@ -2831,6 +2832,14 @@ Chernoffovy tváře, hvězdicové grafy & malý počet objektů, mnoho atributů
 
 \subsection{Vyhodnocení znalostí z~pohledu uživatele}
 
+Pojem \uv{vyhodnocování získaných znalostí} má v~dobývání znalostí tři různé roviny, které je třeba rozlišovat a~které jsou v~tomto textu probrány odděleně:
+\begin{itemize}
+\item \emph{statistické vyhodnocení modelu} --- přesnost, matice záměn, ROC/AUC, odhad chyby křížovou validací; viz kap.~\ref{sec:eval};
+\item \emph{vyhodnocení zajímavosti jednotlivých vzorů} --- support, confidence, lift, $\chi^2$, t-weight a d-weight; viz kap.~\ref{sec:ar} a~\ref{sec:aoi};
+\item \emph{vyhodnocení z~pohledu uživatele} --- předmět této podkapitoly: zda je nalezená znalost srozumitelná, platná, užitečná a~nová.
+\end{itemize}
+První dvě roviny jsou objektivní a~měřitelné, třetí je nutně subjektivní --- tentýž vzor může být pro jednoho uživatele objevem a~pro druhého notorietou.
+
 Nalezená znalost se hodnotí z~pohledu koncového uživatele --- část výsledků může být nezajímavá nebo z~jeho hlediska zřejmá, část lze použít přímo a část je nutné prezentovat srozumitelněji. Bývá užitečné shrnout výsledky do \emph{analytické zprávy}; výstupem může být i provedení rozumné akce.
 
 \textbf{Kritéria zajímavosti znalosti} (souhrnně):
@@ -2839,6 +2848,17 @@ Nalezená znalost se hodnotí z~pohledu koncového uživatele --- část výsled
 \item \emph{platnost} --- drží na nových datech s~přijatelnou spolehlivostí;
 \item \emph{užitečnost} --- vede k~akci s~měřitelným přínosem;
 \item \emph{novost} --- nebyla dosud známa (subjektivní vůči konkrétnímu uživateli).
+\end{itemize}
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item \textbf{Formy reprezentace znalostí}: IF-THEN pravidla (nejsrozumitelnější, lokální), rozhodovací strom (globální, čitelný do hloubky 4--5), rozhodovací tabulka, matematická funkce (kompaktní, neinterpretovatelná), prototypy/centroidy, pravděpodobnostní model, grafy a~sítě, instance ($k$-NN, CBR). Umět ke~každé formě říct, z~jaké metody vzniká a~čím se platí za její srozumitelnost.
+\item \textbf{Interpretovatelnost} (jak model dospěl k~výstupu) vs.\ \textbf{vysvětlitelnost} (odůvodnění konkrétního rozhodnutí); inherentně interpretovatelné modely vs.\ post-hoc vysvětlení černých skříněk (SHAP, LIME, PDP, kontrafaktuály). V~regulovaných doménách jde o~právní požadavek.
+\item \textbf{Vizualizační techniky} podle úlohy: histogram a~box plot (rozdělení), scatter plot a~SPLOM (vztahy), paralelní souřadnice a~projekce PCA/MDS/t-SNE/UMAP (vysokorozměrná data), heatmapa, dendrogram, vizualizace sítě, ROC a~lift křivka. Znát typické \emph{omezení} --- zejména že t-SNE a~UMAP zkreslují globální vzdálenosti, takže velikosti shluků a~mezery mezi nimi nelze interpretovat.
+\item \textbf{Tři role vizualizace v~KDD}: explorativní analýza (Anscombeho kvartet), vizualizace modelu, prezentace výsledků. Zásady: poměr datové a~inkoustové složky (Tufte), nezkreslovat osami, barva podle typu dat, žádné 3-D efekty.
+\item \textbf{Tři roviny \uv{vyhodnocování}} --- statistické vyhodnocení modelu (kap.~\ref{sec:eval}), zajímavost vzorů (kap.~\ref{sec:ar}, \ref{sec:aoi}) a~vyhodnocení uživatelem. První dvě jsou objektivní, třetí subjektivní.
+\item \textbf{Čtyři kritéria zajímavosti znalosti}: srozumitelnost, platnost, užitečnost, novost --- první tři lze měřit, novost vyžaduje znalost uživatele. Výstupem fáze je analytická zpráva, případně rovnou akce.
 \end{itemize}
 
 %=====================================================================
@@ -2933,7 +2953,7 @@ kde $-2$ ve jmenovateli vylučuje samotné $v_i$ a $v_j$. Pro graf $G=(\{1,2\},\
 
 \subsection{Klíčoví hráči: míry centrality}
 
-\begin{defbox}[Přehled měr centrality]
+\textbf{Přehled měr centrality.}
 \textbf{Stupňová centralita} (\emph{degree centrality}) --- vstupní a výstupní stupeň uzlu, tj.\ počet vazeb vedoucích do/z uzlu (u~neorientovaných grafů jsou shodné). Měří propojenost, vliv a/nebo popularitu uzlu; pomáhá určit, které uzly jsou centrální z~hlediska šíření informací a ovlivňování ostatních ve svém okolí.
 $$C_D(v)=\deg(v),\qquad C_D'(v)=\frac{\deg(v)}{n-1}.$$
 
@@ -2953,7 +2973,6 @@ Existuje mnoho vlastních čísel $\lambda$ s~nenulovým vlastním vektorem; po�
 $$x_v=\alpha\sum_u A_{uv}x_u+\beta,\qquad \mathbf x=\beta(I-\alpha A^T)^{-1}\mathbf 1,\qquad \alpha<1/\lambda_{\max}.$$
 
 \textbf{PageRank} --- viz kap.~\ref{ssec:pagerank}.
-\end{defbox}
 
 \begin{center}
 \begin{tabular}{@{}lp{12.2cm}@{}}
@@ -3023,7 +3042,7 @@ V~sociálních sítích je to velmi časté kvůli: (a) tranzitivitě silných s
 
 \subsection{Vlastnosti reálných komplexních sítí a jejich modely}
 
-\begin{defbox}[Šest vlastností reálných komplexních sítí]
+\textbf{Šest vlastností reálných komplexních sítí.}
 Reálné komplexní sítě jsou nenáhodné a nepravidelné grafy s~charakteristickými rysy (příklady: sociální sítě, informační a znalostní sítě, technologické sítě, biologické sítě):
 \begin{enumerate}
 \item \textbf{Efekt malého světa} --- Milgram; medián délky úspěšných cest byl 6. Sociální sítě jsou charakterizovány velmi krátkými cestami mezi náhodně zvolenými dvojicemi lidí, což má důsledky pro rychlost šíření informací i nemocí.
@@ -3033,7 +3052,6 @@ Reálné komplexní sítě jsou nenáhodné a nepravidelné grafy s~charakterist
 \item \textbf{Vzorce míšení} (\emph{mixing patterns}) --- koexistují-li v~síti různé typy uzlů, pozorujeme selektivitu při vytváření vazeb. Selektivní propojování se nazývá \emph{asortativní míšení} (\emph{assortative mixing}, homofilie); klasickým příkladem je míšení podle rasy. Reálné sítě vykazují vyšší sklon k~asortativnímu míšení.
 \item \textbf{Komunitní struktura} --- většina reálných sociálních sítí vykazuje komunitní strukturu, která vzniká jako důsledek globální i lokální heterogenity rozložení hran: vysoké koncentrace hran uvnitř určitých oblastí grafu (komunit) a nízké mezi nimi.
 \end{enumerate}
-\end{defbox}
 
 \begin{defbox}[Preferenční připojování a bezškálové sítě]
 \emph{Bezškálové sítě} (Barabási, Albert, 1999) jsou sítě, jejichž rozdělení stupňů se řídí \textbf{mocninným zákonem}:
@@ -3074,14 +3092,13 @@ Model Watts--Strogatz ukazuje, že již pro malé $\beta$ (řádu $0{,}01$) kles
 \subsection{Modelování vlivu}
 \label{ssec:influence}
 
-\begin{defbox}[Společné vlastnosti metod modelování vlivu]
+\textbf{Společné vlastnosti metod modelování vlivu.}
 \begin{itemize}
 \item sociální síť je reprezentována \emph{orientovaným} grafem, každý aktér je jeden uzel;
 \item každý uzel začíná jako \emph{aktivní} nebo \emph{neaktivní};
 \item jakmile je uzel aktivován, aktivuje své sousední uzly;
 \item jakmile je uzel aktivován, \emph{nemůže} být deaktivován.
 \end{itemize}
-\end{defbox}
 
 \begin{defbox}[Model lineárního prahu (LTM)]
 \emph{Linear Threshold Model} --- aktér provede akci, pokud počet jeho přátel, kteří akci provedli, překročí určitý práh.
@@ -3131,7 +3148,7 @@ $$2\times\frac49\times\frac59=\frac{40}{81}\approx 49\,\%.$$
 Ve zkoumaném grafu je však tento podíl $2/14=14\,\%<49\,\%$, takže síť vykazuje jistý stupeň \textbf{korelace} vzhledem ke kuřáckému chování.
 \end{defbox}
 
-\begin{defbox}[Tři sociální procesy vysvětlující korelaci]
+\textbf{Tři sociální procesy vysvětlující korelaci.}
 \begin{itemize}
 \item \textbf{Homofilie} --- tendence vázat se na ty, kdo s~námi sdílejí určitou podobnost (\uv{vrána k~vráně sedá}). Směr: \emph{atributy $\to$ propojení}.
 \item \textbf{Matoucí proměnná} (\emph{confounding}) --- korelace mezi aktéry může vzniknout i vlivem vnějšího prostředí (\uv{jednotlivci žijící v~témže městě se spíše stanou přáteli než náhodní jednotlivci}).
@@ -3140,7 +3157,6 @@ Ve zkoumaném grafu je však tento podíl $2/14=14\,\%<49\,\%$, takže síť vyk
 
 \textbf{Proč odlišovat vliv od homofilie a matoucích proměnných?}
 \emph{Analýza:} predikovat dynamiku systému --- zda se nová norma chování, technologie či myšlenka může šířit jako epidemie. \emph{Návrh:} navrhnout systém vyvolávající určité chování, např.\ očkovací strategie (náhodné, cílené na demografickou skupinu, cílené na náhodné známé) nebo virální marketingové kampaně.
-\end{defbox}
 
 \begin{defbox}[Logistický model aktivace a věrohodnost]
 V~mnoha studiích je vliv určen \emph{časovými razítky}. Pro hranu $(u,v)$ může uzel $u$ ovlivnit uzel $v$ v~diskrétních krocích $t=0,1,2,\dots$; v~každém $t$ se každý neaktivní uzel stane aktivním s~pravděpodobností $p(a)$, kde $a$ je počet aktivních kontaktů. Pravděpodobnost aktivace je \emph{logistickou funkcí} počtu aktivních přátel:
@@ -3213,13 +3229,12 @@ Skutečných 5 je významně méně než očekávaných 8 $\Rightarrow$ \textbf{
 \end{itemize}
 \end{defbox}
 
-\begin{defbox}[Tři uzávěrové procesy]
+\textbf{Tři uzávěrové procesy.}
 \begin{itemize}
 \item \textbf{Triadický uzávěr} (\emph{triadic closure}) --- dva lidé se společným přítelem se propojí. \emph{Tranzitivita na lidech.}
 \item \textbf{Ohniskový uzávěr} (\emph{focal closure}) --- dva lidé sdílející ohnisko se propojí. Uzávěr díky \emph{výběru}.
 \item \textbf{Členský uzávěr} (\emph{membership closure}) --- člověk se zapojí do ohniska, do kterého jsou už zapojeni jeho přátelé. Uzávěr díky \emph{sociálnímu vlivu}.
 \end{itemize}
-\end{defbox}
 
 \textbf{Otázky o~uzávěrech.} Je triadický uzávěr závislý na \emph{počtu} sdílených přátel? Formálně: jaká je pravděpodobnost, že dva lidé vytvoří vazbu, jako funkce počtu společných přátel? Analogicky pro ohniskový uzávěr (jako funkce počtu společně sdílených ohnisek) a členský uzávěr (jako funkce počtu přátel, kteří už jsou v~ohnisku zapojeni).
 
@@ -3809,7 +3824,7 @@ Přítomnost či nepřítomnost vazby mezi dvojicí uzlů se chápe jako binárn
 
 \textbf{Shrnutí predikce vazeb.} Různé míry se liší účinností na různých datech: míry založené na sousedství lze počítat efektivně i pro velmi velká data a fungují téměř stejně dobře jako ostatní nesupervizované míry; míry založené na náhodných procházkách a Katzově míře jsou užitečné pro velmi řídké sítě, kde nelze robustně měřit počet společných sousedů; supervize poskytuje lepší přesnost a adaptabilitu napříč doménami, ale je výpočetně nákladná; v~posledních letech se k~vylepšení používá i obsah, strukturní míry jsou však mnohem silnější (kvůli triadickým vlastnostem reálných sítí). Moderní přístupy: maticová faktorizace, \emph{vnoření grafu} (\emph{graph embedding} --- node2vec, DeepWalk) a grafové neuronové sítě (GCN, GraphSAGE). \textbf{Vyhodnocení:} skryj část existujících hran, na zbytku uč a měř AUC nebo precision@$k$ na skrytých hranách; pozor na extrémní nevyváženost ($O(n^2)$ možných vs.\ $O(n)$ existujících hran) --- accuracy je zde nepoužitelná.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{SNA} studuje \emph{vztahy}, ne entity; průsečík společenských věd, síťové analýzy a teorie grafů. Reprezentace: seznam hran, matice sousednosti (u~orientovaných nesymetrická), seznam sousedů; \emph{ego sítě} a problém vymezení hranic.
@@ -3967,7 +3982,7 @@ Dvě praktická úskalí: \emph{vymezení hranice sítě} (\emph{boundary specif
 \item \emph{Korelace není kauzalita}: dobývání znalostí nalézá asociace; rozhodnutí o~zásahu vyžaduje kauzální úvahu (randomizovaný experiment, kauzální inference).
 \end{itemize}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item Umět ke každé aplikaci přiřadit \textbf{typ úlohy} a \textbf{vhodné metody}: nákupní košík $\to$ asociační pravidla; kreditní skórování $\to$ logistická regrese / stromy (interpretovatelnost!); detekce podvodů $\to$ nevyvážené třídy, cenově citlivé učení, detekce odlehlých hodnot, analýza sítí; segmentace $\to$ shlukování + charakteristická pravidla; churn $\to$ klasifikace + lift analýza; doporučování $\to$ kolaborativní filtrování / maticová faktorizace; web $\to$ PageRank, sekvenční vzory, klasifikace textu.
@@ -4016,7 +4031,7 @@ Klasifikace v~jiných médiích & komentářový spam na webu, spam v~sociální
 
 \subsubsection{Klasifikace na základě obsahu zpráv a na základě metainformací}
 
-\begin{defbox}[Dva zdroje příznaků]
+\textbf{Dva zdroje příznaků.}
 \textbf{Klasifikace na základě obsahu} (\emph{content-based}) --- příznaky se odvozují z~textu zprávy:
 \begin{itemize}
 \item \emph{tokenizace} na slova, případně na $n$-gramy znaků či slov (odolnější vůči záměrným překlepům typu \texttt{V!AGRA});
@@ -4034,7 +4049,6 @@ Klasifikace v~jiných médiích & komentářový spam na webu, spam v~sociální
 \item \emph{chování uživatele}: kolikrát tento příjemce podobné zprávy označil jako spam.
 \end{itemize}
 Metainformace jsou pro spammera obtížněji falšovatelné než obsah, ale samy o~sobě nestačí (legitimní hromadné rozesílky, nově registrované legitimní domény).
-\end{defbox}
 
 \subsubsection{Začlenění klasifikace do celkového procesu filtrace}
 
@@ -4203,7 +4217,7 @@ Komerční NDR/UEBA & Darktrace, Vectra, Cisco Stealthwatch --- detekce anomáli
 
 \textbf{Datové sady:} \emph{KDD Cup 99} (odvozená z~DARPA 1998; historicky nejpoužívanější, ale silně kritizovaná --- obsahuje mnoho duplicit a nerealistické rozdělení); \emph{NSL-KDD} (odstraněné duplicity, vyváženější); \emph{CICIDS2017}, \emph{UNSW-NB15}, \emph{CTU-13} (botnety) --- modernější a realističtější.
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Spam:} klasifikační úlohy (binární, 3 třídy, typ spamu, phishing, image spam, odesílatel); příznaky z~\emph{obsahu} (tokeny, $n$-gramy, TF-IDF, HTML) vs.\ z~\emph{metainformací} (hlavičky, IP a DNSBL, SPF/DKIM/DMARC, kolaborativní kontrolní součty); celkový proces má 5 stupňů (spojení $\to$ protokol $\to$ obsah $\to$ rozhodnutí $\to$ zpětná vazba); \textbf{3 třídy} \{spam, ham, nejisté\} s~karanténou kvůli vysoké ceně falešné pozitivity. Příklady: SpamAssassin, bogofilter, SpamBayes, CRM114, DSPAM/Rspamd, Gmail.
@@ -4394,7 +4408,7 @@ Metody shlukování jsou podrobně v~kap.~\ref{sec:clustering}.
 \item \emph{Diverzita:} doporučí-li se po jedné položce z~různých shluků, výsledná nabídka je pestřejší a méně trpí přeurčeností.
 \end{itemize}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Klasifikátor} $h:\mathcal X\to C$; binární vs.\ vícetřídní; převody one-against-rest, one-against-one, ECOC; \textbf{3 třídy u~spamu} = odmítnutí rozhodnutí (karanténa).
@@ -4641,7 +4655,7 @@ Trénuje se \emph{zpětným šířením chyby} (\emph{backpropagation}); podrobn
 \textbf{Odhalování hrozeb v~síti.} MLP nad příznaky spojení bylo klasickým přístupem na KDD Cup 99. Dnes: \emph{autoenkodéry} pro detekci anomálií (velká rekonstrukční chyba $=$ anomálie) --- výhodou je učení jen z~normálního provozu; \emph{LSTM} nad posloupnostmi paketů, systémových volání či logů (predikce dalšího prvku, odchylka $=$ anomálie); \emph{konvoluční sítě} nad surovými bajty paketů; \emph{grafové neuronové sítě} nad grafem komunikace mezi hosty (kap.~\ref{sec:sna}) pro odhalení laterálního pohybu a botnetů. Sítě zvládají i vícetřídní rozlišení druhů útoků, včetně vzácných tříd R2L a U2R, jsou-li doplněny převzorkováním a cenově citlivou ztrátou.
 \end{defbox}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Dělení metod:} hledající hranice (perceptron, MLP, SVM, stromy) vs.\ nehledající hranice --- ty stojí buď na \emph{podobnosti} ($k$-NN), nebo na \emph{odhadu pravděpodobnosti} (bayesovské klasifikátory, logitová metoda, diskriminační analýza).
@@ -4817,7 +4831,7 @@ Aktivní učení řeší \textbf{studený start}: nový uživatel nemá historii
 Totéž se používá i \emph{průběžně} u~existujících uživatelů (\uv{ohodnoťte tyto tři filmy a zlepšíme vaše doporučení}) a při zavedení \emph{nové položky} do katalogu --- systém ji cíleně nabídne uživatelům, jejichž hodnocení o~ní řekne nejvíce. Praktickým omezením je, že dotazy jsou pro uživatele zátěží: je nutné vyvážit informační přínos a ochotu odpovídat.
 \end{defbox}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Generalizační schopnost} $=$ přesnost na nových vstupech; $R(h)\le\hat R(h)+\Phi(d_{VC}/p)$; \emph{strukturální minimalizace rizika} --- minimalizovat trénovací chybu \emph{a zároveň} omezovat kapacitu.
@@ -5017,11 +5031,10 @@ $\Sigma$ & 100 & 100 & 200 \\
 \textbf{Poučení:} deskriptivní kvantifikátory dají \uv{0,75}, statistické k~tomu dodají, že to není náhoda. Kdyby byla táž čtyřpolní tabulka desetkrát menší ($a=6$, $b=2$, $c=4$, $d=8$), zůstala by fundovaná implikace stejná (0,75), ale binomický test by dal $p$-hodnotu $0{,}315$, Fisherův test $0{,}085$ a $\chi^2$ pouhých $3{,}33<3{,}84$ --- \emph{ani jeden} statistický kvantifikátor by tedy neplatil. Právě v~tom je rozdíl obou rodin.
 \end{defbox}
 
-\begin{defbox}[Srovnání obou rodin kvantifikátorů]
+\textbf{Srovnání obou rodin kvantifikátorů.}
 \textbf{Proč dvě rodiny?} Odhady pravděpodobností jsou levné a přímo interpretovatelné, ale při malých četnostech mohou být iluzorní (pravidlo s~$a=3$, $b=0$ má confidence 100~\%, aniž by to cokoli znamenalo). Statistické kvantifikátory tuto past ošetří přímo v~definici pravidla. Cenou je vyšší výpočetní náročnost a nutnost korekce na \emph{mnohonásobné testování} --- GUHA generuje statisticky obrovské množství hypotéz, takže část \uv{významných} nálezů je nutně náhodná (řeší se Bonferroniho korekcí či kontrolou FDR).
 
 \textbf{Vztah k~asociačním pravidlům.} Fundovaná implikace \emph{je} klasické asociační pravidlo se support a confidence; GUHA je tedy obecnějším rámcem, v~němž jsou Apriori a spol.\ speciálním případem. GUHA navíc umožňuje v~antecedentu i sukcedentu \emph{libovolné} booleovské formule (včetně disjunkcí a negací), nikoli jen konjunkce, a nabízí i podmíněné (\emph{conditional}) varianty a kvantifikátory nad více kontingenčními tabulkami (SD4ft-Miner pro srovnání dvou skupin).
-\end{defbox}
 
 \subsection{Klasifikační stromy}
 
@@ -5051,7 +5064,7 @@ $\Sigma$ & 100 & 100 & 200 \\
 \end{itemize}
 \end{defbox}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Klasifikační pravidlo} $\varphi\Rightarrow\psi$ (postačující podmínka) vs.\ $\varphi\Leftrightarrow\psi$ (nutná i postačující); sada pravidel může být neúplná a nekonzistentní.
@@ -5175,7 +5188,7 @@ takže člen $\rho\sigma^2$ \emph{nezávisí} na počtu stromů a omezuje zisk z
 \textbf{Užitečné vedlejší produkty:} \emph{out-of-bag} odhad chyby zdarma (každý strom neviděl 36,8~\% dat); \emph{důležitost atributů} (průměrný pokles Gini nebo pokles přesnosti po permutaci atributu v~OOB vzorku); \emph{blízkost} (\emph{proximity}) dvou objektů $=$ podíl stromů, v~nichž skončí v~témže listu --- použitelná pro shlukování, detekci odlehlých hodnot i doplnění chybějících hodnot.
 \end{defbox}
 
-\begin{defbox}[Typy náhodných lesů]
+\textbf{Typy náhodných lesů.}
 Liší se především \emph{způsobem, jak se vnáší náhodnost}:
 \begin{center}
 \begin{tabular}{@{}p{4.2cm}p{10.3cm}@{}}
@@ -5192,7 +5205,6 @@ Liší se především \emph{způsobem, jak se vnáší náhodnost}:
 \end{tabular}
 \end{center}
 Ortogonálně se lesy dělí na \emph{klasifikační} a \emph{regresní} (v~listech průměr, kritérium součet čtverců), dále na \emph{kvantilové} (odhadují celé podmíněné rozdělení), \emph{survival forests} a \emph{izolační les} (\emph{isolation forest}) --- ten používá zcela náhodné stromy k~\emph{detekci odlehlých hodnot}, protože anomálie se v~náhodném stromu izoluje mělčeji než běžný bod; je to jedna z~nejpoužívanějších metod detekce anomálií v~IDS.
-\end{defbox}
 
 \begin{defbox}[Aktivní učení náhodných lesů]
 Náhodný les je \emph{přirozená komise} (\emph{committee}): jeho stromy jsou různorodé modely natrénované na týchž datech. \emph{Dotaz na komisi} (\emph{query by committee}) se tedy realizuje bez jakékoli nadstavby --- stačí sledovat \textbf{neshodu mezi stromy}:
@@ -5226,7 +5238,7 @@ Náhodný les je \emph{přirozená komise} (\emph{committee}): jeho stromy jsou 
 \end{itemize}
 \end{defbox}
 
-\subsection{Shrnutí k~zkoušce}
+\subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
 \item \textbf{Tým funguje}, jsou-li členové \emph{přesní} a \emph{různorodí} (dělají různé chyby); Condorcetova věta. \textbf{Různá důvěra}: pevné váhy, váhy z~validace ($\alpha_t=\frac12\ln\frac{1-\epsilon_t}{\epsilon_t}$), dynamický výběr podle lokální kompetence, směs expertů s~hradlovací sítí, stacking.
