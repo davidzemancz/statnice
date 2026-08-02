@@ -22,16 +22,16 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
-\title{\textbf{Dobývání znalostí}\\[1mm]\textbf{Internet a klasifikační metody}\\[2mm]\large Učební text k~státní závěrečné zkoušce}
+\title{\textbf{Dobývání znalostí}\\[1mm]\textbf{Internet a klasifikační metody}\\[1mm]\textbf{Neuronové sítě, strojové učení a náhodnost}\\[2mm]\large Učební text k~státní závěrečné zkoušce}
 \author{SZZ Umělá inteligence, MFF UK}
-\date{červenec 2026}
+\date{srpen 2026}
 
 \begin{document}
 \maketitle
 
 \section*{Mapování okruhů na kapitoly}
 
-Dokument pokrývá \textbf{dva} zkouškové okruhy. Část~I odpovídá okruhu \uv{Dobývání znalostí} (kurz NDBI023, I.~Mrázová; kapitola~\ref{sec:sna} navíc vychází ze slidů kurzu \emph{Social Networks and their Analysis}, 2024, téhož vyučujícího). Část~II pokrývá okruh předmětu \uv{Internet a klasifikační metody} (M.~Holeňa).
+Dokument pokrývá zkouškový okruh \uv{Dobývání znalostí} a látku dvou navazujících předmětů. Část~I odpovídá okruhu \uv{Dobývání znalostí} (kurz NDBI023, I.~Mrázová; kapitola~\ref{sec:sna} navíc vychází ze slidů kurzu \emph{Social Networks and their Analysis}, 2024, téhož vyučujícího). Část~II pokrývá osnovu předmětu \uv{Internet a klasifikační metody} (NAIL105, M.~Holeňa). Část~III zpracovává slidy volitelného kurzu \emph{Neural networks, machine learning and randomness} (M.~Holeňa, 5~přednášek) --- ten na zkušební okruh přímo nemapuje, ale prohlubuje klasifikační metody z~části~II o~stochastický pohled a je vhodný jako nadstavba k~otázkám o~neuronových sítích, učení a vyhodnocování modelů.
 
 \vspace{2mm}
 \noindent\textbf{Část I --- oficiální znění okruhu \uv{Dobývání znalostí}:}
@@ -74,10 +74,27 @@ Praktické využití technik & \ref{sec:praxe}~Praktické využití technik \\
 \end{tabular}
 \end{center}
 
+\vspace{2mm}
+\noindent\textbf{Část III --- přednášky kurzu \uv{Neuronové sítě, strojové učení a náhodnost}:}
+
+\begin{center}
+\begin{tabular}{@{}p{9.1cm}p{6.9cm}@{}}
+\toprule
+\textbf{Přednáška} & \textbf{Kapitola v~dokumentu} \\
+\midrule
+1. Preliminaries: recalling what you already know & \ref{sec:nmr-zaklady}~Opakování: sítě, učení a náhodnost \\
+2. Artificial neural networks based on randomness & \ref{sec:nmr-random-nn}~Neuronové sítě založené na náhodnosti \\
+3. Stochastic methods for artificial neural networks & \ref{sec:nmr-stoch-nn}~Stochastické metody pro neuronové sítě \\
+4. Stochastic methods for machine learning & \ref{sec:nmr-stoch-ml}~Stochastické metody pro strojové učení \\
+5. General stochastic approach to artificial neural networks & \ref{sec:nmr-obecny}~Obecný stochastický přístup k~neuronovým sítím \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 \vspace{4mm}
 \noindent\textit{Poznámka k~terminologii.} Text používá české termíny; anglický ekvivalent je uveden kurzívou v~závorce při prvním výskytu.
 
-\noindent\textit{Zdroje.} Část~I: kurz NDBI023 \emph{Dobývání znalostí} a kurz \emph{Social Networks and their Analysis} (I.~Mrázová, MFF UK), doplněné o~standardní literaturu --- Han, Kamber, Pei: \emph{Data Mining --- Concepts and Techniques}; Tan, Steinbach, Kumar: \emph{Introduction to Data Mining}; Aggarwal: \emph{Data Mining --- The Textbook}; pro sítě Easley, Kleinberg: \emph{Networks, Crowds and Markets} a Newman: \emph{Networks}. Část~II: osnova předmětu \emph{Internet a klasifikační metody} (M.~Holeňa) zpracovaná ze standardní literatury --- Bishop: \emph{Pattern Recognition and Machine Learning}; Hastie, Tibshirani, Friedman: \emph{The Elements of Statistical Learning}; Kuncheva: \emph{Combining Pattern Classifiers}; Hájek, Havránek: \emph{Mechanizing Hypothesis Formation}; Ricci et al.: \emph{Recommender Systems Handbook}.
+\noindent\textit{Zdroje.} Část~I: kurz NDBI023 \emph{Dobývání znalostí} a kurz \emph{Social Networks and their Analysis} (I.~Mrázová, MFF UK), doplněné o~standardní literaturu --- Han, Kamber, Pei: \emph{Data Mining --- Concepts and Techniques}; Tan, Steinbach, Kumar: \emph{Introduction to Data Mining}; Aggarwal: \emph{Data Mining --- The Textbook}; pro sítě Easley, Kleinberg: \emph{Networks, Crowds and Markets} a Newman: \emph{Networks}. Část~II: osnova předmětu \emph{Internet a klasifikační metody} (M.~Holeňa) zpracovaná ze standardní literatury --- Bishop: \emph{Pattern Recognition and Machine Learning}; Hastie, Tibshirani, Friedman: \emph{The Elements of Statistical Learning}; Kuncheva: \emph{Combining Pattern Classifiers}; Hájek, Havránek: \emph{Mechanizing Hypothesis Formation}; Ricci et al.: \emph{Recommender Systems Handbook}. Část~III: slidy \texttt{nmr1}--\texttt{nmr5} kurzu \emph{Neural networks, machine learning and randomness} (M.~Holeňa), doplněné o~Goodfellow, Bengio, Courville: \emph{Deep Learning}; Blei, Kucukelbir, McAuliffe: \emph{Variational Inference --- A~Review for Statisticians}; White: \emph{Artificial Neural Networks --- Approximation and Learning Theory}.
 
 \tableofcontents
 \newpage
@@ -5252,10 +5269,1196 @@ Náhodný les je \emph{přirozená komise} (\emph{committee}): jeho stromy jsou 
 \item \textbf{Aplikace lesů}: spam (heterogenní příznaky, důležitost příznaků, skóre pro tři třídy, cenová citlivost; slabší nad surovým slovníkem), doporučování (predikce hodnocení a CTR, LambdaMART, stacking, studený start).
 \end{itemize}
 
+%=====================================================================
+\part{Neuronové sítě, strojové učení a náhodnost}
+
+%=====================================================================
+\section{Opakování: sítě, učení a náhodnost}
+\label{sec:nmr-zaklady}
+
+Tato část vychází ze slidů volitelného kurzu M.~Holeni \emph{Neural networks, machine learning and randomness} (pět přednášek). Kurz předpokládá znalost základů neuronových sítí, strojového učení a teorie pravděpodobnosti a staví na nich systematický pohled na to, \emph{kde všude} v~učení sítí vystupuje náhodnost. Tato kapitola shrnuje předpokládané základy --- slouží jako slovníček pojmů, na které se odvolávají kapitoly~\ref{sec:nmr-random-nn}--\ref{sec:nmr-obecny}. Řada z~nich už byla probrána v~částech~I a~II (klasifikace, vyhodnocování, soubory klasifikátorů, SVM, stromy); zde se doplňuje především \uv{zoo} architektur sítí a pravděpodobnostní aparát.
+
+\subsection{Neurony, spoje, architektury}
+
+\begin{defbox}[Neuron a spoj]
+\emph{Neuron} je základní jednotka umělé neuronové sítě (\emph{artificial neural network}, ANN), analogická biologickému neuronu. Provádí \emph{somatickou operaci}: zpracuje příchozí signály a pošle výsledek dál. \emph{Spoje} mezi neurony provádějí \emph{synaptickou operaci}: váhování přenášeného signálu.
+\end{defbox}
+
+Neuron je určen vahami $w$, prahem (\emph{bias}) $b$ a \emph{aktivační funkcí} $f$. Typické aktivační funkce:
+\[
+f(z)=\frac{1}{1+e^{-z}}\ \text{(logistická)},\qquad
+f(z)=\tanh z=\frac{e^{z}-e^{-z}}{e^{z}+e^{-z}},\qquad
+f(z)=\max\{0,z\}\ \text{(ReLU)}.
+\]
+
+\emph{Architektura} je konkrétní vzor spojení mezi neurony. \emph{Vrstevnatá} architektura je lineárně uspořádaná posloupnost disjunktních vrstev, signál se šíří pouze ve směru uspořádání; obvykle je \emph{úplně propojená} (každý neuron nižší vrstvy s~každým vyšší), u~některých typů sítí (konvoluční) \emph{řídce propojená}. \emph{Rekurentní} architektura obsahuje na cestě signálu cykly.
+
+\begin{defbox}[Perceptron]
+\emph{Perceptron} je binární klasifikátor zobrazující číselné vstupy na binární výstup. Vstupní vrstva čte vektor příznaků $x=(x_1,\dots,x_n)$, váhy $w=(w_1,\dots,w_n)$ vyjadřují relativní příspěvky jednotlivých příznaků, práh $b$ se přičítá k~váženému součtu, $z=w^{\top}x+b$, a aktivační funkcí je skoková funkce
+\[
+f(z)=\begin{cases}1 & z\ge 0,\\ 0 & z<0.\end{cases}
+\]
+\end{defbox}
+
+\emph{Vícevrstvý perceptron} (\emph{multilayer perceptron}, MLP) je vrstevnatá síť s~alespoň třemi vrstvami uspořádanými dopředně: nultá je vstupní, vrstvy $1,\dots,L-1$ jsou skryté, $L$-tá je výstupní ($L\ge 2$). Pro jednu skrytou vrstvu je průchod sítí
+\[
+z^{(1)}=W^{(0)}x+b^{(1)},\quad a^{(1)}=f(z^{(1)}),\qquad
+z^{(2)}=W^{(1)}a^{(1)}+b^{(2)},\quad \hat y=f(z^{(2)}),
+\]
+kde $z$ jsou \emph{předaktivace}, $a$ aktivity a $\hat y$ výstup sítě.
+
+\subsection{Hlavní typy sítí}
+
+\textbf{Samoorganizující se mapa} (\emph{self-organizing map}, SOM; viz též kap.~\ref{sec:clustering}). Učí se zobrazení do 2--3 rozměrů na základě podobnosti, tedy \emph{bez učitele}, bez značek --- hodí se ke~klastrování a k~vizualizaci. Vstupní vrstva $x\in\mathbb{R}^n$, mapová vrstva $G$ tvaru mřížky $m\times m$ neuronů. Váhový vektor $w_i\in\mathbb{R}^n$ představuje \emph{vzor} neuronu $i\in G$; nejlépe odpovídající neuron (\emph{best matching unit}) pro vstup $x$ je
+\[
+i_{\mathrm{BMU}}=\arg\min_{i\in G}\lVert x-w_i\rVert .
+\]
+
+\textbf{Autoenkodér}. Učí se bez učitele kódovat vstup do nízkorozměrné komprimované reprezentace a zpět jej dekódovat; cílem je naučit se úsporné kódování podstatných rysů. Cesta signálu: vstup $x\longrightarrow$ skrytá \emph{latentní} vrstva $z\longrightarrow$ výstup $\hat x$ (mezi vstupem a latentní vrstvou i mezi latentní a výstupní mohou být další skryté vrstvy). Pro jednovrstvý enkodér i dekodér
+\[
+\hat x=g(z)=\sigma_d\!\left(W_d z+b_d\right)=\sigma_d\!\left(W_d\,\sigma_e(W_e x+b_e)+b_d\right).
+\]
+
+\textbf{Konvoluční síť} (\emph{convolutional neural network}, CNN). Využívá prostorovou strukturu obrázků či jiných mřížkových dat a zachycuje v~nich lokální vzory. Skládá se z~opakovaných dvojic [konvoluční $+$ sdružovací vrstva] a z~koncových úplně propojených vrstev. \emph{Konvoluční vrstva} posouvá po vstupu filtry (\emph{kernels}); neuron je propojen jen se svým lokálním \emph{receptivním polem}. Výstupem posouvaných filtrů je \emph{aktivační mapa} (\emph{feature map}).
+
+\textbf{Rekurentní sítě} (RNN). Uvažují kontext, resp.\ paměť předchozích vstupů, a hodí se proto na časové i prostorové posloupnosti (text, řeč, časové řady). Od MLP se liší smyčkami, např.
+\[
+h_t=\sigma\!\left(W_{xh}x_t+W_{hh}h_{t-1}+b_h\right).
+\]
+V~posledních letech vedou sítě \emph{long short-term memory} (LSTM), které zavádějí hradlovací mechanismus řídící tok informace, a tím se vyhýbají mizejícím a explodujícím gradientům klasických RNN.
+
+\textbf{Transformer}. Modeluje posloupnosti pomocí \emph{pozornosti} (\emph{attention}). Nejprve vnoří posloupnost $x_1,\dots,x_n$ do $e_1,\dots,e_n\in\mathbb{R}^d$; je-li podstatné pořadí, superponuje se \emph{poziční vnoření} $p_1,\dots,p_n\in\mathbb{R}^d$. Pro vstupy $z_i$ se počítají dotazy $q_i$, klíče $k_i$ a hodnoty $v_i$:
+\[
+\mathrm{Attention}(z_i)=\sum_{j=1}^{n}\frac{q_i k_j^{\top}}{\sum_{j'=1}^{n}q_i k_{j'}^{\top}}\,v_j,
+\qquad q_i=z_iW^{Q},\ k_i=z_iW^{K},\ v_i=z_iW^{V},
+\]
+kde $z_i\in\mathbb{R}^{d}$, $q_i,k_i\in\mathbb{R}^{d_k}$, $v_i\in\mathbb{R}^{d_v}$, $W^{Q},W^{K}\in\mathbb{R}^{d\times d_k}$, $W^{V}\in\mathbb{R}^{d\times d_v}$.
+
+\textbf{Grafové neuronové sítě} (GNN). Zpracovávají grafy a reprezentují je jako vnoření do vektorového prostoru; používají se na sociální sítě (kap.~\ref{sec:sna}), modely molekul, znalostní grafy. V~iteraci $t$ vnoření následuje paradigma \emph{předávání zpráv}: funkce zprávy a agregace zpracují vnoření sousedů uzlu $v$,
+\[
+f_{N}^{(t)}(v)=f_{\mathrm{aggregate}}^{(t)}\Bigl(\bigl\{f_{\mathrm{message}}^{(t)}(h_v^{(t-1)},h_u^{(t-1)},e_{vu})\bigr\}_{u\in\mathcal{N}(v)}\Bigr),
+\]
+načež se uplatní aktualizační funkce $h_v^{(t)}=f_{\mathrm{update}}\bigl(h_v^{(t-1)},f_N^{(t)}(v)\bigr)$.
+
+\subsection{Model strojového učení a jeho vývoj}
+
+\emph{Model} je matematická reprezentace jevu reálného světa, navržená tak, aby \emph{zobecňovala} z~dat použitých k~jejímu učení, a byla tedy schopná předpovídat pro nová data. Hlavní kroky vývoje modelu: sběr dat, předzpracování dat, výběr příznaků, inženýrství příznaků, trénink modelu, vyhodnocení modelu, nasazení a monitorování.
+
+\emph{Trénink} je klíčový krok: fitování modelu na data spolu s~regularizací tak, aby se naučil podstatné vzory. Data se dělí podle účelu na trénovací, (validační) a testovací; k~volbě mezi modely či konfiguracemi slouží křížová validace (kap.~\ref{sec:eval}). \emph{Chybová} (\emph{ztrátová}) funkce měří výkonnost modelu --- např.\ MSE v~regresi, křížová entropie v~klasifikaci.
+
+\emph{Výběr příznaků} u~vysokorozměrných dat snižuje přeučení, a zlepšuje tak zobecnění (kap.~\ref{sec:vyber}); kritériem je vliv na predikční výkonnost. \emph{Filtrační metody} řadí příznaky bez použití modelu --- podle korelace, vzájemné informace, statistických testů. \emph{Obalové metody} (\emph{wrapper}), případně vnořené do tréninku, hodnotí podmnožiny příznaků natrénováním modelu na nich.
+
+\emph{Vyhodnocení modelu} je posouzení jeho výkonnosti na testovacích datech; míry jsou specifické pro úlohu (kap.~\ref{sec:eval}): regrese --- MSE, MAE, RMSE; klasifikace --- správnost $\frac{TP+TN}{n}$, přesnost $\frac{TP}{n_{\cdot+}}$, úplnost $\frac{TP}{n_{+\cdot}}$, $F_1=\frac{2\cdot\text{přesnost}\cdot\text{úplnost}}{\text{přesnost}+\text{úplnost}}$, AUC.
+
+\subsection{Interpretovatelnost a vysvětlitelnost}
+
+Obojí je klíčové pro porozumění modelu a důvěru v~něj (viz též kap.~\ref{sec:ikm-pravidla}).
+
+\begin{defbox}[Interpretovatelnost a vysvětlitelnost]
+\emph{Interpretovatelnost} (\emph{interpretability}) je srozumitelnost fungování modelu pro člověka. \emph{Vysvětlitelnost} (\emph{explainability}) je zdůvodnění chování modelu; \emph{globální} se týká celkového chování, \emph{lokální} jednotlivých predikcí.
+\end{defbox}
+
+Dva nejznámější druhy vysvětlení: \textbf{LIME} konstruuje interpretovatelné aproximace predikcí (lokální náhradní model v~okolí vysvětlovaného bodu); \textbf{SHAP} používá \emph{Shapleyho hodnoty}, pojem přenesený z~kooperativních her --- příznaky jsou hráči a jejich příspěvek k~predikci se rozdělí podle Shapleyho hodnoty (viz okruh Multiagentní systémy).
+
+\subsection{Tři základní druhy učení}
+
+\begin{enumerate}
+\item \emph{Učení s~učitelem}: dataset páruje každý vstup $x$ se správným výstupem $y$; hledá se zobrazení $f$ minimalizující $\lVert f(x)-y\rVert$ (kap.~\ref{sec:supervised}).
+\item \emph{Učení bez učitele}: nepárovaná data, hledají se v~nich vnitřní struktury (klastrování, analýza hlavních komponent, \dots; kap.~\ref{sec:clustering}).
+\item \emph{Zpětnovazební učení}: neučí se ze statických dat, ale z~odměn za akce během interakce s~prostředím.
+\end{enumerate}
+
+\textbf{Analýza hlavních komponent} (PCA) je lineární transformace dat do nových ortogonálních souřadnic --- \emph{hlavních komponent}; první zachycuje maximum rozptylu, druhá maximum zbývajícího atd. Pro $n$ pozorování a $p$ příznaků, $X\in\mathbb{R}^{n\times p}$ standardizované na $\tilde X$, $\tilde X_{i,j}=\frac{X_{i,j}-\mathbb{E}X_{\cdot j}}{\sqrt{\operatorname{Var}X_{\cdot j}}}$, jsou hlavní komponenty projekcemi na vlastní vektory $Q$ kovarianční matice:
+\[
+Z=\tilde XQ,\qquad \operatorname{Var}X=Q\operatorname{diag}(\lambda_1,\dots,\lambda_p)Q^{\top}.
+\]
+
+Pro úplnost připomeňme z~kurzu i \emph{lineární regresi} $Y=X\beta+\varepsilon$, $\varepsilon\sim N(0,\sigma^2)$, s~odhadem metodou nejmenších čtverců $\hat\beta=\arg\min_\beta\lVert Y-X\beta\rVert^2=(X^{\top}X)^{-1}X^{\top}Y$ a mírou kvality $R^2=\mathrm{RSS}/\mathrm{TSS}$, \emph{logistickou regresi} $P(y=1\mid x)=\sigma(\beta_0+\beta_1x_1+\dots+\beta_nx_n)$ s~logitem $z=\log\frac{P(y=1\mid x)}{P(y=0\mid x)}$ a odhadem maximální věrohodností, dále klasifikační a regresní stromy, SVM, naivní bayesovský klasifikátor, učení nejbližších sousedů, učení pravidel a soubory klasifikátorů --- vše podrobně v~částech~I a~II (kap.~\ref{sec:supervised}, \ref{sec:ikm-typy}, \ref{sec:ikm-svm}, \ref{sec:ikm-pravidla}, \ref{sec:ikm-tymy}).
+
+U~učení nejbližších sousedů kurz zdůrazňuje roli $k$ v~\emph{rozkladu na zkreslení a rozptyl}: pro odhad $\hat f$ funkce $f$
+\[
+\mathbb{E}\bigl(\hat f(x)-f(x)\bigr)^2=\underbrace{\bigl(\mathbb{E}\hat f(x)-f(x)\bigr)^2}_{\text{zkreslení}^2}+\underbrace{\mathbb{E}\bigl(\hat f(x)-\mathbb{E}\hat f(x)\bigr)^2}_{\text{rozptyl}}+\sigma^2 .
+\]
+
+\subsection{Připomenutí pravděpodobnosti a statistiky}
+
+\begin{defbox}[Náhodná veličina]
+Buď $(\Omega,\mathcal{E},P)$ \emph{pravděpodobnostní prostor}: $\Omega$ je prostor elementárních jevů, $\mathcal{E}$ je $\sigma$-algebra podmnožin $\Omega$ zvaných \emph{jevy} a $P:\mathcal{E}\to[0,1]$ je pravděpodobnost. \emph{Borelovské množiny} $\mathcal{B}_n$ tvoří nejmenší $\sigma$-algebru obsahující otevřené množiny $\mathbb{R}^n$. Zobrazení $X:\Omega\to\mathbb{R}^n$ je \emph{náhodná veličina} (vektor), platí-li $\forall B\in\mathcal{B}_n:X^{-1}(B)\in\mathcal{E}$.
+\end{defbox}
+
+Náhodné veličiny kvantifikují výsledky pravděpodobnostních jevů reálnými čísly, a umožňují tak použít analýzu a teorii míry.
+
+\emph{Distribuční funkce} (CDF) veličiny $X$ je $F(x)=P(X\le x)$. Je-li $F$ skoková, je $X$ \emph{diskrétní} (obor hodnot $X(\Omega)$ je spočetný); je-li $F$ diferencovatelná, je $X$ \emph{spojitá} a $f=F'$ se nazývá \emph{hustota}. \emph{Obecný moment} řádu $r$ je $\mu_r'=\mathbb{E}(X^r)$, speciálně $\mu_1'=\mathbb{E}X$; \emph{centrální moment} řádu $r$ je $\mu_r=\mathbb{E}(X-\mathbb{E}X)^r$. Odtud rozptyl $\sigma^2=\mu_2$, šikmost $\gamma_1=\mu_3/\sigma^3$ a špičatost $\gamma_2=\mu_4/\sigma^4$.
+
+\emph{Podmíněná střední hodnota} $\mathbb{E}(Y\mid X)$ je náhodná veličina měřitelná vzhledem k~$\sigma$-algebře $\Sigma_X$ generované veličinou $X$ a splňující pro každé $A$ z~$\Sigma_X$ i~$\Sigma_Y$
+\[
+\int_A \mathbb{E}(Y\mid X)(\omega)\,\mathrm{d}P(\omega)=\int_A Y(\omega)\,\mathrm{d}P(\omega).
+\]
+Mezi funkcemi $g$ měřitelnými v~$\Sigma_X$ minimalizuje $\mathbb{E}(Y\mid X)$ střední kvadratickou odchylku $\mathbb{E}\bigl(Y-g(X)\bigr)^2$. Tato vlastnost je klíčem k~celé kapitole~\ref{sec:nmr-obecny}.
+
+\emph{Statistické odhadování} vyvozuje vlastnosti rozdělení (střední hodnotu, rozptyl, regresní koeficienty) z~konečného výběru. \emph{Bodový odhad} je jediná nejlepší hodnota, \emph{intervalový odhad} obsahuje hodnotu se zadanou pravděpodobností. \emph{Momentová metoda} hledá $\theta_{\mathrm{m}}$ tak, aby pro $k=1,\dots,n$ platilo $\frac1n\sum_{i=1}^n X_i^k=\mathbb{E}_{\theta_{\mathrm{m}}}X^k$; \emph{maximálně věrohodný odhad} je $\theta_{\mathrm{mle}}=\arg\max_\theta L(\theta)$, $L(\theta)=\prod_{i=1}^n f_\theta(X_i)$.
+
+\emph{Testování statistických hypotéz} rozhoduje, zda má být hypotéza $H_0$ o~rozdělení zamítnuta ve prospěch alternativy $H_1$. Stojí na \emph{stochastickém důkazu sporem}: platí-li $H_0$, je $P(\text{data}\mid H_0)$ vysoká; je-li tato pravděpodobnost nízká, svědčí to proti $H_0$. \emph{Testová statistika} je náhodná veličina funkcí $X_1,\dots,X_n$ s~předpokládaným rozdělením a
+\[
+p\text{-hodnota}=\begin{cases}
+P\bigl(T\ge T(X_1,\dots,X_n)\bigr) & \text{pro pravostranné rozdělení }T,\\[2pt]
+P\bigl(|T|\ge |T(X_1,\dots,X_n)|\bigr) & \text{pro symetrické oboustranné rozdělení }T.
+\end{cases}
+\]
+
+\emph{Náhodný proces} je soubor náhodných veličin $\{X(t)\mid t\in T\}$ indexovaný množinou $T\subset\mathbb{R}$ nebo $T\subset\mathbb{R}^k$; charakterizuje jej střední hodnota $m_X(t)=\mathbb{E}X(t)$ a autokorelace $R_X(t_1,t_2)=\mathbb{E}\bigl(X(t_1)X(t_2)\bigr)$. Proces je \emph{stacionární v~širším smyslu}, je-li $m_X$ konstantní a $R_X(t_1,t_2)=R_X(t_2-t_1)$. Rozlišuje se diskrétní/spojitý index i diskrétní/spojité stavy: příkladem s~diskrétním $T$ je Poissonův proces $\{N(t)\mid t\in\mathbb{N}\}$ počítající náhodné příchody, příkladem se spojitým $T\subset\mathbb{R}^k$ gaussovský proces (každý konečný podvýběr má normální rozdělení).
+
+\subsection{Bayesovský přístup a druhy nejistoty}
+
+\emph{Bayesovská statistika} interpretuje pravděpodobnost jako \emph{míru přesvědčení} (na rozdíl od frekventistické interpretace jako dlouhodobé relativní četnosti), která se aktualizuje s~příchodem nové informace. Opírá se o~Bayesovu větu
+\[
+P(\theta\mid D)=\frac{P(D\mid\theta)P(\theta)}{P(D)},
+\]
+kde $P(\theta)$ je \emph{apriorní} rozdělení, $P(D\mid\theta)$ \emph{věrohodnost} dat a $P(\theta\mid D)$ \emph{aposteriorní} rozdělení; stručně \emph{posterior} $\propto$ \emph{věrohodnost} $\times$ \emph{prior}.
+
+\begin{defbox}[Aleatorická a epistemická nejistota]
+\emph{Aleatorická nejistota} je náhodnost přenášená náhodnými veličinami; je inherentní systémům a procesům, které popisují, a je \emph{neredukovatelná}. \emph{Epistemická nejistota} vzniká z~nedostatku znalosti --- z~(1)~nedostatku dat a (2)~neúplnosti modelů (jejich odlišnosti od reality); je \emph{redukovatelná} získáním více dat, lépe zobecňujících modelů či dodatečného expertního úsudku.
+\end{defbox}
+
+Toto rozlišení je jedním z~hlavních argumentů pro bayesovské neuronové sítě (kap.~\ref{sec:nmr-random-nn}): umějí epistemickou nejistotu kvantifikovat, a tím rozpoznat vstupy mimo trénovací rozdělení.
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item \textbf{Neuron}: somatická operace, spoj: synaptická operace; váhy, práh, aktivační funkce (logistická, tanh, ReLU). \textbf{Architektury}: vrstevnatá (úplně/řídce propojená) vs.\ rekurentní.
+\item \textbf{Zoo sítí}: perceptron (skoková funkce), MLP ($\ge3$ vrstvy, dopředné), SOM (bez učitele, BMU, vizualizace), autoenkodér (kódování--dekódování přes latentní vrstvu), CNN (receptivní pole, aktivační mapy, pooling), RNN/LSTM (kontext, hradla proti mizejícím gradientům), transformer (dotaz--klíč--hodnota, poziční vnoření), GNN (předávání zpráv, agregace, aktualizace).
+\item \textbf{Vývoj modelu}: sběr $\to$ předzpracování $\to$ výběr a inženýrství příznaků $\to$ trénink $\to$ vyhodnocení $\to$ nasazení a monitorování. Filtrační vs.\ obalové metody výběru příznaků.
+\item \textbf{Interpretovatelnost} (jak model funguje) vs.\ \textbf{vysvětlitelnost} (proč tak rozhodl), globální vs.\ lokální; LIME (lokální náhradní model), SHAP (Shapleyho hodnoty z~kooperativních her).
+\item \textbf{Tři druhy učení}: s~učitelem, bez učitele, zpětnovazební. Rozklad na zkreslení a rozptyl.
+\item \textbf{Pravděpodobnost}: pravděpodobnostní prostor, borelovská měřitelnost, CDF, hustota, momenty (rozptyl, šikmost, špičatost), podmíněná střední hodnota jako $L^2$-optimální predikce, momentová metoda a MLE, testování hypotéz a $p$-hodnota, náhodný proces a stacionarita v~širším smyslu.
+\item \textbf{Nejistota}: aleatorická (neredukovatelná, inherentní) vs.\ epistemická (redukovatelná, z~nedostatku dat a nedokonalosti modelu).
+\end{itemize}
+
+%=====================================================================
+\section{Neuronové sítě založené na náhodnosti}
+\label{sec:nmr-random-nn}
+
+Tato kapitola se ptá, co se stane, pokud \emph{část vah sítě vůbec neučíme} a ponecháme ji náhodnou. Odpověď je pozoruhodná: učení se tím redukuje na lineární úlohu (řešitelnou v~uzavřeném tvaru), aproximační schopnost se přitom zachovává. Druhá polovina kapitoly jde opačným směrem --- náhodné nejsou vstupy do učení, ale \emph{parametry samotné}, které dostanou pravděpodobnostní rozdělení (bayesovské sítě).
+
+\subsection{Extrémní učicí stroj (ELM)}
+
+\begin{defbox}[Extreme learning machine]
+\emph{Extrémní učicí stroj} (\emph{extreme learning machine}, ELM) je dopředná neuronová síť s~jednou skrytou vrstvou, jejíž výstupy jsou skalární součiny. Velikosti vrstev: vstupní $k$, skrytá $l$, výstupní $m$ neuronů. Aktivační funkce $j$-tého skrytého neuronu $a_j(\cdot\,;w_j,b_j):\mathbb{R}^k\to\mathbb{R}$ má váhu $w_j$ a práh $b_j$, např.
+\[
+a_j(x;w_j,b_j)=\frac{1}{1+e^{-(x^{\top}w_j+b_j)}} .
+\]
+Výstup ELM pro $x\in\mathbb{R}^k$ je $\sum_{j=1}^{l}\beta_j\,a_j(x;w_j,b_j)$ s~$\beta_j\in\mathbb{R}^m$. \textbf{Náhodné} jsou $w_j$ (odpovídají synaptickým operacím) a $b_j$ (uvnitř $a_j$, tedy somatické operace).
+\end{defbox}
+
+Trénovací data jsou dvojice vstup--cíl $(x_1,t_1),\dots,(x_N,t_N)\in\mathbb{R}^k\times\mathbb{R}^m$. Aktivity skrytých neuronů pro $x$ tvoří řádkový vektor
+\[
+h(x)=\bigl(h_1(x),\dots,h_l(x)\bigr)=\bigl(a_1(x;w_1,b_1),\dots,a_l(x;w_l,b_l)\bigr),
+\]
+který umožňuje definovat \emph{náhodné jádro} $K(x,y)=h(x)h(y)^{\top}$. V~maticovém zápisu
+\[
+T=\begin{pmatrix}t_1^{\top}\\ \vdots\\ t_N^{\top}\end{pmatrix}\in\mathbb{R}^{N\times m},
+\qquad
+H=\begin{pmatrix}h(x_1)\\ \vdots\\ h(x_N)\end{pmatrix}\in\mathbb{R}^{N\times l},
+\]
+přičemž matice $H$ je \emph{náhodná} (závisí na náhodných $w_j,b_j$).
+
+\subsubsection{Učení ELM}
+
+Učí se pouze nenáhodné váhy $\beta=(\beta_1,\dots,\beta_l)^{\top}\in\mathbb{R}^{l\times m}$, a to minimalizací
+\[
+\lVert\beta\rVert_1^{\sigma_1}+C\,\lVert H\beta-T\rVert_2^{\sigma_2},
+\]
+kde $\lVert\cdot\rVert_1,\lVert\cdot\rVert_2$ jsou maticové normy, $\sigma_1,\sigma_2>0$ a $C\in(0,+\infty]$; první člen je \emph{regularizační}, druhý \emph{chybový}. Bez regularizace, tj.\ pro $C=+\infty$, platí
+\[
+\arg\min_\beta\lVert H\beta-T\rVert_2^{\sigma_2}=H^{+}T,
+\]
+kde $H^{+}$ je \emph{Mooreova--Penroseova zobecněná inverze}, charakterizovaná vztahy
+\[
+HH^{+}H=H,\qquad H^{+}HH^{+}=H^{+}.
+\]
+
+Pro nejběžnější volbu $\sigma_1=\sigma_2=2$ se úloha převede na optimalizaci s~omezeními. Označme $\xi_{i,j}=t_{i,j}-h(x_i)\beta_j$ pro $(t_{i,1},\dots,t_{i,m})^{\top}=t_i$. Pak se minimalizuje
+\[
+\min_\beta\ \sum_{j=1}^{m}\lVert\beta_j\rVert^2+C\sum_{j=1}^{m}\sum_{i=1}^{N}\xi_{i,j}^2
+\qquad\text{za podmínek}\qquad t_{i,j}-h(x_i)^{\top}\beta_j-\xi_{i,j}=0 .
+\]
+Lagrangeova funkce s~multiplikátory $\alpha_{i,j}$ je
+\[
+L_{\mathrm{ELM}}=\sum_{j=1}^{m}\lVert\beta_j\rVert^{2}+C\sum_{j=1}^{m}\sum_{i=1}^{N}\xi_{i,j}^{2}
++\sum_{j=1}^{m}\sum_{i=1}^{N}\alpha_{i,j}\bigl(t_{i,j}-h(x_i)\beta_j-\xi_{i,j}\bigr).
+\]
+Podmínky stacionarity dávají
+\[
+\frac{\partial L}{\partial\beta_j}=0\ \Rightarrow\ \beta_j=\sum_{i=1}^{N}\alpha_{i,j}h(x_i)^{\top},\ \text{tj.}\ \beta=H^{\top}\alpha;
+\qquad
+\frac{\partial L}{\partial\xi_i}=0\ \Rightarrow\ \alpha_i=C\xi_i;
+\]
+derivace podle multiplikátorů reprodukuje původní omezení $t_i^{\top}=h(x_i)\beta+\xi_i^{\top}$.
+
+\subsubsection{Řešení podle poměru $N$ a $l$}
+
+\textbf{Případ $N>l$} (více dat než skrytých neuronů). Spojením $\beta=H^{\top}\alpha$ s~$\alpha_i=C\xi_i$ vyjde $\beta=CH^{\top}\xi$, tedy $\xi=\frac1C(H^{\top})^{+}\beta$; dosazením do omezení
+\[
+H\beta-T+\tfrac1C (H^{\top})^{+}\beta=0
+\ \Longrightarrow\
+\Bigl(\tfrac{I}{C}+H^{\top}H\Bigr)\beta=H^{\top}T
+\ \Longrightarrow\
+\boxed{\ \beta=\Bigl(\tfrac{I}{C}+H^{\top}H\Bigr)^{-1}H^{\top}T\ }
+\]
+a výstup sítě je lineární kombinace aktivit skryté vrstvy, $h(x)\beta=h(x)\bigl(\tfrac{I}{C}+H^{\top}H\bigr)^{-1}H^{\top}T$.
+
+\textbf{Případ $N\le l$} (přeurčená skrytá vrstva). Analogicky
+\[
+\Bigl(\tfrac{I}{C}+HH^{\top}\Bigr)\alpha=T,\qquad
+\beta=H^{\top}\Bigl(\tfrac{I}{C}+HH^{\top}\Bigr)^{-1}T,\qquad
+\text{výstup } h(x)H^{\top}\Bigl(\tfrac{I}{C}+HH^{\top}\Bigr)^{-1}T .
+\]
+Zde se uplatní náhodné jádro: s~$K_{\mathrm{ELM}}=\bigl(K(x_i,x_j)\bigr)_{i,j=1}^{N}=HH^{\top}$ je
+\[
+\beta=H^{\top}\Bigl(\tfrac{I}{C}+K_{\mathrm{ELM}}\Bigr)^{-1}T,
+\qquad
+\text{výstup}=\bigl(K(x_1,x),\dots,K(x_N,x)\bigr)\Bigl(\tfrac{I}{C}+K_{\mathrm{ELM}}\Bigr)^{-1}T,
+\]
+což je přesně \emph{jádrový} tvar --- ELM tak lze provozovat, aniž bychom skrytou vrstvu explicitně vyčíslovali (srov.\ jádrový trik u~SVM, kap.~\ref{sec:ikm-svm}).
+
+\emph{Pointa:} učení ELM je jediné řešení lineární soustavy, tedy nesrovnatelně rychlejší než iterativní učení MLP zpětným šířením --- za cenu toho, že skrytá reprezentace není přizpůsobena úloze, jen náhodně vygenerována.
+
+\subsection{ELM a náhodná projekce}
+
+\emph{Náhodná projekce} je zobrazení $x\mapsto Wx$ s~náhodnou maticí $W\in\mathbb{R}^{r\times c}$; u~ELM hraje tuto roli matice $W=(w_1,\dots,w_l)^{\top}$ vstupních vah. Od náhodné projekce se ELM liší ve~dvou ohledech:
+\begin{enumerate}
+\item Náhodná projekce se snaží \textbf{zachovat euklidovské vzdálenosti}, $\lVert Wx-Wx'\rVert\cong\lVert x-x'\rVert$ (Johnsonovo--Lindenstraussovo lemma); ELM žádnou takovou podmínku neklade a navíc na projekci aplikuje nelinearitu.
+\item Náhodná projekce má \textbf{méně řádků než sloupců}, $r<c$ (redukce dimenze), zatímco ELM má obvykle $l>k$, někdy o~řád --- skrytá vrstva dimenzi naopak \emph{zvyšuje}, aby se úloha stala lineárně separabilní.
+\end{enumerate}
+
+\subsection{Randomizovaná konvoluční síť}
+
+Jde o~konvoluční síť, v~níž jsou \textbf{náhodné váhy ze vstupů do receptivních polí} (jader), tj.\ na spojích vstupní vrstva $\longrightarrow$ konvoluční vrstva. Dále se předpokládají vrstvy \emph{kombinatorická} (provádí pooling, a tedy nemá žádné váhy) a úplně propojená. \textbf{Učí se pouze váhy} mezi kombinatorickou a výstupní (úplně propojenou) vrstvou --- opět tedy jen poslední lineární vrstva.
+
+Vlastnosti: je-li velikost receptivního pole $r\times r$ a dimenze vstupu $d$, má každá mapa konvoluční vrstvy velikost $(d-r+1)\times(d-r+1)$. Matice $A^{\mathrm{ic}}_m$ náhodných vah mezi vstupní a konvoluční vrstvou je \emph{stejná pro každou mapu} $m$ konvoluční vrstvy (obdoba sdílení vah v~klasické CNN).
+
+\subsection{Sítě s~echo stavem (ESN)}
+
+\begin{defbox}[Echo state network]
+\emph{Síť s~echo stavem} (\emph{echo state network}, ESN) je rekurentní neuronová síť s~náhodnými vahami. Náhodné jsou \textbf{všechny váhy vedoucí do skryté vrstvy}: spoje ze vstupní vrstvy, rekurentní spoje skryté vrstvy do sebe samé i zpětné spoje z~výstupní vrstvy. \textbf{Učí se pouze váhy} ze skryté do výstupní vrstvy. Terminologie: skrytá vrstva se nazývá \emph{rezervoár}, výstupní vrstva \emph{readout} (odečet).
+\end{defbox}
+
+ESN je hlavním představitelem tzv.\ \emph{reservoir computingu}: rezervoár slouží jako náhodná nelineární dynamická paměť, z~níž lineární readout \uv{odečítá} potřebnou informaci.
+
+Vývoj aktivity. Nechť vstup $x\in\mathbb{R}^d$, skrytá vrstva $h\in\mathbb{R}^r$, výstup $y\in\mathbb{R}$. Pro $t\in\mathbb{N}$
+\[
+h(t)=\alpha h(t-1)+(1-\alpha)\,\sigma\bigl(W_{\mathrm{ir}}x(t)+W_{\mathrm{rr}}h(t-1)+w_{\mathrm{ro}}y(t-1)\bigr),
+\]
+kde $W_{\mathrm{ir}}\in\mathbb{R}^{d\times r}$, $W_{\mathrm{rr}}\in\mathbb{R}^{r\times r}$, $w_{\mathrm{ro}}\in\mathbb{R}^{r}$, $\alpha\in\mathbb{R}$ je setrvačnost (\emph{leaking rate}) a $\sigma$ nelinearita. Bez setrvačnosti ($\alpha=0$) se vztah zjednoduší na $h(t)=\sigma\bigl(W_{\mathrm{ir}}x(t)+W_{\mathrm{rr}}h(t-1)+w_{\mathrm{ro}}y(t-1)\bigr)$. Aktivita výstupu je
+\[
+y(t)=w_{\mathrm{io}}^{\top}x(t)+w_{\mathrm{ro}}^{\top}h(t),\qquad w_{\mathrm{io}}\in\mathbb{R}^{d},\ w_{\mathrm{ro}}\in\mathbb{R}^{r}.
+\]
+
+\textbf{ESN s~inhibičními spoji.} V~biologických sítích \emph{laterální inhibice} aktivního neuronu potlačuje odezvu ostatních propojených neuronů. ESN je simuluje speciální strukturou rezervoárové matice
+\[
+W_{\mathrm{rr}}=\begin{pmatrix}W_1 & -sI\\ -sI & W_2\end{pmatrix},\qquad s>0,
+\]
+kde $s$ se nazývá \emph{síla inhibice}. Rezervoár se tak rozdělí na dvě populace, které se vzájemně tlumí.
+
+\subsection{Sítě se stochastickou konfigurací (SCN)}
+
+\begin{defbox}[Stochastic configuration network]
+\emph{Síť se stochastickou konfigurací} (SCN) má $d$ vstupů, $m$ výstupů a jednu skrytou vrstvu s~$L\ge2$ neurony. Používá se k~aproximaci funkce $f:D\subseteq\mathbb{R}^d\to\mathbb{R}$ funkcí
+\[
+f_L(x)=\sum_{j=1}^{L}\beta_j\,g_j(w_j^{\top}x+b_j),\qquad g_j:\mathbb{R}\to\mathbb{R},
+\]
+kde $g_j\in\Gamma$ patří do množiny \emph{bázových aktivačních funkcí}, $w_j$ je $d$-rozměrný \textbf{náhodný vektor} a $b_j$ \textbf{náhodná veličina}.
+\end{defbox}
+
+Klíčový teoretický výsledek: je-li $f$ na $D$ spojitá, $f\in C(D)$, a mají-li bázové aktivační funkce konečné druhé momenty, $\forall g\in\Gamma:\int_{\mathbb{R}}|g(t)|^2\,\mathrm{d}t<\infty$, pak střední hodnota $f_L$ vzhledem k~náhodným $w_j,b_j$ s~rostoucím $L$ konverguje k~$f$ ve smyslu
+\[
+\lim_{L\to\infty}\mathbb{E}\int_{D}\bigl|f(x)-f_L(x)\bigr|^2\,\mathrm{d}x=0 .
+\]
+Jinými slovy: \emph{náhodně konfigurovaná} skrytá vrstva stačí k~univerzální aproximaci --- to je teoretické ospravedlnění celé rodiny sítí s~náhodnými vahami (ELM, randomizovaná CNN, ESN).
+
+\subsection{Bayesovské neuronové sítě (BNN)}
+
+\begin{defbox}[Bayesovská neuronová síť]
+\emph{Bayesovská neuronová síť} (BNN) je stochastická neuronová síť trénovaná bayesovským přístupem. Parametry $\theta$ určující funkci $y=F(x)=F_\theta(x)$, kterou se síť učí, se chápou jako \textbf{náhodné veličiny} s~apriorním rozdělením $p(\theta)$ a aposteriorním rozdělením $p(\theta\mid D)$ podmíněným daty $D=\{(x_1,y_1),\dots,(x_p,y_p)\}$; značíme $D_x=\{x_1,\dots,x_p\}$, $D_y=\{y_1,\dots,y_p\}$. Často se navíc uvažuje superponovaný náhodný šum $\epsilon$: $y=F(x)+\epsilon$.
+\end{defbox}
+
+\textbf{Omezená stochasticita.} Náhodné bývají jen parametry poslední vrstvy nebo několika posledních vrstev; vhodnou reprezentací je pak \emph{pravděpodobnostní grafický model}. Motivace je výpočetní --- plně bayesovská hluboká síť je obvykle neúnosně drahá.
+
+\textbf{Predikce.} Predikcí BNN je náhodná veličina s~rozdělením $p(y\mid x,D)$, tedy stochastická aproximace $F(x)$; počítá se pomocí aposteriorního rozdělení
+\[
+p(y\mid x,D)=\int p(y\mid x,\theta')\,p(\theta'\mid D)\,\mathrm{d}\theta' .
+\]
+Jsou-li vstupy $D_x$ nezávislé na parametrech modelu $\theta$, splňuje aposteriorní rozdělení Bayesovu větu
+\[
+p(\theta\mid D)=\frac{p(D_y\mid D_x,\theta)\,p(\theta)}{\int p(D_y\mid D_x,\theta')\,p(\theta')\,\mathrm{d}\theta'} .
+\]
+
+\textbf{Distribuční předpoklady.} Rozdělení $\theta$ se obvykle předpokládá gaussovské, $\theta\sim N(\mu,\Sigma)$. Pro BNN provádějící regresi se prediktivní rozdělení $p(y\mid x,D)$ předpokládá gaussovské se stejným rozptylem, $y\sim N(F_\theta(x),\Sigma)$; pro klasifikaci je kategorické s~kategoriemi danými $F_\theta(x)$, $y\sim\mathrm{Cat}(F_\theta(x))$. V~obou případech pro celý dataset $p(D_y\mid D_x,\theta)=\prod_{(x,y)\in D}p(y\mid x,\theta)$.
+
+\textbf{Odhad výstupu.} Opírá se o~vzorkování $\theta$ z~aposteriorního rozdělení: nechť $\Theta$ je vzorek. Pro regresi
+\[
+\hat y(x)=\frac{1}{|\Theta|}\sum_{\theta\in\Theta}F_\theta(x),
+\qquad
+\operatorname{cov}\hat y(x,D)=\frac{1}{|\Theta|-1}\sum_{\theta\in\Theta}\bigl(F_\theta(x)-\hat y\bigr)\bigl(F_\theta(x)-\hat y\bigr)^{\top}.
+\]
+Pro klasifikaci do tříd $c=1,\dots,C$ je $\hat y(x)=\arg\max_c\hat p_c$, kde $\hat p_c=\frac{1}{|\Theta|}\bigl|\{\theta\in\Theta\mid F_\theta(x)=c\}\bigr|$.
+
+\subsubsection{BNN se stochastickou aktivací}
+
+Alternativa: náhodné nejsou parametry, ale \textbf{vstupy aktivačních funkcí}, jejichž rozdělení závisí na výstupech předchozích vrstev. Pro BNN s~vrstvami $L_0,\dots,L_n$ a aktivační funkcí $a$ je $L_0(x)=x$, mezivrstvový krok $L_k(x)=a(\theta_k(x))$ a $L_n(x)=y$, přičemž náhodné je
+\[
+\theta_k(x)\sim N\bigl(W_kL_{k-1}(x)+b_k,\ \Sigma\bigr),
+\]
+a sdružené rozdělení má tvar součinu přes data a vrstvy
+\[
+p\bigl(D_y,L_1(x),\dots,L_{n-1}(x)\mid D_x\bigr)=\prod_{(x,y)\in D}\ \prod_{k=1}^{n}p\bigl(L_k(x)\mid L_{k-1}(x)\bigr).
+\]
+
+\textbf{Ekvivalence obou přístupů.} Uvažujme BNN s~krokem $L_k(x)=a(WL_{k-1}(x)+b)$, kde $W\sim N(\mu_W,\Sigma_W)$ a $b\sim N(\mu_b,\Sigma_b)$. Lze ukázat, že je ekvivalentní stochastické aktivaci
+\[
+L_k(x)=a(\theta(x)),\qquad
+\theta(x)\sim N\bigl(\mu_W L_{k-1}(x)+\mu_b,\ \otimes_{k-1}^{\top}\Sigma_W\otimes_{k-1}+\Sigma_b\bigr),
+\]
+kde $\otimes_{k-1}=\operatorname{diag}\bigl(L_{k-1}(x),\dots,L_{k-1}(x)\bigr)$ je bloková diagonální matice. Stochasticita parametrů a stochasticita aktivace tedy nejsou dva různé modely, ale dva pohledy na tentýž.
+
+\subsubsection{Priory, šum a augmentace}
+
+\textbf{Volba prioru} $p(\theta)$ často není intuitivní. Běžnou výchozí volbou je nekorelovaný normální prior $\theta\sim N(0,\sigma I)$ --- ten však \emph{není podložen teoretickými argumenty}. Souvislost s~učením: učení parametrů ze ztrátové funkce odpovídá maximálně věrohodnému odhadu $\hat\theta=\arg\max_\theta p(D_y\mid D_x,\theta)$, zatímco použití prioru vede na aposteriorní (MAP) učení $\hat\theta=\arg\max_\theta p(D_y\mid D_x,\theta)p(\theta)$.
+
+\textbf{Šum.} Rozlišují se tři modely šumu, zapisované jako pravděpodobnostní grafické modely ($\hat y=y+\text{šum}$, závislosti orientovanými hranami): (a) šum \emph{zcela náhodný} (\emph{completely at random}), (b) šum \emph{náhodný} (\emph{at random}, závislý na pozorovaných veličinách), (c) šum \emph{nenáhodný} (\emph{not at random}, závislý na nepozorované hodnotě samé).
+
+\textbf{Augmentace dat} obecně doplňuje sebraná data o~výsledky jejich transformace, která nemění značku nebo ji mění předvídatelně. Pro BNN znamená změnu aposteriorního rozdělení
+\[
+p(\theta\mid D)\ \longrightarrow\ p(\theta\mid D,\mathrm{Augment})\ \propto\ p(\theta)\int p(y\mid x',\theta)\,p(x'\mid x,\mathrm{Augment})\,\mathrm{d}x',
+\]
+kde $\mathrm{Augment}$ je rozdělení výsledků augmentace.
+
+\subsubsection{Učení BNN a reparametrizační trik}
+
+Pro ztrátovou funkci $L$ nelze zpětně šířit $\nabla_\theta L$, protože $\theta$ je stochastické. Obchází se to \textbf{reparametrizačním trikem}:
+\[
+\theta=t(\varepsilon,\phi),\qquad \varepsilon\sim Q,
+\]
+kde $Q$ je pevné rozdělení a $\phi\in\mathbb{R}$ je nestochastický parametr; nestochasticita $\phi$ umožňuje zpětně šířit $\nabla_\phi L$. (Např.\ $\theta=\mu+\sigma\varepsilon$, $\varepsilon\sim N(0,1)$, s~učenými $\mu,\sigma$.)
+
+\textbf{Hierarchické BNN.} Několik parametrů $\theta_1,\dots,\theta_I$ závisí na dalším společném parametru $\xi$, takže sdružená pravděpodobnost je
+\[
+p(\theta_1,\dots,\theta_I,\xi\mid D_1,\dots,D_I)\ \propto\ p(\xi)\prod_{i=1}^{I}p(\theta_i\mid\xi)\,p(D_{i,y}\mid D_{i,x},\theta_i).
+\]
+Používá se k~\emph{metaučení} BNN: parametry $\theta_1,\dots,\theta_I$ odpovídají příznakům $I$ sítí, parametr $\xi$ jejich společným metapříznakům.
+
+\subsubsection{Výhody BNN a aktivní učení}
+
+\begin{enumerate}
+\item Jsou \textbf{přirozeným přístupem ke~kvantifikaci nejistoty}.
+\item Body \textbf{mimo trénovací rozdělení} se projeví vysokou \emph{epistemickou nejistotou} aposteriorního rozdělení, místo aby síť slepě vydala chybnou predikci. Umožňují inferenci: losuj $\theta_i\sim p(\theta\mid D)$ a odvoď $y_i=F_{\theta_i}(x)$, $i=1,\dots,N$.
+\item Apriorní rozdělení $\theta$ je \textbf{explicitní} (na rozdíl od implicitních předpokladů běžných sítí).
+\end{enumerate}
+
+\textbf{BNN v~aktivním učení} (srov.\ kap.~\ref{sec:ikm-svm}). Postup stojí na odhadu nejistoty $\hat y(x)$:
+\begin{enumerate}
+\item Vylosuje se vzorek $\Theta=\{\theta_i\mid i=1,\dots,N,\ \theta_i\sim p(\theta\mid D)\}$.
+\item Nejistota se odhadne jako
+\[
+\Sigma_x=\frac{\sum_{\theta\in\Theta}\bigl(F_\theta(x)-\hat y(x)\bigr)\bigl(F_\theta(x)-\hat y(x)\bigr)^{\top}}{|\Theta|-1}.
+\]
+\end{enumerate}
+Mezi dosud nevyhodnocenými body $x$, které jsou k~dispozici, se vyhodnotí ten, který nejistotu $\Sigma_x$ maximalizuje (vyhodnocením se u~regrese míní získání hodnoty, u~klasifikace označkování).
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item \textbf{Společný princip}: náhodné váhy do skryté vrstvy $+$ učená pouze poslední lineární vrstva $\Rightarrow$ učení je řešení lineární úlohy v~uzavřeném tvaru.
+\item \textbf{ELM}: 1 skrytá vrstva, náhodné $w_j,b_j$, učí se $\beta$ minimalizací $\lVert\beta\rVert_1^{\sigma_1}+C\lVert H\beta-T\rVert_2^{\sigma_2}$. Bez regularizace $\beta=H^{+}T$ (Mooreova--Penroseova inverze). Pro $\sigma_1=\sigma_2=2$ Lagrangián $\Rightarrow$ $\beta=H^{\top}\alpha$, $\alpha_i=C\xi_i$; $N>l$: $\beta=(\frac{I}{C}+H^{\top}H)^{-1}H^{\top}T$, $N\le l$: $\beta=H^{\top}(\frac{I}{C}+HH^{\top})^{-1}T$, jádrový tvar s~$K(x,y)=h(x)h(y)^{\top}$.
+\item \textbf{ELM vs.\ náhodná projekce}: projekce zachovává vzdálenosti a snižuje dimenzi ($r<c$), ELM nikoli a dimenzi obvykle zvyšuje ($l>k$).
+\item \textbf{Randomizovaná CNN}: náhodné váhy vstup $\to$ konvoluční vrstva (stejná matice pro všechny mapy), pooling bez vah, učí se jen poslední úplně propojená vrstva; mapa má rozměr $(d-r+1)^2$.
+\item \textbf{ESN}: rekurentní síť, náhodné \emph{všechny} váhy do rezervoáru (vstupní, rekurentní, zpětné z~výstupu), učí se readout; $h(t)=\alpha h(t-1)+(1-\alpha)\sigma(W_{\mathrm{ir}}x+W_{\mathrm{rr}}h(t-1)+w_{\mathrm{ro}}y(t-1))$; inhibiční spoje $W_{\mathrm{rr}}=\bigl(\begin{smallmatrix}W_1 & -sI\\ -sI & W_2\end{smallmatrix}\bigr)$.
+\item \textbf{SCN}: $f_L(x)=\sum\beta_jg_j(w_j^{\top}x+b_j)$ s~náhodnými $w_j,b_j$; pro spojité $f$ a bázové funkce s~konečným 2.\ momentem platí $\lim_{L\to\infty}\mathbb{E}\int_D|f-f_L|^2=0$ --- univerzální aproximace i při náhodné konfiguraci.
+\item \textbf{BNN}: parametry jsou náhodné veličiny, prior $p(\theta)$, posterior $p(\theta\mid D)$, predikce $p(y\mid x,D)=\int p(y\mid x,\theta')p(\theta'\mid D)\mathrm{d}\theta'$; omezená stochasticita jen v~posledních vrstvách; regrese $y\sim N(F_\theta,\Sigma)$, klasifikace $y\sim\mathrm{Cat}(F_\theta(x))$; odhad výstupu průměrem/většinou přes vzorek $\Theta$.
+\item \textbf{Stochastická aktivace} je ekvivalentní stochastickým parametrům (převod s~blokovou maticí $\otimes_{k-1}$). \textbf{Prior} $N(0,\sigma I)$ je default bez teoretického opodstatnění; ztráta $\to$ MLE, ztráta $+$ prior $\to$ MAP.
+\item \textbf{Reparametrizační trik} $\theta=t(\varepsilon,\phi)$ umožňuje zpětné šíření přes stochastický parametr. \textbf{Hierarchické BNN} $\to$ metaučení.
+\item \textbf{Výhody BNN}: kvantifikace nejistoty, rozpoznání bodů mimo trénovací rozdělení (epistemická nejistota), explicitní prior. \textbf{Aktivní učení}: vyhodnotit bod maximalizující $\Sigma_x$.
+\end{itemize}
+%=====================================================================
+\section{Stochastické metody pro neuronové sítě}
+\label{sec:nmr-stoch-nn}
+
+Zatímco kapitola~\ref{sec:nmr-random-nn} zaváděla náhodnost do \emph{struktury} sítě, tato kapitola ji zavádí do \emph{učicího algoritmu}: náhodně se vypouštějí neurony (dropout) a náhodně se vybírají data, na nichž se počítá gradient (stochastický gradientní sestup). Poslední oddíl ukazuje, že SGD lze chápat jako náhodný proces, a odvodit tak optimální krok učení i velikost minidávky.
+
+\subsection{Dropout}
+
+\begin{defbox}[Dropout]
+\emph{Dropout} je dočasné odstranění (vypuštění) některých vstupních nebo skrytých neuronů během tréninku sítě. Neurony se vypouštějí \textbf{náhodně} podle zadaného rozdělení. Původně byl navržen a nejčastěji se používá při tréninku vícevrstvých perceptronů.
+\end{defbox}
+
+\textbf{Bernoulliho dropout.} Rozdělení $\mathrm{Bernoulli}(p)$ na dvojici $\{a,b\}$ nabývá hodnot $a,b$ s~pravděpodobnostmi $1-p$, $p$. Předpoklady o~$l$-té skryté vrstvě ($l=1,\dots,L$): vektorový vstup $z^{(l)}$, výstup $y^{(l)}$, váhy $w^{(l)}$, skalární práh $b^{(l)}$; aktivační funkce $f$ nezávisí na $l$ a platí $y^{(l)}=f(z^{(l)})$; položme $a=0$, $b=1$ a označme $y^{(0)}=x$ vstup sítě. Pak
+\[
+z_i^{(l)}=w_i^{(l)}\,r_i^{(l)}\,y_i^{(l-1)}+b^{(l)},\qquad r_i^{(l)}\sim\mathrm{Bernoulli}(p).
+\]
+
+\textbf{Dropout a trénink sítě.} Nejčastěji se používá stochastický gradientní sestup. Rozdíl proti standardnímu MLP: \emph{pro každý trénovací případ se losují nové hodnoty} $r_i^{(l)}$, čímž vzniká nová konkrétní síť; dopředné i zpětné šíření je omezeno na tuto individuální síť. Gradienty se průměrují přes ty případy, které daný parametr zachovaly --- případy, v~nichž byl parametr vypuštěn, přispívají nulou.
+
+\textbf{Dropout a regularizace.} Samotný dropout trénink zlepšuje, s~regularizací ještě více. Nejčastěji se kombinuje s~\emph{max-norm} regularizací $\lVert w\rVert\le c$, kde $w$ je vektor všech vah, $\lVert\cdot\rVert$ nějaká norma a $c$ hyperparametr; učení sítě se tím stává optimalizací s~omezeními. Hlavní důvod užitečnosti max-norm regularizace: váhy nemohou explodovat ani při velkém kroku učení, což zachovává \emph{prozkoumatelnost} (\emph{explorability}) prostoru vah.
+
+\textbf{Další vlastnosti.} Dropout vede k~\emph{řídké reprezentaci}, i když se nepoužije žádný regularizátor vynucující řídkost. Vliv velikosti datasetu vzhledem k~velikosti sítě: u~velmi malých datasetů dochází k~přeučení i po dropoutu, takže je zbytečný; s~rostoucí velikostí datasetu jeho užitečnost roste a poté opět klesá --- u~velmi velkých datasetů k~přeučení nedochází. Doba tréninku je $2$--$3\times$ delší než bez dropoutu.
+
+\textbf{Výhody dropoutu.}
+\begin{enumerate}
+\item Po vypuštění má síť \textbf{méně parametrů}, a je tedy méně náchylná k~přeučení trénovacích dat.
+\item \textbf{Rozbíjí koadaptace} různých skrytých neuronů, které brání zobecnění.
+\item Různé realizace dropoutu $\approx$ různé topologie sítě, takže dropout implicitně \textbf{buduje soubory sítí} (kap.~\ref{sec:ikm-tymy}).
+\end{enumerate}
+
+\textbf{Dropoutové soubory.} Pro soubor $\mathcal{S}$ vytvořený vypouštěním podmnožin množiny $H$ skrytých neuronů platí $|\mathcal{S}|\le2^{|H|}$. Přežije-li neuron $h\in H$ během tréninku dropout s~pravděpodobností $p$, pak se při testování váhy vycházející z~$h$ \textbf{vynásobí $p$} --- očekávané váhy po tréninku se tak rovnají váhám použitým při testování. Alternativní možnost: násobit tréninkové váhy $1/p$ (tzv.\ \emph{inverted dropout}).
+
+\textbf{Obecnější dropouty.} Používá se i s~jinými modely než s~MLP --- s~omezeným Boltzmannovým strojem, s~lineární regresí --- a s~jinými rozděleními než Bernoulliho, zejména s~gaussovským.
+
+\subsubsection{Dropout v~lineární regresi}
+
+Vypouštějí se jednotlivé trénovací dvojice, tj.\ řádky matice $X\in\mathbb{R}^{N\times d}$ a vektoru cílů $y\in\mathbb{R}^N$. Dropout se zavede po složkách součinem $X\odot R$, kde $R$ je náhodná matice s~hodnotami v~$\{0,1\}^{N\times d}$ a všemi složkami $R_{ij}\sim\mathrm{Bernoulli}(p)$.
+
+Zatímco tradiční lineární regrese hledá $w\in\mathbb{R}^d$ minimalizující $\lVert y-Xw\rVert^2$, u~dropoutové varianty se minimalizuje střední hodnota přes $R$:
+\[
+\mathbb{E}_{R\sim\mathrm{Bernoulli}(p)}\bigl\lVert y-(X\odot R)w\bigr\rVert^{2}
+=\lVert y-pXw\rVert^{2}+p(1-p)\bigl\lVert(\operatorname{diag}X^{\top}X)^{1/2}w\bigr\rVert^{2}
+\]
+\[
+=\lVert y-X\tilde w\rVert^{2}+\frac{1-p}{p}\bigl\lVert(\operatorname{diag}X^{\top}X)^{1/2}\tilde w\bigr\rVert^{2},
+\qquad \tilde w=pw .
+\]
+Dropout v~lineární regresi je tedy \textbf{ekvivalentní hřebenové (Tichonovově) regularizaci}, v~níž je penalizace každé složky škálována normou příslušného sloupce $X$; síla regularizace je $\frac{1-p}{p}$ --- čím častěji vypouštíme, tím silněji regularizujeme. To je nejnázornější důkaz toho, že dropout \emph{je} regularizační technika.
+
+\subsubsection{Gaussovský dropout}
+
+Základní myšlenka: aktivita $h_i$ skrytého neuronu $i$ se poruší na $h_i(1+r)$ s~$r\sim N(0,1)$, obecněji $r\sim N(0,\sigma^2)$. Ekvivalentně se $h_i$ poruší na $h_ir'$, kde $r'=1+r$, tedy $r'\sim N(1,\sigma^2)$. Hyperparametrem je $\sigma^2$ (analogie $p$ u~Bernoulliho dropoutu).
+
+\emph{Co vlastně gaussovský dropout vypouští?} Formálně nevypouští žádné neurony, pouze poruší jejich aktivity. Nicméně pro $h_ir'$ s~$r'\sim N(1,\sigma^2)$, kde $\sigma^2=\frac{1-p}{p}$, je
+\[
+\mathbb{E}r'=1,\qquad \operatorname{Var}r'=\frac{1-p}{p},
+\]
+a tytéž první dva momenty má $r'\sim\mathrm{Bernoulli}(p)$ na množině $\{0,\frac1p\}$ --- což je právě (invertovaný) dropout vypouštějící skrytý neuron $i$. Obě varianty se tedy shodují až na tvar rozdělení, nikoli na jeho střední hodnotu a rozptyl.
+
+\subsection{Stochastický gradient a SGD}
+
+\begin{defbox}[Stochastický gradient]
+Buď minimalizována ztrátová funkce pro data $z=(z_1,\dots,z_N)$ a parametry $\theta$, sečtená přes data:
+$\mathcal{L}(\theta)=\mathcal{L}(\theta,z)=\frac1N\sum_{n\in\hat N}\ell_n(\theta,z_n)$, $\hat N=\{1,\dots,N\}$.
+Pro $s\in\mathbb{N}$ uvažujme náhodnou veličinu $\mathcal{M}_s$ s~hodnotami v~$\{S\subset\hat N\mid |S|=s\}$, zvanou \emph{minidávka} (\emph{minibatch}), s~rovnoměrným rozdělením: $P(S)=1/\binom{N}{s}$. Definujme náhodnou ztrátovou funkci $\hat{\mathcal{L}}_s(\theta)=\frac1s\sum_{n\in\mathcal{M}_s}\ell_n(\theta,z_n)$. Její gradient $\hat g_s=\nabla_\theta\hat{\mathcal{L}}_s$ se nazývá \emph{stochastický gradient}.
+\end{defbox}
+
+\emph{Příklad (kvadratická ztráta).} Pro $\ell_n(\theta,z_n)=\frac12\lVert z_n-\theta\rVert^2$ je $\mathcal{L}(\theta)=\frac{1}{2N}\sum_{n=1}^{N}\lVert z_n-\theta\rVert^2$ a $\nabla_\theta\mathcal{L}=\bar z-\theta$ s~$\bar z=\frac1N\sum_n z_n$, takže $\arg\min_\theta\mathcal{L}=\bar z$; reparametrizace $\theta_{\mathrm{new}}=\theta-\bar z$ posune minimum do počátku. Dále $\hat{\mathcal{L}}_s(\theta)=\frac{1}{2s}\sum_{n\in\mathcal{M}_s}\lVert z_n-\theta\rVert^2$ a $\hat g_s(\theta)=\frac1s\sum_{n\in\mathcal{M}_s}(z_n-\theta)$.
+
+\textbf{Připomenutí standardního GD.} Standardní (též \emph{úplný} nebo \emph{dávkový}) gradientní sestup:
+\[
+w^{+}=w-\frac{\eta}{N}\sum_{n=1}^{N}\nabla_\theta\ell_n(\theta,z_n),
+\]
+jedna taková aktualizace se nazývá \emph{epocha}. Výhoda: aktualizace nezávisí na lokálních odlišnostech dat, a je tedy stabilní. Nevýhoda: výpočetní náročnost na rozsáhlých datech; nepoužitelné pro data, která se nevejdou do paměti.
+
+\begin{defbox}[Stochastický gradientní sestup]
+\emph{Stochastický gradientní sestup} (SGD) je aplikace gradientního sestupu na stochastický gradient:
+\[
+\theta_{t+1}=\theta_t-\eta\,\hat g_s(\theta_t,z)=\theta_t-\eta\,\nabla_\theta\hat{\mathcal{L}}_s(\theta_t,z),
+\qquad
+\hat g_s(\theta,z)=\frac1s\sum_{n\in\mathcal{M}_s}\nabla_\theta\ell_n(\theta,z_n),
+\]
+kde $\theta_t$ jsou parametry v~iteraci $t$ a $\eta$ je \emph{krok učení} (\emph{learning rate}). Pro $s<N$ se metoda často nazývá \emph{minidávkový gradientní sestup}.
+\end{defbox}
+
+\begin{defbox}[Algoritmus SGD]
+\begin{algorithmic}[1]
+\State Inicializuj $\eta>0$ a $\theta_0\in\mathbb{R}^d$ na zadané hodnoty; $t\gets0$
+\While{není splněno kritérium ukončení}
+  \State $\zeta_t\gets\nabla_\theta\hat{\mathcal{L}}_s(\theta_t,z)=\frac1s\sum_{n\in\mathcal{M}_s}\nabla_\theta\ell_n(\theta_t,z_n)$
+  \State $\theta_{t+1}\gets\theta_t-\eta\zeta_t$
+  \State $t\gets t+1$
+\EndWhile
+\end{algorithmic}
+\end{defbox}
+
+\textbf{Srovnání GD a SGD.} Výhody GD: stabilita, a tedy konvergence v~malém počtu iterací, konvergence k~lokálnímu minimu a u~konvexních funkcí ke~globálnímu. Výhody SGD: rychlost a paměťová nenáročnost, díky čemuž je vhodný pro \emph{online} učení.
+
+\subsubsection{Varianty SGD využívající historii gradientů}
+
+\textbf{Stochastický průměrovaný gradient} (SAG). Vychází z~očekávaných přírůstků $\nabla_\theta\hat{\mathcal{L}}_s$. Inicializuje $\theta_0$, $d=0$ a $\zeta_n=0$ pro $n=1,\dots,N$; v~každé iteraci $t$ vylosuje $\mathcal{M}_s$ a pro $n\in\mathcal{M}_s$ aktualizuje
+\[
+d\gets d-\zeta_n+\nabla_\theta\ell_n(\theta_t,z_n),\qquad \zeta_n\gets\nabla_\theta\ell_n(\theta_t,z_n),
+\]
+a přejde k~další iteraci krokem $\theta_{t+1}=\theta_t-\eta d$. Vektor $d$ tak drží průběžný součet \emph{posledních známých} gradientů všech $N$ vzorků; SAG tedy kombinuje nízkou cenu SGD se stabilitou GD.
+
+\textbf{SGD s~momentem.} Snižuje oscilace SGD pomocí \emph{momentu} $\mu\hat g_s$, který částečně zachovává předchozí směr gradientu:
+\[
+\hat g_s(\theta_t,z)=\mu\,\hat g_s(\theta_{t-1},z)+\alpha\,\nabla_\theta\hat{\mathcal{L}}_s(\theta_t,z),\quad\mu>0,\ \alpha>0,
+\qquad
+\theta_{t+1}=\theta_t-\hat g_s(\theta_t,z).
+\]
+Metoda se nazývá též \emph{stochastická metoda těžké koule} (\emph{heavy ball}) --- efekt $\mu$ připomíná setrvačnost těžké koule.
+
+\textbf{Nesterovův urychlený gradient} (NAG). Rovněž potlačuje oscilace, ale $\nabla_\theta\hat{\mathcal{L}}_s$ se počítá až \emph{v~bodě po provedení setrvačného kroku}, tedy v~$\theta_t-\mu\hat g_s(\theta_{t-1},z)$:
+\[
+\hat g_s(\theta_t,z)=\mu\,\hat g_s(\theta_{t-1},z)+\alpha\,\nabla_\theta\hat{\mathcal{L}}_s\bigl(\theta_t-\mu\hat g_s(\theta_{t-1},z),z\bigr),
+\qquad
+\theta_{t+1}=\theta_t-\hat g_s(\theta_t,z).
+\]
+Rozdíl proti momentu je tedy \uv{podívat se dopředu, kam mě setrvačnost stejně odnese, a teprve tam měřit gradient}.
+
+\subsubsection{Adaptivní krok učení}
+
+Krok učení je zásadní: malý vede k~pomalé konvergenci, velký k~oscilacím. Navíc může mít různý dopad v~různých dimenzích, protože příslušné složky gradientu (parciální derivace) se liší o~řády. Náprava: nastavit různé kroky učení pro různé dimenze; při vysoké dimenzionalitě je ruční nastavení časově nemožné, a proto se používají metody \emph{adaptivního určování kroku učení}.
+
+\textbf{AdaGrad} (adaptivní gradient) upravuje původní krok $\eta$ dynamicky podle gradientů z~předchozích iterací:
+\[
+\theta_t=\theta_{t-1}-\frac{\eta}{\sqrt{\operatorname{diag}G_{t-1}}+\epsilon}\,\hat g_s(\theta_{t-1},z),
+\]
+kde $G_t\in\mathbb{R}^d$ sčítá druhé mocniny minulých gradientů po složkách. Například pro
+$\hat g_s(\theta_1,z)=(1,0,2)^{\top}$, $\hat g_s(\theta_2,z)=(3,4,0)^{\top}$, $\hat g_s(\theta_3,z)=(0,5,6)^{\top}$
+je $G_4=(1^2+3^2,\ 4^2+5^2,\ 2^2+6^2)^{\top}=(10,41,40)^{\top}$. Nevýhoda: součet neomezeně roste, takže krok učení monotónně klesá k~nule.
+
+\textbf{RMSProp} nechává vliv minulých iterací exponenciálně vyhasínat, a odstraňuje tak nevýhodu AdaGradu, že se všemi minulými gradienty zachází stejně. Je to metoda momentu, ale využívá \emph{moment druhého řádu} $\beta v_t$:
+\[
+v_t=\beta v_{t-1}+(1-\beta)\hat g_s^{\,2}(\theta_t,z),\ \beta>0,
+\qquad
+\theta_t=\theta_{t-1}-\alpha_t\,v_{t-1}^{-1/2}\,\hat g_s(\theta_{t-1},z).
+\]
+
+\textbf{Adam} (\emph{adaptive moment estimation}) je často rychle konvergující kombinace adaptivního kroku učení a momentu; využívá první ($\alpha m_t$) i druhý ($\beta v_t$) moment gradientu, $\alpha,\beta\in(0,1)$:
+\[
+m_t=\alpha m_{t-1}+(1-\alpha)\hat g_s(\theta_t,z),\qquad
+v_t=\beta v_{t-1}+(1-\beta)\hat g_s^{\,2}(\theta_t,z),
+\]
+\[
+\hat m_t=\frac{m_t}{1-\alpha^t},\qquad \hat v_t=\frac{v_t}{1-\beta^t},
+\qquad
+\theta_t=\theta_{t-1}-\frac{\eta}{\sqrt{\hat v_t}+\epsilon}\,\hat m_t,\ \eta>0 .
+\]
+(Dělení $1-\alpha^t$, resp.\ $1-\beta^t$ opravuje vychýlení momentů v~prvních iteracích, kdy jsou inicializovány nulou.)
+
+\textbf{Modifikace Adamu} jsou motivovány občasnými problémy s~jeho konvergencí:
+\begin{itemize}
+\item \emph{AdamW} upravuje aktualizaci vah o~jejich úbytek (\emph{weight decay}) mimo adaptivní člen:
+$\theta_t=\theta_{t-1}-\lambda\eta\theta_{t-1}-\frac{\eta}{\sqrt{\hat v_t}+\epsilon}\hat m_t$, $\lambda>0$.
+\item \emph{AMSGrad} upravuje druhý moment gradientu tak, aby byl neklesající:
+$\bar v_t=\beta\bar v_{t-1}+(1-\beta)\hat g_s^{\,2}(\theta_t,z)$, $v_t=\max\{v_{t-1},\bar v_t\}$.
+\end{itemize}
+
+\textbf{Terminologie.} V~kontextu SGD se zpracování jedné minidávky označuje jako \emph{iterace}, zpracování všech dostupných vzorků jako \emph{epocha}. Na začátku každé epochy se všechny vzorky náhodně přeházejí a poté rozdělí na několik postupně zpracovávaných minidávek.
+
+\subsection{SGD jako náhodný proces}
+
+SGD se studuje pomocí čtyř obecně přijímaných předpokladů, které z~něj udělají spojitý náhodný proces, a umožní tak analyticky odvodit jeho stacionární chování.
+
+\textbf{Předpoklad 1.} Podmíněně vzhledem k~$\theta$ jsou $z_1,\dots,z_n$ podmíněně nezávislé a stejně rozdělené, a to tak, že $\hat g_s(\theta,z)=\frac1s\sum_{n\in\mathcal{M}_s}\nabla_\theta\ell_n(\theta,z_n)$ se chová, jako by $\nabla_\theta\ell_n(\theta,z_n)$ byly normální náhodné veličiny, $\nabla_\theta\ell_n(\theta,z_n)\sim N\bigl(g(\theta),C(\theta)\bigr)$. Odtud
+\[
+\hat g_s(\theta,z)-g(\theta)\sim N\Bigl(0,\tfrac1sC(\theta)\Bigr),
+\qquad
+\Delta g(\theta,z)=\sqrt{s}\bigl(\hat g_s(\theta,z)-g(\theta)\bigr)\sim N\bigl(0,C(\theta)\bigr).
+\]
+
+\textbf{Předpoklad 2.} V~okolí $\Theta$ minima $\mathcal{L}(\theta)$ je $C(\theta)$ konstantní a pozitivně definitní: existuje pozitivně definitní $C$ tak, že $\forall\theta\in\Theta:C(\theta)=C$. Z~pozitivní definitnosti plyne existence regulární matice $B$ s~$C=BB^{\top}$. Označíme-li $\Delta\theta(t)=\theta(t+1)-\theta(t)$ a $\Delta w(\theta,z)=-B^{-1}\Delta g(\theta,z)$, platí
+\[
+\Delta\theta(t)=-\epsilon g(\theta(t))-\frac{\epsilon}{\sqrt{s}}\Delta g(\theta(t),z)=-\epsilon g(\theta(t))+\frac{\epsilon}{\sqrt{s}}B\,\Delta w(\theta(t),z),
+\qquad
+\Delta w\sim N(0,I).
+\]
+
+\textbf{Předpoklad 3.} Uvedená diferenční rovnice pro $\Delta\theta(t)$ je nahraditelná diferenciální rovnicí
+\[
+\frac{\mathrm{d}\theta}{\mathrm{d}t}=-\epsilon g(\theta)+\frac{\epsilon}{\sqrt{s}}B\frac{\mathrm{d}w}{\mathrm{d}t}.
+\]
+Pro $\mathcal{L}(\theta)=\frac12\theta^{\top}A\theta$ je $g(\theta)=A\theta$, a rovnice tak přejde na
+$\frac{\mathrm{d}\theta}{\mathrm{d}t}=-\epsilon A\theta+\frac{\epsilon}{\sqrt{s}}B\frac{\mathrm{d}w}{\mathrm{d}t}$ --- \emph{Ornsteinův--Uhlenbeckův proces}.
+
+\textbf{Předpoklad 4.} Ztrátová funkce je na $\Theta$ kvadratická. Je-li pro původní parametry $\mathcal{L}(\theta')=\theta'^{\top}A'\theta'+b^{\top}\theta'+c'$, pak transformace
+\[
+\theta=\theta'+\tfrac12A'^{-1}b,\qquad A=2A',\qquad c=c'-\tfrac14b^{\top}A'^{-1}(A'^{-1}b)
+\]
+dá $\mathcal{L}(\theta)=\frac12\theta^{\top}A\theta+c$, tedy opět $g(\theta)=A\theta$ a Ornsteinovu--Uhlenbeckovu rovnici.
+
+\begin{defbox}[Ornsteinův--Uhlenbeckův proces v~SGD]
+Řešením rovnice $\mathrm{d}\theta=-\epsilon A\theta\,\mathrm{d}t+\frac{\epsilon}{\sqrt{s}}B\,\mathrm{d}W$ je náhodný proces zvaný \emph{Ornsteinův--Uhlenbeckův}. Předpoklady platí v~okolí $\Theta$ lokálního minima $\mathcal{L}$ a je o~něm známo:
+\begin{enumerate}
+\item $\theta(t)=e^{-At}\theta(0)+\frac{\epsilon}{\sqrt{s}}\int_0^{t}e^{-A(t-t')}B\,\mathrm{d}W(t')$;
+\item má stacionární rozdělení $q(\theta)$, které je gaussovské;
+\item pro jeho rozptyl $\Sigma=\mathbb{E}(\theta\theta^{\top})$, matice $A,B,C$ z~předpokladů 2 a~4, velikost minidávky $s$ a krok učení $\epsilon$ platí
+$\Sigma A+A\Sigma=\frac{\epsilon}{s}BB^{\top}=\frac{\epsilon}{s}C$.
+\end{enumerate}
+\end{defbox}
+
+Poslední vztah je klíčový: říká, že \emph{šum} SGD (rozptyl $\Sigma$ jeho stacionárního rozdělení) je řízen poměrem $\epsilon/s$ --- krok učení a velikost minidávky nejsou dva nezávislé hyperparametry, ale v~podstatě jeden.
+
+\subsubsection{SGD a aproximace aposteriorního rozdělení}
+
+V~praxi se lze setkat se dvěma strategiemi:
+\begin{enumerate}
+\item Maximalizovat vzhledem k~$\theta$ odhadovanou aposteriorní pravděpodobnost $p(\theta\mid z)=\frac{p(\theta,z)}{p(z)}$.
+\item Vyladit SGD tak, aby stacionární rozdělení $q(\theta)$ Ornsteinova--Uhlenbeckova procesu co nejlépe aproximovalo $p(\theta\mid z)$.
+\end{enumerate}
+Obě uvažují $\mathcal{L}(\theta)=\frac1N\sum_{n\in\hat N}\ell_n(\theta)$ s~$\ell_n(\theta)=-\log p(z_n\mid\theta)-\frac1N\log p(\theta)$, odkud
+\[
+p(\theta\mid z)=\frac{p(z\mid\theta)p(\theta)}{p(z)}=\frac{\prod_{n=1}^{N}p(z_n\mid\theta)\,p(\theta)}{p(z)}=e^{-\log p(z)}e^{-N\mathcal{L}(\theta)} .
+\]
+Podle předpokladu~4 je pak aposteriorní rozdělení $\theta$ rovno $N\bigl(0,\frac1NA^{-1}\bigr)$.
+
+\textbf{Aproximace aposteriorního rozdělení.} Krok učení $\epsilon$ a velikost minidávky $s$ se volí tak, aby minimalizovaly Kullbackovu--Leiblerovu divergenci $\mathrm{KL}(q\Vert p(\cdot\mid z))$ od aposteriorního rozdělení ke~stacionárnímu rozdělení. Optimální $\epsilon^{*}$ a $s^{*}$ jsou svázány vztahem
+\[
+\epsilon^{*}=\frac{s^{*}}{N}\cdot\frac{D}{\operatorname{Tr}C}=\frac{s^{*}}{N}\cdot\frac{D}{\operatorname{Tr}(BB^{\top})},
+\]
+kde $D$ je dimenze $\theta$. \emph{Důsledek pro praxi}: zvětšíme-li minidávku, musíme úměrně zvětšit i krok učení (známé pravidlo \uv{linear scaling rule}).
+
+\textbf{Komponentová aproximace.} Pro SGD se sestupem po složkách, $\theta(t+1)=\theta(t)-G\hat g_s(\theta(t))$, kde $G$ je diagonální matice (původní SGD odpovídá $G=\epsilon I$), platí pro optimum
+\[
+G^{*}_{k,k}=\frac{2s^{*}}{N\,C_{k,k}}=\frac{2s^{*}}{N\,(BB^{\top})_{k,k}},\qquad k=1,\dots,D .
+\]
+
+\textbf{Předpodmíněná aproximace.} Pro SGD s~předpodmiňující maticí $H$ (pozitivně definitní, původní SGD odpovídá $H=\epsilon I$), $\theta(t+1)=\theta(t)-H\hat g_s(\theta(t))$, je optimální
+\[
+H^{*}=\frac{2s^{*}}{N}C^{-1}=\frac{2s^{*}}{N}(BB^{\top})^{-1},
+\]
+a to dokonce tak, že $\min\mathrm{KL}(q\Vert p(\cdot\mid z))=0$ --- vhodně předpodmíněný SGD tedy \emph{přesně} vzorkuje z~aposteriorního rozdělení. To je most mezi optimalizací a bayesovskou inferencí: SGD s~vhodným šumem není jen hledání minima, ale MCMC vzorkovač.
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item \textbf{Dropout}: dočasné náhodné vypuštění vstupních/skrytých neuronů, $z_i^{(l)}=w_i^{(l)}r_i^{(l)}y_i^{(l-1)}+b^{(l)}$, $r_i^{(l)}\sim\mathrm{Bernoulli}(p)$; nová maska pro každý trénovací případ $\Rightarrow$ jiná síť; gradienty se průměrují přes případy, kde parametr přežil.
+\item \textbf{Dropout a regularizace}: kombinace s~max-norm $\lVert w\rVert\le c$ (brání explozi vah při velkém kroku $\Rightarrow$ prozkoumatelnost); vede k~řídkým reprezentacím; užitečný jen u~středně velkých datasetů; trénink $2$--$3\times$ delší.
+\item \textbf{Výhody}: méně parametrů, rozbití koadaptací, implicitní soubor sítí ($|\mathcal{S}|\le2^{|H|}$); při testování se váhy násobí $p$ (nebo se při tréninku násobí $1/p$).
+\item \textbf{Dropout v~lineární regresi} $\equiv$ hřebenová regularizace se silou $\frac{1-p}{p}$ a škálováním $(\operatorname{diag}X^{\top}X)^{1/2}$.
+\item \textbf{Gaussovský dropout}: $h_i\mapsto h_i r'$, $r'\sim N(1,\sigma^2)$; pro $\sigma^2=\frac{1-p}{p}$ má stejné $\mathbb{E}$ i $\operatorname{Var}$ jako Bernoulli$(p)$ na $\{0,\frac1p\}$.
+\item \textbf{Stochastický gradient}: $\hat{\mathcal{L}}_s(\theta)=\frac1s\sum_{n\in\mathcal{M}_s}\ell_n$, $\hat g_s=\nabla_\theta\hat{\mathcal{L}}_s$; minidávka rovnoměrně mezi $\binom{N}{s}$ podmnožinami. GD: stabilní, drahý; SGD: rychlý, paměťově úsporný, vhodný pro online učení.
+\item \textbf{Varianty}: SAG (pamatuje si poslední gradient každého vzorku), moment (\uv{heavy ball}), Nesterov (gradient v~bodě po setrvačném kroku).
+\item \textbf{Adaptivní krok}: AdaGrad ($\sqrt{\text{součet čtverců}}$ ve jmenovateli, monotónně klesá), RMSProp (exponenciální vyhasínání, 2.\ moment), Adam (1.\ i 2.\ moment $+$ korekce vychýlení), AdamW (weight decay), AMSGrad ($v_t=\max\{v_{t-1},\bar v_t\}$).
+\item \textbf{SGD jako náhodný proces}: 4 předpoklady (normalita gradientů; konstantní pozitivně definitní $C=BB^{\top}$ v~okolí minima; přechod k~diferenciální rovnici; kvadratická ztráta) $\Rightarrow$ Ornsteinův--Uhlenbeckův proces, gaussovské stacionární rozdělení, $\Sigma A+A\Sigma=\frac{\epsilon}{s}C$.
+\item \textbf{Optimální hyperparametry} z~minimalizace $\mathrm{KL}(q\Vert p(\cdot\mid z))$: $\epsilon^{*}=\frac{s^{*}}{N}\frac{D}{\operatorname{Tr}C}$ (lineární škálování kroku s~minidávkou), po složkách $G^{*}_{kk}=\frac{2s^{*}}{NC_{kk}}$, předpodmíněně $H^{*}=\frac{2s^{*}}{N}C^{-1}$ s~$\mathrm{KL}=0$.
+\end{itemize}
+
+%=====================================================================
+\section{Stochastické metody pro strojové učení}
+\label{sec:nmr-stoch-ml}
+
+Kapitola se zabývá obecnou úlohou, která ve strojovém učení vystupuje stále dokola: máme \emph{pozorované} veličiny a chceme z~nich odhadnout \emph{latentní} (skryté) veličiny, které data řídí. Přesně to je výpočet aposteriorního rozdělení $P(Z\mid X)$ a existují k~němu dvě velké rodiny přístupů --- \emph{simulační} (MCMC) a \emph{optimalizační} (variační inference).
+
+\subsection{Pozorované a latentní proměnné}
+
+Situace častá ve strojovém učení: dlouhý vektor $X=(X_1,\dots,X_n)$ \emph{pozorovaných} veličin souvisí s~vektorem $Z=(Z_1,\dots,Z_m)$ \emph{latentních} veličin. Latentní veličiny pomáhají řídit rozdělení dat a k~pozorováním se vztahují přes $P(X\mid Z)$, zvané \emph{věrohodnost}. Předpokládá se apriorní rozdělení $P(Z)$; sdružené rozdělení je pak $P(Z,X)=P(X\mid Z)P(Z)$ a zajímá nás \textbf{aposteriorní rozdělení} $P(Z\mid X)$.
+
+\begin{defbox}[Kullbackova--Leiblerova divergence]
+Nepodobnost rozdělení $\pi_2$ rozdělení $\pi_1$ se nejčastěji měří \emph{relativní entropií}, zvanou též \emph{Kullbackova--Leiblerova divergence} z~$\pi_2$ do $\pi_1$:
+\[
+\mathrm{KL}(\pi_1\Vert\pi_2)=\int\log\frac{\pi_1}{\pi_2}\,\mathrm{d}\pi_1=-\int\log\frac{\pi_2}{\pi_1}\,\mathrm{d}\pi_1 .
+\]
+\end{defbox}
+
+\subsection{MCMC a Metropolisův--Hastingsův algoritmus}
+
+\begin{defbox}[MCMC]
+\emph{Metoda Monte Carlo s~Markovovými řetězci} (\emph{Monte Carlo Markov chain}, MCMC) konstruuje ergodický Markovův řetězec s~rovnovážným rozdělením $P(Z\mid X)$. Vylosuje počáteční $Z^{(0)}\sim q(X)$ a provádí přechody $Z^{(t)}\sim q(Z^{(t)}\mid Z^{(t-1)},X)$.
+\end{defbox}
+
+Metody Monte Carlo jsou obecně všechny metody založené na vzorkování; u~MCMC se vzorkuje z~Markovova řetězce. Nejčastěji se používá Metropolisův--Hastingsův algoritmus. Standardní MCMC v~každé iteraci projde všechna data, což je nevýhodné u~velkých datasetů.
+
+\emph{Vlastnosti:} MCMC může poskytnout \textbf{libovolně přesný} odhad $P(Z\mid X)$, ale až po mnoha iteracích a jejich počet potřebný pro danou přesnost není znám.
+
+\begin{defbox}[Metropolisův--Hastingsův algoritmus]
+Algoritmus generuje posloupnost $Z_0,Z_1,\dots,Z_m$ na množině $\Omega$, jejíž rozdělení konverguje s~rostoucím $m$ v~pravděpodobnosti k~žádanému rozdělení $\pi$ na $\Omega$ (u~MCMC je $\pi$ rovnovážné rozdělení Markovova řetězce). Vyžaduje: $m$, $Z_0$, \textbf{nenormalizovanou} verzi $\tilde\pi$ hustoty rozdělení $\pi$ a hustotu $q$ rozdělení na $\Omega^2$, zvanou \emph{návrhové rozdělení} (\emph{proposal distribution}).
+\end{defbox}
+
+\begin{defbox}[Metropolisův--Hastingsův algoritmus --- jeden krok]
+\begin{algorithmic}[1]
+\State $k\gets k+1$
+\State $Z'\sim q(\cdot\mid Z_{k-1})$
+\State $p\gets\min\left\{1,\ \dfrac{\tilde\pi(Z')}{\tilde\pi(Z_{k-1})}\cdot\dfrac{q(Z_{k-1}\mid Z')}{q(Z'\mid Z_{k-1})}\right\}$
+\State $\beta\sim\mathrm{Bernoulli}(p)$
+\If{$\beta=1$}
+  \State $Z_k\gets Z'$
+\Else
+  \State $Z_k\gets Z_{k-1}$
+\EndIf
+\end{algorithmic}
+\end{defbox}
+
+Podíl $\tilde\pi(Z')/\tilde\pi(Z_{k-1})$ vysvětluje, proč stačí \emph{nenormalizovaná} hustota: normalizační konstanta se vykrátí. To je zásadní --- právě normalizační konstanta $P(X)$ je v~bayesovské inferenci nespočitatelná.
+
+\textbf{Konvergence.} Konvergence rozdělení posloupnosti $Z_0,Z_1,\dots,Z_N$ k~$\pi$ je důsledkem centrální limitní věty: pro vhodné funkce $h$ existuje $\sigma_h>0$ tak, že
+\[
+\sqrt{N}\left(\frac1N\sum_{k=0}^{N}h(Z_k)-\int h(z)\pi(z)\,\mathrm{d}z\right)
+\]
+má asymptoticky normální rozdělení $N(0,\sigma_h^2)$.
+
+\textbf{MH v~bayesovském kontextu.} Pro věrohodnosti $\{P(X_i\mid Z)\}_{i=1}^{n}$ definujme \emph{průměrnou log-věrohodnost}
+\[
+\ell(Z)=\ell(Z\mid X_1,\dots,X_n)=\frac1n\sum_{i=1}^{n}\log P(X_i\mid Z)=\frac1n\log\prod_{i=1}^{n}P(X_i\mid Z)=\frac1n\log P(X\mid Z).
+\]
+Protože $\pi(Z)=P(Z\mid X)=\frac{P(X,Z)}{P(X)}$, lze volit $\tilde\pi(Z)=P(X,Z)=P(Z)P(X\mid Z)=P(Z)\exp\bigl(n\ell(Z)\bigr)$, a třetí krok algoritmu tak zní
+\[
+p=\min\left\{1,\ \frac{P(Z')}{P(Z_{k-1})}\cdot\frac{q(Z_{k-1}\mid Z')}{q(Z'\mid Z_{k-1})}\cdot\exp\Bigl(n\bigl(\ell(Z')-\ell(Z_{k-1})\bigr)\Bigr)\right\}.
+\]
+
+\subsection{Prohledávání stromu metodou Monte Carlo (MCTS)}
+
+\begin{defbox}[Markovův rozhodovací proces]
+\emph{Markovův rozhodovací proces} (MDP) se reprezentuje čtveřicí $(S,A_s,P_a,R_a)$: $S$ je množina možných stavů (stavový prostor), $A_s$ množina akcí dostupných ve stavu $s\in S$, $P_a(s,s')$ pravděpodobnost přechodu, že akce $a$ způsobí $s\to s'$, a $R_a(s)$ okamžitá odměna za dosažení stavu $s$ akcí $a$. V~deterministickém případě $P_a(s,s')=1$.
+\end{defbox}
+
+MDP modelují prostředí, v~nichž se provádějí sekvenční rozhodnutí a odměny přicházejí po jistých posloupnostech akcí.
+
+\emph{MCTS} je metoda Monte Carlo pro MDP; původně vznikla pro hry, později se používá v~plánování, rozvrhování a kombinatorické optimalizaci. Je to \emph{anytime} algoritmus --- lze ji kdykoli zastavit a vrátí $a^{*}=\arg\max_{a\in A_s}Q(s,a)$, kde $Q(s,a)$ je průměrná odměna za akci $a$ ve stavu $s$.
+
+\textbf{Fáze jedné iterace MCTS:}
+\begin{enumerate}
+\item \emph{Výběr} (\emph{selection}) --- prohledání části stromu už uložené v~paměti, od kořene k~aktuálnímu listu.
+\item \emph{Expanze} --- přidání jednoho či více potomků pod vybraný list.
+\item \emph{Simulace} úlohy --- vlastní monte-carlovská (tj.\ náhodná) fáze.
+\item \emph{Zpětné šíření} (\emph{backpropagation}) --- rozšíření skóre zpět po cestě od naposledy navštíveného listu ke~kořeni.
+\end{enumerate}
+
+\textbf{Výběrová strategie.} Jejím účelem je vyvážit \emph{explorativnost} (dostatečně netestované akce) a \emph{exploatativnost} (dosud nejlepší nalezené akce). Nejběžnější je \emph{horní mez spolehlivosti pro stromy} (\emph{upper confidence bound for trees}, UCT): nejprve se vyzkoušejí všechny akce, poté se volí
+\[
+a^{*}=\arg\max_{a\in A_s}\left(Q(s,a)+C\sqrt{\frac{\ln N(s)}{N(s,a)}}\right),\qquad C>0,
+\]
+kde $N(s)$ je počet návštěv stavu $s$ a $N(s,a)$ počet vzorkování akce $a$ v~$s$.
+
+\textbf{Alternativy k~UCT:}
+\begin{itemize}
+\item \emph{UCB1-tuned} využívá navíc rozptyl $\sigma_a$ hodnoty $Q(s,a)$:
+\[
+a^{*}=\arg\max_{a\in A_s}\left(Q(s,a)+C\sqrt{\frac{\ln N(s)}{N(s,a)}\min\Bigl\{\tfrac14,\ \sigma_a+\sqrt{\tfrac{2\ln N(s)}{N(s,a)}}\Bigr\}}\right).
+\]
+\item \emph{RAVE} (\emph{rapid action value estimation}) používá dodatečné skóre $Q_{\mathrm{RAVE}}(s,a)$, aktualizované pro každou akci ve fázi~3:
+\[
+a^{*}=\arg\max_{a\in A_s}\left(\frac{k}{3N(s)+k}Q_{\mathrm{RAVE}}(s,a)+\Bigl(1-\frac{k}{3N(s)+k}\Bigr)Q(s,a)\right),
+\]
+kde $k$ je tzv.\ \emph{ekvivalenční konstanta RAVE}. Zpočátku (malé $N(s)$) převažuje rychlý, ale hrubý odhad $Q_{\mathrm{RAVE}}$, s~rostoucím počtem návštěv převáží přesné $Q$.
+\end{itemize}
+
+\subsection{Variační inference}
+
+\begin{defbox}[Variační inference]
+\emph{Variační inference} (VI) je populární alternativa k~MCMC odhadu. Spočívá v~řešení optimalizační úlohy
+\[
+Q^{*}(Z\mid X)=\arg\min_{Q(Z\mid X)\in\mathcal{Q}}\mathrm{KL}\bigl(Q(Z\mid X)\,\Vert\,P(Z\mid X)\bigr),
+\]
+kde $\mathcal{Q}$ je předem zvolená množina snadno spočitatelných rozdělení.
+\end{defbox}
+
+Na rozdíl od MCMC \textbf{nedokáže} VI poskytnout libovolně přesné odhady, ale počítá je \textbf{mnohem rychleji}, zejména pro složité $P(Z\mid X)$ a/nebo velké datasety. VI je založena na optimalizaci, MCMC na simulaci.
+
+Minimalizovanou relativní entropii lze přepsat:
+\[
+\mathrm{KL}\bigl(Q(Z\mid X)\Vert P(Z\mid X)\bigr)
+=\mathbb{E}_{Q(Z\mid X)}\log Q(Z\mid X)-\mathbb{E}_{Q(Z\mid X)}\log P(Z,X)+\log P(X).
+\]
+
+\begin{defbox}[Dolní mez evidence (ELBO)]
+Pro pozorované $X$ se $P(X)$ nazývá \emph{evidence} a definuje se
+\[
+\mathrm{ELBO}\bigl(Q(Z\mid X)\bigr)=\mathbb{E}_{Q(Z\mid X)}\bigl[\log P(Z,X)-\log Q(Z\mid X)\bigr].
+\]
+\end{defbox}
+
+Definice má důsledek
+\[
+\log P(X)=\mathrm{KL}\bigl(Q(Z\mid X)\Vert P(Z\mid X)\bigr)+\mathrm{ELBO}\bigl(Q(Z\mid X)\bigr),
+\]
+odkud plyne, že (1)~minimální KL divergence odpovídá maximální ELBO a (2)~platí $\log P(X)\ge\mathrm{ELBO}$, a to s~rovností právě když $Q(Z\mid X)=P(Z\mid X)$. Protože $\log P(X)$ na $Q$ nezávisí, lze místo neřešitelné minimalizace KL \textbf{maximalizovat ELBO} --- to je celý trik variační inference.
+
+\textbf{Aproximace středním polem} (\emph{mean-field}). Množina $\mathcal{Q}$ obsahuje pouze rozdělení $Z=(Z_1,\dots,Z_m)$, která jsou podmíněně vzhledem k~$X$ vzájemně nezávislá:
+\[
+Q(Z\mid X)=\prod_{j=1}^{m}Q_j(Z_j\mid X).
+\]
+Každá latentní veličina $Z_j$ má vlastní rozdělení $Q_j(Z_j\mid X)$ zvolené podle svého charakteru: pro spojité $Z_j$ se často volí gaussovské, pro kategorické kategorické $(p_1,\dots,p_m)$, např.\ $p_j=\frac1m$.
+
+\subsubsection{Příklad: gaussovské směsi}
+
+Uvažujme pozorované veličiny $X_1,\dots,X_n$ s~rozděleními, která jsou směsí $K$ jednorozměrných gaussovských rozdělení s~jednotkovým rozptylem:
+\[
+X_i\sim N(\mu_{c_i},1),\quad i=1,\dots,n,\ c_i\in\{1,\dots,K\},\ K\in\mathbb{N},
+\]
+kde $\mu=(\mu_1,\dots,\mu_K)$ jsou střední hodnoty $K$ gaussovek, $\mu_k\sim N(0,\sigma^2)$, a $c=(c_1,\dots,c_n)$ jsou kategorické náhodné veličiny, $c_i\sim(\frac1K,\dots,\frac1K)$. Jako latentní veličiny pro $X$ slouží $Z=(\mu,c)$.
+
+Sdružené rozdělení je $P(\mu)\prod_{i=1}^{n}P(c_i)P(X_i\mid c_i,\mu)$ a výpočet evidence vyžaduje $K^n$ věrohodností:
+\[
+P(X)=\int P(\mu)\prod_{i=1}^{n}\sum_{c_i}P(c_i)P(X_i\mid c_i,\mu)\,\mathrm{d}\mu=\sum_{c}P(c)\int P(\mu)\prod_{i=1}^{n}P(X_i\mid c_i,\mu)\,\mathrm{d}\mu ,
+\]
+což je pro reálná $n$ nespočitatelné --- proto VI. Aproximace středním polem, parametrizovaná dvojicemi $(m_k,s_k^2)$ pro $k\le K$ a hodnotami $\varphi_i$ pro $i\le n$, má tvar
+\[
+Q(\mu,c\mid X)=\prod_{k=1}^{K}Q(\mu_k;m_k,s_k^2)\prod_{i=1}^{n}Q(c_i;\varphi_i),
+\]
+kde $Q(\mu_k;m_k,s_k^2)$ se volí gaussovské, $N(m_k,s_k^2)$. ELBO je pak funkcí hyperparametrů $m,s^2,\varphi$:
+\[
+\mathrm{ELBO}(m,s^2,\varphi)=\sum_{k=1}^{K}\mathbb{E}_{Q}\log P(\mu_k;m_k,s_k^2)+\sum_{i=1}^{n}\mathbb{E}_{Q}\bigl[\log P(X_i\mid c_i,\mu)+\log P(c_i;\varphi_i)\bigr]
+\]
+\[
+-\sum_{k=1}^{K}\mathbb{E}_{Q}\log Q(\mu_k;m_k,s_k^2)-\sum_{i=1}^{n}\mathbb{E}_{Q}\log Q(c_i;\varphi_i),
+\]
+a maximalizuje se vzhledem k~nim (typicky souřadnicovým výstupem, \emph{coordinate ascent VI}).
+
+\subsection{Kombinace VI s~MCMC}
+
+\emph{Variační inference s~Markovovým řetězcem} (MCVI): každé $Q\in\mathcal{Q}$ je Markovův řetězec $Z_0,Z_1,\dots,Z_T$ splňující $Z_T=Z$ a
+\[
+Q(Z_0,\dots,Z_{T-1}\mid X,Z_T)=Q(Z_0\mid X)\prod_{t=1}^{T}Q(Z_t\mid X,Z_{t-1}),
+\]
+což lze zobecnit nahrazením $Q(Z_t\mid X,Z_{t-1})$ specifickými $Q_t(Z_t\mid X,Z_{t-1})$.
+
+\textbf{Výpočet MCVI.} Dopředná rozdělení $Q_t(Z_t\mid X,Z_{t-1})$ se aproximují \emph{zpětnými} rozděleními $R_t(Z_{t-1}\mid X,Z_t)$, tvořícími Markovův řetězec $R(Z_0,\dots,Z_{T-1}\mid X,Z_T)=\prod_{t=1}^{T}R_t(Z_{t-1}\mid X,Z_t)$. Označuje-li $\theta$ parametry obou řetězců, spočívá výpočet MCVI v~nalezení maxima $\mathrm{ELBO}_{\mathrm{MCVI}}$ vzhledem k~$\theta$, typicky pomocí $\nabla_\theta\mathrm{ELBO}_{\mathrm{MCVI}}$.
+
+\textbf{Rozšíření ELBO pro MCVI.} Platí
+\[
+\mathrm{ELBO}(Q(Z\mid X))\ \ge\ \mathrm{ELBO}(Q(Z\mid X))-\mathrm{KL}\bigl(Q(Z_0,\dots,Z_{T-1}\mid X,Z_T)\,\Vert\,R(Z_0,\dots,Z_{T-1}\mid X,Z_T)\bigr),
+\]
+což v~kombinaci s~$\log P(X)\ge\mathrm{ELBO}$ dává
+\[
+\log P(X)\ \ge\ \mathrm{ELBO}_{\mathrm{MCVI}}
+=\mathbb{E}_{Q(Z_0,\dots,Z_{T-1}\mid X,Z_T)}\left[\log\frac{P(Z,X)}{Q(Z_0\mid X)}+\sum_{t=1}^{T}\log\frac{R_t(Z_{t-1}\mid X,Z_t)}{Q_t(Z_t\mid X,Z_{t-1})}\right].
+\]
+
+\begin{defbox}[Algoritmus odhadu $\mathrm{ELBO}_{\mathrm{MCVI}}$]
+\begin{algorithmic}[1]
+\State \textbf{Vstup:} $x$, počet iterací $T$, rozdělení $P,Q,Q_t$ a inverzní $R_t$
+\State Vzorkuj $z_0\sim Q(Z_0\mid X)$ a polož $L_0=\log P(z_0,x)-\log Q(z_0\mid x)$
+\For{$t=1$ \textbf{to} $T$}
+  \State Vzorkuj přechod z~$t-1$ do $t$: $z_t\sim Q_t(Z_t\mid X,Z_{t-1})$
+  \State $L_t=L_{t-1}+\log\dfrac{P(z_t,x)R_t(z_{t-1}\mid x,z_t)}{P(z_{t-1},x)Q_t(z_t\mid x,z_{t-1})}$
+\EndFor
+\State \textbf{Výstup:} $L_T$ --- nevychýlený odhad $\mathrm{ELBO}_{\mathrm{MCVI}}$ po $T$ iteracích
+\end{algorithmic}
+\end{defbox}
+
+\subsection{VI s~generativními modely a hluboký Kalmanův filtr}
+
+Uvažujme $P(Z,X)=P(Z)P_\theta(X\mid Z)$, kde $P_\theta(X\mid Z)$ je parametrizováno $\theta$ a řídí \emph{generativní model}. Pak se $Q^{*}(Z\mid X)$ někdy nazývá \emph{rozpoznávací model} (\emph{recognition model}); typicky se počítá vícevrstvým perceptronem a předpokládá se, že rozdělení v~$\mathcal{Q}$ jsou normální. (Tato dvojice generativní $+$ rozpoznávací model je přesně architektura variačního autoenkodéru.)
+
+\begin{defbox}[Hluboký Kalmanův filtr]
+Uvažujme $d$-rozměrné pozorované veličiny $X_1,\dots,X_T$, $s$-rozměrné latentní $Z_1,\dots,Z_T$ a $c$-rozměrné akce $U_1,\dots,U_{T-1}$. \emph{Hluboký Kalmanův filtr} je model, v~němž
+\[
+Z_1\sim N(0,I_d),\quad
+Z_t\sim N\bigl(G_\alpha(Z_{t-1},U_{t-1},\Delta_t),\,S_\beta(Z_{t-1},U_{t-1},\Delta_t)\bigr),\quad
+X_t\sim\mathcal{D}\bigl(F_\gamma(Z_t)\bigr),
+\]
+kde $\mathcal{D}$ je pravděpodobnostní rozdělení, $\alpha,\beta,\gamma$ parametry, $\Delta_t$ doba mezi $t-1$ a $t$; funkce $G_\alpha,S_\beta,F_\gamma$ se obvykle implementují neuronovými sítěmi.
+\end{defbox}
+
+\textbf{Vztah ke~klasickému Kalmanovu filtru.} Klasický filtr je dán dvěma rovnicemi:
+\begin{enumerate}
+\item $Z_t=G_tZ_{t-1}+B_tU_{t-1}+\epsilon_t$ s~$\epsilon_t\sim N(0,\Sigma_t)$, maticí přechodu stavů $G_t\in\mathbb{R}^{s\times s}$ a modelem řízení $B_t\in\mathbb{R}^{s\times c}$;
+\item $X_t=F_tZ_t+\eta_t$ s~$\eta_t\sim N(0,\Gamma_t)$ a pozorovací maticí $F_t\in\mathbb{R}^{d\times s}$.
+\end{enumerate}
+Jde tedy o~hluboký Kalmanův filtr s~$G_\alpha=G_tZ_{t-1}+B_tU_{t-1}$, $S_\beta=\Sigma_t$ a $F_\gamma=F_tZ_t$ --- klasický filtr je jeho \emph{lineární} speciální případ.
+
+\textbf{VI s~hlubokým Kalmanovým filtrem.} Uvažujme variační rozdělení $Q_\phi(Z\mid X,U)$ s~parametrem $\phi$, aproximující aposteriorní rozdělení $P_\theta(Z\mid X,U)$, a to jen taková, která lze faktorizovat podle posloupnosti $Z=(Z_1,\dots,Z_T)$:
+\[
+Q_\phi(Z\mid X,U)=Q_\phi(Z_1\mid X,U)\prod_{t=2}^{T}Q_\phi(Z_t\mid Z_{t-1},X,U).
+\]
+Pro obecné (i nefaktorizované) $Q_\phi$ platí dolní mez
+\[
+\log P_\theta(X\mid U)=\log\int Q_\phi(Z\mid X,U)\frac{P_\theta(X\mid Z,U)P(Z\mid U)}{Q_\phi(Z\mid X,U)}\,\mathrm{d}z
+\]
+\[
+\ge\ \mathbb{E}_{Q_\phi(Z\mid X,U)}\log P_\theta(X\mid Z,U)-\mathrm{KL}\bigl(Q_\phi(Z\mid X,U)\Vert P(Z\mid U)\bigr),
+\]
+kde nerovnost plyne z~Jensenovy nerovnosti. Předpokládáme-li navíc podmíněnou nezávislost $P_\theta(X\mid Z,U)=P_\theta(X_1\mid Z_1)\prod_{t=2}^{T}P_\theta(X_t\mid Z_t,U_{t-1})$, rozpadne se první člen na součet přes čas a druhý na
+\[
+\mathrm{KL}\bigl(Q_\phi(Z_1\mid X,U)\Vert P(Z_1)\bigr)+\sum_{t=2}^{T}\mathbb{E}_{Q_\phi(Z_{t-1}\mid X,U)}\mathrm{KL}\bigl(Q_\phi(Z_t\mid Z_{t-1},X,U)\Vert P(Z_t\mid Z_{t-1},U_{t-1})\bigr).
+\]
+Celá dolní mez se tak stane sumou po jednotlivých časových krocích, a je tedy efektivně optimalizovatelná gradientními metodami.
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item \textbf{Úloha}: z~pozorovaných $X$ odhadnout latentní $Z$, tj.\ spočítat $P(Z\mid X)=\frac{P(X\mid Z)P(Z)}{P(X)}$; překážkou je evidence $P(X)$. Dvě rodiny řešení: MCMC (simulace, libovolně přesná, pomalá) a VI (optimalizace, přibližná, rychlá).
+\item \textbf{KL divergence} $\mathrm{KL}(\pi_1\Vert\pi_2)=\int\log\frac{\pi_1}{\pi_2}\mathrm{d}\pi_1$, nesymetrická.
+\item \textbf{MCMC}: konstruuje ergodický Markovův řetězec s~rovnovážným rozdělením $P(Z\mid X)$; každá iterace prochází celá data, počet iterací pro danou přesnost není znám.
+\item \textbf{Metropolisův--Hastingsův algoritmus}: návrh $Z'\sim q(\cdot\mid Z_{k-1})$, přijetí s~pravděpodobností $\min\{1,r\}$, kde
+$r=\tfrac{\tilde\pi(Z')}{\tilde\pi(Z_{k-1})}\cdot\tfrac{q(Z_{k-1}\mid Z')}{q(Z'\mid Z_{k-1})}$ --- stačí \emph{nenormalizovaná} hustota. Konvergence plyne z~CLV.
+\item \textbf{MCTS}: metoda Monte Carlo pro MDP $(S,A_s,P_a,R_a)$; \emph{anytime}, vrací $\arg\max_aQ(s,a)$. Fáze: výběr, expanze, simulace, zpětné šíření. Výběrová strategie \textbf{UCT} $Q(s,a)+C\sqrt{\ln N(s)/N(s,a)}$; alternativy UCB1-tuned (rozptyl) a RAVE (rychlý odhad s~vahou klesající v~$N(s)$).
+\item \textbf{VI}: $Q^{*}=\arg\min_{Q\in\mathcal{Q}}\mathrm{KL}(Q(Z\mid X)\Vert P(Z\mid X))$; klíčová identita $\log P(X)=\mathrm{KL}+\mathrm{ELBO}$ $\Rightarrow$ minimalizace KL $\equiv$ maximalizace $\mathrm{ELBO}=\mathbb{E}_Q[\log P(Z,X)-\log Q(Z\mid X)]$, přičemž $\log P(X)\ge\mathrm{ELBO}$ s~rovností jen pro $Q=P(Z\mid X)$.
+\item \textbf{Střední pole}: $Q(Z\mid X)=\prod_jQ_j(Z_j\mid X)$; příklad gaussovské směsi ($K^n$ věrohodností v~evidenci $\Rightarrow$ nutnost aproximace), parametry $(m_k,s_k^2)$ a $\varphi_i$.
+\item \textbf{MCVI}: $Q$ je Markovův řetězec, dopředná rozdělení aproximována zpětnými $R_t$; $\mathrm{ELBO}_{\mathrm{MCVI}}$ se odhaduje po iteracích nevychýleně.
+\item \textbf{Generativní model} $P_\theta(X\mid Z)$ $+$ \textbf{rozpoznávací model} $Q^{*}(Z\mid X)$ počítaný MLP (variační autoenkodér). \textbf{Hluboký Kalmanův filtr}: $Z_t\sim N(G_\alpha,S_\beta)$, $X_t\sim\mathcal{D}(F_\gamma)$ s~sítěmi $G_\alpha,S_\beta,F_\gamma$; klasický Kalmanův filtr je lineární speciální případ; dolní mez se faktorizuje po časových krocích.
+\end{itemize}
+%=====================================================================
+\section{Obecný stochastický přístup k~neuronovým sítím}
+\label{sec:nmr-obecny}
+
+Poslední kapitola kurzu se ptá zdánlivě samozřejmou otázkou: \emph{co se vlastně učí neuronová síť?} Odpověď \uv{minimalizuje chybu na trénovacích datech} je jen praktickou náhražkou. Skutečným cílem je minimalizovat \emph{očekávanou} chybu vzhledem k~rozdělení dat --- a jakmile to formulujeme přesně, dostaneme tři silné výsledky: (1)~učení podle SSE se ve skutečnosti učí podmíněnou střední hodnotu $\mathbb{E}(Y\mid X)$, (2)~učení z~náhodného výběru ke~správnému řešení konverguje (silný zákon velkých čísel), (3)~odhad vah je asymptoticky normální, takže lze \emph{statisticky testovat} hypotézy o~váhách --- například hypotézu, že jistý spoj lze odstranit.
+
+\subsection{Základní rámec}
+
+Uvažujme MLP s~$n$ vstupními a $m$ výstupními neurony. Trénovací dvojice $z_i=(x_i,y_i)$ s~$x_i\in\mathbb{R}^n$, $y_i\in\mathbb{R}^m$ chápeme jako \textbf{realizace náhodných vektorů} $Z_i$, resp.\ $X_i$ a $Y_i$. Všechny náhodné vektory $Z_i$ předpokládáme vzájemně nezávislé a stejně rozdělené s~rozdělením $\mu$; $X_i$ a $Y_i$ mají marginální rozdělení $\mu_x$ a $\mu_y$ rozdělení $\mu$. Síť realizuje zobrazení $F_{w,b}:\mathbb{R}^n\to\mathbb{R}^m$ dané vahami $w$ a prahy $b$.
+
+\subsubsection{Prostory náhodných vektorů}
+
+\begin{defbox}[Prostor $L^k_p$]
+Buď $(\Omega,\mathcal{A},P)$ pravděpodobnostní prostor, $k\in\{n+m,n,m\}$ a $p\ge1$. Prostor $k$-rozměrných náhodných vektorů na $(\Omega,\mathcal{A},P)$ je
+\[
+L^k_p(\Omega,\mathcal{A},P)=\Bigl\{\varphi:(\Omega,\mathcal{A})\to(\mathbb{R}^k,\mathcal{B}_k)\ \Bigm|\ \int_\Omega\lVert\varphi\rVert^p\,\mathrm{d}P<\infty\Bigr\},
+\]
+kde $\lVert\cdot\rVert$ může být libovolná norma na $\mathbb{R}^k$ a zápis $(\Omega,\mathcal{A})\to(\mathbb{R}^k,\mathcal{B}_k)$ znamená měřitelnost vzhledem k~borelovské $\sigma$-algebře, tj.\ $\varphi:\Omega\to\mathbb{R}^k$ a $\forall B\in\mathcal{B}_k:\varphi^{-1}(B)\in\mathcal{A}$.
+\end{defbox}
+
+$L^k_p(\Omega,\mathcal{A},P)$ je vektorový prostor, ale \emph{bez normy} --- funkce lišící se na množině míry nula mají stejný integrál. Rozdělí se proto na disjunktní třídy ekvivalence
+\[
+\varphi\approx\rho\ \stackrel{\mathrm{def}}{\Longleftrightarrow}\ P(\varphi\ne\rho)=0
+\]
+a prostor těchto tříd se značí $\tilde L^k_p(\Omega,\mathcal{A},P)$. Platí-li $\varphi\approx\rho$, mají $\varphi$ a $\rho$ stejné rozdělení, neboť pro každé $B\in\mathcal{B}_k$
+\[
+P(\varphi\in B)=P(\rho\in B)-P(\rho\in B\ \&\ \varphi\notin B)+P(\rho\notin B\ \&\ \varphi\in B).
+\]
+
+\textbf{Alternativní pohled.} Prostor $\tilde L^{n+m}_p(\Omega,\mathcal{A},P)$ bijektivně odpovídá množině pravděpodobnostních rozdělení na $(\mathbb{R}^{n+m},\mathcal{B}_{n+m})$ s~konečnými $p$-tými momenty,
+\[
+L^{n+m}_p=\Bigl\{\mu:\mathcal{B}_{n+m}\to[0,1]\ \Bigm|\ \int_{\mathbb{R}^{n+m}}\lVert z\rVert^p\,\mathrm{d}\mu<\infty\Bigr\},
+\]
+a obdobná bijekce platí i pro $\tilde L^n_p$ (rozdělení $\mu_x$) a $\tilde L^m_p$ (rozdělení $\mu_y$). \emph{Práce s~náhodnými vektory je tedy totéž co práce s~jejich rozděleními} --- proto lze úlohu učení formulovat čistě v~řeči rozdělení dat.
+
+\textbf{Vlastnosti.} $\tilde L^k_p(\Omega,\mathcal{A},P)$ je metrický prostor s~metrikou indukovanou normou
+\[
+\lVert\varphi\rVert=\sqrt[p]{\int_\Omega\lVert\varphi\rVert^p\,\mathrm{d}P}=\sqrt[p]{\int_{\mathbb{R}^{n+m}}\lVert z\rVert^p\,\mathrm{d}\mu},
+\]
+a je \emph{Banachův} (cauchyovské posloupnosti konvergují). Speciálně $\tilde L^k_2(\Omega,\mathcal{A},P)$ je dokonce \emph{Hilbertův}, se skalárním součinem
+\[
+\langle\varphi,\rho\rangle=\int_\Omega\varphi^{\top}\rho\,\mathrm{d}P .
+\]
+V~případě základního rámce, kde $\varphi=f(Z)$ a $\rho=g(Z)$ pro $f,g:\mathbb{R}^{n+m}\to\mathbb{R}^{n+m}$, je
+\[
+\langle\varphi,\rho\rangle=\int_{\mathbb{R}^{n+m}}f(Z)^{\top}g(Z)\,\mathrm{d}\mu=\mathbb{E}_\mu\bigl(f(Z)^{\top}g(Z)\bigr).
+\]
+Hilbertovská struktura $L_2$ je přesně to, co dále umožní \uv{pythagorovský} rozklad chyby.
+
+\textbf{Předpoklad o~momentech.} $Z_i$ i $F(X_i)$ mají konečné druhé momenty: $\mathbb{E}\lVert Z_i\rVert^2<\infty$, $\mathbb{E}\lVert F(X_i)\rVert^2<\infty$ (pro omezené $F$ plyne druhé z~prvního). Důsledky: (1)~existují střední hodnoty a rozptyly $\mathbb{E}Z_i\in\mathbb{R}^{n+m}$, $\operatorname{Var}Z_i\in\mathbb{R}^{(n+m)\times(n+m)}$, tedy i $\mathbb{E}X_i$, $\mathbb{E}Y_i$, $\operatorname{Var}X_i$, $\operatorname{Var}Y_i$; (2)~konečné musí být i podmíněné momenty, $\mathbb{E}\lVert\mathbb{E}(Y_i\mid X_i)\rVert^2<\infty$ a $\mathbb{E}\lVert\operatorname{Var}(Y_i\mid X_i)\rVert<\infty$.
+
+\subsection{Učení podle střední hodnoty a podle náhodného výběru}
+
+\begin{defbox}[Učení založené na střední hodnotě]
+Střední hodnota bere v~úvahu \emph{všechny možné vstupy i jejich pravděpodobnost}. Učení založené na střední hodnotě dává váhy $w$ a prahy $b$ minimalizující očekávanou ztrátu $\mathcal{L}$ predikcí sítě vůči výstupům:
+\[
+(w^{*},b^{*})=\arg\min_{w,b}\ \mathbb{E}_\mu\,\mathcal{L}\bigl(F_{w,b}(X),Y\bigr).
+\]
+Nejběžnější ztrátou je součet čtverců (\emph{sum of squared errors}, SSE):
+\[
+(w^{*},b^{*})=\arg\min_{w,b}\mathrm{SSE}=\arg\min_{w,b}\ \mathbb{E}_\mu\bigl\lVert F_{w,b}(X)-Y\bigr\rVert^{2}.
+\]
+\end{defbox}
+
+Střední hodnotu $\mathbb{E}_\mu\mathcal{L}(F_{w,b}(X),Y)$ typicky spočítat nelze, protože rozdělení $\mu$ neznáme. Pro náhodný výběr $p$ dvojic $(x_k,y_k)$ je však jejím \textbf{nevychýleným odhadem} průměr
+\[
+\frac1p\sum_{k=1}^{p}\mathcal{L}\bigl(F_{w,b}(x_k),y_k\bigr);
+\]
+jako výběr mohou sloužit všechna nebo některá trénovací data. Učení podle náhodného výběru navíc splývá s~tradičním způsobem učení, protože
+\[
+\min_{w,b}\ \frac1p\sum_{k=1}^{p}\mathcal{L}\bigl(F_{w,b}(x_k),y_k\bigr)=\min_{w,b}\ \sum_{k=1}^{p}\mathcal{L}\bigl(F_{w,b}(x_k),y_k\bigr)
+\]
+(konstantní faktor $\frac1p$ polohu minima nemění).
+
+\subsection{Specifičnost učení podle SSE}
+
+Označme $\langle\cdot,\cdot\rangle_{L_2(\mu)}$ a $\lVert\cdot\rVert_{L_2(\mu)}$ skalární součin a normu v~$\tilde L^{n+m}_2(\Omega,\mathcal{A},P)$. Pak lze SSE rozložit:
+\begin{multline*}
+\mathrm{SSE}=\bigl\lVert F_{w,b}(X)-Y\bigr\rVert^{2}_{L_2(\mu)}
+=\bigl\lVert F_{w,b}(X)-\mathbb{E}(Y\mid X)\bigr\rVert^{2}_{L_2(\mu)}
++\bigl\lVert\mathbb{E}(Y\mid X)-Y\bigr\rVert^{2}_{L_2(\mu)}\\
++\,2\bigl\langle F_{w,b}(X)-\mathbb{E}(Y\mid X),\ \mathbb{E}(Y\mid X)-Y\bigr\rangle_{L_2(\mu)} .
+\end{multline*}
+
+\textbf{Smíšený člen je nulový.} Postupným podmiňováním:
+\[
+\bigl\langle F_{w,b}(X)-\mathbb{E}(Y\mid X),\ \mathbb{E}(Y\mid X)-Y\bigr\rangle_{L_2(\mu)}
+=\mathbb{E}_\mu\Bigl[\bigl(F_{w,b}(X)-\mathbb{E}(Y\mid X)\bigr)^{\top}\bigl(\mathbb{E}(Y\mid X)-Y\bigr)\Bigr]
+\]
+\[
+=\mathbb{E}_{\mu_x}\Bigl[\mathbb{E}\Bigl(\bigl(F_{w,b}(X)-\mathbb{E}(Y\mid X)\bigr)^{\top}\bigl(\mathbb{E}(Y\mid X)-Y\bigr)\ \Bigm|\ X\Bigr)\Bigr]
+\]
+\[
+=\mathbb{E}_{\mu_x}\Bigl[\bigl(F_{w,b}(X)-\mathbb{E}(Y\mid X)\bigr)^{\top}\mathbb{E}\bigl(\mathbb{E}(Y\mid X)-Y\bigm| X\bigr)\Bigr]
+\]
+\[
+=\mathbb{E}_{\mu_x}\Bigl[\bigl(F_{w,b}(X)-\mathbb{E}(Y\mid X)\bigr)^{\top}\bigl(\mathbb{E}(Y\mid X)-\mathbb{E}(Y\mid X)\bigr)\Bigr]=0 ,
+\]
+neboť první činitel je funkcí $X$, a lze jej tedy z~podmíněné střední hodnoty vytknout. (Geometricky: $F_{w,b}(X)-\mathbb{E}(Y\mid X)$ leží v~podprostoru funkcí $X$, na nějž je reziduum $\mathbb{E}(Y\mid X)-Y$ kolmé --- $\mathbb{E}(Y\mid X)$ je ortogonální projekce $Y$ na tento podprostor.)
+
+\textbf{Druhý člen nezávisí na váhách.}
+\[
+\bigl\lVert\mathbb{E}(Y\mid X)-Y\bigr\rVert^{2}_{L_2(\mu)}
+=\mathbb{E}_\mu\bigl\lVert\mathbb{E}(Y\mid X)-Y\bigr\rVert^{2}
+=\mathbb{E}_{\mu_x}\sum_i\mathbb{E}\Bigl(\bigl(\mathbb{E}(Y\mid X)_i-Y_i\bigr)^2\Bigm| X\Bigr)
+\]
+\[
+=\mathbb{E}_{\mu_x}\sum_i\operatorname{Var}(Y\mid X)_{i,i}
+\]
+\[
+=\mathbb{E}_{\mu_x}\operatorname{trace}\operatorname{Var}(Y\mid X).
+\]
+
+\begin{defbox}[Co se síť učí při minimalizaci SSE]
+Spojením obou výsledků
+\[
+\mathrm{SSE}=\bigl\lVert F_{w,b}(X)-\mathbb{E}(Y\mid X)\bigr\rVert^{2}_{L_2(\mu)}+\mathbb{E}_{\mu_x}\operatorname{trace}\operatorname{Var}(Y\mid X),
+\]
+kde druhý sčítanec na $(w,b)$ nezávisí. Tedy
+\[
+\arg\min_{w,b}\mathrm{SSE}=\arg\min_{w,b}\bigl\lVert F_{w,b}(X)-\mathbb{E}(Y\mid X)\bigr\rVert^{2}_{L_2(\mu)},
+\]
+a existují-li $w^{*},b^{*}$ taková, že $F_{w^{*},b^{*}}(X)=\mathbb{E}(Y\mid X)$, je $\arg\min_{w,b}\mathrm{SSE}=(w^{*},b^{*})$.
+\end{defbox}
+
+\emph{Interpretace:} síť učená podle SSE aproximuje \textbf{podmíněnou střední hodnotu} $\mathbb{E}(Y\mid X)$, nikoli hodnoty $Y$ samotné. Člen $\mathbb{E}_{\mu_x}\operatorname{trace}\operatorname{Var}(Y\mid X)$ je \emph{neodstranitelná} část chyby --- přesně aleatorická nejistota z~kap.~\ref{sec:nmr-zaklady}. Žádná architektura ani žádné množství dat ji nesníží.
+
+\subsection{Zákony velkých čísel pro učení sítí}
+
+Empirický průměr z~náhodného výběru odhaduje střední hodnotu jednak \emph{nevychýleně}, jednak \emph{konzistentně}:
+\[
+\mathbb{E}_\mu\Bigl[\tfrac1p\textstyle\sum_{k=1}^{p}\mathcal{L}(F(x_k),y_k)\Bigr]=\mathbb{E}_\mu\mathcal{L}(F(X),Y),
+\qquad
+\tfrac1p\textstyle\sum_{k=1}^{p}\mathcal{L}(F(x_k),y_k)\longrightarrow\mathbb{E}_\mu\mathcal{L}(F(X),Y).
+\]
+
+Vlastnost konzistence se nazývá \emph{zákon velkých čísel}. \textbf{Slabý zákon} je konvergence náhodných veličin v~pravděpodobnosti,
+\[
+\forall\varepsilon>0:\ \lim_{p\to\infty}\mu\left(\left|\frac1p\sum_{k=1}^{p}\mathcal{L}(F(x_k),y_k)-\mathbb{E}_\mu\mathcal{L}(F(X),Y)\right|>\varepsilon\right)=0,
+\]
+\textbf{silný zákon} (implikuje slabý) je konvergence skoro všude,
+\[
+\mu\left(\lim_{p\to\infty}\frac1p\sum_{k=1}^{p}\mathcal{L}(F(x_k),y_k)=\mathbb{E}_\mu\mathcal{L}(F(X),Y)\right)=1 .
+\]
+
+\textbf{Proč to nestačí.} Zákony velkých čísel nelze na MLP přímo použít, protože součet ztrát přes výběr je \emph{změněn minimalizací}: neučíme se pro pevné $(w,b)$, ale bereme argument minima, který sám na datech závisí. Pro MLP jsou proto nutné specifické dodatečné předpoklady.
+
+\begin{defbox}[Úplný pravděpodobnostní prostor]
+Nechť $Z_i$, $i\in\mathbb{N}$, jsou borelovsky měřitelné, $Z_i:(\Omega,\mathcal{A})\to(\mathbb{R}^{n+m},\mathcal{B})$. Pravděpodobnostní prostor $(\Omega,\mathcal{A},P)$ se předpokládá \emph{úplný}:
+\[
+A\in\mathcal{A}\ \&\ B\subset\Omega\ \&\ (A\setminus B)\cup(B\setminus A)\subset C\in\mathcal{A}\ \&\ P(C)=0\ \Longrightarrow\ B\in\mathcal{A}.
+\]
+\end{defbox}
+
+\textbf{Předpoklady silného zákona pro MLP:}
+\begin{enumerate}
+\item $(\Omega,\mathcal{A},P)$ je úplný pravděpodobnostní prostor.
+\item $(X_i,Y_i)$, $i\in\mathbb{N}$, jsou nezávislé a stejně rozdělené (i.i.d.).
+\item $W=\{\text{přípustné }(w,b)\}$ je \emph{kompaktní} množina.
+\item Pro každé $(w,b)\in W$ je $\mathcal{L}(F_{w,b}(x),y)$ borelovsky měřitelnou funkcí $(x,y)$.
+\item Pro každé $(x,y)\in\mathbb{R}^{n+m}$ je $\mathcal{L}(F_{w,b}(x),y)$ spojitou funkcí $(w,b)$ na $W$.
+\item $\mathcal{L}(F_{w,b}(X),Y)$ má na $W$ majorantu integrovatelnou přes $\mathbb{R}^{n+m}$.
+\end{enumerate}
+
+\begin{defbox}[Silný zákon velkých čísel pro učení MLP]
+Uvažujme množinu výsledků učení založeného na střední hodnotě
+\[
+W^{*}=\Bigl\{(w^{*},b^{*})\in W\ \Bigm|\ \mathbb{E}_\mu\mathcal{L}\bigl(F_{w^{*},b^{*}}(X),Y\bigr)=\min_{w,b}\mathbb{E}_\mu\mathcal{L}\bigl(F_{w,b}(X),Y\bigr)\Bigr\}
+\]
+a výsledky učení z~náhodných výběrů $\{(x_i,y_i)\}_{p=1}^{\infty}$,
+\[
+\forall p\in\mathbb{N}:\quad(\hat w_p,\hat b_p)=\arg\min_{w,b}\sum_{k=1}^{p}\mathcal{L}\bigl(F_{w,b}(x_k),y_k\bigr).
+\]
+Pak posloupnost $\{(\hat w_p,\hat b_p)\}_{p=1}^{\infty}$ konverguje skoro všude k~$W^{*}$:
+\[
+\mu\Bigl(\lim_{p\to\infty}\ \inf_{(w^{*},b^{*})\in W^{*}}\bigl\lVert(\hat w_p,\hat b_p)-(w^{*},b^{*})\bigr\rVert=0\Bigr)=1 .
+\]
+\end{defbox}
+
+Věta tedy říká, že učení na konečném výběru \emph{není} jen heuristika: s~rostoucím počtem dat se odhad vah skoro jistě blíží množině optimálních vah vzhledem ke~skutečnému rozdělení dat. Všimněme si role \emph{kompaktnosti} $W$ (předpoklad 3) --- bez omezení na váhy by minimum nemuselo být dosaženo.
+
+\subsection{Prořezávání sítí}
+
+\begin{defbox}[Prořezávání]
+\emph{Prořezávání} (\emph{pruning}) je odstraňování spojů z~úplně propojených sítí; snižuje riziko přeučení i výpočetní náklady. Jsou-li odstraněny všechny vstupní nebo všechny výstupní spoje skrytého neuronu $h$, je odstraněn i neuron $h$ sám. Formálně se prořezání zapíše jako
+\[
+S\cdot(w,b)=0
+\]
+s~maticí $S$ nabývající hodnot $0/1$, jejíž řádky obsahují jedničku pro jeden spoj (prořezání spoje) nebo pro všechny spoje neuronu včetně prahu (odstranění neuronu).
+\end{defbox}
+
+\textbf{Statistický přístup.} Protože $(\hat w_p,\hat b_p)$ vzniklé učením je pouze (nevychýlený a konzistentní) \emph{odhad} $(w^{*},b^{*})$, potřebujeme ve skutečnosti vědět, zda platí $S(w^{*},b^{*})=0$. To nelze ověřit přímo, protože $(w^{*},b^{*})$ neznáme. Statistický přístup k~ověřování tvrzení o~odhadovaných hodnotách je \textbf{testování hypotéz} pomocí odhadu $(\hat w_p,\hat b_p)$.
+
+\textbf{Připomenutí testování.} Testování nulové hypotézy $H_0$ proti $H_1$ znamená ověřit, zda $T\in\mathfrak{C}$, kde $T$ je \emph{testová statistika} (náhodná veličina s~nějakým předpokládaným rozdělením) a $\mathfrak{C}\subset\operatorname{Val}T$ je \emph{kritický obor} splňující $P(T\in\mathfrak{C}\mid H_0)\le\alpha$ (hladina významnosti). Předpokládané rozdělení $T$ se vždy může asymptoticky opřít o~normalitu $\frac1p\sum_{k=1}^{p}\mathcal{L}(F(x_k),y_k)$ plynoucí z~centrální limitní věty --- ta však opět není přímo použitelná, protože $\sum_{k=1}^{p}\mathcal{L}(F_{w,b}(x_k),y_k)$ je změněna minimalizací.
+
+\subsection{Centrální limitní věta pro MLP}
+
+\textbf{Předpoklady 1--6} jsou obdobou předpokladů silného zákona, jen s~podstatnou úpravou bodu~4:
+\begin{enumerate}
+\item $(\Omega,\mathcal{A},P)$ je úplný pravděpodobnostní prostor.
+\item $(X_i,Y_i)$, $i\in\mathbb{N}$, jsou i.i.d.
+\item $W=\{\text{přípustné }(w,b)\}$ je kompaktní množina.
+\item $W^{*}=\{(w^{*},b^{*})\}$ je \emph{jednoprvková} a $(w^{*},b^{*})$ je \emph{vnitřním bodem} $W$.
+\item Pro každé $(w,b)\in W$ je $\mathcal{L}(F_{w,b}(x),y)$ borelovsky měřitelnou funkcí $(x,y)$.
+\item $\mathcal{L}(F_{w,b}(X),Y)$ má na $W$ majorantu integrovatelnou přes $\mathbb{R}^{n+m}$.
+\end{enumerate}
+
+\textbf{Pomocné značení.} $\nabla_{w,b}\mathcal{L}=\nabla_{w,b}\mathcal{L}(F_{w,b}(X),Y)$ je náhodný vektor takový, že pro každé $(x,y)\in\mathbb{R}^{n+m}$ je roven gradientu $\mathcal{L}(F_{w,b}(x),y)$ vzhledem k~$(w,b)$; $\nabla^2_{w,b}\mathcal{L}(F_{w,b}(X),Y)$ je náhodná matice rovná příslušnému hessiánu. Dále
+\[
+\hat A_p=\frac1p\sum_{i=1}^{p}\nabla^2_{w,b}\mathcal{L}\bigl(F_{\hat w_p,\hat b_p}(x_i),y_i\bigr),
+\qquad
+\hat B_p=\frac1p\sum_{i=1}^{p}\nabla_{w,b}\mathcal{L}\bigl(F_{\hat w_p,\hat b_p}(x_i),y_i\bigr)\,\nabla_{w,b}\mathcal{L}\bigl(F_{\hat w_p,\hat b_p}(x_i),y_i\bigr)^{\top}.
+\]
+
+\textbf{Předpoklady 7--12:}
+\begin{enumerate}\setcounter{enumi}{6}
+\item Pro každé $(x,y)$ má $\mathcal{L}(F_{w,b}(x),y)$ spojitý hessián vzhledem k~$(w,b)$ na $W$.
+\item Matice $A^{*}=\mathbb{E}_\mu\nabla^2_{(w^{*},b^{*})}\mathcal{L}(F_{w,b}(X),Y)$ je regulární.
+\item $\nabla^2_{w,b}\mathcal{L}(F_{w,b}(x),y)$ má na $W$ majorantu integrovatelnou přes $\mathbb{R}^{n+m}$.
+\item Matice $B^{*}=\mathbb{E}_\mu\bigl[\nabla_{(w^{*},b^{*})}\mathcal{L}\,\nabla_{(w^{*},b^{*})}\mathcal{L}^{\top}\bigr]$ je regulární.
+\item $\lVert\nabla^2_{w,b}\mathcal{L}\rVert$ má na $W$ majorantu integrovatelnou přes $\mathbb{R}^{n+m}$.
+\item Matice $S$ s~hodnotami $\{0,1\}$ má $s=\operatorname{rank}S$ řádků.
+\end{enumerate}
+
+\begin{defbox}[CLV pro MLP --- přesná kovariance]
+Za předpokladů 1--12 platí:
+\begin{enumerate}
+\item $\bigl\{\sqrt{p}\bigl((\hat w_p,\hat b_p)-(w^{*},b^{*})\bigr)\bigr\}_{p=1}^{\infty}$ konverguje v~distribuci k~$N(0,C^{*})$, kde
+\[
+C^{*}=(A^{*})^{-1}B^{*}(A^{*})^{-1}.
+\]
+\item Platí-li $S(w^{*},b^{*})=0$, pak $\bigl\{\sqrt{p}\,S(\hat w_p,\hat b_p)\bigr\}_{p=1}^{\infty}$ konverguje k~$N(0,SC^{*}S^{\top})$.
+\item Platí-li $S(w^{*},b^{*})=0$, pak kvadratické formy
+\[
+\Bigl\{p\,(\hat w_p,\hat b_p)^{\top}S^{\top}\bigl(SC^{*}S^{\top}\bigr)^{-1}S\,(\hat w_p,\hat b_p)\Bigr\}_{p=1}^{\infty}
+\]
+konvergují k~rozdělení $\chi^2_s$ s~$s$ stupni volnosti.
+\end{enumerate}
+\end{defbox}
+
+Tvar $C^{*}=(A^{*})^{-1}B^{*}(A^{*})^{-1}$ je známý \emph{sendvičový odhad} kovariance M-odhadů: vnitřní $B^{*}$ je kovariance gradientu ztráty, vnější $(A^{*})^{-1}$ je inverze očekávaného hessiánu.
+
+\textbf{Odhadovaná kovariance.} V~praxi $A^{*},B^{*}$ neznáme, a nahradíme je proto výběrovými $\hat A_p,\hat B_p$:
+\[
+\hat C_p=\begin{cases}
+\hat A_p^{-1}\hat B_p\hat A_p^{-1} & \text{je-li }\hat A_p\text{ regulární},\\
+\hat B_p & \text{je-li }\hat A_p\text{ singulární}.
+\end{cases}
+\]
+Pak $\hat C_p\to C^{*}$ v~pravděpodobnosti, a tedy $\lim_{p\to\infty}\mu(\hat C_p\text{ je regulární})=1$. Platí-li $S(w^{*},b^{*})=0$, konvergují k~$\chi^2_s$ i kvadratické formy s~odhadnutou kovariancí,
+\[
+\Bigl\{p\,(\hat w_p,\hat b_p)^{\top}S^{\top}\bigl(S\hat C_pS^{\top}\bigr)^{-1}S\,(\hat w_p,\hat b_p)\Bigr\}_{p=1}^{\infty}.
+\]
+
+\begin{defbox}[Testovací procedura pro hypotézu $S(w^{*},b^{*})=0$]
+\begin{algorithmic}[1]
+\State Pro daná pozorování $(x_1,y_1),\dots,(x_p,y_p)$ spočítej $(\hat w_p,\hat b_p)$ (tj.\ nauč síť).
+\State Pro $i=1,\dots,p$ spočítej $\nabla_{w,b}\mathcal{L}(F_{\hat w_p,\hat b_p}(x_i),y_i)$ a $\nabla^2_{w,b}\mathcal{L}(F_{\hat w_p,\hat b_p}(x_i),y_i)$.
+\State Spočítej $\hat A_p$, $\hat B_p$ a ověř, zda některá z~nich není singulární.
+\State Je-li singulární, test nelze provést; jinak spočítej $\hat C_p$.
+\State Spočítej $p\,(\hat w_p,\hat b_p)^{\top}S^{\top}(S\hat C_pS^{\top})^{-1}S\,(\hat w_p,\hat b_p)$ a porovnej s~rozdělením $\chi^2_s$.
+\State Je-li hodnota větší než kvantil $\chi^2_s(1-\alpha)$, $\alpha\in(0,1)$, zamítni $S(w^{*},b^{*})=0$.
+\end{algorithmic}
+\end{defbox}
+
+\emph{Pointa:} nezamítnutí hypotézy je statisticky podložený argument pro prořezání příslušných spojů (či celého neuronu). Prořezávání sítí tak přestává být heuristikou typu \uv{odstraň malé váhy} a stává se rozhodnutím s~kontrolovanou hladinou významnosti.
+
+\subsection{Shrnutí ke~zkoušce}
+
+\begin{itemize}
+\item \textbf{Rámec}: trénovací dvojice jsou realizace i.i.d.\ náhodných vektorů $Z_i=(X_i,Y_i)\sim\mu$; prostor $L^k_p(\Omega,\mathcal{A},P)$, třídy ekvivalence $\varphi\approx\rho\Leftrightarrow P(\varphi\ne\rho)=0$, prostor $\tilde L^k_p$ je Banachův, $\tilde L^k_2$ dokonce Hilbertův se skalárním součinem $\langle\varphi,\rho\rangle=\mathbb{E}(f(Z)^{\top}g(Z))$; bijekce $\tilde L^{n+m}_p\leftrightarrow$ rozdělení s~konečnými $p$-tými momenty.
+\item \textbf{Učení podle střední hodnoty}: $(w^{*},b^{*})=\arg\min_{w,b}\mathbb{E}_\mu\mathcal{L}(F_{w,b}(X),Y)$; nespočitatelné, protože $\mu$ neznáme, ale výběrový průměr je nevychýlený a konzistentní odhad a splývá s~tradičním učením.
+\item \textbf{Rozklad SSE}: $\mathrm{SSE}=\lVert F_{w,b}(X)-\mathbb{E}(Y\mid X)\rVert^2_{L_2(\mu)}+\mathbb{E}_{\mu_x}\operatorname{trace}\operatorname{Var}(Y\mid X)$, smíšený člen je nulový (ortogonalita). $\Rightarrow$ \textbf{síť učená podle SSE aproximuje $\mathbb{E}(Y\mid X)$}; druhý člen je neredukovatelná (aleatorická) chyba.
+\item \textbf{Zákony velkých čísel}: slabý (konvergence v~pravděpodobnosti) vs.\ silný (skoro všude); na MLP nelze aplikovat přímo, protože suma je změněna minimalizací.
+\item \textbf{Silný zákon pro MLP}: předpoklady --- úplný prostor, i.i.d.\ data, kompaktní $W$, měřitelnost v~$(x,y)$, spojitost v~$(w,b)$, integrovatelná majoranta $\Rightarrow$ $(\hat w_p,\hat b_p)\to W^{*}$ skoro všude.
+\item \textbf{Prořezávání}: $S(w,b)=0$ s~$0/1$ maticí $S$ (řádek $=$ spoj, resp.\ všechny spoje neuronu $+$ práh); potřebujeme testovat $S(w^{*},b^{*})=0$ pomocí odhadu $(\hat w_p,\hat b_p)$.
+\item \textbf{CLV pro MLP}: navíc jednoprvkové $W^{*}$ ve vnitřku $W$, spojitý hessián, regulární $A^{*}=\mathbb{E}\nabla^2\mathcal{L}$ a $B^{*}=\mathbb{E}(\nabla\mathcal{L}\nabla\mathcal{L}^{\top})$, majoranty $\Rightarrow$ $\sqrt{p}\bigl((\hat w_p,\hat b_p)-(w^{*},b^{*})\bigr)\to N(0,C^{*})$, $C^{*}=(A^{*})^{-1}B^{*}(A^{*})^{-1}$ (sendvičový odhad).
+\item \textbf{Test}: při $S(w^{*},b^{*})=0$ je $p(\hat w_p,\hat b_p)^{\top}S^{\top}(S\hat C_pS^{\top})^{-1}S(\hat w_p,\hat b_p)\to\chi^2_s$; zamítnutí při překročení kvantilu $\chi^2_s(1-\alpha)$; při singulárním $\hat A_p$ nebo $\hat B_p$ test nelze provést.
+\end{itemize}
+
 \vspace{8mm}
 \begin{center}
 \rule{0.4\textwidth}{0.4pt}\\[2mm]
-\textit{Konec učebního textu k~okruhům \uv{Dobývání znalostí} a \uv{Internet a klasifikační metody}.}
+\textit{Konec učebního textu k~okruhu \uv{Dobývání znalostí} a k~předmětům \uv{Internet a klasifikační metody}\\ a \uv{Neuronové sítě, strojové učení a náhodnost}.}
 \end{center}
 
 \end{document}

@@ -6,7 +6,7 @@ Učební texty ke třem okruhům magisterské státní závěrečné zkoušky ob
 |---|---|
 | `01-multiagentni-systemy` | Multiagentní systémy |
 | `02-prirodou-inspirovane-pocitani` | Přírodou inspirované počítání |
-| `03-dobyvani-znalosti` | Dobývání znalostí (+ část II: Internet a klasifikační metody) |
+| `03-dobyvani-znalosti` | Dobývání znalostí (+ část II: Internet a klasifikační metody, + část III: Neuronové sítě, strojové učení a náhodnost) |
 
 Pokrytí ověřeno proti [oficiálnímu znění okruhů 2025/2026](https://www.mff.cuni.cz/cs/studenti/bc-a-mgr-studium/studijni-plany/2025-2026/informatika/mgr/umela-inteligence). Recenzní protokoly jsou ve složce `recenze/`.
 
