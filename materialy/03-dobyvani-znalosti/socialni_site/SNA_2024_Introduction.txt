@@ -1,0 +1,522 @@
+Social Networks
+and their Analysis
+
+AN INTRODUCTION TO THE FIELD
+
+BY: IVETA MRAZOVA
+Social Networks     An Introduction to the field
+and their Analysis
+                     · Motivation
+
+                        · Link Analysis
+                        · SF-networks
+
+                     · Background
+
+                        · Application Examples
+
+                    Basic Concepts
+
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+Motivation: Link Analysis
+
+  Objectives:
+
+    · find relationships among the data
+    · visualize the links and relationships
+
+ Application areas:
+
+   · telecommunications
+   · criminalistics and law ­ groups of criminals are mutually interlinked,
+
+     an analysis of these relationships can help uncover them
+   · marketing ­ relationships among customers
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                               3
+Motivation: Link Analysis
+
+High schools as networks
+
+Source: Linton Freeman "See you in the funny pages"
+Connections, 23, 2000, 32-42.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS       4
+Motivation: Link Analysis
+
+Social (friendship) structure of the ,,Countryside" school district
+
+Nodes colored by race  Nodes colored by grade
+
+                       I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  5
+Motivation: Link Analysis
+
+Six Degrees of Separation, (Milgram, 1967)
+
+· an experiment on the small-worlds phenomenon
+
+· random people from Nebraska were asked to send a letter
+
+(via intermediaries) to a stock-broker in Boston                   Stanley Milgram (1933-1984)
+
+· could only send to someone whom they knew on a first-name basis
+
+· among the letters that found the target, the average number of links was six
+
+   · However, not many of the letters in the original experiment arrived
+
+   · the experiment presaged some later discoveries (e.g., hubs, tendency to go by geography,
+      profession, etc.)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                     6
+Motivation: Link Analysis
+
+Six Degrees of Separation, (Milgram, 1967)
+
+John Guare wrote a play called Six Degrees of Separation,
+ based on this concept:
+
+ "Everybody on this planet is separated by only six other people. Six
+ degrees of separation. Between us and everybody else on this planet. The
+ president of the United States. A gondolier in Venice... It's not just the big
+ names. It's anyone. A native in a rain forest. A Tierra del Fuegan. An
+ Eskimo. I am bound to everyone on this planet by a trail of six people..."
+
+Milgram     Allan    Robert                                                      Kentaro
+         Wagner ?  Sternberg                                                     Toyama
+                                                         Mike
+                                                         Tarr                               7
+
+         I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS
+Social Networks     An Introduction to the field
+and their Analysis
+                     · Motivation
+
+                        · Link Analysis
+                        · SF-networks
+
+                     · Background
+
+                        · Application Examples
+
+                    Basic Concepts
+
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+Motivation: SF-Networks
+
+(Scale-Free Networks)
+
+· Some nodes have extremely many connections (edges)
+
+  to other nodes - hubs
+
+· Most nodes have just a few connections to other nodes
+· Resilience to a random disturbance
+· Vulnerability to coordinated attacks
+
+· New application areas:
+
+    protection against (computer) viruses spread through the internet
+    medicine (vaccinations)
+    business (marketing)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                         9
+SF-Networks        SF-network
+
+  Random graph
+
+edge distribution                                                          edge distribution
+
+no. of nodes
+                                                             no. of nodes
+
+no. of edges                                                               no. of edges
+
+Adapted from "A. L. Barabasi and E. Bonabeau: Scale-Free Networks, Scientific American, May 2003"
+
+                   I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                  10
+Examples of SF-Networks                                                                                                                           Paul Erds (1913-1996)
+
+Scientific collaboration - researchers co-authoring papers                                                                                                                         11
+
+ · Paul Erds wrote 1500+ papers with 507 co-authors
+ · Erds number:
+
+      ~ no. of links required to connect scholars to Erds, via co-
+        authorship of papers
+
+      · Jerry Grossman's (Oakland Univ.) website allows
+        mathematicians to compute their Erdos numbers:
+
+             https://sites.google.com/oakland.edu/grossman/home/the-erdoes-number-project
+             https://mathscinet.ams.org/mathscinet/freeTools.html?version=2
+
+connecting path lengths, among mathematicians only:
+
+            · average Erds number is 4.65, maximum is 13
+
+                                                                                                  I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS
+Examples of SF-Networks
+
+Social networks
+
+  · Scientific collaboration ­ researchers co-authoring papers
+  · Hollywood ­ actors playing roles in the same movie
+
+Biological networks
+
+  · cell metabolism
+      - molecules participating in energy production, in the same biological reaction
+
+  · protein regulatory networks
+      - proteins that control cell activity, interaction between proteins
+
+Socio-technical networks
+
+  · Internet ­ routers, optical and other connections
+  · World Wide Web ­ web pages and URL (~ Uniform Resource Locator)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                         12
+SF-Networks: Basic Characteristics
+
+                                  Two main mechanisms:
+
+                                          · growth
+                                          · preferential attachment
+
+                                  "The rich get richer" (hubs):
+
+                                          · new nodes prefer to attach themselves to nodes already
+                                            equipped with more links
+
+                                          · During the course of time, "popular locations" form more
+                                            connections than their neighbors who have less links
+
+                                  Reliability
+
+                                          · random failures (80% of randomly chosen nodes can fail
+                                            without leading to the fragmentation of the cluster)
+
+                                          · coordinated attacks (the elimination of 5-15% of all the
+                                            hubs can cause the entire system to collapse)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                        13
+SF-Networks:
+
+an Example Resembling City Connections
+
+A random network: failure     A SF- network: failure of a A SF-network: co-
+of a random node
+                              random node       ordinated attack of hubs
+                        node
+                                           hub                                       hub
+
+before                        before                        before
+        damaged node                  damaged node
+                                                                                     attacked hub
+
+after                         after             after
+
+Adapted from "A. L. Barabasi and E. Bonabeau: Scale-Free Networks, Scientific American, May 2003"
+
+                                     I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                14
+Applications of SF-Networks
+
+Computing
+
+ · networks with a Scale-Free-architecture
+
+Medicine
+
+ · vaccination campaigns and new drugs
+
+Business
+
+ · cascaded financial crashes
+ · marketing (word of mouth, influencer marketing,
+
+   social media and search engine marketing, ...)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS      15
+Application of SF-Networks
+
+Computing
+
+ · Computer networks with a SF-architecture (e.g., WWW)
+
+     · Extremely resistant to random failures
+     · Very vulnerable to coordinated attacks or sabotage
+
+ · Eradication of internet viruses is essentially impossible
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                16
+Application of SF-Networks
+
+Medicine
+
+ · Vaccination campaigns focused on hubs
+
+     · People with many contacts and social connections
+     · A difficult identification of such individuals
+
+ · New drugs targeting the key molecules (hubs) involved in the
+    respective disease
+
+ · minimize the side effects of the drugs by using the found link
+    networks inside the cells
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                     17
+Application of SF-Networks
+
+Business
+
+· Financial failures
+
+    · understanding of mutual links between companies, industry and
+       economy
+
+    · monitoring and elimination of cascade financial crashes
+
+· Marketing
+
+    · explore the spread of contagion in SF-networks
+    · a more efficient advertising of new products
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                       18
+Social Networks     An Introduction to the field
+and their Analysis
+                     · Motivation
+
+                        · Link Analysis
+                        · SF-networks
+
+                     · Background
+
+                        · Application Examples
+
+                    Basic Concepts
+
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+Background: Social Network Analysis
+
+Social Network Analysis (SNA)
+
+ · interdisciplinary field with origin in social science, network analysis and graph theory
+
+    · social science ­ questions and problems to explain social behavior through an analysis of
+      societies
+
+    · network analysis - formulation and solution of problems that have a network structure
+    · graph theory ­ a mathematical field that provides a set of abstract concepts and methods
+
+      to represent and analyze graphs.
+
+· focused on relationships established between social entities (individuals, groups,
+  institutions, etc.) rather than on the social entities themselves (i.e., individuals or
+  their attributes)
+
+    · SNA methods include visualization and analytical tools.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  20
+Background: Social Network Analysis
+
+                                                    An early example of network analysis:
+
+                                                                 · city of Königsberg (now Kaliningrad).
+                                                                 · Leonard Euler proved that there is no path
+
+                                                                     that crosses each of the city's bridges only
+                                                                     once (Newman et al, 2006).
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  21
+Background: Social Science
+
+· Studying society from a network perspective considers
+
+  individuals as embedded in a network of relations and
+  seeks explanations for social behavior in the structure of
+  these networks rather than in the individuals alone.
+
+· widespread availability of data, as well as advances in
+
+  computing and methodology, make it easier to apply SNA
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  22
+Social Networks     An Introduction to the field
+and their Analysis
+                     · Motivation
+
+                        · Link Analysis
+                        · SF-networks
+
+                     · Background
+
+                        · Application Examples
+
+                    Basic Concepts
+
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+An early depiction of
+an `ego' network:
+
+ · a personal network.
+
+ · varying tie strengths
+   depicted via
+   concentric circles
+   (Wellman, 1998)
+
+                          I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  24
+More Examples from Social Science
+
+These visualizations depict the flow of communications in an organization before
+and after the introduction of a content management system (Gartonet al, 1997)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                    25
+More Examples from Social Science
+
+                                                                         Visualization of US bloggers:
+
+                                                                          · form two distinct clusters
+
+                                                                          · tend to link predominantly
+                                                                            to blogs supporting the
+                                                                            same party
+
+Adamic and Glance, 2005
+
+                         I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  26
+Race & school
+friendships
+
+Black & white friendship
+nominations ­ 4 clusters
+are white/black
+
+                          I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  27
+Background: Other Domains for SNA
+
+(Social) Network Analysis is predominantly used to study human-gener-
+ated structures, but it has found applications in many domains beyond:
+
+· Computer science ­ analysis of webpages, internet traffic,
+
+    information dissemination, etc.
+
+· Life sciences ­ a study of food chains in different ecosystems
+· Mathematics and (theoretical) physics ­ analysis of networks from
+
+    relevant domains
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  28
+Links between
+web pages
+
+· a large-scale human-      (Broderet al, 2000)
+  generated structure
+
+· the Web consists of a
+  core of densely inter-
+  linked pages
+
+· most other web pages
+  either linked to or lin-
+  ked from the core.
+
+                            I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  29
+Practical Applications
+
+· Businesses:
+
+   · analyze and improve communication flow in an organization, with partners or
+
+        customers
+
+   · marketing campaigns based on social networking
+
+· Law enforcement agencies (and the army):
+
+   · identify criminal and terrorist networks from traces of collected communication
+   · identify key players in criminal or terrorist networks
+
+· Social Network Sites (like Facebook):
+
+   · identify and recommend potential friends based on friends-of-friends
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                        30
+Practical Applications
+
+· Civil society organizations:
+   · uncover conflicts of interest in hidden connections between government
+
+       bodies, lobbies and businesses
+
+· Network operators (telephony, cable, mobile):
+   · optimize the structure and capacity of communication networks
+
+· Medicine:
+
+   · Contagious diseases and their prevention
+   · Sexually transmitted diseases (STD) ­ 1996 syphilis outbreak in Rockdale
+
+       County (Atlanta metropolitan area, Georgia)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                 31
+Syphilis outbreak
+at a high school in
+Rockdale
+
+· affluent suburb of
+    Atlanta, Georgia
+
+· a group of young white
+    girls about 16 years old
+
+· a group of white boys
+    aged 17 to 21
+
+· a group of African-
+    American boys 17 to 21
+
+· Syphilis was diagnosed in
+    6 white females, 2 white
+    males and 2 African-
+    American males
+
+                              I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  32
+Why and When to Use SNA
+
+· study a social network (offline or online) or improve its effectiveness
+· visualize data so as to uncover patterns in relationships or interactions
+· follow the paths that information flows in social networks
+· in quantitative research (yet for qualitative research, a network perspective is also
+
+    valuable):
+
+   · the range of actions and opportunities afforded to individuals are often a function of
+
+        their positions in social networks; uncovering these positions (say as fathers, mothers,
+        teachers, workers) can yield interesting and sometimes surprising results
+
+   · quantitative analysis of a social network can help identify different types of actors in the
+
+        network (key players)
+
+· analyze social media in general, identify the causes for dysfunctional communities
+
+    or networks, and promote social cohesion and growth in an online community
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  33
+

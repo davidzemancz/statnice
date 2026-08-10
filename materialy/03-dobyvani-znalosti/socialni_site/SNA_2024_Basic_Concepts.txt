@@ -1,0 +1,714 @@
+Social Networks
+and their Analysis
+
+BASIC CONCEPTS
+
+BY: IVETA MRAZOVA
+Social Networks     An Introduction to the field
+and their Analysis
+                     · Motivation
+
+                        · Link Analysis
+                        · SF-networks
+
+                     · Background
+
+                        · Application Examples
+
+                    Basic Concepts
+
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+Basic Concepts
+
+· Networks How to represent various social networks?
+· Tie Strength How to identify strong / weak ties in the
+
+                    network?
+· Key Players How to identify key / central nodes in the
+
+                    network?
+· Cohesion Measures of overall network structure
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS            3
+Representing Relations as Networks
+
+ANNE  JIM  MARY  JOHN                                Can we study their interactions
+
+                                                     as a network?
+
+1     2    3     4                                   Graph:                              2
+
+Communication                                                1                           4
+
+Anne: Jim, tell the Murrays they're invited.                 3                     Edge (link)
+Jim: Mary, you and your dad should come for dinner!
+Jim: Mr. Murray, you should both come for dinner                    Vertex (node)
+Anne: Mary, did Jim tell you about the dinner? You
+
+       must come.
+John: Mary, we are invited for dinner tonight, it's
+
+       settled!
+
+                 I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                 4
+Entering Data on a Directed Graph
+
+A (directed) graph  Edge list                                       Adjacency matrix
+                                                                    Vertex 1 2 3 4
+                    Vertex Vertex
+
+                    1  2                                            1 01 1 0
+
+1  2                1  3                                            2 00 1 1
+
+3  4                2  3                                            3 00 0 0
+
+                    2  4                                            4 00 1  0
+
+                    4  3                                            For directed graphs, the adjacency matrix
+                                                                    does not have to be symmetric.
+
+                    I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS          5
+Representing an Undirected Graph
+
+Directed: who contacts whom  Same edge list
+
+1  2                         X different                                     Symmetric adjacency matrix
+                                interpretation                               Vertex 1 2 3 4
+
+                             Vertex Vertex                                     1 01 1 0
+                                                                               2 10 1 1
+3  4                         1  2                                              3 11 0 1
+                                                                               4 01 1 0
+                             1  3
+
+1  2                         2  3
+
+                             2  4
+
+3  4                         3  4
+
+Undirected: who knows whom
+
+                             I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  6
+Ego Networks and ,,Whole" Networks
+
+a "whole" network*                                                      1       2
+
+                                                                    ego 3             alter
+
+   1        2                                                       4        5
+
+      3
+
+                                                                          1        2
+
+4        5
+
+      6        7    isolate
+
+                                                                       4        5
+
+ * No studied network is ,,whole" in practice: it is usually a partial picture of one´s real-life
+network (boundary specification problem)
+** Ego is not needed for further analysis as all alters are by definition connected to ego
+
+                    I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                 7
+Social Networks     An Introduction to the field
+and their Analysis
+                     · Motivation
+
+                        · Link Analysis
+                        · SF-networks
+
+                     · Background
+
+                        · Application Examples
+
+                    Basic Concepts
+
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+Basic Concepts
+
+· Networks How to represent various social networks?
+· Tie Strength How to identify strong / weak ties in the
+
+                    network?
+· Key Players How to identify key / central nodes in the
+
+                    network?
+· Cohesion Measures of overall network structure
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS            9
+Adding Weights to (Directed or Undirected) Edges
+
+                          30                                 Edge list: add column of weights
+
+                                      2                      Vertex                   Vertex      Weight
+                                                               1                          2          30
+1                             22         2                     1                          3           5
+    5                                                          2                          3          22
+                                                               2                          4           2
+       3                          37                           3                          4          37
+
+                                      4
+
+The weights can express:                                     Adjacency matrix: add weights
+
+· frequency of interaction within the period of observation  Vertex 1                         2   3       4
+· number of items exchanged within a period
+· individual perceptions of strength of relationship         1                        0       30  5       0
+· costs in communication or exchange, e.g., distance
+· combinations of the above                                  2                        30      0   22      2
+
+                                                             3                        5       22  0       37
+
+                                                             4                        0       2   37      0
+
+                                      I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                          10
+Edge Weights as Relationship Strength
+
+· Edges can represent interactions, flows of information or goods,
+   similarities/affiliations, or social relations
+
+· Specifically for social relations, a `proxy' for the strength of a tie can be:
+
+    · the frequency of interaction (communication) or the amount of flow (exchange)
+    · reciprocity in interaction or flow
+    · the type of interaction or flow between the two parties (e.g., intimate or not)
+    · other attributes of the nodes or ties (e.g., kin relationships)
+    · the structure of the nodes' neighborhood (e.g., many mutual `friends')
+
+· Surveys and interviews can reveal the existence of mutual or one-sided
+   strength/affection with greater certainty, but proxies are also useful
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                         11
+Homophily, Transitivity, and Bridging
+
+Homophily ~ tendency to relate to people with similar characteristics                      Homophily Heterophily
+                (status, beliefs, etc.)
+                                                                                           Strong TIES Weak
+  · tendency to homogeneous groups (clusters) where forming relations is easier
+  · extreme homogenization can act counter to innovation and idea generation               Transitivity  Bridging
+
+            => heterophily is thus desirable in some contexts                                       CLUSTERING
+  · homophilous ties can be strong or weak
+                                                                                           Cliques       Interlinked
+Transitivity ~ `if there is a tie between A and B and a tie between B and C,                             groups
+                 then A and C will also be connected in a transitive network
+                                                                                           Social network
+  · strong ties are more often transitive than weak ties; transitivity thus indicates the
+       existence of strong ties (but is not a necessary or sufficient condition)
+
+  · transitivity and homophily together lead to the formation of cliques (fully
+       connected clusters)
+
+Bridges ~ nodes and edges that connect different groups
+
+  · usually weak ties, but not every weak tie is a bridge
+  · facilitate inter-group communication, increase social cohesion, and help spur
+
+       innovation
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                           12
+Social Networks     An Introduction to the field
+and their Analysis
+                     · Motivation
+
+                        · Link Analysis
+                        · SF-networks
+
+                     · Background
+
+                        · Application Examples
+
+                    Basic Concepts
+
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+Basic Concepts
+
+· Networks How to represent various social networks?
+· Tie Strength How to identify strong / weak ties in the
+
+                    network?
+· Key Players How to identify key / central nodes in the
+
+                    network?
+· Cohesion Measures of overall network structure
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS            14
+Degree centrality
+
+node's in- and out- degree:                                               1        A hypothetical graph
+                                                                     2                                         3
+  ~ number of links that lead into / out of the node
+                                                                                                        2
+
+· in undirected graphs, in- and out- degrees are
+
+  identical                                                                  43
+· measures node's connectedness, influence
+
+and / or popularity                                                                            4
+
+· helps assess which nodes are central with                          41                     5
+  respect to spreading information and
+
+influencing others in their `neighborhood'                                               1               1
+                                                                                   6               7
+                                       Nodes 3 and 5 have the highest degree (=4)
+
+                     I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                            15
+Paths and shortest paths                                                                                                                            A hypothetical graph
+
+· a path between two nodes is any sequence of non-                                                                                               1  2
+   repeating nodes that connects the two nodes
+                                                                                                                                                 3
+· the shortest path between two nodes is the path that                                                                                                                       5
+   connects the two nodes with the shortest number of
+   edges (distance between the nodes)                                                                                                                          4
+                                                                                                                                                               shortest path(s)
+· shorter paths are preferred for quick communication
+   or exchange (but sometimes not, e.g., when spreading                                                                                                                                               16
+   disease)
+
+· Example:
+
+   · between the nodes 1 and 4, there are two shortest paths of
+       length 2 ­ {1,2,4} and {1,3,4}
+
+   · other paths between 1 and 4 are {1,2,3,4}, {1,3,2,4},
+       {1,2,5,3,4} and {1,3,5,2,4} (the longest paths)
+
+                                                                                                 I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS
+Shortest path algorithms
+
+B. V. Cherkassky, A. V. Goldberg, T. Radzik: Shortest paths algorithms: Theory and experimental evaluation,
+in: Mathematical Programming, 73, 1996, pp. 129-174.
+
+· Single source: Given a graph G=(V,E), with weight function w(u,v) = wu,v , and a
+
+   single source vertex, s, return the shortest paths from s to all other vertices in V.
+
+      · General graphs (~ directed, negative edge weights allowed): Bellman-Ford algorithm with the
+          complexity O(|V||E|)
+
+      · Graphs without negative edge weights: Dijkstra´s algorithm with the complexity O(|V|2)
+      · To find the shortest path between only two vertices, the algorithm can stop after that shortest path
+
+          is found.
+
+· All pairs: Given a graph G=(V,E), with weight function w(u,v) = wu,v , return the
+  shortest path from u to v,  u,v  V.
+
+      · Graphs with negative edge weights allowed: Floyd-Warshall algorithm with the complexity O(|V|3)
+      · Sparser graphs with negative edge weights allowed: Johnson´s algorithm with the complexity
+
+          O(|E||V|+|V|2  log2(|V|))
+      · Graphs without negative edge weights: Dijkstra´s algorithm with the complexity O(|V|3)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  17
+Betweenness centrality
+
+~ number of shortest paths passing through a node                   A hypothetical graph
+  divided by all shortest paths in the network
+                                                                 1                 1.5
+   · for a given node v, calculate the number of shortest   0                2
+      paths between nodes  and  that pass through , and
+      divide by all shortest paths between nodes  and       6.5 3
+
+   · sum the computed values for all node pairs , 
+   · sometimes normalized such that the highest value is 1
+
+· indicates nodes that are on communication paths           40                     9
+  between other nodes                                                        5
+
+· helps determine points where the network might                                              0
+  break apart (think, e.g., of cutting off nodes 3 or 5)                                7
+
+Node 5 has higher betweenness centrality than 3                           0
+                                                                    6
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                               18
+Closeness centrality
+
+                                                               A hypothetical graph
+
+Closeness centrality is a measure of reach                         1                     0.67
+                                                               0.5                  2
+   ~ speed with which information can reach other nodes
+      from a given starting node
+
+· calculate the mean length of all shortest paths from a node  0.75 3
+   to all other nodes in the network
+                                                                                               0.75
+    ~ how many hops does it take on average to reach every                                 5
+       other node
+                                                                                                            0.46
+  · take the reciprocal of the above value                     4                                      7
+                                                                    0.46            0.46
+· higher values indicate higher closeness (are ´better´)
+
+· useful when the speed of dissemination is of main
+   concern
+
+                                                                                 6
+
+Nodes 3 and 5 have the highest (best) closeness, while node 2 is almost as good
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                       19
+Eigenvector centrality
+
+~ proportional to the sum of eigenvector centralities of                 A hypothetical graph
+   all nodes directly connected to the considered node
+                                                                           1                  0.49
+   · a node with a high eigenvector centrality is connected to        0.36                2
+      other nodes with a high eigenvector centrality
+
+· similar to Google´s PageRank, used to rank web pages                   0.54 3
+
+- links from highly linked-to pages count more                                            0.49
+
+· useful in determining who is connected to the most                                   5
+
+connected nodes                                                       4
+
+· actually, measured centrality values may slightly vary based           0.19
+
+on the software used                                                                            0.17
+
+                                                                               6 0.17           7
+
+Node 3 has the highest eigenvector centrality, closely followed by 2 and 5
+
+                      I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                      20
+Interpretation of measures
+
+Centrality measure Interpretation in social networks
+
+· Degree       How many people can this person reach directly?
+· Betweenness
+· Closeness    Network of music collaborations: How many people has he/she collaborated with?
+· Eigenvector
+               How likely is this person to be on the most direct route in the network?
+
+               Network of spies: Through whom is most of the information likely to flow?
+
+               How fast can this person reach everyone in the network?
+
+               Network of sexual relations: How fast will an STD spread to the rest of the network?
+
+               How well is this person connected to other well-connected people?
+
+               Network of citations: Who is the author cited most by other well-cited authors?
+
+               I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  21
+Identifying sets of key players
+
+Example to the right:                                         0           1
+
+· node 10 is the most central according to degree centrality                                       2
+× nodes 3 and 5 together will reach more nodes                      10
+× the tie between node 3 and 5 is critical
+                                                                       3
+      if severed, the network will break into two isolated
+         sub-networks                                            4              5         9
+
+ other things being equal, the nodes 3 and 5 together               6                  8
+     are more important to this network than node 10 alone
+                                                                             7
+Thinking about sets of key players can help!
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                     22
+Identifying sets of key players
+
+Structural equivalence:
+
+ ~ expresses the similarity between actors in a social
+   network
+
+ · is based on the neighbors they share (or, equivalently,
+   the number of identical ties they have)
+
+ · two actors are structurally equivalent if their
+   positions can be swapped without modifying the
+   overall structure of the network
+
+ · approximate structural equivalence can be used for
+   hierarchical clustering of social networks
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS              23
+Basic Concepts
+
+· Networks How to represent various social networks?
+· Tie Strength How to identify strong / weak ties in the
+
+                    network?
+· Key Players How to identify key / central nodes in the
+
+                    network?
+· Cohesion How to characterize a network´s structure?
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  24
+Reciprocity (degree of)
+
+· degree of mutuality and reciprocal exchange in
+
+networks, which is related to social cohesion                  1  2
+
+~ ratio of the number of relations that are recipro-
+   cated (there is an edge in both directions) over
+   the total number of relations in the network
+
+· ...where two vertices are said to be related if there is at  3  4
+
+least one edge between them
+
+· makes sense only in directed graphs
+
+                                                               Reciprocity for this network is 2/5 = 0.4
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                       25
+Density ­ dense versus sparse networks
+
+~ the ratio of the number of edges in the network over the to-          density = / = . 
+
+tal number  of possible edges (that  ifsoerqaunaul ntodirect-ed,graph)  1  2
+where  is   the number of vertices,
+
+· a common measure of how well is connected a network                   3  4
+   (i.e., how closely knit it is)
+
+· a perfectly connected network is called a clique and has              1  2
+   a density equal to 1
+
+· directed graphs have half the density of their undirected
+   counterparts, as there are twice as many possible edges,
+   i.e., ( - )
+
+· compares networks (or their parts) against each other                 3  4
+
+                                                                        density = / = . 
+
+            I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                 26
+Clustering                                                                                              Cluster A
+
+· indicates the presence of (sub-)communities                                               1           Cluster B
+· a node's clustering coefficient () measures the density of its                        1                   2 0.67
+
+    neighborhood (i.e., the network consisting only of all the nodes                       0.33 3
+    directly connected to it)                                                           40
+
+    · for a graph  = (, ), the neighborhood () of a vertex i  V is defined
+         as () = {   ;  ,      ,   } ; () =  
+
+·   = 2  , ;,                           for an undirected graph                                               0.17
+                                                                                                        5
+                           (  -1 )
+
+·  ( or    =  | {  ,    ;,          }|  for a directed graph, resp. )
+                       (   -1 )
+
+    · the network clustering coefficient  is the average of all coefficients for its                 0      0
+         nodes: C = |=|1 ()                                                                    6        7
+
+· clustering algorithms try to maximize the number of edges that                         Network clustering coefficient = . 
+    fall within the same cluster (two clusters identified in the example                (i.e.,  + .  + .  + .  = . 
+    right)
+                                                                                            divided by  yields .  in total)
+
+                                        I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                  27
+Average and longest distance
+
+· network's diameter ~ the longest shortest path         1                 2
+  (distance) between any two nodes in a network                   3  diameter = 3
+                                                                      5
+· a useful measure of the reach of the network      4
+                                                                  6              7
+· indicates how long it will take at most to reach
+  any node in the network                                                           28
+
+   · sparser networks will generally have greater
+      diameters
+
+· the average of all shortest paths in a network
+  indicates how far apart any two nodes will be
+  on average (average distance)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS
+Small Worlds
+
+A small world ~ a network that looks almost random
+but exhibits a significantly high clustering coefficient
+and a relatively short average path length
+
+ ~ nodes cluster locally and can be reached in a few steps
+
+· very common in social networks because of:
+
+   · transitivity in strong social ties and
+   · the ability of weak ties to reach across clusters
+
+· `small world' networks have many clusters but also
+
+many bridges between the clusters that help shorten
+
+the average distance between nodes                            "6 degrees" of separation are well-known
+
+              I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  29
+Social Networks     An Introduction to the field
+and their Analysis
+                     · Motivation
+
+                        · Link Analysis
+                        · SF-networks
+
+                     · Background
+
+                        · Application Examples
+
+                    Basic Concepts
+
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+Social connections ­ strong and weak ties
+
+Social media connect users to each other extremely easily
+
+    · users might have thousands of friends online
+    x but in practice, connections are not of the same strength and can play different
+
+       roles in community formation and information diffusion
+
+         · strong ties ~ close friends and weak ties ~ acquaintances
+         · strength of weak ties (Granovetter, 1973) ­ occasional encounters with distant
+
+             acquaintances can provide important information about new opportunities for job
+             search
+
+    · How to estimate the strengths of ties for advanced analysis?
+
+         · analyze network topology
+         · learn from user profiles and attributes
+         · learn from user activities
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                31
+Learning the strength of the ties from
+the network topology
+
+Bridges connecting two different communities are weak ties
+
+· an edge is a bridge if its removal results in disconnection of its terminal nodes
+
+(2,5) is a bridge  (2,5) is NOT a bridge
+
+                   I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                    32
+´Shortcut´ bridge
+
+Bridges are relatively rare in real-life networks
+
+   · relax the definition by checking if the distance
+      between two terminal nodes increases (to more than
+      2) if the edge is removed
+      ==> the larger the distance, the weaker is the tie
+
+               · (2,5) = 4 if (2,5) is removed
+               · (5,6) = 2 if (5,6) is removed
+              · (5,6) is a stronger tie than (2,5)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS            33
+Neighborhood overlap
+
+for two nodes connected by a tie
+
+The strength of the ties can be measured based on neighborhood overlap
+
+ the larger the overlap, the stronger is the tie (between  and )
+
+ ,   =           number of shared friends of both         and     or  
+          number of friends who are adjacent to at        least 
+
+=         (-2 in the denominator is to exclude  and )
+
+      -2
+
+           2,5 =0
+
+           5,6 =           4     -2 =1/4
+                   2,4,5,6,7,10
+
+for the graph  = 1,2 , (1,2) ,  1,2 = 0
+
+          I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                34
+Learning the strength of the ties from profiles and interactions
+
+Twitter (one can follow others without their confirmation)
+
+· the real friendship network is determined by the frequency with which two users talk to each
+    other, rather than the follower-followee network
+
+· the real friendship network is more influential in driving Twitter usage
+
+Facebook: strengths of ties can be predicted based on various information, e.g.,
+
+· friend-initiated posts, messages exchanged in wall posts, number of mutual friends, etc.
+
+Learning numeric link strength, e.g., by maximum likelihood estimation
+
+· user profile similarity determines the strength
+· link strength, in turn, determines user interaction
+
+     maximize the likelihood based on observed profiles and interactions
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  35
+Learning the strength of the ties from user activities
+
+· We can learn how the users influence their friends if the user activity
+  log is accessible
+
+· Maximize the likelihood of user activity depending on the adopted
+  influence modeling method
+
+   · Linear threshold model (LTM)
+
+   · Independent cascading model (ICM)
+
+· Influence modeling is important for understanding information
+  diffusion, spread of new ideas, and word-of-mouth (viral) marketing
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                             36
+Social Networks     An Introduction to the field
+and their Analysis
+                     · Motivation
+
+                        · Link Analysis
+                        · SF-networks
+
+                     · Background
+
+                        · Application Examples
+
+                    Basic Concepts
+
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+
+                    Influence Modeling
+
+                     · Linear Threshold Model
+                     · Indepenent Cascade Model
+                     · Influence vs. Correlation
+

@@ -1,0 +1,426 @@
+Evolucná robotika
+6. cas
+
+           Modulárne riadenie a
+ reprezentácia vonkajsieho sveta
+
+                      Frantisek Mráz, KSVI MFF UK
+
+                                                                                                                                   1
+Za hranice reaktívnej inteligencie
+
+  na minulej prednáske sme sa dostali na hranice mozností reaktívnej
+  inteligencie
+  teraz to budú úlohy, ktoré vyzadujú modulárnu architektúru alebo
+  vnútorné stavy
+
+   1. Zbieranie odpadu ­ bola pouzitá emergentná architektúra, moduly, ale
+       moduly nezodpovedali základným správaniam
+
+   2. Navigácia s návratom domov ­ robot musí periodicky dobíja batérie v
+       nabíjaci; robot si vytvorí vnútornú neurónovú topografickú mapu
+
+  Modulárna architektúra ­ v evolucnej robotike nie sú moduly nutné
+
+       Je mozné vytvori homogénne (nemodulárne) riadenie pre ubovonú
+       úlohu, alebo sú úlohy, kde sú modulárne architektúry lepsie?
+       Ke budeme vyvíja modulárne systémy, budú vytvorené moduly
+       zodpoveda základným správaniam?
+
+                                                                                                                                   2
+Zbieranie odpadkov
+
+  Khepera má v obdznikovej aréne (60 × 35 cm) s 5 valcami
+  (2,3 cm) zbiera valce a vyhadzova ich za stenu (3 cm
+  vysokú)
+  dlhá postupnos akcii:
+
+    a) prehadávanie, vyhýbanie sa stenám
+    b) rozpoznanie ciea (valca) a priblízenie sa k nemu pod
+
+       správnym uhlom a do vhodnej vzdialenosti, kde môze by
+       valec uchopený
+    c) zodvihnutie ciea
+    d) pohyb ku stene s vyhýbaním sa ostatným cieom
+    e) rozpoznanie steny, priblízenie sa k nej pod vhodným uhlom a
+       do vhodnej vzdialenosti tak, aby cie mohol bezpecne
+       vypadnú za hranicu arény
+    f) vypustenie ciea
+
+                                                                                                                                   3
+Architektúra NS
+
+7 neurónov pre senzory (6 predných infra ·, 1 v chápadle ·)
+
+4 pre motory (avé/pravé kolo ·, spustenie procedúry uchopenia ·,
+spustenie procedúry pustenia ·)
+
+        aktivita senzorov sa snímala kazdých 100 ms, ale uchopenie, resp.
+
+        uvonenie objektu trvalo az 3 s, preto má sie výstupy na spustenie
+
+        týchto procedúr)                 motory                  motory
+                                   chápadlo prázdne          chápadlo plné
+motory  motory            motory
+
+A       B                       C  D
+
+D 2 moduly, jeden pre riadenie, ke je chápadlo prázdne, druhý,
+
+ke je v chápadle nejaký objekt                                             4
+Emergentná modulárna
+architektúra
+
+  selektor  avý motor pravý motor uchopenie uvolnenie
+výstup                                                                               modul
+
+                                                         E
+
+E emergentná modulárna architektúra ­ konstruktér urcí iba pocet
+modulov (tu 2 moduly pre kazdý motorový výstup) a mechanizmus
+arbitra (rozhoduje, ktorý modul bude riadi)
+
+     modul ­ 2 neuróny: (i) samotný výstup, (ii) selektor ­ súazí so
+     selektormi ostatných modulov pre ten istý motor o to, ktorý modul
+     bude motor riadi
+
+                                                                                                                                5
+ Evolúcia bola simulovaná
+
+· fitness poda poctu cieov vyhodených z arény + (slabo) uchopenie
+    ciea
+
+· naviac bolo nutné zvýsi frekvenciu dôlezitých vzorov pri trénovaní
+    (po tom, co robot uchopil valec, tak sa mu hne objavil v ceste
+    (umelo pridaný) valec ­ aby sa lepsie naucil vyhýba cieom, ke
+    má nieco v chápadle)
+
+A  B  C     D
+
+         E
+
+                                                                      6
+ Zlozitos úlohy
+
+    robot musí rozozna cie od steny a to v jednom kroku, aby sa
+    mohla spusti procedúra uchopenia
+     · nemôze spolieha na vyvinuté správanie ­ aktívne vnímanie,
+
+        pretoze robot potrebuje rozpoznáva, ke je priamo pred
+        cieom, aby ho mohol uchopi (pre architektúru C by to vaka
+        rekurentným spojom slo, ale pri simulovanom vývoji sa takéto
+        chovanie nevyvinulo)
+     · robot musí reagova znacne rozdielne pre vemi podobné
+        vstupy
+     · znacne sa prekrývajúce vnemy pre valce a steny
+     · v závislosti na stave senzora v chápadle musí by jeho
+        správanie opacné
+· musí vykona v správnom poradí dlhú postupnos cinností
+
+                                                                                                                                     7
+ V rámci experimentu sa skúma
+
+A) úloha skrytých neurónov (môzu prekódova vstupy, aby sa
+    zdôraznili rozdiely)
+
+B) úloha vnútornej dynamiky (neuróny s rekurentnými spojmi ­ mohli
+    by umozni rôzne reakcie v závislosti na predchádzajúcich
+    vstupoch)
+
+C) rola modularity (moznosti rozdelenia senzorových vnemov do
+    podskupín spracovávaných rôznymi modulmi)
+
+                                                                                                                                     8
+Výsledky
+
+vsetky architektúry dovolili vytvori jedincov schopných robi
+pozadované cinnosti, ale ich výkon sa lísili:
+
+ · epocha koncí po 200 krokoch alebo úspesným vyhodením ciea z
+     arény; porovnali sa pocty úspesných epoch z 15 u najlepsích jedincov
+     po 1000 generáciách
+
+ · pre A asi 6; B,C,D 9­10; E cca 12
+
+ · architektúra E (emergentná modulárna) bola do generácie 500 znacne
+     lepsia nez ubovoná iná architektúra
+
+ · A bola vzdy znacne slabsia nez ubovoná iná architektúra
+
+motory  motory  motory  motory     motory
+
+A       B       C               D          E
+
+                                                         9
+Na reálnom robote
+
+· Výsledky po prenesení na reálneho robota (vzdy najlepsí jedinci z
+    10 simulovaných experimentov):
+
+10
+
+8                  E
+
+6
+
+4      BC
+
+2   A      D
+
+0
+
+                 pre E 7 z 10 vycistilo arénu do 5000 cyklov, nebúralo do steny, nechytalo
+                 stenu, nepúsalo cie nad iným cieom), u ostatných max. 2 z 10
+
+· Celkovo: emergentna modulárna architektúra umoznila nájs
+    správne riesenie rýchlejsie nez iné architektúry a umoznila vývoj
+    robustnejsieho riadenia (malá strata výkonu po prenesení na
+    reálneho robota)
+
+                                                                                            10
+Budú moduly zodpoveda
+základným správaniam?
+
+  NIE!
+  E umozuje 24 = 16 kombinácií modulov, ale v typickom jedincovi sa vyuzili
+  nakoniec iba 2 ­ dva moduly pre pravý motor, z ostatných dvojíc iba jeden
+  2 moduly pre pravý motor ­ porovnanie pri pohade zvonka:
+
+                                                       · striedali sa vo vsetkých fázach (viz obrázok:
+                                                          v riadku mod biela farba = prvý modul;
+                                                          cierna farba = druhý modul)
+
+                                                       · arbiter rýchle prepínal medzi obidvomi
+                                                          modulmi ­ ziaden nezodpovedal nejakému
+                                                          základnému chovaniu
+
+                                                       · podobné výsledky ukázala analýza aj alsích
+                                                          jedincov
+
+                                                       · zdá sa, ze hlavnou úlohou arbitra bolo
+                                                          prepínanie modulov pri podobných vstupoch
+
+                                                                                                                                 11
+ Analýza správania  a) Má objekt v chápadle, má
+                         hada stenu
+   Module
+ wall-target        b) Má prázdne chápadlo,
+ Left Motor              hadá objekt
+Right Motor
+                    c) Detekuje prekázku, má
+  Pick-Up                rozlísi stenu/valec
+  ReLease
+   Infra 1          d) Nedetekuje prekázku
+   Infra 2          e) Priblizuje sa k valcu, má
+   Infra 3
+   Infra 4               prázdne chápadlo
+   Infra 5          f) Priblizuje sa k stene, má
+   Infra 6
+Light Barrier            objekt v chápadle a
+                         detekuje stenu
+                    g) Vyhýba sa valcom (nesie
+                         valec)
+                    h) Vyhýba sa stene (nenesie
+                         valec).
+
+                                                          12
+Porovnanie zvnútra
+
+    pre kazdú architektúru sa vzali najlepsí jedinci z 10 simulácii; pre
+    kazdého jedinca sa skúsalo 20 vzdialeností, 180 uhlov,
+    s plným/prázdnym chápadlom; pocítal sa priemerný pocet
+    správnych spustení procedúr uchopenia a pustenia
+
+· A (bez vnútorných neurónov) najviac správnych spustení, ale aj
+    najviac chýb
+
+· najmenej chýb robili B a E ­ dokonca 2 z 10 nikdy neurobili
+    chybu; vsetci jedinci pre A a D vzdy urobili nejakú chybu
+
+250
+
+200                    správne
+
+150                    nesprávne
+
+100
+
+50
+
+0                                                                         13
+
+     A  B  D        E
+ Porovnanie zvnútra
+
+· pozn. robot môze naviac sám voli akcie tak, aby nerobil chyby
+· ukazuje sa, ze hlavnou úlohou modulov je zlepsenie schopnosti
+
+    rozlisovania rôznych objektov
+· tieto výsledky vyzerajú lepsie ako pri vizuálnej navigácii
+
+    (rozlisovanie malých a vekých valcov pri vyhýbaní sa stenám), ale
+    to je iba zdanlivé, pretoze po robote sa nechce, aby urobil rôzne
+    akcie vzdy, ke je to mozné
+· roboty dokázali senzorovo-motorickou koordináciou zvysova
+    frekvenciu stavov, kde nerobili chyby, oproti frekvencii stavov, kde
+    chyby robili
+
+                                                                                                                                    14
+Zhrnutie
+
+  V minulej casti sme ukázali, ze hlavným problémom dekompozície je
+  rozdelenie úlohy na základne chovania; takéto rucné rozdelenie môze vies
+  k podúlohám, ktoré sú zlozitejsie nez celé globálne správanie
+  emergentná modulárna architektúra umozuje vyvíjaným jedincom, aby
+  pouzívali rôzne moduly k rôznym základným chovaniam bez toho, aby
+  takéto rozdelenie musel robi clovek
+  emergentná modulárna architektúra dávala lepsie výsledky nez ubovoná
+  iná (vrátané architektúry s rucné navrhnutými modulmi); vyvinuté riadenie
+  nemá základné chovania priamo spojené s kombináciou modulov
+  takéto riadenie nejde vytvori klasickým prístupom (dekompozícia a
+  integrácia), pretoze výsledné správanie je výsledkom dynamickej interakcie
+  medzi robotom a prostredím
+  i pri vyuzití vnútorných stavov neklesá význam senzorovo-motorickej
+  koordinácie
+
+                                                                                                                                 15
+Roboty s vnútornou dynamikou
+
+jednou z mozností zvýsenia výpoctovej sily riadenia robota sú rekurentné
+spoje
+
+Úloha: Khepera v aréne s nabíjacom batérií a malou kapacitou batérie,
+ktorá sa musí casto dobíja
+
+nabíjac vyznacený svetelnou vezou v jednom rohu arény (40 x 45 cm)
+spolu s tmavsou podlahou (kruhový výsek ciernej farby polomeru 8 cm)
+
+Khepera: 8 infra senzorov, 2 z nich (jeden vpredu a jeden vzadu) naviac
+merali svetlo z okolia, dodatocný infra senzor smerujúci na podlahu (dával
+1, ke Khepera nebola na nabíjaci, inak 0)
+
+jas      svetlo
+podlahy  z okolia
+
+                              16
+Aréna s nabíjacom
+
+  simulovaná batéria ­ doba vybitia 20 s, simulovaný senzor stavu
+  batérie (kvôli casu)
+  NS ­ sigmoidový trojvrstvový perceptron; 5 neurónov v skrytej
+  vrstve s rekurentnými spojmi
+
+                                 Navzájom prepojené kazdý s kazdým
+
+...  ...
+
+infra detektory prekázok svetlo  jas  batéria
+
+     z okolia podlahy
+                                                                            17
+Aréna s nabíjacom
+
+plne nabitá batéria výdrzí 50 krokov = 20 s; na nabíjaci sa batéria
+okamzite nabije; 1 epocha = max 150 krokov (60 s)
+
+jednoduchá fitness                        0    1, 0    1
+                              =  1 -  ,
+
+ je priemerná rýchlos kolies ­ maximalizuje rýchlos
+
+ je max. aktivácia infra senzoru detekujúceho prekázky, výraz
+(1 - ) maximalizuje vyhýbanie sa stenám
+
+fitness sa v kazdom kroku pricítala, ale nie pokia bol robot na
+nabíjaci, nakoniec sa delila poctom krokov
+
+                                                                     18
+Výsledky
+
+  240 generácií na skutocnom robote
+  priemerná fitness populácie stále rástla; posledných 90 generácií
+  zlepsovanie skracovaním pobytu na nabíjaci
+  Vlastnosti najlepsieho jedinca
+
+    1. start z nabíjaca: rýchle von, vracal sa pri takmer vybitej batérii (0.1; 5
+       krokov pred vybitím); na nabíjaci sa otocil a rýchle odisiel; robot
+       prevazne cúval; väcsinou sa pohyboval po miernom oblúku, pri stenách
+       sa otácal doprava
+
+    2. start z rôznych pozícií a s rôznou orientáciou: z malého poctu
+       pozícií/orientácií robot nabíjac nenasiel (aj z týchto to dokázal, ke uz
+       bol v pohybe ­ rôzne výstupy pre rovnaké vstupy spôsobené
+       rekurentnými spojmi)
+
+                                                                                                                                 19
+Výsledky
+
+                                                                          start
+
+    3. start robota z rôznych pozícií, zaznamenávala sa aktivita vnútorných
+       neurónov: väcsinou mierne zahnutá dráha s ostrými obratmi pri
+       stenách; 3-4 obraty nez isiel na nabíjac
+
+                                                                                                                                 20
+Výsledky
+
+    4. porovnanie predchádzajúceho s vypnutou svetelnou vezou: ke nabitie
+       batérie kleslo pod urcitú úrove (asi tretina), tak sa správanie zmenilo
+       ­ kruhová dráha ­ hadal zdroj svetla; jeden z vnútorných neurónov
+       zodpovedal za stav batérie, ke hrozilo vybitie, tak rýchle rástla jeho
+       aktivita; dva neuróny boli stále vemi aktívne, okrem stavu pri stene ­
+       zodpovedajú za riadenie priameho pohybu a vyhýbaniu sa stenám;
+       alsie dva asi slúzili na plánovanie trasy, jeden menil svoju aktivitu po
+       zatocení, druhý mierne zvysoval aktivitu pri poklese nabitia batérie
+
+    5. Porovnanie dráh s plne nabitou batériou a s takmer vybitou batériou:
+
+                                                                                                                                 21
+Výsledky
+
+6. Signál z rekurentných spojov                             Otocený k svetlu  Otocený od svetla
+    nastavili na priemernú hodnotu a
+    merali aktivitu vnútorných                    Vybitá
+    neurónov na rovnomerne                        batéria
+    rozlozených pozíciách za
+    podmienok                                      Nabitá
+                                                   batéria
+      a) slabá batéria, smeruje na vezu
+
+      b) slabá batéria smeruje od veze
+
+      c) nabitá batéria, smeruje na vezu
+
+      d) nabitá batéria, smeruje od veze
+
+      neurón h4 (monitoroval batériu)
+           vykázal topografickú reprezentáciu
+           prostredia v závislosti na orientácii
+           robota
+
+                                                                              22
+Re-adaptácia na zmeny
+
+1. Najlepsí jedinec po 240 generáciách ­ dobije batériu a rýchle opustí
+    nabíjac
+
+2. ke sa batéria nedobije, tak jazdí po nabíjaci az do vybitia
+3. ke premiestnili svetelnú vezu do susedného rohu, tak robot siel k nej a
+
+    zostal pri nej az do vybitia batérie
+
+    po 240 generáciách sa zmenilo prostredie presunutím svetla do iného rohu
+    a pokracovalo sa 80 generácií
+
+          uz po 20 generáciách sa robot znova prispôsobil
+          najrýchlejsie to slo, ke svetlo preslo do opacného rohu ­ na to stacilo zmeni
+          málo váh
+
+                                                                                                                                   23
+Zhrnutie
+
+  Správanie vyvinutých jedincov je zalozené na topologickej neurálnej
+  reprezentácii prostredia
+
+                                                                                                                                 24
+

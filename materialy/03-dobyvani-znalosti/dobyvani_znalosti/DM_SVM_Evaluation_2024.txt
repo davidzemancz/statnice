@@ -1,0 +1,1247 @@
+Data Mining
+
+SUPPORT VECTOR MACHINES
+
+BY: IVETA MRÁZOVÁ
+Introduction to SVM
+
+Support vector machines were invented by V. Vapnik and
+his co-workers in 1970s in Russia and became known to
+the West in 1992.
+
+SVMs are linear classifiers that find a hyperplane to
+separate two class of data, positive and negative.
+
+Kernel functions are used for nonlinear separation.
+
+SVM not only has a rigorous theoretical foundation, but
+also performs classification more accurately than most
+other methods in applications, especially for high
+dimensional data.
+
+It belongs to the best classifiers for text classification.
+
+I. MRÁZOVÁ: ATNS (NAIL013)                                   2
+Basic concepts
+
+Let the set of training examples D be
+
+        {(x1, y1), (x2, y2), ..., (xr, yr)},
+where xi = (x1, x2, ..., xn) is an input vector in a real-valued
+space X  Rn and yi is its class label (output value), yi {1, -1}.
+1: positive class and -1: negative class.
+
+SVM finds a linear function of the form (w: weight vector)
+
+f(x) = w  x + b
+
+       1  if w  xi  + b  0
+yi = -1   if w  xi  + b  0
+
+          I. MRÁZOVÁ: ATNS (NAIL013)                        3
+The hyperplane
+
+The hyperplane that separates positive and negative training
+
+data is  w  x + b = 0
+
+It is also called the decision boundary (surface).
+
+So many possible hyperplanes, which one to choose?
+
+         I. MRÁZOVÁ: ATNS (NAIL013)                 4
+Maximal margin hyperplane
+
+SVM looks for the separating hyperplane with the largest margin.
+Machine learning theory says this hyperplane minimizes the error
+bound
+
+I. MRÁZOVÁ: ATNS (NAIL013)  5
+Linear SVM: separable case
+
+  Assume the data are linearly separable.
+  Consider a positive data point (x+, 1) and a negative (x-, -1) that are
+  closest to the hyperplane
+
+           <w  x> + b = 0.
+  We define two parallel hyperplanes, H+ and H-, that pass through x+
+  and x- respectively. H+ and H- are also parallel to <w  x> + b = 0.
+
+I. MRÁZOVÁ: ATNS (NAIL013)  6
+Compute the margin
+
+Now let us compute the distance between the two margin                          in
+hyperplanes  H+  and  H-.  Their  distance  is         the  margin  (d+  +  d-      the
+figure).
+
+Recall from vector space in algebra that the (perpendicular)
+distance from a point xi to the hyperplane w  x + b = 0 is:
+
+                 | w xi + b |                                                       (36)
+
+                      || w ||
+
+where ||w|| is the norm of w,
+
+|| w ||=  w  w  = w12 + w22 + ...+ wn2 (37)
+
+                           I. MRÁZOVÁ: ATNS (NAIL013)                               7
+Compute the margin (cont ...)
+
+Let us compute d+.
+
+Instead of computing the distance from x+ to the separating
+hyperplane w  x + b = 0, we pick up any point xs on w  x
++ b = 0 and compute the distance from xs to w  x+ + b = 1
+by applying the distance Eq. (36) and noticing w  xs + b = 0,
+
+d+  =  | w  xs  + b -1|               =      1     (38)
+                 || w ||                  || w ||
+
+margin =  d+  + d-  =                 ||  2        (39)
+                                          w ||
+                                                   8
+          I. MRÁZOVÁ: ATNS (NAIL013)
+A optimization problem!
+
+Definition (Linear SVM: separable case): Given a set of linearly
+separable training examples,
+
+D = {(x1, y1), (x2, y2), ..., (xr, yr)}
+
+Learning is to solve the following constrained minimization
+problem,
+Minimize : w  w
+               2
+                                                             (40)
+
+Subject to: yi (w  xi  + b)  1, i = 1, 2, ..., r
+
+yi (w  xi  + b  1, i = 1, 2, ..., r  summarizes
+
+w  xi + b  1 for yi = 1
+
+w  xi + b  -1     for yi = -1.
+
+                  I. MRÁZOVÁ: ATNS (NAIL013)                 9
+Solve the constrained minimization
+
+Standard Lagrangian method
+
+= LP1           r    i[ yi (w  xi 
+   2  w  w  -  i =1                              + b)  -1]  (41)
+
+where i  0 are the Lagrange multipliers.
+
+Optimization theory says that an optimal solution to (41)
+must satisfy certain conditions, called Kuhn-Tucker
+conditions, which are necessary (but not sufficient)
+
+Kuhn-Tucker conditions play a central role in constrained
+optimization.
+
+                     I. MRÁZOVÁ: ATNS (NAIL013)             10
+Kuhn-Tucker conditions
+
+Eq. (50) is the original set of constraints.
+
+The complementarity condition (52) shows that only those data points
+
+on the margin hyperplanes (i.e., H+ and H-) can have i > 0 since for
+
+them yi(w  xi + b) ­ 1 = 0.
+These points are called the support vectors, All the other parameters
+
+i = 0.
+
+I. MRÁZOVÁ: ATNS (NAIL013)  11
+Solve the problem
+
+In general, Kuhn-Tucker conditions are necessary for an optimal
+solution, but not sufficient.
+
+However, for our minimization problem with a convex objective
+function and linear constraints, the Kuhn-Tucker conditions are
+both necessary and sufficient for an optimal solution.
+
+Solving the optimization problem is still a difficult task due to the
+inequality constraints.
+
+However, the Lagrangian treatment of the convex optimization
+problem leads to an alternative dual formulation of the problem,
+which is easier to solve than the original problem (called the
+primal).
+
+I. MRÁZOVÁ: ATNS (NAIL013)  12
+Dual formulation
+
+From primal to a dual: Setting to zero the partial
+derivatives of the Lagrangian (41) with respect to the
+primal variables (i.e., w and b), and substituting the
+resulting relations back into the Lagrangian.
+
+    I.e., substitute (48) and (49), into the original Lagrangian (41) to eliminate the
+       primal variables
+
+    r       1      r
+            2      j =1
+      i
+
+   i =1
+  LD=    -               yi  y  j i        j  xi   x j ,
+
+               i,
+
+                                                          (55)
+
+               I. MRÁZOVÁ: ATNS (NAIL013)                 13
+Dual optimization problem
+
+ This dual formulation is called the Wolfe dual.
+
+ For the convex objective function and linear constraints of
+   the primal, it has the property that the maximum of LD occurs
+
+   at the same values of w, b and i, as the minimum of LP (the
+
+   primal).
+
+ Solving (56) requires numerical techniques and clever
+   strategies, which are beyond our scope.
+
+I. MRÁZOVÁ: ATNS (NAIL013)  14
+The final decision boundary
+
+After solving  (56), we obtain the values for       biu, swinhgicEhqauraetiuosnesd(4to8)
+compute the    weight vector w and the bias
+and (52) respectively.
+
+The decision boundary
+
+ w  x + b = yii xi  x + b = 0                         (57)
+
+                             isv
+
+Testing: Use (57). Given a test instance z,
+
+                                                    
+sign(w  z + b) = sign i yi xi  z + b (58)
+                         isv                        
+
+If (58) returns 1, then the test instance z is classified as positive;
+otherwise, it is classified as negative.
+
+                        I. MRÁZOVÁ: ATNS (NAIL013)    15
+How to deal with nonlinear separation?
+
+The SVM formulations require linear separation.
+
+Real-life data sets may need nonlinear separation.
+
+To deal with nonlinear separation, the same formulat-
+ion and techniques as for the linear case are still used.
+
+We only transform the input data into another space
+(usually of a much higher dimension) so that
+
+   a linear decision boundary can separate positive and
+      negative examples in the transformed space,
+
+The transformed space is called the feature space. The
+original data space is called the input space.
+
+I. MRÁZOVÁ: ATNS (NAIL013)              27
+Space transformation
+
+The basic idea is to map the data in the input space
+
+X to a feature space F via a nonlinear mapping ,
+
+:X F                                       (76)
+
+x  (x)
+
+After the mapping, the original training data set
+{(x1, y1), (x2, y2), ..., (xr, yr)} becomes:
+
+{((x1), y1), ((x2), y2), ..., ((xr), yr)}  (77)
+
+I. MRÁZOVÁ: ATNS (NAIL013)                         28
+Geometric interpretation
+
+ In this example, the transformed space is also 2-D.
+   But usually, the number of dimensions in the feature
+   space is much higher than that in the input space
+
+I. MRÁZOVÁ: ATNS (NAIL013)  29
+Optimization problem in (40) becomes
+
+ With the transformation, the optimization problem in (40) becomes
+
+I. MRÁZOVÁ: ATNS (NAIL013)                                          30
+An example space transformation
+
+Suppose our input space is 2-dimensional, and we
+choose the following transformation (mapping)
+from 2-D to 3-D:
+
+       (x1, x2 )  (x12 , x22 , 2x1x2 )
+
+The training example ((2, 3), -1) in the input space
+is transformed to the following in the feature
+space:
+
+           ((4, 9, 8.5), -1)
+
+I. MRÁZOVÁ: ATNS (NAIL013)                            31
+Problem with explicit transformation
+
+The potential problem with this explicit data trans-
+formation and then applying the linear SVM is that
+it may suffer from the curse of dimensionality.
+
+The number of dimensions in the feature space can
+be huge with some useful transformations even with
+reasonable numbers of attributes in the input space.
+
+This makes it computationally infeasible to handle.
+
+Fortunately, explicit transformation is not needed.
+
+I. MRÁZOVÁ: ATNS (NAIL013)  32
+Kernel functions
+
+We notice that in the dual formulation both
+
+   the construction of the optimal hyperplane (79) in F and
+   the evaluation of the corresponding decision function (80)
+
+only require dot products (x)  (z) and never the map-
+ped vector (x) in its explicit form. This is a crucial point.
+
+Thus, if we have a way to compute the dot product
+
+(x)  (z) using the input vectors x and z directly,
+
+   no need to know the feature vector (x) or even  itself.
+
+In SVM, this is done through the use of kernel functions,
+
+denoted by K : K(x, z) = (x)  (z)
+
+                                                          (82)
+
+I. MRÁZOVÁ: ATNS (NAIL013)                                  33
+An example kernel function
+
+Polynomial kernel: K(x, z) = x  zd                      (83)
+
+Let us compute the kernel with degree d = 2 in a
+2-dimensional space: x = (x1, x2) and z = (z1, z2).
+
+x  z 2 = ( x1z1 + x 2 z 2 )2                            (84)
+          = x12 z12 + 2x1z1x 2 z 2 + x 2 2 z 2 2
+
+= ( x12, x 2 2, 2 x1x 2 )  ( z12, z 2 2 , 2 z1z 2 )
+
+=  (x)  (z),
+
+This shows that the kernel x  z2 is a dot product in a
+transformed feature space
+
+I. MRÁZOVÁ: ATNS (NAIL013)                              34
+Kernel trick
+
+ The derivation in (84) is only for illustration
+ purposes.
+ We do not need to find the mapping function.
+ We can apply the kernel function directly by
+
+    replace all the dot products (x)  (z) in (79) and (80)
+
+       with the kernel function K(x, z) (e.g., the polynomial
+       kernel x  zd in (83)).
+
+ This strategy is called the kernel trick.
+
+I. MRÁZOVÁ: ATNS (NAIL013)  35
+Is it a kernel function?
+
+ The question is: how do we know whether a
+ function is a kernel without performing the
+ derivation such as that in (84)? I.e,
+
+    How do we know that a kernel function is indeed a dot
+       product in some feature space?
+
+ This question is answered by a theorem called the
+ Mercer's theorem, which we will not discuss here.
+
+I. MRÁZOVÁ: ATNS (NAIL013)  36
+Commonly used kernels
+
+It is clear that the idea of kernel generalizes the dot
+product in the input space. This dot product is also a
+kernel with the feature map being the identity
+
+I. MRÁZOVÁ: ATNS (NAIL013)  37
+Some other issues in SVM
+
+SVM works only in a real-valued space. For a categorical
+attribute, we need to convert its categorical values to
+numeric values.
+
+SVM does only two-class classification. For multi-class
+problems, some strategies can be applied, e.g., one-
+against-rest, and error-correcting output coding.
+
+The hyperplane produced by SVM is hard to understand
+by human users. The matter is made worse by kernels.
+Thus, SVM is commonly used in applications that do not
+required human understanding.
+
+I. MRÁZOVÁ: ATNS (NAIL013)  38
+Data Mining
+
+EVALUATION OF CLASSIFIERS
+
+BY: IVETA MRÁZOVÁ
+Evaluating classification methods
+
+ Predictive accuracy
+
+Accuracy  =     
+                      
+
+ Efficiency: time to construct the model
+
+time to use the model
+
+ Robustness: handling noise and missing values
+
+ Scalability: efficiency in disk-resident databases
+
+ Interpretability: clarity and insight provided by the model
+ Compactness of the model:
+
+       size of the tree, the number of rules, ...
+
+                      I. MRÁZOVÁ: DATA MINING                 40
+Evaluation methods
+
+ Holdout set: The available data set D is divided into
+  two disjoint subsets,
+
+   · the training set Dtrain (for learning a model)
+   · the test set Dtest (for testing the model)
+
+ Important: training set should not be used in testing
+  and the test set should not be used in learning.
+
+   · Unseen test set provides an unbiased estimate of accuracy.
+
+ The test set is also called the holdout set. (the
+  examples in the original data set D are all labeled
+  with classes.)
+
+ This method is mainly used for a large data set D.
+
+I. MRÁZOVÁ: DATA MINING  41
+Evaluation methods (cont.)
+
+k-fold cross-validation:
+
+ The available data is partitioned uniformly into k equal-
+  size disjoint subsets.
+
+ Use each subset as a test set and combine the remaining
+  k-1 subsets as the training set to learn a classifier.
+
+ The procedure is run k times yielding k accuracies
+  Accuracyi ; 1ik
+
+ The final estimated accuracy  of learning is
+  the average of the k accuracies:
+
+  =                         =  
+                          
+
+I. MRÁZOVÁ: DATA MINING                                     43
+Evaluation methods (cont.)
+
+k-fold cross-validation:
+
+ Estimation of the approximate N% confidence intervals:
+
+  ,- ,
+
+where  is an estimate of standard deviation of the distribution
+
+governing :
+
+ =                        =(                        - )2
+             (-)
+
+ Values of , for two-sided confidence intervals:             Confidence level N%
+                                                               90% 95% 99%
+     often, , is set to 1.96 (for  =  and N = 95%)   = 2 2.92 4.30 9.92
+                                                     = 10 1.81 2.23 3.17
+ 10-fold and 5-fold cross-validations are common.    = 30 1.70 2.04 2.75
+ This method shall be used rather for small data.
+
+                                                     =  1.64 1.96 2.58
+
+                          I. MRÁZOVÁ: DATA MINING                44
+Evaluation methods (cont.)
+
+ Leave-one-out cross-validation: This method is used
+   when the data set is very small.
+
+ It is a special case of cross-validation
+ Each fold of the cross validation has only a single test
+
+   example and all the rest of the data is used in training.
+ If the original data has m examples, this is m-fold cross-
+
+   validation
+
+I. MRÁZOVÁ: DATA MINING                                       45
+Evaluation methods (cont.)
+
+  Validation set: available data is divided into 3 subsets,
+
+      · a training set,
+      · a validation set and
+      · a test set.
+
+  A validation set is used frequently for estimating
+    parameters in learning algorithms.
+
+  In such cases, the values that give the best accuracy on
+    the validation set are used as the final parameter values.
+
+  Cross-validation can be used for parameter estimating
+    as well.
+
+I. MRÁZOVÁ: DATA MINING  46
+Classification measures
+
+ Accuracy is only one measure (error = 1-accuracy).
+
+ Accuracy is not suitable in some applications.
+
+ In text mining, we may only be interested in the documents of
+   a particular topic, which are only a small portion of a big
+   document collection.
+
+ In classification involving skewed or highly imbalanced data,
+   e.g., network intrusion and financial fraud detections, we are
+   interested only in the minority class.
+
+    · High accuracy does not mean any intrusion is detected.
+
+    · E.g., 1% intrusion. Achieve 99% accuracy by doing nothing.
+
+ The class of interest is commonly called the positive class, and
+   the rest negative classes.
+
+I. MRÁZOVÁ: DATA MINING  47
+Precision and recall measures
+
+ Used in information retrieval and text classification.
+ We use a confusion matrix to introduce them.
+
+ TP ­ the number of correct classifications of the positive examples (true positive)
+ FN ­ the number of incorrect classifications of positive examples (false negative)
+ FP ­ the number of incorrect classifications of negative examples (false positive)
+ TN ­ the number of correct classifications of negative examples (true negative)
+
+I. MRÁZOVÁ: DATA MINING                                  48
+Precision and recall measures (cont...)
+
+                                             
+ =  +                                =  + 
+
+ Precision p is the number of correctly classified positive
+  examples divided by the total number of examples that are
+  classified as positive.
+
+ Recall r is the number of correctly classified positive
+  examples divided by the total number of actual positive
+  examples in the test set.
+
+           I. MRÁZOVÁ: DATA MINING             49
+An example
+
+ This confusion matrix yields
+
+   · precision p = 100% and
+   · recall r = 1%
+
+       because we only classified one positive example correctly
+       and no negative examples wrongly.
+
+ Note: precision and recall measure classification only
+          on the positive class.
+
+            I. MRÁZOVÁ: DATA MINING                               50
+F1-value (also called F1-score)
+
+ It is hard to compare two classifiers using two measures. F1 score
+   combines precision and recall into one measure
+
+1  =  2
+      +
+
+F1-score is the harmonic mean of precision and recall
+
+1  =  1  2  1
+            
+         +
+
+ The harmonic mean of two numbers tends to be closer to the
+   smaller of the two.
+
+ For F1-value to be large, both p and r much be large.
+
+         I. MRÁZOVÁ: DATA MINING                                     51
+Another evaluation method:
+
+Scoring and ranking
+
+ Scoring is related to classification.
+
+ We are interested in a single class (positive class),
+  e.g., buyers class in a marketing database.
+
+ Instead of assigning each test instance a definite
+  class, scoring assigns a probability estimate (PE)
+  to indicate the likelihood that the example
+  belongs to the positive class.
+
+I. MRÁZOVÁ: DATA MINING  52
+Ranking and lift analysis
+
+ After each example is given a PE score, we can
+  rank all examples according to their PEs.
+
+ We then divide the data into n (say 10) bins. A lift
+  curve can be drawn according how many positive
+  examples are in each bin. This is called lift
+  analysis.
+
+ Classification systems can be used for scoring.
+  Need to produce a probability estimate.
+
+   · E.g., in decision trees, we can use the confidence value at
+       each leaf node as the score.
+
+I. MRÁZOVÁ: DATA MINING  53
+An example
+
+ We want to send promotion materials to potential
+   customers to sell a watch.
+
+ Each package cost $0.50 to send (material and postage).
+
+ If a watch is sold, we make $5 profit.
+
+ Suppose we have a large amount of past data for
+   building a predictive/classification model. We also have
+   a large list of potential customers.
+
+ How many packages should we send and whom should
+   we send to?
+
+I. MRÁZOVÁ: DATA MINING  54
+An example
+
+ Assume that the test set has 10000 instances.
+  Out of them, 500 are positive cases.
+
+ After the classifier is built, we score each test instance.
+  We then rank the test set and divide the ranked test set
+  into 10 bins.
+
+    · Each bin has 1000 test instances.
+
+    · Bin 1 has 210 actual positive instances
+
+    · Bin 2 has 120 actual positive instances
+
+    · Bin 3 has 60 actual positive instances
+
+    ·...
+
+    · Bin 10 has 5 actual positive instances
+
+            I. MRÁZOVÁ: DATA MINING                           55
+Lift curve
+
+Bin | 1                            2       3 4 5 6 7 8 9 10
+
+                 210              120         60  40  22                   18  12         7         6        5
+                42%              24%       12%                                               1.20%        1%
+                42%              66%       78%    8% 4.40%    3.60% 2.40% 1.40%                        100%
+                                                                                               99%
+                                                  86% 90.40%  94% 96.40% 97.80%
+
+Percent of total positive cases  100                                                         lift
+                                  90                                                         random
+                                  80
+                                  70       10 20 30 40 50 60 70 80 90 100
+                                  60
+                                  50                            Percent of testing cases
+                                  40
+                                  30
+                                  20
+                                  10
+                                    0
+                                        0
+
+                                                  I. MRÁZOVÁ: DATA MINING                              56
+The ROC-curve
+
+(Receiver Operating Characteristic Curve)
+
+A receiver operating characteristic (ROC) curve:
+
+ commonly used to evaluate classification results on the positive class in two-
+    class classification problems.
+
+~ a plot of the true positive rate (TPR) against the false positive rate (FPR)
+
+·   =               (the fraction of actual positive cases that are correctly classified)
+       +
+
+   ~ TPR is essentially the recall of the positive class; it is also called sensitivity
+
+·   =               (the fraction of actual negative cases classified to positive class)
+
+                 +
+
+·   =               (true negative rate ~ the recall of the negative class)
+
+                 +
+
+   ~ another useful measure, sometimes called specificity ,
+
+ FPR = 1 - specificity
+
+                        I. MRÁZOVÁ: DATA MINING                                          57
+An example:
+
+ROC curves for two classifiers (C 1 and C 2 ) on the same data
+
+     C1   each ROC-curve starts from (0, 0)
+C2          and ends at (1, 1).
+
+             · (0, 0) represents the situation
+                 where every test case is classified
+                 as negative,
+
+             · (1, 1) represents the situation
+                 where every test case is classified
+                 as positive.
+
+          the main diagonal line represents
+            random guessing, i.e., predicting
+            each case to be positive with a
+            fixed probability.
+
+             · in this case, TPR has the same
+                 value like FPT for each of the
+                 values, i.e., TPR = FPT.
+
+         I. MRÁZOVÁ: DATA MINING                                58
+An example:
+
+ROC curves for two classifiers (C 1 and C 2 ) on the same data
+
+Question:                                    C1
+                                        C2
+Which classifier is better ­ C1 or C2?
+
+Answer:
+
+ when FPR is less than 0.43, C1 is
+    better,
+
+ when FPR is greater than 0.43,
+    C2 is better
+
+X overall, the area under the ROC curve ( AUC ) can be used:
+
+      · if the AUC value for a classifier Ci is greater than that of another
+          classifier Cj , it is said that Ci is better than Cj.
+
+      · if a classifier is perfect, its AUC value is 1.
+
+      · if a classifier makes all random guesses, its AUC value is 0.5.
+
+I. MRÁZOVÁ: DATA MINING                                                       59
+How to draw a ROC curve?
+
+(given the classification as a ranking of test cases)
+
+1. Obtain the ranking through sorting the test cases in a
+   decreasing order of the classifier's output values (e.g.,
+   posterior probabilities).
+
+2. Partition the rank list into two subsets at every test case and
+   regard every test case in the upper part (with higher classifier
+   output value) as a positive case and every test case in the
+   lower part as a negative case.
+
+3. For each such partition, compute a pair of TPR and FPR values.
+
+    a. when the upper part is empty, we obtain the point (0, 0) on ROC
+    b. when the lower part is empty, we obtain the point (1, 1).
+
+4. Finally, connect the adjacent points.
+
+I. MRÁZOVÁ: DATA MINING  60
+Example:
+
+computations for drawing the ROC curve
+
+  We have 10 test cases.
+  A classifier has been built, and it has ranked the 10 test cases
+
+    as shown in the second row of the Table below
+
+      · the numbers in row 1 are the rank positions, with 1 being the
+          highest rank and 10 the lowest.
+
+      · The second row shows the actual class of each test case.
+
+             "+" means that the test case is from the positive class,
+             "­" means that it is from the negative class.
+
+I. MRÁZOVÁ: DATA MINING  61
+Example:
+
+computations for drawing the ROC curve
+
+I. MRÁZOVÁ: DATA MINING                 62
+Data Mining
+
+ADVANCED DATA PRE-PROCESSING
+
+BY: IVETA MRÁZOVÁ
+Data pre-processing
+
+  Of key importance for the success of the application
+  Difficult and time-consuming
+  Collaboration with a domain expert is of an advantage
+
+The goal of pre-processing:
+
+  Select (or create) from the available data those ones relevant
+   for the data mining task at hand
+
+  Represent this data in a form suitable for processing by the
+   chosen algorithm
+
+  Final state ~ (one) data table containing the attribute
+                     values of the objects
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ  64
+Structured data
+
+Temporal data
+
+ · e.g., time series of stock prices
+ · A typical task ~ predict future values
+ · Example: a time series after transformation
+
+INPUTS                         OUTPUTS
+
+y(t0), y(t1), y(t2), y(t3)     y(t4)
+y(t1), y(t2), y(t3), y(t4)     y(t5)
+y(t2), y(t3), y(t4), y(t5)     y(t6)
+..........
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                   65
+Structured data (2)
+
+Spatial data
+
+· e.g., geographic information systems
+· an implicit neighborhood relationship
+
+     Attribute values of ,,adjacent" objects will not differ too much
+       one from the other
+
+· Useful especially for interpretation
+
+Structural data
+
+· e.g., chemical compounds
+· Notation, e.g., by means of the so-called SMILES
+
+   strings or using files of facts in Prolog
+· e.g., classification of chemicals into classes based on
+
+   their structure
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                                          66
+Data with too many objects
+
+Problematic processing in batch regimen!
+
+    use only a sample set of objects selected from the data
+    use such a way to store the data that would enable to
+
+      access all the objects without the necessity to save them to
+      the operating memory
+    build more models based on the subsets of objects and
+      combine the models afterwards
+
+representativeness of the selected data
+
+    the selected objects should capture the nature of the data
+      as best as possible (concerning, e.g., the correspondence
+      of the attribute value distribution both on the selected
+      sample set and the entire data)
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ  72
+Data with too many objects (2)
+
+   unbalanced classes in the original data
+      ( tendency to prefer the majority class)
+
+    different weights for different types of misclassification
+    select examples from different classes with a different
+
+      probability
+
+ Cross -Validation
+
+    From the data, we select just its certain part for training
+      and another (different) part for testing
+
+ more efficient data storage and processing
+    (parallelism)
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ   73
+I. MRÁZOVÁ: DATA MINING  74
+Data with too many attributes
+
+ reduce the number of attributes with an expert
+
+ automatic reduction of the number of the attributes
+
+   · through transformation ~ from the existing attributes
+       create less new attributes (e.g., PCA analysis, ...)
+
+         new attributes are formed as a linear combination of original
+            attributes
+
+         the necessity to provide the values of all original attributes
+
+         new attributes might lack a clear interpretation
+
+   · through selection ~ from the existing attributes choose
+       only the most important ones (Feature Selection)
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ  75
+Selection
+
+ we are looking for those attributes, that best contribute to a
+   proper classification of objects
+
+   · Filter methods ~ to each of the attributes, compute a
+       characteristics that reflects its contribution to classification
+
+   · Wrapper methods ~ use a machine learning algorithm to
+       build a model using a subset of the attributes and evaluate
+       the model. Then, use the best of the built models (with the
+       selected attributes).
+
+          ,,bottom-up" ~ begin from the models built for individual
+            attributes and add other attributes subsequently
+
+          ,,top-down" ~ start with the model built for the complete set of
+            attributes and remove the unnecessary ones subsequently
+
+           I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ  76
+Automatic feature selection by a filter method
+
+ criteria based on contingency tables
+
+  C(v1) C(v2)  C(vS) 
+
+A(v1) a11 a12                     a1S                 r1  A input attribute
+                                                          C target attribute
+A(v2) a21 a22                     a2S                 r2
+                                                          akl frequency of
+                                                              combination
+                                                              (A(vk)C(vl))
+A(vR) aR1 aR2                     aRS                 rR
+
+               s1  s2             sS                  n
+
+          S                  R                  RS
+
+ rk = akl           sl = akl           n =   akl
+         l =1               k =1               k =1 l =1
+
+                       I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ      77
+Automatic feature selection by a filter method (2)
+
+ Probability estimation:
+
+P(A(vk  )   C(vl   ))  =  akl
+                          n
+
+P(A(vk  ))  =  rk            P(C(vl           ))  =  sl
+               n                                     n
+ criteria for attribute selection
+
+· 2 (the higher the value, the better)
+
+             RS           2      R                S      ak  l  -  rk sl  2
+                                                                    n     
+  ( )   2 =                                                               
+            k =1 l =1
+            akl - ekl        =n                                 rk sl
+               ekl
+                                 k =1 l =1
+
+                                                                n
+
+               I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                                 78
+Automatic feature selection by a filter method (3)
+
+ criteria to select the attributes
+
+   · entropy H ( A ) (the smaller the value, the better)
+
+          
+          
+   =          
+
+      =1                       
+
+            where     = -                    log2  
+                                                   
+                              =1
+
+            I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ            79
+Automatic feature selection by a filter method (4)
+
+criteria to select the attributes (continued)
+
+· information measure of dependence ID(A,C) (the bigger
+
+the value, the better)                                   MI ( A, C )               MI ( A, C )
+                                                          H (C)
+                                       ID (A,C) =                           =       S   sl log sl
+
+                                                                                   -
+                                                                                   l=1 n        n
+
+· where mutual information MI(A,C):
+
+                             RS        P(A(vk ) C(vl ))               log2  P(A(vk ) C(vl ))
+                                                                            P(A(vk )) P(C(vl ))
+MI(A,C) =  
+                            k =1 l =1
+
+   R S                                            akl                 1R S
+                                                                      n k =1 l =1
+=                                      akl  log2    n      =                       akl  log2  nakl
+                                       n          rk sl                                       rk sl
+     k =1 l =1
+
+                                                  nn
+
+                                       I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                                 80
+Automatic feature selection by a filter method (5)
+
+  the attributes can be ordered according to the considered criteria
+    values and then, a certain number of the best attributes is selected
+
+     · approach ,,bottom-up" (~ add attributes)
+     · approach ,,top-down" (~ remove attributes)
+
+  each attribute is evaluated separately
+
+  mutual influence of several attributes on the accuracy of the
+    classification is difficult to be captured
+
+     · compute the value of the criterion for a set of attributes
+         (~ for all combinations of these attributes)
+
+             selection ,,bottom-up" (~ adding of attributes ­ direct selection)
+             proceed ,,top-down" (~ elimination of attributes ­ backward selection)
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ  81
+Numeric attributes
+
+Discretization of numeric attributes (~ division to intervals)
+
+  discretization to a preset number of equidistant intervals (~ the range
+    of the attribute values will be divided into intervals of the same length)
+
+  discretization by using the information on class membership of the
+    objects
+
+  the methods differ in:
+      · the strategy adopted to create the intervals (a top-down division of the
+          intervals, or a bottom-up joining of the intervals, resp.)
+
+      · the number of the obtained intervals
+
+      · the type of the intervals
+
+      · the criterion used to express the quality of the intervals (minimum
+          classification error, entropy, 2-test)
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ  82
+Fuzzy discretization
+
+ the boundaries of fuzzy-intervals are `blurry'
+   provide a relevant procedure `Interval' to find appro-
+      priate input value intervals by concatenating sequ-
+      ences of the input values with the same (fuzzy-)class
+
+ fuzzy-intervals
+
+1                      high                      (temperature)
+     low          39                                  temperature
+
+0          36 37
+       33
+
+                  I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                    97
+Fuzzy discretization (2)
+
+1         36 37       high               (temperature)
+     low         39                            temperature
+
+0 33
+
+ to one numeric value, we can obtain two discretized
+   values, such that the sum of the corresponding
+   characteristic functions will be equal to 1
+
+ arise `fuzzy'-objects with weights < 1
+ the weights of `fuzzy'-objects are given by the product of the
+
+      values of characteristic functions of all the attributes:
+
+               =   
+
+ possible loss of information
+ contradiction ~ objects with the same values of the input
+
+      (discretized) attributes belong to different classes
+
+          I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                          98
+Fuzzy discretization: Procedure `Interval'
+
+3.1. if the sequence of values has the same class label, then build an
+      interval of these values (with the characteristic function equal to 1
+      on the entire interval)
+
+3.2. for each interval Inti
+         if interval Inti belongs to class `?'
+           then if its adjacent intervals Inti ­ 1 and Inti + 1 belong to the
+           same class
+
+           3.2.1. build an interval by joining Inti ­ 1  Inti  Inti + 1
+                     (with the characteristic function equal to 1 on
+                     the entire interval)
+
+           3.2.2. else join Inti ­ 1  Inti and join Inti  Inti + 1 to
+                     form two fuzzy-intervals
+
+           / continue on the next slide
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                                                  99
+Fuzzy discretization: Procedure `Interval' (continued)
+
+3.2.2. else form one interval by joining Inti ­ 1  Inti such
+          that the characteristic function is equal to 1 on the
+          interval [Llimi ­1, Ulimi ­ 1 ] and equal to:
+
+    +1 -   for   -1, +1
++1 - -1
+
+and another interval by joining Inti  Inti + 1 such
+that the characteristic function is equal to 1 on the
+interval [ Llimi +1 , Ulimi + 1 ] and equal to:
+
+     - -1  for   -1, +1
++1 - -1
+
+3.3. provide a continuous coverage of the domain of the interval
+      values similarly to Step 3.2.2. (the gaps between the intervals
+      are understood as intervals of class `?')
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                                          100
+Categorical attributes
+
+Algorithm to group the values (KEX):
+
+     if the categorical attribute has too many values, it might
+     be useful to group them together (e.g., based on the
+     characteristics computed on the training data)
+
+ Objective:
+        form groups A(Grp) such that P(Class | A(Grp)) significantly
+        differs from P(Class)
+        + form so many groups that we have classes plus one more(´?´)
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ  101
+Categorical attributes (2)
+
+Algorithm to group the values (KEX):
+
+The main cycle:
+
+    1. build an ordered list of the considered attribute values
+    2. for each value
+
+            2.1. compute the frequencies of occurrence of the objects
+                    with this value for the respective classes
+
+            2.2. assign a class code to each of the values by means of
+                    the procedure Assign
+
+    3. form the intervals of the values by means of procedure Group
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                                           102
+Categorical attributes (3)
+
+Algorithm to group the values (KEX):
+
+Procedure Assign:
+     If all the objects belong to the same class for the considered value
+         1. then assign the code of this class to the value;
+         2. else ­ if the object class distribution significantly differs for the considered
+                value (based on the 2-test) from the apriori class distribution
+                    a) Then assign the code of the most frequent class to the value
+                    b) Else assign the code `?' to the value
+
+Procedure Group:
+form a group of the values that were assigned the same class code
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ  103
+Missing values
+
+ ignore objects with any of the values missing
+ replace the missing value by a new value `I don´t know'
+ replace the missing value by an existing attribute value
+
+   · the most frequent value
+   · proportional to the ratio of all values
+   · any value
+
+ completion of missing values by means of (a used)
+  model
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ  104
+

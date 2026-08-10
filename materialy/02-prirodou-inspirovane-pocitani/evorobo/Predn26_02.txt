@@ -1,0 +1,574 @@
+Frantisek Mráz, KSVI MFF UK
+
+EVOLUCNÁ ROBOTIKA
+2. CAS
+
+                                                                                                                                 1
+ EVOLUCNÉ A NEURÓNOVÉ
+ TECHNIKY
+
+ Základné okruhy
+
+       evolucné algoritmy ­ genetické algoritmy
+       neurónové siete
+       kombinácie evolucných algoritmov a neurónových sietí
+       genetické programovanie
+
+ Evolúcia riadiacich systémov pre roboty uz bola aplikovaná na
+
+       riadenie neurónovými sieami
+       parametre pevného riadiaceho programu
+       samotný pocítacový program
+
+                                                                                                                                     2
+Evolucné algoritmy  Hillclimber - gradientný algoritmus  Jednoduchý genetický algoritmus
+Schémy              Vylepsenia genetických algoritmov
+
+                                                                                          3
+EVOLUCNÉ ALGORITMY
+
+                                                                                                                                 4
+ Evolucné algoritmy
+
+ Genetické algoritmy (GA)
+
+ Genetické algoritmy ­ Holland 60. roky 20. stor.
+ Populácia umelých chromozómov sa cyklicky podrobuje
+
+       selektívnej reprodukcii preferujúcej výkonnejsích jedincov a
+       náhodným zmenám
+
+ Umelý chromozóm (genotyp) = reazec symbolov kódujúci
+    vlastnosti jedinca (fenotyp)
+
+       napr. binárna hodnota premennej alebo postupnos hodnôt
+         premenných
+
+       mnoho typov kódovaní
+
+              binárne, Grayov kód, reálne hodnoty
+
+       abecedy ­ napr. binárna, ternárna, ...
+
+                                                                                                                                     5
+GA ­ fitness funkcia
+
+ Fitness funkcia (úcelová, cieová funkcia) ­ kritérium
+    výkonnosti, zobrazenie: genotyp  reálne (celé) císlo
+
+       cím vyssia hodnota, tým je jedinec lepsí
+
+               : genotyp  
+
+populácia      fitness
+
+               12
+
+               8
+
+           ()  24
+
+               
+
+               14
+
+                                                          6
+ Evolucné algoritmy
+
+ vytvor populáciu  náhodne vygenerovaných chromozómov
+          1, 2, ... , 
+
+ opakuj
+
+       dekóduj vsetky chromozómy a spocítaj ich fitness  = ()
+       vytvor novú populáciu
+
+ skonci, ke sa objaví hadaný jedinec, alebo fitness najlepsieho
+    nerastie
+
+                                                                                                                                     7
+HILLCLIMBER -
+GRADIENTNÝ
+ALGORITMUS
+
+                                                                                                                                 8
+Hillclimber ­ gradientný algoritmus
+
+ vytvor populáciu  náhodne vygenerovaných chromozómov
+
+          1, 2, ... ,    = 1
+ opakuj
+
+ dekóduj vsetky chromozómy a spocítaj ich fitness  = ()
+
+ vytvor novú populáciu Zmutuj chromozóm a
+                                    nahra ním starý
+                                       chromozóm, ak má
+                                       lepsiu fitness
+
+ skonci, ke sa objaví hadaný jedinec, alebo fitness najlepsieho
+    nerastie
+
+                                                                 9
+Hillclimber
+
+príklad
+
+ Chromozóm je bitový vektor dzky 
+
+ [0 1 1 0 1 0 0 1 0 1 ]
+
+ Fitness je súcet prvkov vektora
+
+                                                                     
+
+                           =  
+
+                                       =1
+
+Generácia 0:
+
+[0 1 1 0 1 0 0 1 0 1 ]
+
+ Mutuj ­ kazdú pozíciu s (malou) pravdepodobnosou 
+
+[1 1 1 0 1 0 0 1 0 1 ]
+([0 1 1 0 1 0 0 1 0 1 ]) = 5
+([1 1 1 0 1 0 0 1 0 1 ]) = 6
+
+                                                                       10
+ Hillclimber
+
+ príklad
+
+Generácia 0:
+
+            [0 1 1 0 1 0 0 1 0 1 ]
+       Mutuj
+
+            [1 1 1 0 1 0 0 1 0 1 ]
+       Porovnaj fitness
+
+          ([0 1 1 0 1 0 0 1 0 1 ]) = 5
+          ([1 1 1 0 1 0 0 1 0 1 ]) = 6
+
+Generácia 1:
+
+          [1 1 1 0 1 0 0 1 0 1 ]
+
+Koko generácií bude trva, nez sa nájde optimálny jedinec?
+
+                                                                                                                                    11
+Hillclimber
+
+príklad
+
+Koko generácií bude trva, nez sa nájde optimálny jedinec?
+
+ Pociatocný chromozóm dzky  má ocakávaný pocet jedniciek 
+
+                                                                                                                       2
+
+ Nech má chromozóm  jedniciek. Aká je pravdepodobnos, ze sa
+
+pocet jedniciek zvýsi z  na  + 1?
+
+   -                                - 
+        - 1                           
+   =         -1 1 -  - -1                1 -  --
+
+   =1
+
+       Pravdepodobnos, ze  - 1 Pravdepodobnos, ze  núl
+
+       jedniciek zmutuje na nulu   zmutuje na jednicku
+
+ Horný odhad ocakávaného poctu generácií na dosiahnutie optima
+             
+                 1
+             
+                 ()
+             =2
+                                                                                                                          12
+fitnessHillclimber ­ vylepsenia
+
+ fitness krajina
+
+ Nájde iba lokálne maximum
+
+                                                                                                                                    13
+fitnessHillclimber ­ vylepsenia
+
+ fitness krajina
+
+ Nájde iba lokálne maximum
+ Obcas musíme povoli zhorsenie fitness
+
+       S nenulovou pravdepodobnosou
+       ,,riskantné" kroky skôr na zaciatku, neskôr uz prevazne iba zlepsujúce
+
+         kroky
+
+ Restarty ­ zaca z rôznych pozícií
+
+                                                                                                                                    14
+ Simulované zíhanie
+
+ Vekos kroku i smer závisí na teplote, ktorá sa postupne znizuje
+ Pravdepodobnos prijatia zhorsenia fitness sa s casom zmensuje
+ Na zaciatku sú kroky skoro náhodné
+ Po ,,ochladení" takmer deterministické
+
+                                                                                                                                    15
+JEDNODUCHÝ GENETICKÝ
+ALGORITMUS
+
+                                                                                                                               16
+ Genetické algoritmy
+
+ Jednoduchý genetický algoritmus (Goldberg 1989)
+
+       vytvor populáciu  náhodne vygenerovaných chromozómov
+             1 = 1, 2, ... ,  ;
+             = 1
+
+       opakuj
+
+              dekóduj vsetky chromozómy a spocítaj ich fitness  = ()
+              vytvor novú populáciu   + 1 selektívnou reprodukciou
+              rekombinuj chromozómy ­ krízenie
+              mutuj chromozómy
+               =  + 1
+
+       skonci, ke sa objaví hadaný jedinec, alebo fitness najlepsieho
+         nerastie
+
+                                                                                                                                    17
+Jednoduchá selekcia
+
+ Zo starej populácie vytvárame novú kopírovaním chromozómov tak,
+    ze cím lepsí jedinec, tým viacej jeho kópií sa môze objavi v novej
+    populácii
+
+ reprodukcia ruletou:
+
+       kazdý jedinec dostane na kole rulety priehradku vekosti  úmernej
+         hodnote jeho fitness funkcie ­ to bude pravdepodobnos, ze bude
+         reprodukovaný (predpokladáme nezápornú fitness funkciu)
+
+  =                      1 = 0.25
+     =1 
+
+ ruletou sa otocí  krát
+
+                         2 = 0.1
+
+                                   18
+ Varianty selekcie 1
+
+ Problémy jednoduchej selekcie
+
+      a) ke vsetci jedinci majú podobnú fitness
+
+             náhodné prehadávanie s genetickým posunom
+
+      b) ke jeden az dvaja jedinci majú fitness o mnoho vyssiu nez zvysok
+         populácie
+
+             takmer vsetci jedinci v novej generácii budú kópiou toho istého jedinca,
+                 predcasná konvergencia
+
+ Riesenie:
+
+      1. skálovanie [scaling] (typicky lineárna transformácia)
+
+             pre a) zväcsi rozdiely, pre b) zmensi
+
+      2. selekcia poda poradia [rank based] ­ jedinci sa zoradia poda
+         fitness a pravdepodobnos reprodukcie je úmerná poradiu jedinca, nie
+         jeho fitness
+
+                                                                                                                                    19
+ Varianty selekcie 2
+
+      3. S orezávaním [truncation] ­ jedincov usporiadame poda vekosti
+         fitness,  najlepsích jedincov skopírujeme  krát tak, aby  =  × 
+
+      4. Turnajom [tournament] ­ náhodne sa vyberú 2 jedinci a vygeneruje
+         sa náhodné císlo   0,1 , ak je  < , kde  0,1 je preddefinovaný
+         parameter, tak bude skopírovaný jedinec s vyssou fitness inak ten
+         druhý
+
+ Pri alsích genetických operáciách sa môze doteraz najlepsí jedinec
+    strati. Pomoc: elitizmus [elitism] ­  najlepsích jedincov je bez
+    zmeny skopírovaných do novej generácie
+
+                                                                                                                                    20
+ Krízenie
+
+ Jedinci sú náhodne spárovaní a kazdý pár je s danou
+    pravdepodobnosou skrízený
+
+ Jednobodové
+ krízenie
+
+  Viacbodové
+  krízenie
+
+                                                                                                                                    21
+ Mutácia
+
+ Jedinci sú náhodne menení
+
+       Uniformná mutácia ­ kazdý znak kazdého jedinca je s
+         pravdepodobnosou  zamenený náhodným znakom
+
+                                                                                                                                    22
+ Nedeterminizmus
+
+ celý GA je nedeterministický, pouzíva náhodné veliciny
+ typicky sa sleduje priemerná a maximálna fitness, GA sa zastaví,
+
+    ke je dosiahnutá dopredu zadaná hodnota fitness, alebo zadaný
+    pocet generácií, alebo sa fitness v priebehu niekokých generácií
+    nemení.
+ celý GA sa spúsa opakovane s rovnakými alebo s pozmenenými
+    parametrami
+ výsledkom je najlepsí jedinec vybraný z finálnych generácií zo
+    vsetkých behov GA
+
+                                                                                                                                    23
+Fitness krajina
+­ ,,fitness landscape"
+
+ Fitness si môzeme predstavi ako mnohorozmernú nadrovinu udávajúcu
+    hodnotu fitness vo vsetkých mozných hodnotách genotypu ­ fitness krajina
+    s kopcami a údoliami; pre chromozóm dzky 1 je to funkcia jednej
+    premennej
+
+         Stav populácie v 1 generácii                   Vývoj fitness
+                                                        v priebehu evolúcie
+Fitness                                   Max. fitness
+
+         Priestor genetických vlastností                generácie
+                                                                                             24
+SCHÉMY
+
+                                                                                                                               25
+Schémy
+
+ Chromozóm = reazec dzky  nad -prvkovou abecedou 
+
+ Schéma = reazec dzky  nad ( + 1)-prvkovou abecedou
+                                                                             
+
+       schéma s  hviezdickami reprezentuje  reazcov
+       kazdý reazec dzky  je reprezentovaný 2 schémami
+       rád schémy : () = pocet pevných symbolov (rôznych od )
+       (definicná) dzka schémy : () = vzdialenos medzi prvou a
+
+         poslednou pevnou pozíciou v schéme
+
+       Príklad:
+
+                rád () definicná dzka ()
+
+1 = (001110)    6  6
+                   4
+2 = (000)       3  9
+
+3 = (11101001)  8                                 26
+Schémy
+
+  = pocet jedincov v populácii
+
+ (, ) = pocet reazcov v populácii P  , ktoré sú
+                                reprezentované schémou 
+
+ (, ) = fitness schémy v case  = priemerná fitness reazcov
+                                                     reprezentovaných schémou 
+
+                                            ,
+
+                          1
+          ,  =  ,    
+
+                                            =1
+
+kde 1, ... ,  , sú reazce z ( ) pokryté schémou 
+
+ pravdepodobnos, ze   () bude vybrané selekciou do ( + 1)
+
+je  =   , kde    = =1    je fitness populácie
+
+             
+
+                                                                                27
+Schémy a selekcia
+
+ Po selekcii ocakávame (,  + 1) reazcov pokrytých schémou 
+
+tokokrát sa                                             cas rulety
+  ,,losuje"                                         pokrytá schémou 
+
+              ,  + 1  =  pop_vel     ,    ,  =  ,      ,
+                                                       ()
+
+                      kde () je priemerná fitness populácie ( )
+
+ teda "nadpriemerná" schéma pokryje v nasledujúcej generácii
+    viacej reazcov ­ ak by platilo pre prvých  generácií
+
+              ,      (1 + ) pre nejaké  > 0
+
+ tak  ,    , 0  1 +   tj. pocet reazcov reprezentovaných
+    "nadpriemernou" schémou by rástol geometrickou postupnosou
+
+                                                                      28
+Schémy a krízenie
+
+ Pravdepodobnos, ze schéma bude zmenená (znicená) krízením
+
+           ()                  **** ****
+           -1
+
+ teda pravdepodobnos zachovania príslusnosti k schéme bude
+                                                     ()
+
+                                    1 -    - 1
+
+ pretoze:
+
+ krízenie nastáva iba s pravdepodobnosou 
+ aj ke je bod krízenia "vo vnútri schémy", tak schéma môze prezi
+
+ teda pravdepodobnos zachovania schémy po selekcii a krízení je
+
+            ,  + 1    ,        ,    1  -    ()
+                                            -1
+
+                                                                  29
+Schémy a mutácia
+
+ Ak mutácia zmení v reazci jeden z pevných symbolov schémy, tak
+    reazec nebude schémou pokrytý; pravdepodobnos, ze mutácia
+    nezmení ziaden z pevných symbolov schémy je
+
+                   1 -     1 -     pretoze   1
+ selekcia + krízenie + mutácia:
+
+ ,                 
+ ,  + 1   ,      1 -   - 1  1 -    
+
+ ,                 
+  ,      1 -   - 1 -    
+
+ schéma  "prezíva" dobre, ak je krátka (  ) a malého rádu
+    (( ))
+
+                                                           30
+ Veta o schémach
+
+ Veta o schémach (Schema Theorem): Schémy, ktoré sú krátke,
+    majú nízky rád a sú nadpriemerné, pokrývajú exponenciálne rastúci
+    pocet reazcov v po sebe idúcich generáciách genetického
+    algoritmu.
+
+ Hypotéza o stavebných blokoch (Building block
+    Hypothesis): Genetický algoritmus hadá riesenie blízke optimu
+    reazením krátkych schém s nízkym rádom nazývaných stavebné
+    bloky.
+
+       nie je to veta!
+       niekedy stavebné bloky znemoznia nájdenie optima
+       Holland spocítal, ze za urcitých podmienok môze genetický algoritmus
+
+         v jednom kroku spracova az 3 krátkych schém, ale funguje to, iba ak
+         je mozné ,,dobré" vlastnosti kódova takýmito schémami ­ variácie GA
+
+                                                                                                                                    31
+VYLEPSENIA
+GENETICKÝCH
+ALGORITMOV
+
+                                                                                                                               32
+ Sú GA dobrou simuláciou
+ biologickej evolúcie?
+
+ Evolúcia nekoncí a nezacína vzdy od nuly (bootstraping)
+
+       SAGA ­ Species Adaptation Genetic Algorithm: premenlivá dzka
+         genotypu, znacne skonvergovaná populácia sa mení postupnými
+         mutáciami, nie krízením
+
+       Neutrálne siete ­ drobné náhodné zmeny v genotype nemusia meni
+         fitness, ale môzu populáciu posunú inam
+
+              fitness krajina môze by sústava prepojených neutrálnych sietí s rôzne
+                 vysokými hodnotami fitness
+
+              ,,prázdne" úseky DNA
+              Napr. "Analog Genetic Encoding" ­ genetický kód popisuje pravidlá prepojenia
+
+                   neurónovej siete
+
+                                                                                                                                    33
+ Sú GA dobrou simuláciou
+ biologickej evolúcie?
+
+ alsie variácie GA ­ spojenie s ,,dospievaním" a ucením ­ fitness sa
+    mení v priebehu zivota jedinca
+
+ CO SA NEMENÍ: a) genetická reprezentácia jedinca
+                            b) autonómna interakcia s prostredím
+
+                                                                                                                                    34
+ Vylepsenia genetických
+ algoritmov
+
+ Delenie na druhy
+
+       na genotype sa definuje vzdialenos = miera podobnosti jedincov
+       1 druh = mnozina podobných jedincov
+       Speciálny typ krízenia ­ iba v rámci druhu (predpoklad, ze krízením
+
+         podobných jedincov vznikne podobný, teda funkcný jedinec)
+       Ochrana nových druhov
+
+              Po obmedzenú dobu od vzniku nového druhu jedinci pri selekcii sú vyberaní
+                 iba na základe fitness pre jedincov ich vlastného druhu
+
+ Premenlivá vekos populácie
+
+       Optimálna vekos populácie sa azko urcuje
+       Starnutie
+
+              pri vzniku nového jedinca je mu (poda jeho fitness) nastavený max. vek =
+                 max. pocet generácií, nez bude jedinec z populácie vyradený ­ vemi
+                 azko sa nastavujú parametre!
+
+                                                                                                                                    35
+ Vylepsenia genetických
+ algoritmov
+
+ Kódovanie
+
+       Konecná doména
+
+              pevný pocet bitov ­ co ak pocet prvkov domény nie je mocnina 2?
+
+       Celé císla
+
+              binárne
+              Grayov kód
+
+       Reálne císla
+
+              s obmedzeným rozsahom ­ binárne kódovanie rovnomerne rozdelených
+                 deliacich bodov
+
+              císla s pevným poctom desatinných miest
+              císla s plávajúcou desatinnou ciarkou ­ ako robi krízenie a mutácie?
+
+                                                                                                                                    36
+

@@ -1,0 +1,1901 @@
+Social Networks
+and their Analysis
+
+REAL-WORLD COMPLEX NETWORKS, COMMUNITY DETECTION
+AND LINK PREDICTION
+
+BY: IVETA MRAZOVA
+Social Networks     Link Analysis
+and their Analysis
+                     · A Brief Review of Actor-Level and Network-
+                       Level Measures
+
+                     · Hubs and Authorities, the HITS Algorithm
+                     · The PageRank Algorithm
+                     · PageRank ­ Revisited
+                     · HITS ­ Revisited
+                     · Themed Communities and Their Discovery
+
+                    Real-World Complex Networks,
+                    Community Detection, and Link
+                    Prediction
+
+                     · Real-World Complex Networks and Their
+                       Properties
+
+                     · Community Detection in Social Networks
+                     · Link Prediction
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Properties of Real-World Complex Networks
+
+~ non-random and non-regular graphs with unique features
+
+characterized by:
+
+1. Small-world effect              Examples of such networks:
+2. Transitivity or Clustering
+3. Power-law degree distributions  · Social networks
+4. Network resilience              · Information or knowledge networks
+5. Mixing patterns                 · Technological networks
+6. Community structure             · Biological networks
+
+                   I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  104
+Properties of Real-World Complex Networks
+
+1. Small-world effect:
+
+· Stanley Milgram (American social psychologist) was the first to point out the
+   existence of small-world effects in real social networks ­ (Milgram experiment,
+   1960's)
+
+· Milgram asked random participants (about 300) to pass a letter to someone they
+   knew on a first-name basis in an attempt to get it to an assigned target person.
+
+· The goal of the experiment: test the speculative idea that a pair of apparently
+   distant individuals in most networks are connected by a few number of
+   acquaintances
+
+· Through this experiment, Milgram was able to show that the median path length of
+   the paths that succeeded in reaching the target person was 6
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  105
+Properties of Real-World Complex Networks
+
+1. Small-world effect:
+
+· based on the six degrees of separation
+   concept, that states that everyone is, on
+   average, six steps away from any other
+   person in the World
+
+· in a broad sense, Milgram´s conclusion
+   indicates that social networks tend to be
+   characterized by very short paths between
+   randomly chosen pairs of people.
+
+· important consequences, e.g., for the speed
+   at which information and diseases spread
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  106
+Properties of Real-World Complex Networks
+
+1. Small-world effect:
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  107
+Properties of Real-World Complex Networks
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  108
+Properties of Real-World Complex Networks
+
+2. Transitivity or Clustering:
+
+· In real-world networks, especially in social ones, there is a high probability of finding
+   complete sub-networks, within larger networks, where all nodes are connected to
+   each other (everyone knows everyone)
+
+3. Power-law degree distributions:
+
+· Degree distribution: probability distribution of the degrees of nodes over the whole
+   network (~ a histogram that shows the fraction of nodes in the network that have
+   degree ,  = 1, 2, 3, ... , )
+
+· real networks have degree distributions that are quite different from other networks,
+   such as random graphs
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  109
+Properties of Real-World Complex Networks
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  110
+Properties of Real-World Complex Networks
+
+3. Power-law degree distribution:
+
+Scale-free networks (Barabasi and Albert, 1999):
+
+~ networks whose degree distribution follows a power-law (e.g., world wide web,
+   citation networks, biological networks, some social networks, etc.)
+
+· Power-law distributions usually arise when the amount you get of something
+   depends on the amount you already have; in topological terms this reflects in a
+   network with few highly-connected nodes and a large number of nodes with low
+   degree
+
+· The mechanism behind this kind of degree distribution was referred to as being the
+   rich-get-richer and the poor-get-poorer strategy or, equivalently, the Matthew´s
+   effect; Prince called it cumulative advantage and, more recently, Barabasi and Albert
+   used the expression preferential attachment
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  111
+Properties of Real-World Complex Networks
+
+3. Power-law degree distribution:
+
+Scale-free networks (Barabasi and Albert,
+1999):
+
+· The mechanism of preferential attachment is
+   easily explained by the fact that new nodes
+   (e.g., individuals) entering the network tend
+   to connect to well-connected nodes, which
+   are often associated to central and prestig-
+   eous positions (e.g., individuals with more
+   status, popularity, knowledge, money, etc.) in
+   the network
+
+· Such highly-connected nodes are called hubs.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS     112
+Properties of Real-World Complex Networks
+
+ 4. Network Resilience:
+
+  ~ measures the impact on the connectivity of the network when one or more nodes
+     are removed
+
+  · Most networks are robust against random vertex removal but considerably less
+     robust to targeted removal of the highest-degree vertices
+
+  · Also, when gatekeepers are deleted, there are strong changes in the network with
+     respect to the ability of communication between pairs of nodes, since some of them
+     become disconnected.
+
+  · In real-world networks, the removal of one single node is not cause for alarm, since
+     it rarely has impact in the original network structure; in such cases, it is more
+     appropriate to test the resilience of a network by removing a certain percentage of
+     nodes.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  113
+Properties of Real-World Complex Networks
+
+5. Mixing Patterns:
+
+· In some networks, where different types of nodes coexist, it is
+  common to observe a certain selectivity in the establishment of
+  connections
+
+· Selective linking is called assortative mixing (or homophily) and a
+  classical example is mixing by race
+
+· Real networks show higher tendencies for assortative mixing
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  114
+Properties of Real-World Complex Networks
+
+6. Community Structure:
+
+· Most real social networks show community structure
+· community structure usually arises as a consequence of both
+
+  global and local heterogeneity of edges´ distribution in a graph
+
+        we often find high concentrations of edges within certain
+           regions of the graph, that we called communities, and
+           low concentrations of edges between those regions
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                      115
+Preferential Attachment
+
+~ in some networks, new edges tend to grow towards nodes with an already high degree in time
+    the degree of some nodes thus increases disproportionately compared to the other ones
+
+The resulting network has few highly connect-                              Sketch of long-
+ed nodes and many nodes with a low degree                                   tailed degree
+                                                                             distribution
+    · long-tailed degree distribution
+    · small-world structure                                                                    116
+
+  transitivity and strong/weak tie charact-
+      eristics are common and can lead to
+      small-world structures
+
+      × but they are not necessary to explain it
+
+                                                  Example of network with
+                                                  preferential attachment
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS
+Reasons for Preferential Attachment
+
+· Popularity ~ `the rich get richer'
+
+   · we want to be associated with popular people, ideas, items,
+
+   · this further increases their popularity, irrespective of any objective, measurable
+      characteristics
+
+· Quality ~ `the good get better'
+
+   · we evaluate people and everything else based on objective quality criteria, so higher
+      quality nodes will naturally attract more attention faster
+
+· Mixed model
+  ~ ´It is impossible to predict who will become a star, even if quality matters´
+
+   · among nodes of similar attributes, those that reach critical mass first will become
+      `stars' with many friends and followers (`halo effect')
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  117
+Core-Periphery Structures
+
+Centralization measure
+
+~ measures the degree to which a social network is
+   centralized or decentralized
+
+   · based on the differences in degrees between nodes
+     (and usually normalized to values between 0 and 1)
+
+   · a network greatly depending on 1-2 highly connected nodes
+     (e.g., as a result of preferential attachment) exhibits greater
+     differences in degree centrality between nodes
+
+   · centralized structures can perform better at some tasks
+     like team-based problem-solving requiring coordination
+      × but are more prone to failure if key players disconnect
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                        118
+Core-Periphery Structures
+
+Centralization measure (continued)
+
+· many large groups / communities have a core of
+  densely inter- connected users
+
+   · this is critical for connecting a much larger periphery
+   · the cores can be identified visually, or by examining the
+
+       location of high-degree nodes and their joint degree
+       distributions
+   · bow-tie analysis (used to analyze the structure of the
+       Web) can also be used to distinguish between the core
+       and other, more peripheral elements in a network
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                  119
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Communities in Social Networks
+
+ Communities are formed by individuals such that those within a group interact with
+
+   each other more frequently than with those outside the group
+
+    · a.k.a. group, cluster, cohesive subgroup, module in different contexts
+
+ Community detection: discovering groups in a network where individuals' group
+   memberships are not explicitly given
+
+ Why communities in social media?
+
+   · Human beings are social
+   · Easy-to-use social media allows people to extend their social life
+   · Difficult to meet friends in the physical world, but much easier to find friends
+
+       online
+   · Interactions between nodes can help determine communities
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  121
+Communities in Social Media
+
+ Two types of groups in social media
+
+    · Explicit Groups: formed by user subscriptions
+    · Implicit Groups: implicitly formed by social interactions
+
+ Some social media sites allow people to join groups, is it necessary to extract
+   groups based on network topology?
+
+    · Not all sites provide community platform
+    · Not all people want to make effort to join groups
+    · Groups can change dynamically
+
+ Network interaction provides information about the relationship between
+   users
+
+    · Can complement other kinds of information
+    · Help network visualization and navigation
+    · Provide basic information for other tasks
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  122
+Subjectivity of Community Definition
+
+A densely-knit  Each component is a
+ community           community
+
+                                                                Definition of a community
+                                                                     can be subjective.
+
+                I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  123
+Community Detection:
+
+Communities, Modules or Clusters
+
+What are network communities?
+
+· Groups of similar nodes
+· Groups of densely inter-connected vertices, with sparser connections between
+
+   these groups
+Examples: families, work groups, circles of friends, topic-related web pages,
+
+             customers of a given product, etc.
+
+This graph has 3 communities:
+C1={A,B,C,D,E}
+C2={F,G,H,I}
+C3={J,K,L}
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                  124
+Community Detection
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  125
+Community Detection
+
+ Methods to address the problem of finding communities in graph data:
+
+    · Minimum cut
+    · Hierarchical clustering using cosine similarity, Jaccard index, Euclidean distance,
+
+       Hamming distance as measures of similarity
+    · Girvan-Newman algorithm
+    · Walktrap ­ runs short random walks and uses their results to merge separate
+
+       communities in a bottom-up manner
+    · Modularity Optimization using, e.g., greedy techniques, simulated annealing
+    · Clique percolation method for finding overlapping communities
+    · Blockmodeling and other methods
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  126
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Community Detection:
+
+Minimum-Cut Algorithm
+
+Minimum-Cut (Ahuja et al., 1993)
+
+· Idea: divide the network into two communities by minimizing the number of edges
+   (or the sum of the weights, in weighted networks) running through unlike groups,
+   also known as the cut-size
+
+· For k>2: implement the strategy of iterative bisecting (in the second and further
+   iterations, groups are sequentially divided into two sub-groups)
+
+· Drawback: produces groups of unbalanced sizes
+
+· Computational complexity:
+
+   · a simple solution uses the Max-Flow based s-t cut algorithm with the complexity O(n5)
+
+· an implementation using the Karger´s algorithm has the time complexity O(n4), but it is not
+   guaranteed to always find the minimum cut
+
+·  fsoorlvwabij=le1  and no balancing constraints on the  partitions,  the  2-way  cut  problem  is  polynomially
+                     (Karger´s randomized minimum cut)    in O(n2 log  n)
+
+· arbitrary edge weights and balancing constraints make the problem NP-hard
+
+                     I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                  128
+Minimum Cut
+
+ Most interactions occur within a group; interactions between groups are
+   rare
+
+    · community detection  minimum cut problem
+
+ Cut: A partition of vertices of a graph into two disjoint sets
+ Minimum cut problem: find a graph partition such that the number of edges
+
+   between the two sets is minimized
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  129
+Ratio Cut and Normalized Cut
+
+Minimum cut often returns an imbalanced partition, with one set being a
+singleton, e.g., node 9
+
+         Change the objective function to consider community size
+
+                                                                 Ci,: a community
+                                                                 |Ci|: number of nodes in Ci
+                                                                 vol(Ci): sum of degrees in Ci
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                  130
+Ratio Cut and Normalized Cut: an Example
+
+ For partition in red:
+
+For partition in green:
+
+Both ratio cut and normalized cut prefer a balanced partition
+
+                         I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  131
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Community Detection:                               the total number of shortest paths
+                                                   between the vertices u and v
+Girvan-Newman Algorithm
+
+Girvan-Newman algorithm (Girvan and Newman, 2002)
+
+~ a divisive hierarchical algorithm, based on a top-down approach
+
+· decomposes the initial full graph into progressively smaller connected pieces, until there
+    are no edges to remove, and each node represents itself a community
+
+· Idea: identify edges that connect vertices belonging to different communities
+  (the so-called bridges) and, iteratively, remove them from the graph
+
+· Criterion: edge betweenness is adopted to identify and delete bridges (i.e.,
+  edges with a high betweenness), since these edges lie on a large number of
+  shortest paths between vertices
+
+· Drawback: suitable only for networks of a moderate size due to high comp-
+  utational costs - O(m2n) for graphs having m edges and n vertices, or O(n3)
+  for sparse networks
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                  133
+Community Detection:
+
+Girvan-Newman Algorithm
+
+Girvan-Newman algorithm (Girvan and Newman, 2002):
+
+Input: the full graph
+Output: hierarchical structure to be represented, e.g., as a dendrogram
+1. Compute the betweenness of all edges in the network
+2. Remove the edge with highest betweenness
+3. Repeat the previous steps until there are no edges to remove in the graph
+
+ Selecting the number of communities
+
+    · The algorithm returns a set of possible solutions; however, it does not indicate
+       which of the solutions is the best one.
+
+    · To select the best partition, compute the modularity of each network's division.
+       Then choose the partition with the highest modularity.
+
+                                     To see hoI.wMRAtZhOViAs: SaOClIgALoNErTiWthORmKS ANwD ToHrEIkR AsNAvLYisSISit http://igraph.sourceforge.net/screen1s3h4ots2.html
+Community Detection:
+
+Evaluating Community Quality
+
+Modularity Q ~ quantifies the quality of a given graph division into communities
+
+· Basic Idea: a network has a meaningful community structure if the number of edges
+   between communities is smaller than expected on the basis of a random choice
+
+· Modularity values: can be either positive or negative, Q  [-1,1].
+
+   · If positive, then there is possibility of finding community structure on the network
+   · If the values are positive and large, the corresponding partition may reflect the real
+
+      community structure. For meaningful communities, modularity Q should be >=0.3
+      (Clauset et al.,2004).
+
+                                                                         - expected number of edges falling between vertices i and j
+
+(ci,cj) - Kronecker delta
+
+Ai  j  -  entry of  the adjacency matrix that gives the
+          number    of edges between vertices I and j
+
+m ­ number of edges ki ­ degree of vertex i
+ci ­ group to which vertex i belongs
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS           135
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Community Detection: Louvain Algorithm
+
+Louvain method (Blondel et al., 2008):
+
+~ a greedy optimization method for agglomerative hierarchical modularity
+   optimization
+
+· Process: the algorithm comprises two phases
+
+    1. look for local optima by maximizing modularity in a local way
+    2. then, aggregate nodes belonging to the same community and create a new
+
+         network where each node represents one of the previously found
+         communities
+
+· Advantages: achieves good performance also in large network graphs at
+   low computational costs ­   log  ,  is the number of vertices
+
+· Drawback: the results are order-sensitive
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                 137
+Community Detection: Louvain Algorithm
+
+Phase 1: consider each node as a single community
+
+    1.1. Compute modularity 
+    1.2. Move the isolated node from its community to a neighboring community
+    1.3. Compute the gain/loss in modularity yielded by the changed assignment
+    1.4. If the modularity increases (~ there is a gain) keep the node in the "new" community
+    1.5. Repeat the process until no further improvements are possible
+    Output: the -th level partition (k is the number of the iteration)
+
+Phase 2: create a new network (~ supergraph), derived from the original one, where
+each new node (~ supervertex) is the aggregation of the nodes assigned to a given
+
+community (found in Phase 1); two supervertices are connected by an edge if there is
+at least one edge linking two vertices inside the corresponding community.
+
+Iteration: Repeat Phase 1 and 2 until maximum of modularity is attained
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                 138
+Community Detection: Louvain Method
+
+Illustration of the process behind the algorithm:
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  Blondel et al., 2008
+
+                                                                                     139
+Community Detection: Challenges
+
+Despite of many algorithms, community detection is still
+considered a challenging problem, due to 2 main reasons:
+
+1. Typically, the number of communities is unknow and has to be
+    determined
+
+2. Communities are usually heterogeneous with respect to size and
+    density.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  140
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Other Community Detection Techniques
+
+Roughly, community detection methods can be divided into 4 categories although
+their criteria may vary depending on the task:
+
+ Node-Centric Community
+
+    · Each node in a group satisfies certain properties
+
+ Group-Centric Community
+
+    · Consider the connections within a group as a whole. The group has to satisfy certain
+        properties without zooming into node-level
+
+ Network-Centric Community
+
+    · Partition the whole network into several disjoint sets
+
+ Hierarchy-Centric Community
+
+    · Construct a hierarchical structure of communities
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                              142
+Node-Centric Community Detection
+
+Nodes may be required to satisfy different properties
+commonly used in traditional social network analysis:
+
+  Complete Mutuality - cliques
+  Reachability of members - k-clique, k-clan, k-club
+  Nodal degrees - k-plex, k-core
+  Relative frequency of Within-Outside Ties - LS sets, Lambda sets
+
+Here, we will discuss some of the representative properties only
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                      143
+Complete Mutuality: Cliques
+
+ Clique: a maximum complete subgraph in which all nodes are
+ adjacent to each other
+
+                                                                  Nodes 5, 6, 7 and 8 form a clique
+
+NP-hard to find the maximum clique in a network!
+
+Straightforward implementation to find cliques is very expensive in time complexity
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  144
+Complete Mutuality: Clique
+
+    Clique: a maximal complete subgraph of
+      three or more nodes all of which are
+      adjacent to each other
+
+    NP-hard to find the maximal clique
+
+    The idea of recursive pruning: To find a
+      clique of size k, remove those nodes
+      with less than k-1 degrees
+
+    Normally use cliques as a core or seed to
+      explore larger communities
+
+                                                                                                                                                                                                                                        145
+Finding the Maximum Clique
+
+ In a clique of size , each node maintains degree   - 1
+
+ Nodes with degree <  - 1 will not be included in the maximum clique
+
+ Recursively apply the following pruning procedure
+
+    · Sample a sub-network from the given network, and find a clique in the sub-
+       network, say, by a greedy approach
+
+    · Suppose the clique above is size , in order to find out a larger clique, all nodes
+       with degree   - 1 should be removed.
+
+ Repeat until the network is small enough
+
+ Many nodes will be pruned as social media networks follow a power law
+   distribution for node degrees
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                            146
+Maximum Clique Example
+
+Suppose we sample a sub-network with nodes {1-5} and find a clique {1, 2, 3}
+of size 3
+
+In order to find a clique >3, remove all nodes with degree <=3-1=2
+
+ · Remove nodes 2 and 9
+ · Remove nodes 1 and 3
+ · Remove node 4
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                147
+Clique Percolation Method (CPM)
+
+Clique is a very strict definition, unstable
+   in practice, use cliques as a core or a seed to find larger communities
+
+CPM is an example of a method to find overlapping communities
+
+ Input
+    · A parameter , and a network
+
+ Procedure
+    · Find out all cliques of size  in a given network
+    · Construct a clique graph. Two cliques are adjacent if they share  - 1 nodes
+    · Each connected components in the clique graph form a community
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                     148
+Clique Percolation Method (CMP) ­ an example
+
+                                                                    Cliques of size 3:
+                                                                    {1, 2, 3}, {1, 3, 4}, {4, 5, 6}, {5, 6, 7},
+                                                                    {5, 6, 8}, {5, 7, 8}, {6, 7, 8}
+
+      Communities:
+        {1, 2, 3, 4}
+       {4, 5, 6, 7, 8}
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                                   149
+Reachability: -clique, -club
+
+The main idea: any node in a group should be reachable in  hops
+
+-clique: a maximal subgraph with the largest geodesic distance between any
+nodes  
+-club: a substructure of diameter  
+
+                                                           Cliques: {1, 2, 3}
+                                                           2-cliques: {1, 2, 3, 4, 5}, {2, 3, 4, 5, 6}
+                                                           2-clubs: {1,2,3,4}, {1, 2, 3, 5}, {2, 3, 4, 5, 6}
+
+Commonly used in traditional SNA and often involves combinatorial optimization
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                                150
+Reachability: -clique, -club:
+
+Example 2
+
+  Any node in a group should be reachable in  hops
+  -clique: a maximum subgraph in which the largest
+
+    geodesic distance between any nodes  
+
+      · a k-clique can have diameter >= k within the subgraph
+          (e.g., the 2-clique {12, 4, 10, 1, 6}; the diameter within the
+          subgraph, d(1, 6) = 3)
+
+  -club: a substructure of diameter <=k
+
+      · e.g., {1,2,5,6,8,9}, {12, 4, 10, 1} are 2-clubs
+
+  -clan: a k-clique with the diameter <=k,
+
+      · e.g., {1,2,3,4,5} is a 3-clan
+
+  node-centric community definitions are either too
+    strict , or it is too time-consuming to find the groups
+
+                                                                                                                                                                                                                                        151
+Nodal Degrees: -core, -plex
+
+Each node should have a certain number of connections to nodes within
+the group
+
+ · -core: a substructure where each node is connected to at least k other
+  members within the group
+
+ · k-plex: for a group with ns nodes, each node should be adjacent no fewer than
+  ns-k in the group
+
+The definitions are complementary:
+
+ · a k-core is a (ns-k)-plex
+ · however, the set of all k-cores for a given k is not identical
+
+    to the set of all (ns-k)-plexes as group size ns can vary for
+    each k-core.
+
+                                                                                                                                                                                                                                        152
+Within-Outside Ties: LS sets
+
+LS sets: any of the proper subsets of an LS set has more ties to
+other nodes in the group than outside of the group
+
+  Objective: find cohesive groups of nodes for circuit design on chips (Luccio
+    and Sami)
+
+  Too strict, not reasonable for network analysis
+
+A relaxed definition is k-component
+
+  Requires the computation of edge-connectivity between any pair of nodes
+    via minimum-cut, maximum-flow algorithm
+
+                                                                                                                                                                                                                                        153
+Recap of Node-Centric Communities
+
+ Each node has to satisfy certain properties
+
+   Complete mutuality
+   Reachability
+   Nodal degrees
+   Within-Outside ties
+
+ Limitations:
+
+   Too strict, but can be used as the core of a community
+   Not scalable, commonly used in network analysis with small-size
+
+     networks
+   Sometimes not consistent with the properties of large-scale
+
+     networks
+
+       · e.g., node degrees in scale-free networks
+
+                                                                                                                                                                                                                                        154
+Group-Centric Community Detection: Density-
+
+Based Groups
+
+Group-centric criteria require the whole group to satisfy a certain condition
+
+ · e.g., the group density to be big enough (>= a given threshold)
+
+A subgraph GS ( VS , ES ) is a -dense quasi-clique if
+
+A similar strategy to that of cliques can be used:
+
+ · Local search: Sample a subgraph, and find a maximum -dense quasi-clique (say,
+   of size k)
+
+ · Heuristic pruning: Remove nodes with degree less than the average degree,
+   (<(k-1))
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                    155
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Network-Centric Community Detection
+
+ Network-centric criteria consider connections within a network globally
+ The goal: partition the nodes of a network into disjoint sets
+ Approaches:
+
+   Clustering based on vertex similarity
+   Latent space models
+   Block model approximation
+   Spectral clustering
+   Modularity maximization
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  157
+Clustering Based on Vertex Similarity
+
+Apply -means or similarity-based clustering to nodes
+Vertex similarity is defined in terms of the similarity of their neighborhood
+Structural equivalence: two nodes are structurally equivalent iff they are
+connecting to the same set of actors
+
+                 Nodes 1 and 3 are
+                 structurally equivalent;
+                 So are nodes 5 and 7.
+
+Structural equivalence is too restrictive for practical use.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                 158
+Vertex Similarity
+
+Jaccard Similarity:
+
+Jaccard(vi,vj) =  
+                  
+
+Cosine similarity:
+
+  ,   =             
+                   2   2
+
+                     I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  159
+Clustering Based on Vertex Similarity
+
+ For practical use with huge networks (consider the connections as features):
+
+   · use Cosine or Jaccard similarity to compute vertex similarity
+   · apply classical -means clustering Algorithm
+
+ -means Clustering Algorithm
+
+   · each cluster is associated with a centroid (center point)
+   · each node is assigned to the cluster with the closest centroid
+
+                                                                                                                                                                                                                                        160
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Latent Space Models
+
+Map the nodes into a low-dimensional space such that the proximity between nodes
+based on network connectivity is preserved, then apply -means clustering
+
+Multi-dimensional scaling (MDS)
+
+ Given a network, construct a proximity matrix P representing the pairwise distance between
+    nodes (e.g., geodesic distance)
+
+ Let S  Rnx1 denote the coordinates of nodes in the low-dimensional space
+
+ Objective function:                   is a diagonal matrix of top eigenvalues
+ Solution:
+ V is the top l eigenvectors of , and
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                  162
+Multi-Dimensional Scaling (MDS):
+
+an Example
+
+                                                                geodesic
+                                                                 distance
+
+Two communities: {1, 2, 3, 4} and {5, 6, 7, 8, 9}
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                             163
+Block Models
+
+               is the so-called mixing
+                  matrix
+
+              S is the community indicator matrix
+
+              Relax S to be numerical values, then the optimal solution
+              corresponds to the top eigenvectors of A
+
+                                Two communities: {1, 2, 3, 4} and {5, 6, 7, 8, 9}
+
+              I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  164
+Spectral Clustering
+
+Both ratio cut and normalized cut can be reformulated as:
+
+where  graph Laplacian for ratio cut
+       normalized graph Laplacian
+       a diagonal matrix of degrees
+
+Spectral relaxation:
+
+Optimal solution: top eigenvectors with the smallest eigenvalues
+
+       I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS             165
+Spectral Clustering: an Example
+
+                                                     Two communities:
+                                                {1, 2, 3, 4} and {5, 6, 7, 8, 9}
+
+  The 1st eigenvector                           k-means
+means all nodes belong
+to the same cluster, no
+
+            use
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS           166
+Modularity Maximization
+
+Modularity measures the strength of a community partition by taking into account the
+degree distribution
+Given a network with m edges, the expected number of edges between two nodes
+with the degrees di and dj is di dj / 2 m
+
+                                                            The expected number of edges between
+                                                            nodes 1 and 2 is: 3*2/ (2*14) = 3/14
+
+Strength of a community:    ,  - 2
+
+Modularity :  Q  =   1  =1  ,   - 2
+                    2
+
+A larger value indicates a good community structure.
+
+                            I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  167
+Modularity Matrix
+
+Modularity matrix:
+Similar to spectral clustering, Modularity maximization can be reformulated as
+
+Optimal solution: top eigenvectors of the modularity matrix
+Apply k-means to S as a post-processing step to obtain community partition
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  168
+Modularity Maximization: an Example
+
+                                                                                      Two Communities:
+                                                                                 {1, 2, 3, 4} and {5, 6, 7, 8, 9}
+
+                                                                                                               k-means
+
+Modularity Matrix
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                                          169
+A Unified View for Community Partition
+
+Latent space models, block models, spectral clustering, and modularity
+maximization can be unified as
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                          170
+A Unified View for Community Partition:
+
+Matrix Factorization Form
+
+The above network-centric community detection methods (latent space models,
+block models, spectral clustering and modularity maximization) can be
+formulated as:
+
+    (D)          (Latent Space Models)
+
+X=  Sociomatrix  (Block Model Approximation)
+
+    Graph Laplacian (Cut Minimization)
+
+    Modularity Matrix (Modularity maximization)
+
+Limitation: Require the user to specify the number of communities beforehand
+
+                                                 171
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Hierarchy-Centric Community Detection
+
+Goal: build a hierarchical structure of communities based on
+network topology
+Allow the analysis of a network at different resolutions
+Representative approaches:
+
+ Divisive Hierarchical Clustering ­ e.g., Girvan-Newman ( 2 )
+ Agglomerative Hierarchical clustering ­ e.g., Louvain (  log  )
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  173
+Divisive Hierarchical Clustering
+
+Divisive clustering
+
+ Partition nodes into several sets
+ Each set is further divided into smaller ones
+ Network-centric partition can be applied for the partition
+
+One particular example: recursively remove the "weakest" tie
+
+ Find the edge with the least strength
+ Remove the edge and update the corresponding strength of each edge
+
+Recursively apply the above two steps until a network is discomposed into
+desired number of connected components.
+
+Each component forms a community
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                             174
+Edge Betweenness
+
+The strength of a tie can be measured by edge betweenness
+Edge betweenness: the fraction of shortest paths that pass along the edge
+
+The edge betweenness of e(1, 2) is 4, as all the shortest
+paths from 2 to {4, 5, 6, 7, 8, 9} have to either pass e(1, 2)
+or e(2, 3), and e(1,2) is the shortest path between 1 and 2
+
+The edge with higher betweenness tends to
+be the bridge between two communities.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                             175
+Divisive Clustering Based on
+
+Edge Betweenness
+
+                                                                                   Initial betweenness value
+
+After removing e(4,5), the betweenness of
+e(4, 6) becomes 20, which is the highest;
+
+After removing e(4,6), the edge e(7,9) has
+the highest betweenness value 4, and
+should be removed.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                                176
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Agglomerative Hierarchical Clustering
+
+ Initialize each node as a community
+ Merge communities successively into larger
+ communities following a certain criterion
+
+  e.g., based on modularity increase
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  178
+Hierarchical Clustering: Zachary Karate Club
+
+                                                                                                            source: Girvan and Newman,
+                                                                                                            PNAS June 11, 2002 99(12):
+                                                                                                            7821-7826
+Is Hierarchical Clustering Really This Bad?
+
+     Zachary karate club data hierarchical clustering tree using edge-independent path counts
+Clustering Based on Betweenness
+
+and the Karate Club Data Set
+Community Detection - Summary
+
+Node-Centric Community Detection
+
+ cliques, k-cliques, k-clubs
+
+Group-Centric Community Detection
+
+ quasi-cliques
+
+Network-Centric Community Detection
+
+ Clustering based on vertex similarity
+ Latent space models, block models, spectral clustering, modularity maximization
+
+Hierarchy-Centric Community Detection
+
+ Divisive clustering
+ Agglomerative clustering
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                    182
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Link Prediction in Social Networks
+
+Objective:
+
+   predict future links between pairs of nodes in the network!
+   in commercial social networks (e.g., Facebook, LinkedIn) users are often
+
+      recommended as potential friends
+   both content similarity and structure may be used:
+
+        · Content-based measures ­ use the principle of homophily
+
+            o Idea: nodes with a similar content are more likely to become linked.
+
+           o enhance link prediction, but are sensitive to the network at hand
+
+                - e.g., short and noisy tweets with nonstandard acronyms on Twitter
+            X content-based homophily does not necessarily imply structural connectivity!
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                             184
+Link Prediction in Social Networks
+
+ Structural measures - use the principle of triadic closure.
+
+   · Idea: two nodes that share their neighborhood are more likely to get connected
+
+   · triadic closure is very common across different domains
+   · effective in different types of networks and more directly applicable
+   · include the neighborhood-based measures, Katz measure, random walk-based
+
+      measures, etc.
+
+   · structural connectivity usually implies content-based homophily, too
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  185
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Neighborhood-Based
+
+Link Prediction Measures
+
+ ~ use the number of common neighbors between a pair of
+     nodes  and , to quantify the likelihood of a future link
+     between them.
+
+ Example: Alice and Bob share 4 common neighbors.
+       a link might eventually form between them
+      X Alice and Bob have also their own disjoint sets of
+          neighbors in addition to their common neighbors
+           account for the number and relative importance
+               of different neighbors!
+                  => normalized neighborhood-based measures
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                 187
+Neighborhood-Based
+
+Link Prediction Measures
+
+Common Neighbor Measure between node  and  :
+
+~ the number of common neighbors between nodes  and 
+
+ Definition:
+
+     Let  be the neighbor set of node , and  the neighbor set of node .
+     The common neighbor measure between  and  is defined as:
+
+                        ,  =   
+
+ Weakness:
+
+   · does not account for the relative number of common neighbors as
+      compared to the number of other connections
+
+   · in the example, Alice and Bob each have a relatively small node degree
+
+   X but if Alice and Bob were very popular public figures connected to a
+     large number of other actors, they might easily have many neighbors
+     in common, just by chance
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                               188
+Neighborhood-Based                                                                      The Jaccard measure between
+                                                                                              Alice and Bob is 49.
+Link Prediction Measures
+
+ The Jaccard-Based Link Prediction Measure between node  and :
+
+ ~ measures the similarity of the neighborhood between the nodes  and 
+
+    · normalized for node degrees varying due to power-law distribution
+
+ Definition:
+
+      Let  be the neighbor set of node , and  the neighbor set of node .
+      The Jaccard-based link prediction measure between  and  is defined as:
+
+                      ,  =       
+
+ Properties:
+
+    · in the example, larger degrees of Alice or Bob would impact a lower Jaccard
+        coefficient between them
+
+    X but Jaccard measure might not adjust well to intermediate neighbors
+    · if common neighbors of Alice and Bob (e.g., John, or Jill) would be very popular
+
+        (i.e., have a high degree), they might occur as common neighbors also of many
+        other pairs of nodes
+
+             => they would be less important for measuring link prediction
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                                       189
+Neighborhood-Based
+
+Link Prediction Measures
+
+The Adamic­Adar measure Measure between node  and :
+
+~ a weighted version of the common-neighbor measure
+
+   · designed to account for the varying importance of different common neighbors
+   · the weight of a common neighbor is a decreasing function of its node degree
+
+        · e.g., the weight of node  can be expressed as 1log  , where  is the neighbor set of node 
+
+ Definition:
+
+    Let ,  and , be the neighbor set of node ,  and , resp.
+    The Adamic­Adar measure between  and  is equal to the
+    weighted sum of common neighbors between the nodes  and :
+
+            ,  =  log  ;     
+
+      · in the example, the Adamic-Adar measure between Alice and Bob is:
+
+               1log 4 + 1log 2 + 1log 2 + 1log 4 = 3log 2
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  190
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Link Prediction:
+
+Katz Measure
+
+Neighborhood-based measures:
+
+  estimate the likelihood of a link between a pair of nodes
+ X but not effective when the number of neighbors shared
+
+     between a pair of nodes is small
+
+Example (b):
+
+ Alice and Bob share one neighbor in common
+ Alice and Jim also share one neighbor in common
+X neighborhood-based measures have difficulty in
+
+    distinguishing between these cases
+
+      · but there is indirect connectivity through longer paths
+
+ in such cases, walk-based measures are more
+     appropriate for link-prediction, excellent results
+     provides, e.g., the Katz measure
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  192
+Link Prediction: Katz Measure
+
+  Definition:
+     Let  be the number of walks of length  between the nodes  and . For a pre-set parameter  < 1,
+     the Katz measure between  and  is defined as:  ,  = -   
+      is a discount factor that de-emphasizes the walks of a longer length.
+
+ · for small values of , the infinite summation will converge.
+
+ · If  is the symmetric adjacency matrix of an undirected network, then the  ×  pairwise Katz
+    coefficient matrix  can be computed as:
+
+                      = =   =  -  - - 
+
+     The eigenvalues of  are the -th powers of the eigenvalues of .
+
+ · highly central nodes have the propensity to form links with many nodes
+
+        => The sum of the Katz coefficients of node i with respect to other nodes is referred to as its Katz centrality
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                                           193
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Link Prediction as a Classification Problem
+
+the presence or absence of a link between a pair of nodes is treated as a binary class
+indicator
+
+ construct a multidimensional data record for each pair of nodes
+
+       the features / attributes of the data record include all the different neighborhood-based,
+          Katz-based, or walk-based similarities between nodes
+
+       in addition, a number of other preferential-attachment features, such as node-degrees of
+          each node in the pair, are used
+
+       the result is a positive-unlabeled classification problem, where node pairs with edges are
+          the positive examples, and the remaining pairs are unlabeled examples.
+
+       unlabeled examples can be approximately treated as negative examples during training
+       as there are too many negative example pairs in large and sparse networks, only a sample
+
+          of the negative examples is used
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  195
+Link Prediction as a Classification Problem
+
+The supervised link prediction algorithm works as it follows:
+
+1. Training phase:
+
+    Generate the data with one data record for each pair of nodes with an edge between them,
+      and a sample of data records from pairs of nodes without edges between them
+
+    The features correspond to extracted similarity and structural features between node pairs
+    The class label is the presence or absence of an edge between the corresponding pair of nodes
+    Construct a classifier model on the data and train it
+
+2. Testing phase:
+
+    Convert each test node pair to a multidimensional record
+    Use the pre-trained classifier to make label predictions
+
+         · logistic regression represents a common choice for the base classifier
+         · cost-sensitive versions of various classifiers are often used because of the imbalanced data
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  196
+Link Prediction as a Classification Problem
+
+Advantages of the supervised approach to link prediction:
+
+ content features can be extracted and used easily
+ the classifier automatically learns the relevance of the features
+ for directed networks, features can be extracted in an asymmetric way, too
+
+    · e.g., indegrees and outdegrees (instead of plain node degrees in undirected
+      networks), or various random walk-based measures (e.g., personalized PageRank)
+
+ a higher flexibility due to the ability to learn relationships between links and
+   features of various types
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  197
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Link Prediction - Summary
+
+Different measures vary in their effectiveness over different data sets:
+
+ neighborhood-based measures can be computed efficiently for very large data sets
+    and perform almost as well as the other unsupervised measures
+
+ random walk-based and Katz-based measures are useful for very sparse networks, in
+    which the number of common neighbors cannot be robustly measured
+
+ supervision provides better accuracy and adaptability across various domains of
+    social networks but is computationally expensive
+
+ in recent years, content has also been used to enhance link prediction, yet structural
+    measures are far more powerful (due to triadic properties of real networks).
+
+ content-based measures are based on "reverse homophily," where similar or link-
+    correlated content is leveraged for predicting links
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  199
+Thoughts on Design
+
+SNA theory has inspired some of the first SNS's (e.g., SixDegrees), but it is
+still not used so often in conjunction with design decisions such as:
+
+ How can an online social media platform (or its administrators) leverage the
+    methods and insights of SNA?
+
+ How can a platform encourage its users to act (locally) in such a way that would
+    expand the community?
+
+ What measures can an online community take to optimize its structure?
+
+          Example: cliques can be undesirable because they shun newcomers
+
+ What are the desirable structures for different types of online platforms?
+
+ How can online communities identify and utilize key players for their benefit?
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                     200
+Social Networks     Real-World Complex Networks, Community
+and their Analysis  Detection, and Link Prediction
+
+                     · Real-World Complex Networks and Their
+                        Properties
+
+                     · Community Detection in Social Networks
+
+                        o Communities and Strategies for Their Detection
+                        o Minimum Cut Methods
+                        o The Girvan-Newman Algorithm
+                        o The Louvain Algorithm
+                        o Other Community Detection Techniques
+
+                              - Node-Centric and Group-Centric Approaches
+                              - Network-Centric Community Detection
+
+                                    Clustering Based on Vertex Similarity
+                                    Community Detection Methods Based on Matrix
+
+                                        Factorization
+
+                              - Hierarchy-Centric Community Detection
+
+                                    Divisive Hierarchical Clustering
+                                    Agglomerative Hierarchical Clustering
+
+                     · Link Prediction
+
+                        o Neighborhood-Based Link Prediction Measures
+                        o The Katz Measure
+                        o Link Prediction as a Classification Problem
+                        o Summary
+Social Networks     Social Networks and Their
+and their Analysis  Analysis
+
+                     · Introduction
+                     · Basic Concepts
+                     · Influence Modeling
+                     · Homophily, Social Influence, and
+
+                       Affiliation
+                     · Link Analysis
+                     · Real-World Complex Networks,
+
+                       Community Detection, and Link
+                       Prediction
+

@@ -1,0 +1,1510 @@
+Social Networks
+and their Analysis
+
+LINK ANALYSIS
+
+BY: IVETA MRAZOVA
+Social Networks     Homophily, Social Influence, and
+and their Analysis  Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+
+                    Link Analysis
+
+                     · A Brief Review of Actor-Level and Network-
+                       Level Measures
+
+                     · Hubs and Authorities, the HITS Algorithm
+                     · The PageRank Algorithm
+                     · PageRank ­ Revisited
+                     · HITS ­ Revisited
+                     · Themed Communities and Their Discovery
+Statistical Measures to Analyze Networks:
+
+Basic Concepts
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  3
+Statistical Measures to Analyze Networks
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  4
+Statistical Measures to Analyze Networks:
+
+Actor-Level Measures
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  5
+Statistical Measures to Analyze Networks:
+
+Actor-Level Measures
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  6
+Statistical Measures to Analyze Networks:
+
+Actor-Level Measures
+
+                                    ~ inverse mean length of all shortest paths
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                   7
+Statistical Measures to Analyze Networks:
+
+Actor-Level Measures
+
+         This metric is based on the idea that the power and status of an actor is recursively defined
+            by the power and status of his/her alters (or neighbors)
+
+         The eigenvector centrality of a node is proportional to the sum of the eigenvector
+            centralities of all its direct neighbors
+
+         It measures how well a given actor is connected to other well-connected actors
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                          8
+Statistical Measures to Analyze Networks:
+
+Actor-Level Measures
+
+For a given network  = ,  , let  = (,) be the adjacency matrix, i.e., , = 1 if
+vertex  is linked to vertex , and , = 0 otherwise. The relative centrality score of
+vertex  can be defined as:
+                            1      1
+                             =    =   ,
+                                      
+
+where   is a set of the neighbors of  and  is a constant. With a minor
+rearrangement this can be rewritten in vector notation as the eigenvector equation
+
+                                                 = 
+
+ many different eigenvalues  for which a non-zero eigenvector solution exists
+
+ the additional requirement that all the entries in the eigenvector be non-negative implies that
+   only the greatest eigenvalue results in the desired centrality measure
+
+ The eigenvector is only defined up to a common factor ­ we must normalize the eigenvector, e.g.,
+   sum over all vertices is 1 or the total number of vertices .
+
+                            I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                         9
+Statistical Measures to Analyze Networks:
+
+Network-Level Measures
+
+Eccentricity of a vertex ~ greatest geodesic distance between
+               a given vertex and any other vertex in the graph
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  10
+Statistical Measures to Analyze Networks:
+
+Network-Level Measures
+
+                                                Normalization includes the diagonal
+
+                                                (without  the diagonal:  1     - 1  )
+                                                                         2
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                         11
+Statistical Measures to Analyze Networks:
+
+Network-Level Measures
+
+      Measures the tendency of the pairs of vertices to form reciprocal connections between
+         each other
+
+      Specific metric for directed networks
+      The reciprocity index   is computed as the proportion of symmetric dyads in given
+
+         digraph and its value represents the probability that two vertices share the same type of
+         connection.
+
+                                                2 =                                                         - 1
+                                                                                                    2  =2
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                         12
+Statistical Measures to Analyze Networks:
+
+Network-Level Measures
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  13
+Statistical Measures to Analyze Networks:
+
+Network-Level Measures
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  14
+Social Networks     Homophily, Social Influence, and
+and their Analysis  Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+
+                    Link Analysis
+
+                     · A Brief Review of Actor-Level and Network-
+                       Level Measures
+
+                     · Hubs and Authorities, the HITS Algorithm
+                     · The PageRank Algorithm
+                     · PageRank ­ Revisited
+                     · HITS ­ Revisited
+                     · Themed Communities and Their Discovery
+Link Analysis: Hubs and Authorities
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  16
+Link Analysis: Hubs and Authorities
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  17
+Link Analysis: Hubs and Authorities
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  18
+Link Analysis: Hubs and Authorities
+
+ HITS ­ algorithm:
+
+    Given a query (topic) , collect the root set of pages  = {, , , ... , }
+    Expand the set  to set  =          ;   
+
+   Initialization: set   = ,   =     and the number of updates 
+
+    1. Run the Authority Update Rule
+    2. Run the Hub Update Rule
+    3. Perform  Authority / Hub updates (according to previous rules)
+
+ Finally, normalize the values () and () due to their tendency to grow large.
+ For normalization, divide authority / hub scores by the sum of all authority / hub scores.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                               19
+Link Analysis: Hubs and Authorities
+
+                                                                                                   k=1
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                          20
+Link Analysis: Hubs and Authorities
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  21
+Link Analysis: Hubs and Authorities
+
+Third and last iteration of the
+algorithm (k=3). Normalization of
+the returned authority scores.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  22
+Link Analysis: Hubs and Authorities
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  23
+Link Analysis:
+
+Hubs and Authorities
+
+Spectral Analysis of HITS
+
+  Spectrum of a matrix is the set of its eigenvalues
+  Adjacency Matrix -  ×  matrix  with:
+
+     ·  = 1 if there is a link from node  to node ,
+     ·  = 0 otherwise
+
+  Hub/Authority Scores
+
+     · hub () and authority () vectors  × 1
+
+  write the Authority Update and Hub Update
+    Rules as matrix-vector multiplications
+
+            11 + 22 +  + 
+            11 +  + 
+
+                              
+                              
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  24
+Link Analysis: Hubs and Authorities
+
+                   1        3       Spectral Analysis of HITS
+
+                   1        4         Adjacency Matrices
+
+                   2        1          ·  ×  matrix :  = 1 if link   ,  = 0
+                                          otherwise
+                   2        2
+                                      Hub/Authority Scores
+h0 = [ 1 1 1 1 ]T     = a1     =h1
+                                       · hub () and authority () vectors  × 1
+
+                                      write the Authority Update and Hub Update
+                                       Rules as matrix-vector multiplications
+
+                                              11 + 22 +  + 
+                                              11 +  + 
+
+                                                              
+                                                              
+
+                            I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  25
+Link Analysis: Hubs and Authorities
+
+   step Hub-Authority Computation
+
+     Initial vectors of authority and hub scores  0 and  0
+     After step 1
+
+                                        1 =  0
+                                        1 =  1 =  0
+     After step 2
+                           2 =  1 =  0
+                           2 =  2 =  0 =  2 0
+     After step 
+                                         =  -1 0
+                                         =   0
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS              26
+Link Analysis: Hubs and Authorities
+
+ After step 
+
+                                      =  -1 0
+                                      =   0
+
+ Magnitude of the hub and authority values tends to grow with each update
+
+ They will only converge when we take normalization into account
+
+  There are (normalizing) constants  and  s.t.:      and                               converge to limits as   
+                                                  c                                 
+                                            0
+  Taking  the  recursive  formula:     =       
+                                     
+
+   converges to the limit   if the direction does not change when multiplied with
+   (but magnitude may change by a factor )
+
+                                          =  
+
+                                    I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                             27
+Link Analysis: Hubs and Authorities
+
+ Q: When a vector  does not change its direction if multiplied by a given matrix ?
+
+ A: When  is an eigenvector of 
+
+·  = 
+
+· A solution of: det  -  = 0
+
+ It follows that   has to be an eigenvector of 
+
+ We have to prove that the direction of    (normalized:                       )  converges  to  an  eigenvector
+  of                                                      
+
+  is symmetric => has  eigenvectors 1, 2, ... ,  with the corresponding eigenvalues
+  1, 2, ... ,  (assume w.l.g. that: 1  2    ||)
+
+  =   0 =   11 +  +  =
+     = 1  1 +  +    = 111 +  + 
+
+                              I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                     28
+Link Analysis: Hubs and Authorities
+
+How to find an eigenvector?
+
+ 1. Find the eigenvalues of the given matrix  by solving the equation
+     det  -  = 0. Denote each eigenvalue of  as 1, 2, ...
+
+ 2. Substitute the values in the equation  = 1 or  - 1  = 0
+ 3. Calculate the eigenvector , which is associated with the eigenvalue 
+ 4. Repeat the steps to find the eigenvectors for the remaining eigenvalues.
+
+ For real symmetric matrices, all eigenvalues are real and eigenvectors
+ corresponding to distinct eigenvalues are orthogonal.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                29
+Link Analysis: Hubs and Authorities
+
+  is symmetric => has  eigenvectors 1, 2, ... ,  with corresponding eigenvalues
+  1, 2, ... ,  (assume w.l.o.g. that: 1  2    ||)
+
+                                       = 111 +  + 
+
+ Assume 1 > 2    
+
+                                               2                                    
+                   1 = 11 + 2                  1                                 1
+                                                     2  +                             
+
+ For     ,  every  term  except  the  first  goes  to  0,  hence                 converges to 11
+                                                                  1
+
+ Remaining to prove (not to be shown here)
+
+· Convergence regardless of initial vector  0
+
+· Relax the assumption 1 > 2
+
+                                 I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                   30
+Link Analysis: Hubs and Authorities
+
+  Endorsement in HITS
+  Links denote (collective) endorsement
+  Multiple roles in the network:
+
+    · Hubs: pages that play a powerful endorsement role without themselves being heavily endorsed
+    · Authorities: pages being heavily endorsed
+
+  Why separate Hubs from Authorities?
+
+    · Competing firms will not link to each other
+    · Cannot be viewed as directly endorsing each other
+
+  In PageRank endorsement passes directly from one prominent page to another
+  A page is important if it is cited by other important pages
+
+    · dominant mode of endorsement in academic or governmental pages, among bloggers, among
+       personal pages, or in scientific literature (pdf's)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                     31
+Social Networks     Homophily, Social Influence, and
+and their Analysis  Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+
+                    Link Analysis
+
+                     · A Brief Review of Actor-Level and Network-
+                       Level Measures
+
+                     · Hubs and Authorities, the HITS Algorithm
+                     · The PageRank Algorithm
+                     · PageRank ­ Revisited
+                     · HITS ­ Revisited
+                     · Themed Communities and Their Discovery
+Link Analysis: PageRank
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  33
+Link Analysis: PageRank
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  34
+Link Analysis: PageRank
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  35
+Link Analysis: PageRank
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  36
+Link Analysis: PageRank
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  37
+Link Analysis: PageRank
+
+Intuition in PageRank
+
+ PageRank is a kind of "fluid":
+
+    · It circulates through the network
+    · Is passing from node to node across edges
+    · Is pooling at the nodes that are the most important
+
+ Total PageRank in the network remains constant
+
+    · Why? Each page takes its PageRank, divides it up, and passes it along links
+    · PageRank is never created nor destroyed, just moved around from one node to another
+
+ No need to normalize PageRank of nodes to prevent them from growing
+
+    · Unlike HITS
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                             38
+Link Analysis: PageRank
+
+Problems with the Basic Definition of PageRank:
+
+ In many networks, the "wrong" nodes can end
+   up with all the PageRank
+
+· F and G point to each other rather to A
+
+· PageRank that flows from C to F and G can never
+
+circulate                                       back:  for  large  ,  we  have  1  for  each  of  F
+                                                                                2
+and G, and 0 for all other
+
+· "slow leak": small sets of nodes that can be
+   reached from the rest of the graph, but have no
+   paths back
+
+· Solution: send a small fraction of PageRank to all
+   nodes
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                          39
+Link Analysis: PageRank
+
+Scaling the definition of PageRank
+
+ Pick a scaling factor  between 0 and 1
+ Replace the Basic PageRank Update Rule with the following
+
+   Scaled PageRank Update Rule:
+
+   · First apply the Basic PageRank Update Rule
+   · Scale down all PageRank values by a factor of 
+
+      o total PageRank in the network has shrunk from 1 to 
+
+   · Divide the residual 1 -  units of PageRank equally over all nodes, giving (1 - )/ to each
+
+ Why does it work?
+
+   · "water cycle" that evaporates 1 -  units of PageRank in each step and rains it down
+     uniformly across all nodes
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  40
+Link Analysis: PageRank
+
+The Limit of the Scaled PageRank Update Rule:
+
+ Repeated application of the Scaled PageRank Update Rule
+   converges to a set of limiting PageRank values as the number of
+   updates  goes to infinity.
+
+ Unique equilibrium
+
+    · But values depend on our choice of the scaling factor 
+
+ The version of PageRank used in practice, with a scaling factor 
+   between 0.8 and 0.9 (scaling factor ~ damping factor)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                      41
+Link Analysis: PageRank
+
+Spectral Analysis of PageRank
+
+  How PageRank can be analyzed using matrix/vector multiplication and eigenvectors?
+  Start with Basic PageRank Update Rule and then move on to the scaled version
+  Approach similar to HITS, but there is no need for normalizing
+  The "flow" of PageRank represented using a matrix 
+
+      · Define  to be the share of 's PageRank that  should get in one update step
+
+            o  = 0 if  doesn't link to 
+            o Else  is the reciprocal of the number of nodes that  points to
+            o Nodes without outgoing links (~ dangling nodes) pose serious problems to PageRank!
+
+                Possible solutions:
+                 - Remove these nodes,
+                 - For these nodes, define  = 1,
+                 - For these nodes, add a complete set of outgoing links to all the other nodes:  = 1/n
+
+                                                    11 + 22 +  + 
+                                                                  
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                           42
+Link Analysis: PageRank
+
+Spectral Analysis of PageRank
+
+  · Define  to be the share of 's PageRank that  should get in one update step
+      o  = 0 if  doesn't link to 
+      o Else  is the reciprocal of the number of nodes that  points to
+      o Nodes without outgoing links (~ dangling nodes) pose serious problems to PageRank!
+          Possible solutions:
+
+           - Remove these nodes,
+           - For these nodes, define  = 1,
+           - For these nodes, add a complete set of outgoing links to all the other nodes:  = 1/n
+
+                            11 + 22 +  + 
+                                          
+
+· Scaled PageRank
+
+o :                    +  1-  and   
+                           
+
+                              I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                       43
+Link Analysis: PageRank
+
+  In general, for matrices such as  that are not symmetric, the eigenvalues
+    can be complex numbers, and the eigenvectors may have less clean
+    relationships to one another
+
+  Fortunately, all entries are positive (i.e.,  > 0 for all entries ), we can
+    use a powerful result known as Perron's Theorem:
+
+    1.  has a real eigenvalue  > 0 such that  >  for all other eigenvalues .
+
+    2. There is an eigenvector  with positive real coordinates corresponding to the
+         largest eigenvalue , and  is unique up to multiplication by a constant.
+
+    3. If the largest eigenvalue  is equal to 1, then for any starting vector 0  0
+
+        with nonnegative coordinates, the sequence of vectors +1 = 
+
+         converges to a vector in the direction of  as   
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                       44
+Social Networks     Homophily, Social Influence, and
+and their Analysis  Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+
+                    Link Analysis
+
+                     · A Brief Review of Actor-Level and Network-
+                       Level Measures
+
+                     · Hubs and Authorities, the HITS Algorithm
+                     · The PageRank Algorithm
+                     · PageRank ­ Revisited
+                     · HITS ­ Revisited
+                     · Themed Communities and Their Discovery
+PageRank - Revisited
+
+ The year 1998 was an eventful year for Web link analysis models.
+   Both the PageRank and HITS algorithms were reported in that year.
+
+ The connections between PageRank and HITS are quite striking.
+ Since that eventful year, PageRank has emerged as the dominant
+
+   link analysis model,
+
+    · due to its query-independence,
+    · its ability to combat spamming, and
+    · Google's huge business success.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  46
+Rank Prestige
+
+  In the prestige measures, an important factor is considered,
+
+     · the prominence of individual actors who do the "voting"
+
+  In the real world, a person  chosen by an important person is more
+   prestigious than chosen by a less important person.
+
+     · For example, if a company CEO votes for a person is much more important than
+        a worker votes for the person.
+
+  If one's circle of influence is full of prestigious actors, then one's own
+   prestige is also high.
+
+     · Thus, one's prestige is affected by the ranks or statuses of the involved actors.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                            47
+Rank Prestige (continued)
+
+ Based on this intuition, the rank prestige () is defined as a linear combination
+   of ranks of the links that point to :
+                         = 1 1 + 2 2 +  +  
+
+    where  = 1 if  points to , and 0 otherwise.
+
+    · an actor's rank prestige is a function of the ranks of the actors who vote for the actor,
+    · since we have  equations for  actors, we can write them in the matrix notation using
+
+         for the vector of all the rank prestige values, i.e.,  =  1 ,  2 , ... ,   T
+    · the matrix  (where  = 1 if  points to , and 0 otherwise) represents the adjacency
+
+        matrix of the network or graph. We then have:  =  .
+    · the above equation is the characteristic equation used for finding the eigensystem of
+
+        the matrix  .  is an eigenvector of .
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                   48
+PageRank: The Intuitive Idea
+
+ PageRank relies on the democratic nature of the Web by using its vast
+  link structure as an indicator of an individual page's value or quality.
+
+ PageRank interprets a hyperlink from page  to page  as a vote, by page
+  , for page .
+
+ However, PageRank looks at more than the sheer number of votes; it
+  also analyzes the page that casts the vote.
+
+   · Votes casted by "important" pages weigh more heavily and help to make
+      other pages more "important."
+
+ This is exactly the idea of rank prestige in social network.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  49
+More Specifically
+
+ A hyperlink from a page to another page is an implicit conveyance
+  of authority to the target page.
+
+    · The more in-links that a page  receives, the more prestige the page  has.
+
+ Pages that point to page  also have their own prestige scores.
+
+    · A page of a higher prestige pointing to  is more important than a page of
+      a lower prestige pointing to .
+
+    · In other words, a page is important if it is pointed to by other important
+      pages.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  50
+PageRank Algorithm
+
+ According to rank prestige, the importance of page  ('s PageRank
+  score) is the sum of the PageRank scores of all pages that point to .
+
+ Since a page may point to many other pages, its prestige score should
+  be shared.
+
+ The Web as a directed graph  = ,  . Let the total number of pages
+
+be . The PageRank score of the page  (denoted by ()) is defined by:
+
+() =                             ()  ,
+
+            (,)                  
+
+ is the number of out-links of 
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                           51
+Matrix Notation
+
+ We have a system of  linear equations with  unknowns. We can use a
+  matrix to represent them.
+
+ Let  be a -dimensional column vector of PageRank values, i.e.,
+                              =  1 ,  2 , ... ,   T .
+
+ Let  be the adjacency matrix of our graph with                      (LA1)
+                                          1                          (LA2)
+
+                                 =  if (, )  
+                                          0 otherwise
+
+ We can write the  equations with (PageRank):
+                                           = T
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                       52
+Solve the PageRank Equation:  = T
+
+ This is the characteristic equation of the eigensystem, where the
+   solution to  is an eigenvector with the corresponding eigenvalue of 1.
+
+ It turns out that if some conditions are satisfied, 1 is the largest
+   eigenvalue and the PageRank vector  is the principal eigenvector.
+
+ A well-known mathematical technique called power iteration can be
+   used to find .
+
+ Problem: the above Equation does not quite suffice because the Web
+   graph does not meet the conditions.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                             53
+Using Markov Chain
+
+ To introduce these conditions and the enhanced equation, let us derive
+   the same Equation (LA2) based on the Markov chain.
+
+    · In the Markov chain, each Web page or node in the Web graph is regarded
+      as a state.
+
+    · A hyperlink is a transition, which leads from one state to another state
+      with a probability.
+
+ This framework models Web surfing as a stochastic process.
+
+ It models a Web surfer randomly surfing the Web as state transition.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR                                           54
+                     ANALYSIS
+Random Surfing
+
+ Recall we use  to denote the number of out-links of a node .
+ Each transition probability is 1/ if we assume the Web surfer
+
+  will click the hyperlinks in the page  uniformly at random.
+
+    · The "back" button on the browser is not used and
+    · the surfer does not type in an URL.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR                           55
+                     ANALYSIS
+Transition Probability Matrix
+
+ Let A be the state transition probability matrix,
+
+       11 12 . . . 1
+
+       21 22 . . . 2
+
+A=  .  .  .                                            .
+       .  .                                            .
+
+       ..                                              .
+
+       1 2 . . . 
+
+  represents the transition probability that the surfer in state 
+  (page ) will move to state  (page ).  is defined exactly as in
+  Equation (LA2).
+
+       I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS              56
+Let Us Start
+
+ Given an initial probability distribution vector that a surfer is at
+  each state (or page)
+
+·  = 0 1 , 0 2 , ... , 0  T (a column vector) and
+
+· an  ×  transition probability matrix ,
+
+we have: =1 0() = 1 ,  =1  = 1                                (LA3)
+
+ If the matrix  satisfies Equation (LA3), we say that  is the
+  stochastic matrix of a Markov chain.
+
+              I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS           57
+Back to the Markov Chain
+
+ In a Markov chain, a question of common interest is:
+
+    · Given 0 at the beginning, what is the probability that  steps/transitions
+      later the Markov chain will be at each state j?
+
+ We determine the probability that the system (or the random
+  surfer) is in state  after 1 step (1 transition) by using the following
+  reasoning:
+
+                                                     
+
+                           1() =  (1)0()
+
+                                                   =1
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  58
+State Transition
+
+                                                       
+
+                            1  =   1 0 
+
+                                                     =1
+
+ where  1 is the probability of going from  to  in 1 transition,
+ and  1 = . We can write it in a matrix form:
+
+                                     = 
+
+ In general, the probability distribution after  steps/transitions is:
+                                   = - .
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                          59
+Stationary Probability Distribution
+
+ By a Theorem of the Markov chain,
+
+   · a finite Markov chain defined by the stochastic matrix  has a
+     unique stationary probability distribution if  is irreducible and
+     aperiodic.
+
+ The stationary probability distribution means that after a series of
+
+transitions  will converge to a steady-state probability vector 
+regardless of the choice of the initial probability vector 0, i.e.,
+
+lim    =  
+
+
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                          60
+PageRank Again
+
+ When we reach the steady-state, we have  = +1 = ,
+  and thus
+                               = T.
+
+  is the principal eigenvector of  with eigenvalue of 1.
+
+ In PageRank,  is used as the PageRank vector . We
+
+again obtain Equation (LA2), which is reproduced here:
+
+ = T                                            (LA4)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS            61
+Is P =  Justified?
+
+ Using the stationary probability distribution  as the
+
+  PageRank vector is reasonable and quite intuitive because
+
+   · it reflects the long-run probabilities that a random
+     surfer will visit the pages.
+
+   · A page has a high prestige if the probability of visiting it
+     is high.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  62
+Back to the Web Graph
+
+ Now let us come back to the real Web context and see
+  whether the above conditions are satisfied, i.e.,
+
+   · whether  is a stochastic matrix and
+
+   · whether it is irreducible and aperiodic.
+
+ None of them is satisfied!
+ Hence, we need to extend the ideal-case Equation (LA4)
+
+  to produce the "actual PageRank" model.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS           63
+A is Not a Stochastic Matrix
+
+  is the transition matrix of the Web graph
+
+                                                      1
+                                            =  if (, )  
+
+                                                      0 otherwise
+
+ It does not satisfy equation (LA3)
+                                                                        
+                                                     = 1
+                                                                      =1
+
+ because many Web pages have no out-links, which are reflected in
+  transition matrix  by some rows of complete 0's.
+
+    · Such pages are called the dangling pages (nodes).
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                            64
+An Example Web Hyperlink Graph
+
+    0 12 12 0 0 0
+
+    12 0 12 0 0 0
+
+ =  0                                           10000
+    0                                           0 13 0 13 13
+
+    000000
+
+    0 0 0 12 12 0
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  65
+Fix the Problem: Two Possible Ways
+
+1. Remove those pages with no out-links during the PageRank
+    computation as these pages do not affect the ranking of any other
+    page directly.
+
+2. Add a complete set of outgoing links from each such page  to all the
+
+pages on the Web.
+
+                       0 12 12 0 0 0
+
+Let us use the         12 0 12 0 0 0
+
+second way          =  0  10000
+                       0  0 13 0 13 13
+
+                       16 16 16 16 16 16
+
+                       0 0 0 12 12 0
+
+                   I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS        66
+ Is Not Irreducible
+
+ Irreducible means that the Web graph  is strongly
+  connected.
+
+  Definition: A directed graph  = ,  is strongly
+  connected if and only if, for each pair of nodes ,   ,
+  there is a path from  to .
+
+ A general Web graph represented by  is not irreducible
+  because
+
+   · for some pair of nodes  and , there is no path from  to .
+   · In our example, there is no directed path from node 3 to 4.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                    67
+ Is Not Aperiodic
+
+ A state  in a Markov chain being periodic means that
+  there exists a directed cycle that the chain has to traverse.
+
+ Definition: A state  is periodic with period  > 1 if  is
+  the smallest number such that all paths leading from state
+   back to state  have a length that is a multiple of .
+
+    · If a state is not periodic (i.e.,  = 1), it is aperiodic.
+
+    · A Markov chain is aperiodic if all states are aperiodic.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  68
+An Example: Periodic
+
+Figure below shows a periodic Markov chain with  = 3. E.g., if we
+begin from state 1, to come back to state 1 the only path is 1 - 2 -
+3 - 1 for some number of times, say . Thus, any return to state 1
+will take 3 transitions.
+
+                 010
+           = 0 0 1
+
+                 100
+
+                    A periodic Markov chain with  = 3.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  69
+Deal with Irreducible and Aperiodic
+
+ It is easy to deal with the above two problems with a
+  single strategy.
+
+ Add a link from each page to every page and give each
+  link a small transition probability controlled by a
+  parameter .
+
+ Obviously, the augmented transition matrix becomes
+  irreducible and aperiodic
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS          70
+Improved PageRank
+
+ After this augmentation, at a page, the random surfer has two options
+
+· With probability , he randomly chooses an out-link to follow.
+· With probability 1 - , he jumps to a random page
+
+ The following equation gives the improved model
+
+ =  1 -            +  T                                          (LA5)
+          
+
+where  is  ( is a column vector of all 1's) and thus  is a  × 
+square matrix of all 1's.
+
+    I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS               71
+Follow Our Example
+
+                 16 0 715 16 0 16 0 16 16 0
+
+                 715 16 0 1112 16 0 16 16 0
+
+1 -     +  T  =  715 715    16 0                                 196 0 16 16 0
+                 16 0 16 0  16 0                                 16 0 16 715
+
+                 16 0 16 0 16 0 196 0 16 715
+
+                 16 0 16 0 16 0 196 0 16 16 0
+
+                 I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                 72
+The Final PageRank Algorithm
+
+  1 -     +  T  is  a  stochastic  matrix  (transposed).               It  is  also
+        
+
+  irreducible and aperiodic.
+
+ If we scale Equation (LA5) so that T = ,
+                           = 1 -   + T
+
+ PageRank for each page  is                                                    (LA6)
+               = (1 - ) +  =1 ()
+
+                       I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                73
+The Final PageRank Algorithm (continued)
+
+ (LA6) is equivalent to the formula given in the PageRank
+  paper
+
+() = (1 - ) +                                   ()
+
+                                  (,)           
+
+ The parameter  is called the damping factor which can
+  be set to between 0 and 1.  = 0.85 was used in the
+  PageRank paper.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS             74
+Compute PageRank
+
+Use the power iteration method
+
+           PageRank-Iterate()
+               0  /
+                 1
+               repeat
+                  +1  1 -   + T
+                     + 1
+               until +1 -   < 
+
+             return +1
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  75
+Advantages of PageRank
+
+ Fighting spam: A page is important if the pages pointing to it are
+   important.
+
+    · Since it is not easy for Web page owner to add in-links into his/her page
+       from other important pages, it is thus not easy to influence PageRank.
+
+ PageRank is a global measure and is query independent:
+
+    · PageRank values of all the pages are computed and saved off-line rather
+       than at the query time.
+
+ Criticism: Query-independence. It could not distinguish between
+   pages that are authoritative in general and pages that are
+   authoritative on the query topic.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                   76
+Social Networks     Homophily, Social Influence, and
+and their Analysis  Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+
+                    Link Analysis
+
+                     · A Brief Review of Actor-Level and Network-
+                       Level Measures
+
+                     · Hubs and Authorities, the HITS Algorithm
+                     · The PageRank Algorithm
+                     · PageRank ­ Revisited
+                     · HITS ­ Revisited
+                     · Themed Communities and Their Discovery
+HITS - Revisited
+
+  Unlike PageRank which is a static ranking algorithm,
+    HITS (~ Hypertext Induced Topic Search) is search
+    query dependent.
+
+  When the user issues a search query,
+
+     · HITS first expands the list of relevant pages returned by
+        a search engine and
+
+     · then produces two rankings of the expanded set of pages,
+        authority ranking and hub ranking.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                    78
+Authorities and Hubs
+
+ Authority: Roughly, it is a page with many in-links.
+
+     · The idea is that the page may have good or authoritative
+       content on some topic and
+
+     · thus, many people trust it and link to it.
+
+ Hub: A hub is a page with many out-links.
+
+     · The page serves as an organizer of the information on a
+       particular topic and
+
+     · points to many good authority pages on the topic.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                   79
+Examples      A hub
+
+An authority
+
+              I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  80
+The key idea of HITS
+
+  A good hub points to many good authorities, and
+  A good authority is pointed to by many good hubs.
+
+  Authorities and hubs have a mutual reinforcement relationship.
+     The figure below shows some densely linked authorities and hubs
+     (a bipartite sub-graph).
+
+authorities                                                  hubs
+
+             I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS           81
+The HITS Algorithm: Grab Pages
+
+   Given a broad search query , HITS collects a set of
+     pages as follows:
+
+      · It sends the query  to a search engine.
+
+      · It then collects  ( = 200 is used in the HITS paper) highest
+         ranked pages. This set is called the root set .
+
+      · It then grows  by including any page pointed to by a page in
+          and any page that points to a page in . This gives a larger
+         set , the base set.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSISH  82
+The link graph 
+
+  HITS works on the pages in  and assigns every page in  an
+    authority score and a hub score.
+
+  Let the number of pages in  be .
+  We again use  = ,  to denote the hyperlink graph of .
+  We use  to denote the adjacency matrix of the graph.
+
+ = 01  if (, )  
+       otherwise
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS               83
+The HITS Algorithm
+
+ Let the authority score of the page  be   , and the hub
+   score of page  be ().
+
+ The mutual reinforcing relationship of the two scores is
+   represented as follows:
+
+  =    and () =  ()
+
+,                                                   (,)
+
+    I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS         84
+HITS in the Matrix Form
+
+  We use  to denote the column vector with all the authority
+     scores,
+           =  1 ,  2 , ... ,   T, and
+
+  use  to denote the column vector with all the authority scores,
+           =  1 ,  2 , ... ,   T
+
+  Then,
+           = T and  = 
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  85
+Computation of HITS
+
+ The computation of authority scores and hub scores is the same
+   as the computation of the PageRank scores, using the so-called
+   power iteration.
+
+ If we use  and  to denote authority and hub vectors at the
+   -th iteration, the iterations for generating the final solutions are
+                                = T-1
+                                = T-1
+
+   starting with
+                          0 = 0 = (1, 1, ... , 1)T
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  86
+The Algorithm
+
+HITS-Iterate()
+
+0  0  (1,1, ... , 1)T
+  1
+
+repeat
+
+  T-1                  // normalization
+  T -1                 // normalization
+  /  1
+  /  1
+
+   + 1
+
+  until  - -1 1 <  and  - -1 1 < 
+return  and 
+
+                I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  87
+Relationships with
+
+Co-Citation and Bibliographic Coupling
+
+  Co-citation of pages  and  is denoted by  (e.g., the number of papers that co-
+      cite papers  and ):
+
+                                                              
+
+                                     =   = (T)
+
+                                                            =1
+
+       · the authority matrix (T) of HITS is the co-citation matrix 
+
+  Bibliographic coupling of two pages  and  is denoted by  (e.g., the number of
+      papers that are cited by both papers  and ):
+
+                                                              
+
+                                     =   = (LL),
+
+                                                            =1
+
+       · the hub matrix (T) of HITS is the bibliographic coupling matrix 
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                    88
+Strengths and Weaknesses of HITS
+
+ Strength: its ability to rank pages according to the query topic,
+   which may provide more relevant authority and hub pages.
+
+ Weaknesses:
+
+     · It can be easily spammed: It is in fact quite easy to influence HITS since
+       adding out-links in one's own page is so easy.
+
+     · Topic drift: Many pages in the expanded set may not be on topic.
+
+     · Inefficiency at query time: The query time evaluation is slow. Collecting
+       the root set, expanding it and performing eigenvector computation are
+       all expensive operations
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                     89
+HITS and PageRank ­ the Summary
+
+ Within the framework of link analysis, we introduced
+
+    · The principles of centrality and prestige
+    · Co-citation and bibliographic coupling
+    · The algorithms HITS and PageRank, which powers Google
+
+ Yahoo! and MSN have their own link-based algorithms (not
+  published).
+
+ Important: Hyperlink based ranking is not the only algorithm used
+  in search engines. In fact, it is combined with many content-based
+  factors to produce the final ranking presented to the user.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  90
+Social Networks     Homophily, Social Influence, and
+and their Analysis  Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+
+                    Link Analysis
+
+                     · A Brief Review of Actor-Level and Network-
+                       Level Measures
+
+                     · Hubs and Authorities, the HITS Algorithm
+                     · The PageRank Algorithm
+                     · PageRank ­ Revisited
+                     · HITS ­ Revisited
+                     · Themed Communities and Their Discovery
+Link Analysis and
+
+the Discovery of Themed Communities
+
+ Links can also be used to find themed communities, which are
+   groups of content-creators or people sharing some common
+   interests.
+
+    · Web communities
+    · Email communities
+    · Named entity communities
+
+ Focused crawling: combining contents and links to crawl Web
+   pages of a specific topic.
+
+    · Follow links and
+    · Use learning/classification to determine whether a page is on topic.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                              92
+Discovery of Themed Communities:
+
+Problem Definition (1)
+
+ Given a finite set of entities  = {1, 2, ... , } of the same type, a themed
+ community is a pair  = (, ), where  is the community theme and    is
+ the set of all entities in  that share the theme . If   ,  is said to be a
+ member of the community .
+
+  · A theme defines a community: given a theme , the set of members of the community is
+    uniquely determined. Two communities are thus equal if they have the same theme.
+
+  · A theme can be defined arbitrarily: it can be, e.g., an event (like a sport event or a scandal)
+    or a concept (like web mining).
+
+  · An entity  in  can be in any number of communities: communities can thus overlap, and
+    multiple communities may share members.
+
+  · The entities in  are of the same type: e.g., people and organizations thus cannot be in the
+    same community.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  93
+Discovery of Themed Communities:
+
+Problem Definition (2)
+
+ Communities can form a hierarchical structure:
+
+  · A themed community (, ) may include a set of themed sub-communities
+    { 1, 1 , ... , ,  }, where  is a sub-theme of  and   .
+
+  · (, ) is also called a themed super-community of ,  .
+  · In the same way, each sub-community ,  can be further decomposed, which
+
+    gives us a hierarchy of a themed community.
+
+ The objective of themed community discovery:
+
+ Given a data set containing entities, we want to discover hidden communities of
+ the entities. For each community, we want to find the theme and its members. The
+ theme is usually represented by a set of keywords.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  94
+Discovery of Themed Communities:
+
+Problem Definition (3)
+
+Community manifestation in the data:
+
+   · community members are linked in some way
+   · the associated texts contain words indicative of the community theme
+   · Web pages:
+
+     1. Hyperlinks: the members of a community are more likely to be mutually inter-connected through
+          hyperlinks
+
+     2. Content words: community web pages contain words related to the community theme
+
+   · E-mails:
+
+     1. E-mail exchange between entities: members of a community are more likely to communicate with
+          one another
+
+     2. Content words: e-mails of community members contain words related to community theme
+
+   · Text documents:
+
+     1. Co-occurrence of entities: community members are more likely to appear together in the same
+          sentence and/or the same document
+
+     2. Content words: words in the sentences indicate the community theme
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  95
+Bipartite Core Communities
+
+A (4, 3)-bipartite core:             · an (, )-bipartite core is a complete bipartite
+                                       sub-graph with at least  fan nodes and at
+4 fans                    3 centers    least  center nodes, i.e., contains all possible
+                                       edges between the  fan vertices and the 
+                                       center vertices
+
+                                     · the fans represent specialized hubs
+
+                                     · the centers correspond to authorities
+
+                                     · the following algorithm finds only the core
+                                       pages of the communities, but not all the
+                                       member pages.
+
+                                     · the algorithm also does not find the themes of
+                                       the communities nor their hierarchical
+                                       structure
+
+                          I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  96
+Bipartite Core Communities
+
+ Given a large number of pages crawled from the web, the procedure for finding bipartite
+ cores consists of:
+
+ Step 1: Pruning
+
+    · Pruning by in-degree: delete all the pages that are highly referenced, i.e., their number of in-links is greater
+      than some  (e.g.,  = 50)
+
+    · Iterative pruning of fans and centers (to find the (, )-cores):
+
+       · prune all the fans with an out-degree smaller than 
+       · prune all the centers with an in-degree smaller than 
+       · delete the edges associated with the pruned nodes from the graph
+
+ Step 2: Generating all (, )-cores
+
+    · find all (1, )-cores, i.e., the set of all vertices with out-degree at least 
+    · construct all 2,  -cores by checking every fan which also points to any center in an (1, )-core
+    · continue in the same fashion up to , by checking every fan which also points to any center in any of the
+
+      previously found cores
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  97
+Overlapping Communities
+
+of Named Entities
+
+  The objective: find entity communities from a text corpus
+  The main idea:
+
+     · two entities are linked if they co-occur in the same sentence
+
+          o e.g., if two people are mentioned in the same sentence, there is usually a relationship between
+              them
+
+     · a single entity can appear in multiple communities
+     · the top keywords are assumed to represent the theme of the community
+
+  Promising results when applied for finding communities of political figures
+   and celebrities from web documents
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  98
+Overlapping Communities
+of Named Entities: the Algorithm
+
+1. Build a link graph
+
+     · parse each document and for each sentence, identify named entities contained in it
+     · if a sentence has more than one named entity, these entities are pair-wise linked.
+     · The keywords in the sentence are attached to the linked pairs as textual contents.
+     · Discard all the other sentences
+
+2. Find all triangles
+
+     · A triangle consists of three entities bound together and represents the basic building block of communities
+     · observation: a community tends to expand by triangles sharing a common edge
+
+3. Find community cores
+
+     · A community core is a group of tightly bound triangles, which are relaxed complete sub-graph (or cliques).
+     · Intuitively, a core consists of a set of tightly connected members of a community.
+
+4. Cluster around community cores
+
+     · For those triangles and also entity pairs that are not in any core, they are assigned to cores according to their textual
+          content similarities with the discovered cores.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                                                    99
+Social Networks     Homophily, Social Influence, and
+and their Analysis  Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+
+                    Link Analysis
+
+                     · A Brief Review of Actor-Level and Network-
+                       Level Measures
+
+                     · Hubs and Authorities, the HITS Algorithm
+                     · The PageRank Algorithm
+                     · PageRank ­ Revisited
+                     · HITS ­ Revisited
+                     · Themed Communities and Their Discovery
+

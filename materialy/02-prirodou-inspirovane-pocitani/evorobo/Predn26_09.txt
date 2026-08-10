@@ -1,0 +1,467 @@
+EVOLUCNÁ ROBOTIKA
+9. cas
+
+  Zobrazenie genotypu na fenotyp
+
+              Frantisek Mráz, KSVI MFF UK
+Zobrazenie genotypu na fenotyp
+
+       Genotyp ­ genetický kód; dedí sa
+       Fenotyp ­ organizmus (jedinec) ­ vytvorený interakciou s prostredím
+
+          riadenou instrukciami z genotypu
+
+ ale fitness jedinca (pre selekciu) je daná fenotypom
+ zobrazenie genotypu na fenotyp: fenotyp organizmu sa vyvíja
+
+    postupne, kazdé stádium vývoja má inú fitness ­ celková fitness je
+    funkciou vsetkých týchto fitness funkcií
+
+ Wagner a Altenberg, 1996: "teória evolucného pocítania ukázala, ze
+    darwinistický proces mutácie, krízenia a výberu nestací na
+    vylepsovanie zlozitých systémov ako napr. pocítacových programov
+    alebo cipov. Aby sa dali vyvíja, tak potrebujú rozvíjatenos
+    (evolvability), tj. aby náhodné zmeny mohli niekedy vies k
+    vylepseniu"
+
+                                                                                                                                      2
+Zobrazenie genotypu na fenotyp
+
+a) v prírode je to zorganizované práve tak, aby bola zaistená
+      rozvíjatenos
+
+b) umelá evolúcia:
+
+       zobrazenie genotypu na fenotyp je volené náhodne experimentátorom
+       typicky jednoznacné, takze genotyp a fenotyp splývajú
+
+CIELE (preco sa týmto zobrazením zaobera):
+
+      1. výskum v umelej evolúcii môze pomáha pri pochopení procesov v
+          prirodzenej evolúcii (umelá evolúcia  prirodzená evolúcia)
+
+      2. pokúsi sa identifikova hlavné mechanizmy prirodzenej evolúcie, ktoré
+          by mohli zlepsi výkon umelej evolúcie (prirodzená evolúcia  umelá
+          evolúcia)
+
+                                                                                                                                      3
+Genetické kódovanie
+
+ Priame kódovanie ­ vzájomne jednoznacné zobrazenie medzi
+    génmi a fenotypickými rysmi
+
+       biologicky neadekvátne
+       dzka kódu priamo úmerná zlozitosti fenotypu ­ vekos
+
+          prehadávaného priestoru rastie exponenciálne s poctom fenotypických
+          rysov; ak pritom nerastie aj pocet riesení, tak je prehadávanie azsie
+       napr. priame kódovanie synaptických váh NS vyzaduje s rastúcou
+          vekosou NS rastúci pocet generácií
+       nemoznos kompaktného kódovania opakujúcich sa struktúr (chrbtica
+          hada)
+
+                                                                                                                                      4
+Genetické kódovanie
+
+ Dobré kódovanie
+
+      1. Dobrá vyjadrovacia sila
+
+               dokáze kódova rôzne fenotypické rysy (architektúra riadenia, morfológia
+                 robota, pravidlá plasticity, pravidlá zobrazenia genotypu na fenotyp)
+
+               vyvinú sa môzu iba rysy zakódované v genotype
+               tým, ze sú v genotype zakódované rôzne rysy, tak evolúcia môze vyuzi
+
+                 interakciu medzi nimi na vytvorenie dohromady adaptovaných komponent
+                 (hlava a telo)
+
+      2. Kompaktnos ­ dzka genotypu by mala iba slabo odráza zlozitos
+           fenotypu; dosahuje sa rôznymi mechanizmami
+
+               premenlivá dzka genetického kódu
+               plasticita ­ niektoré fenotypické rysy sa vytvoria adaptívne v priebehu zivota
+               kódovanie opakujúcich sa struktúr jedinou sadou genetických instrukcií
+
+                                                                                                                                      5
+Genetické kódovanie
+
+      3. Rozvíjatenos ­ schopnos zlepsova sa pomocou genetických
+           operátorov;
+
+               pravdepodobnos, ze potomok bude lepsí nez rodic je funkciou
+
+                        · tvaru fitness plochy okolo rodica
+                        · genetických operátorov
+                        · zobrazenia genotypu na fenotyp
+
+               Pleiotropia ­ jeden gén môze ovplyvova viaceré fenotypické rysy
+
+                        · pozitívna zmena v jednej charakteristike môze spôsobi negatívne zmeny
+                            ostatných charakteristík, ktoré daný gén ovplyvuje; pravdepodobnos pozitívnej
+                            zmeny je nepriamo úmerná pleiotropii daného génu
+
+                        · teda nezávislé funkcie by mali by kódované co najnezávislejsie
+
+               vhodná je modulárna organizácia zobrazenia genotypu na fenotyp
+
+                        · kódovanie opakujúcich sa struktúr
+                        · dodatocné fenotypické struktúry je mozné získa z tej istej casti genotypu bu
+
+                            genetickým operátorom, ktorý zduplikuje cas kódu pri reprodukcii, alebo
+                            rozlísením zárodkových a telesných buniek, ke sa telesné bunky pri raste môzu
+                            replikova
+
+                                                                                                                                      6
+Genetické kódovanie
+
+                                           C1
+
+G1                                             G1                          C1
+                          P1
+
+G2                                                G2  P2
+                            P2  F1                                            F1
+
+G3                                                G3
+
+G4                                                                  P1 P4
+                         P3                    G4
+
+G5                              F2                    P3
+
+                                               G5                              F2
+
+G6  P4                                         G6
+
+                    C2                                                              C2
+
+    modulárne                                  Nemodulárne ­ vedie na pleiotropiu
+
+    C1, C2 sústava fenotypických rysov
+    F1 , F2 funkcie
+    G1 - G6 gény
+    F1, F2 adaptívne funkcie (napr. správania nutné pre získanie vyssej fitness)
+    P1 - P4 fenotypické rysy
+
+                                                                                                                  7
+Kódovanie instrukcií rastu
+
+ [1994 Nolfi, Miglino, Parisi] kódovanie instrukcií rastu axón
+
+       riadiaci systém je sústava neurónov s axónmi v rovine
+       axóny môzu rás a vetvi sa
+       genotyp obsahuje pokyny pre rast a vetvenie axónov
+       ke axón dorastie k inému neurónu, tak sa utvorí spoj
+
+              axón rastie iba vtedy, ke aktivita neurónu prekrocí urcitú geneticky danú
+                 hranicu (vývoj jedinca je urcený genotypom a prostredím)
+
+                                                                                                             Výstupné
+                                                                                                             neuróny
+
+Pozície neurónov sú  Ponecháme iba axóny,  Iba axóny na cestách    Vstupné
+pevné                ktoré sa napojili     spájajúcich výstupy so  neuróny
+                                           vstupmi
+                                                                             8
+Kódovanie instrukcií rastu
+
+       genotyp rozdelený na bloky kódujúce charakteristiky jednotlivých
+          neurónov a instrukcie pre rast axónov; celkovo max. 32 neurónov
+
+               senzory 10 blokov, vnútorné neuróny 17 blokov, motory 5 blokov
+               Blok ­ 8 prvkov
+
+                     · Prah pre rast ­ ke rozptyl hodnôt aktivácie neurónu za posledných 10
+                        krokov prekrocí prah, tak axón rastie; prah=0 znamená okamzitý rast
+
+                     · 2 × pozícia (ale -ová súradnica senzorických a motorických neurónov
+                        pevná)
+
+                     · Uhol vetvenia axónu
+                     · Dzka segmentov axónu
+                     · Váha ­ vsetky spoje vychádzajúce z jedného neurónu majú rovnakú
+
+                        váhu
+                     · Prah ­ hodnota prahu neurónu
+                     · Typ neurónu ­ u senzoru aj ci meria okolité svetlo, alebo meria
+
+                        odrazené svetlo na detekciu prekázok, u motorických neurónov, ci riadi
+                        avý alebo pravý motor; ak viacej neurónov zodpovedalo jednému
+                        motoru, tak sa pouzil ich priemer
+
+                                                                                                                                      9
+Kódovanie instrukcií rastu
+
+       Úloha: nájs cie (kruh 2 cm) náhodne umiestnený v aréne 60x35 cm
+          ohranicenej stenami; cieová oblas môze, ale nemusí by osvetlená
+          zhora; cie je osvetlený kazdú druhú generáciu
+
+       vekos populácie 100, 20 najlepsích vytvorilo po 5 kópiách a potom
+          mutovali
+
+       jedinec zil 10 epoch (zivotov) po max 500 cykloch
+       fitness (500 - ), kde  je pocet krokov nez jedinec nasiel cie
+
+                                                                                                                                     10
+Kódovanie instrukcií rastu
+
+                                                  1. Cierne body oznacujú neuróny detegujúce prekázky
+                                                  2. Biele kruhy oznacujú senzory, ktoré merali okolité svetlo
+
+        typický jedinec v osvetlenej aréne
+
+        typický jedinec v neosvetlenej aréne
+
+                                                                                                                                     11
+Adaptácia architektúry NS
+
+ Uniformne prepojené NS môzu aproximova ubovonú funkciu, ale
+    typ funkcie, ktorú sa môzu nauci silne závisí na topológii siete
+
+ generalizácia = schopnos dáva správne výstupy aj na vstupy,
+    ktoré este sie nevidela
+
+       prílis malé siete sa nedokázu nauci správne zobrazenie
+       prílis veké siete zle generalizujú
+
+ 3 metódy automatického návrhu topológie siete pri ucení:
+
+      1. rast,
+      2. prerezávanie (,,prunning") a
+      3. dekompozícia
+
+                                                                                                                                     12
+Adaptácia architektúry NS
+
+1. Rast ­ zacína sa s prílis malými sieami a postupne sa pridávajú
+      neuróny
+
+       kaskádový algoritmus ucenia korelácií
+
+               zacína so vstupnými neurónmi priamo spojenými s výstupnými
+               obmedzenú dobu sa ucí; ke chyba neklesne pod nejakú hranicu, tak sa
+
+                 pridá neurón (vstupy pridaného neurónu sú vsetky vstupné a doteraz
+                 pridané neuróny)
+
+                                                                                                                                     13
+Adaptácia architektúry NS
+
+1. Rast
+2. Prerezávanie ­ zacne sa s vekou sieou a postupne sa rusia spoje,
+
+      dokia sa chyba nezhorsí
+
+        napr. sa rusia spoje s váhami blízkymi 0
+
+3. Dekompozícia ­ napr. adaptívne spojenie lokálnych expertov
+
+        zacne sa so skupinou pod-sietí s rovnakými vstupmi a výstupmi, ale s rôznou
+           architektúrou
+
+        v priebehu ucenia moduly súazia v ucení sa vzorov; rôzne pod-siete sa naucia
+           rôzne vzory
+
+                                                                                                                                     14
+Adaptácia architektúry NS
+
+ porovnanie s evolucným ucením architektúry NS
+
+        vyssie uvedené algoritmy sú zalozené na ucení s uciteom, ke máme dostatok
+           vzorov < , zý ý >
+
+        umelá evolúcia: mensia spätná väzba, ale zakódova (a adaptova) je mozné
+           ubovonú charakteristiku systému (váhy, topológiu, senzorovo/motorický
+           systém, struktúru tela, ...)
+
+       vyssie uvedené algoritmy ­ iba zmeny ucením, ale umelá evolúcia ucenie i rast
+
+                                                                                                                                     15
+Kódovanie na úrovni buniek
+
+ V prírode: nervová sústava narastie:
+
+       delenie buniek a diferenciácia
+       migrácia neurónov do konecnej polohy
+       rast spojov
+
+ Cangelosi (1994) ­ delenie buniek a migrácia
+
+       genotyp ­ pravidlá delenia a migrácie (v 2D)
+       zobrazenie genotypu na fenotyp ­ zacne sa s 1 bunkou, delí sa a bunky
+
+          putujú do konecných pozícií v rovine; potom medzi nimi narastú spoje
+
+               pocet delení je geneticky zhora obmedzený
+               vývoj koncí pred ,,ozivením"
+
+ Gruau (1994) ­ delenie a diferenciácia
+
+       prepis genotypu na fenotyp ­ zacne s 1 bunkou, pokracuje delením a
+          transformáciami
+
+                                                                                                                                     16
+Kódovanie na úrovni buniek
+
+ Gruau (1994) ­ pokracovanie
+
+       genotyp: pravidlá pre delenie a transformácie (pridávanie nových
+          spojov, zmena váh)
+
+       rôzne formy delenia, napr.
+
+                                                                                                                                     17
+Grauova simulácia sesnohého robota
+
+       Genotyp: binárny strom
+
+               prepis do fenotypu: zalozí sa neurón zodpovedajúci koreu stromu
+
+                        · uzol popisuje operácie, ktoré sa majú na bunke vykona
+                        · podstromy popisujú, co sa má urobi na potomkoch po delení
+                        · terminálne uzly sa alej nedelia
+                        · vylepsená verzia: inspirovaná genetickým programovaním ­ terminálny uzol sa
+
+                          môze odkazova na iný strom ­ Automatické Definovanie Neurónových podsietí
+                          (ADNS)
+
+                               ­ kompaktnos
+                               ­ evolúcia môze vyuzi opakujúce sa struktúry
+
+               aplikácia: sesnohý robot
+
+                        · a) bez ADNS robot chodil v 1/2 behov
+                               ­ krízenie ­ zámena podstromov
+
+                        · b) s ADNS robot chodil v 2/2 behov
+                               ­ genotyp obsahoval 3 stromy, odkazy iba v lexikografickom poradí
+                               ­ krízenie ­ zámena podstromov (aj celých stromov)
+
+                                                                                                                                     18
+Parametre Grauovej simulácie
+sesnohého robota
+
+ Vyhodnocovanie: 7 rôznych konfigurácií nôh v rôznych epochách
+ fitness: ujdená vzdialenos; pociatocná konfigurácia nôh v rôznych
+
+     subpopuláciách bola menená
+ genotyp: strom
+
+        14 rôznych symbolov, niektoré s parametrom (napr. C_4 ,,urez 4 spoje")
+        genetické operátory sa aplikovali, dokia sa nenasiel kód zostrojitenej siete, ale
+
+           max. 2 hodiny
+        pociatocná populácia ­ stromy so 60 uzlami; 600 uzlov maximum
+        populácia na 32 ostrovoch na toroide, kazdá 64 jedincov
+        pravdepodobnos spárovania úmerná vzdialenosti na toroide
+        potomkovia: bu dvoch rôznych jedincov, alebo iba jedného rodica
+        Pravdepodobnos mutácie 0,5%
+
+                                                                                                                                     19
+Grauova simulácia sesnohého robota
+
+        S ADNS výsledné siete dobre struktúrované
+        S este podrobnejsím modelom robota ­ bez specifikácie architektúry a
+
+           informácií, ako je mozné rozdeli problém na podúlohy, sa pomocou ADNS
+           podarilo nájs riadenie pre krácajúceho robota ­ 1.000.000 generácií
+
+ Kodjabachian a Meyer (1998) jednoduché geometricky orientované
+    kódovanie buniek
+
+        simulovaný sesnohý robot
+        neuróny pestujú spoje na 2D podklade; ich poloha ovplyvuje moznosti spojov
+        krízenie ­ zámena podstromov ako v GP
+        genotyp ­ 6 instrukcií
+
+                 DIVIDE ­ delenie;
+
+               GRAW/DRAW ­ vstup./výstupný spoj s parametrami uhol, vzdialenos a váha
+
+                 SETTAU/SETBIAS ­ nastavenie casovej konstanty/prahu bunky
+                 DIE ­ zomri!
+
+                                                                                                                                     20
+Kodjabachian a Meyer                   Stabilný genetický algoritmus: genetické operátory sa
+                                       aplikujú postupne, vzdy nový jedinec nahradí
+                                       niektorého jedinca z populácie; umozuje, aby viacej
+                                       (prípadne rôzne rýchlych) procesov/procesorov
+                                       pracovalo na spolocnej populácii jedincov.
+
+ Fitness: ujdená vzdialenos + clen podporujúci pohyb nôh
+
+ stabilný genetický algoritmus: 200 jedincov v populácii                   P
+
+ genotypy rozmiestnené na kruznici
+
+ nový jedinec:
+
+ náhodne sa zvolí bod kruznice P
+
+ náhodne sa zvolia dvaja jedinci blízko P ­ pravdepodobnos zvolenia je
+   nepriamo úmerná vzdialenosti od P
+
+ utvorí sa nový jedinec a ohodnotí sa
+
+· krízenie a 2 druhy mutácie
+
+­ podstrom nahradený kompatibilným podstromom
+
+­ mutácia parametra
+
+· obmedzenia: max. 3 po sebe idúce delenia, max. pocet spojov na bunku 4,
+   vsetky podprogramy musia by korektné stromy (gramatikou)
+
+ turnajom sa zvolí sused v blízkosti P, ktorý bude nahradený novým
+   jedincom
+
+                                                                              21
+Kodjabachian a Meyer
+
+       manuálne obmedzenia ­ vekos substrátu, pozície
+          senzorových/motorických buniek (4 na kazdú nohu), pocet a pozície
+          zárodkových buniek (6)
+
+       naucil sa chodi uz po asi 100 000 vyhodnoteniach; stabilné chodenie
+          1/5 behov
+
+ Kodjabachian a Meyer ­ pokracovanie
+
+        pridaný alsí modul s 2 svetlocitlivými senzormi
+        selekcia poda toho, ako rýchle sa jedinec dostane k svetlu
+        po 20 000 vyhodnoteniach doucené ­ robot vedel prís k svetlu
+        pridali alsí modul s dotykovými senzormi ­ po 20 000 vyhodnoteniach robot
+
+           vedel hada svetlo a vyhýba sa prekázkam
+
+                                                                                                                                     22
+Záver
+
+ Kódovanie a prevod genotypu na fenotyp silne ovplyvuje rozvíjatenos
+     systému
+
+ väcsinou je zobrazenie genotypu na fenotyp uskutocnené skôr nez jedinec
+     zacne ,,zi"
+
+ ak nie, tak sa realizuje pri raste organizmu a zvysuje prispôsobitenos
+     jedinca na prostredie
+
+ kódovanie býva zlozité (kvôli potrebe kódova rôzne typy neurónov, vzorov
+     spojení, ...) a jeho prvky bývajú navrhnuté pre riesenie konkrétneho
+     problému
+
+ novsie pokusy ­ spoji
+
+        kompaktné kódovanie ­ pár vlastností generického neurónu; dzka genotypu
+           úmerná poctu neurónov
+
+        s ontogentickou adaptáciou ­ váhy sa adaptujú v priebehu zivota
+               je to efektívnejsie nez evolucne vyvíja parametre pre kazdý spoj zvlás
+               evolúcia si volí kódovanie zalozené na neurónoch oproti kódovaniu spojov
+
+                        · Výsledok experimentov, ke umoznili bu kódovanie vlastností neurónov alebo
+                            kódovanie vlastností spojov
+
+                                                                                                                                     23
+
