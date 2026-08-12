@@ -1,0 +1,852 @@
+Frantisek Mráz, KSVI MFF UK
+
+EVOLUCNÁ ROBOTIKA
+1. CAS
+ Úvod
+
+1. O prednáske
+2. História robotiky
+3. Evolucná robotika
+4. ER a iné metódy vývoja robotov
+
+    A. Robotika zalozená na správaniach
+    B. Ucenie robotov ­ ,,robot learning"
+    C. Umelý zivot ­ ,,artificial life"
+
+5. Význam ER pre iné obory
+6. Ako vyvíja zlozitejsie systémy
+7. Aplikácie
+Obsah
+
+1. O prednáske                              2.História Robotiky                3. Co je to evolucná robotika  4. Evolucná Robotika a iné metódy vývoja robotov
+                                                                               7. Aplikácie
+5. Význam evolucnej robotiky pre iné obory  6. Ako vyvíja zlozitejsie systémy
+1. O PREDNÁSKE
+ 1. O prednáske
+
+ Prednásajúci:
+
+       Frantisek Mráz, KSVI MFF UK, Malostranské nám. 25, Praha 1, císlo
+         dverí 405
+
+       e-mail: frantisek.mraz@matfyz.cuni.cz
+
+ Literatúra:
+
+       S. Nolfi, D. Floreano: Evolutionary robotics: the biology, intelligence
+         and technology of self-organizing machines, The MIT Press,
+         Cambridge, Massachusetts, 2000
+
+       alsie clánky budú odkazované priebezne
+
+ alsie materiály:
+
+       Kurz Moodle
+
+              https://dl1.cuni.cz/course/view.php?id=3011
+             heslo pre prihlásenie ER25
+ 1. O prednáske
+
+ Ciele:
+
+       zoznámenie s evolucnými technikami
+       navrhovanie riadenia pre roboty
+       co vsetko sa dá evolucnými technikami pre roboty vyvíja
+       porovnanie umelej a prirodzenej evolúcie
+
+ Prednáska ­ 1 krát za týzde
+ Cvicenie je iba jedenkrát za dva týzdne
+ 1. O prednáske
+
+ Cvicenie
+
+       2 úlohy
+
+                Za správne a vcasné riesenie úlohy 10 bodov
+                Neskoré odovzdanie úlohy penalizované ­ 1 bod za kazdý nacatý týzde meskania
+
+       2 testy
+
+                Majú tiez termín splnenia
+                Po prekrocení termínu sa uz nedajú riesi
+
+       Zápoctový projekt zakoncený prezentáciou (az 15 bodov)
+
+                Témy dohodnuté na cvicení v polovici semestru
+
+ Skúska
+
+       Body z cvicenia tvoria 40% hodnotenia
+       Hodnotenie: 1 100; 85), 2 85; 70), 3 70; 55)
+2.HISTÓRIA ROBOTIKY
+ 2. História robotiky
+
+ ,,ma tak nieco alebo niekoho,
+    kto bude pracova za ma"
+
+ Vsetko zacalo v starovekom
+    Grécku ...
+
+       Ke horela zápalná obe na
+         oltári pred chrámom, tak ,,boh
+         otvoril" dvere do chrámu
+
+       Az obe dohorela, chrámové
+         dvere sa zase zatvorili
+ 2. História robotiky
+
+ cca 1250 ­ Biskup Albeertus Magnus pozval k sebe sv. Tomása
+    Akvinského. Dvere mu otvoril kovový sluha. Ke to uvidel sv.
+    Tomás Akvinský, tak ho rozbil na kúsky a prehlásil biskupa za
+    carodejníka.
+
+ Leonardo da Vinci (okolo r.
+    1495) ­ rytier (rekonstrukcia)
+
+ Cca 1640 ­ R. Descartes vytvoril
+    zenský automat ,,Ma fille
+    Francine". Sprevádzala ho na
+    ceste, kde ju kapitán hodil cez
+    palubu, pretoze si myslel, ze je to
+    Satanovo dielo.
+ 2. História robotiky
+
+ 1738 ­ Jacues de Vaucanson postavil niekoko mechanických figúr
+    (muzikantov hrajúcich na flautu a tamburínu), ale najslávnejsia bola
+    mechanická kacica skladajúcu sa z viac nez 4000 dielov. Kacica
+    vedela kváka, zobák namáca vo vode, prehltnú potravu, strávi
+    ju a ,,vyda zvysky trávenia ". Stratila sa ... Jej reprodukcia je v
+    múzeu v Grenobli.
+ 2. História robotiky
+
+ 1920 ­ Karel Capek: R.U.R. Rossums
+    Universal Robot
+
+ 1939 ­ Elektro; firma Westinghouse pre
+    Svetovú výstavu v New Yorku
+
+       26 pohybov
+       Fajcil
+       Hlasové ovládanie
+       Detekcia farieb
+ 2. História robotiky
+
+ 1940 ­ Sparko, Westinghausský pes; vyuzíval mechanické i
+    elektrické súciastky.
+
+ 50-te a 60-te 20. stor. ­ veký pokrok v pocítacovej a riadiacej
+
+   technike. Otázka: Je pocítac nepohyblivý robot?
+ 2. História robotiky
+
+ 60. roky 20. stor. ­ prvé priemyselné roboty. Americké zdruzenie
+
+   pre priemyselné roboty: ,,Priemyselný robot je programovatený,
+   multifunkcný manipulátor urcený na premiestovanie materiálov,
+   súciastok, nástrojov a speciálnych zariadení pomocou variabilných
+   programovatených pohybov za úcelom vykonávania rôznych
+   cinností."
+
+ 1956 ­ vedci skúsajú kombinova
+    automatické metódy riesenia problémov a
+    schopnos vnímania pomocou pocítacov s
+    pouzitím kamier a dotykových senzorov.
+    Zámerom je studova, aké inteligentné
+    cinnosti by takéto roboty mohli zvládnu.
+    Vznikol obor umelá inteligencia.
+ 2. História robotiky
+
+ 1960 ­ v Stanforde postavili robota s
+    názvom Shakey. Mal televíznu
+    kameru, diakomer, automatické
+    riadenie, dotykové senzory, jednotku
+    na riadenie kamery a anténu pre
+    rádiové spojenie s pocítacom. Jeho
+    riadiaci pocítac bol vo vedajsej
+    miestnosti
+ 2. História robotiky
+
+ 1986 ­ prvý krácajúci humanoidný robot - Honda
+ 1993 ­ Khepera (simulátor)
+ Sony (1998) ­ robotický pes Aibo
+
+       ovláda viacej typov chôdze, aj dynamické
+
+ 1998 ­ LegoMindstorm
+ 2. História robotiky
+
+ 2000 ­ Honda, robot ASIMO
+
+       ASIMO ­ história
+       schody sú azké i pre Asima
+       Pozdravil premiéra (2003)
+2. História robotiky
+
+ 2002 ­ Hemisson 2002   2003 ­ Khepera II
+
+ 2006 ­ Khepera III (Linux)  Khepera IV
+ 2. História robotiky
+
+ 2008 ­ Nao
+ 2. História robotiky
+
+ e-Puck
+
+ 2004 ­ e-Puck
+2. História robotiky
+
+E-Puck ­ pokracovanie
+ 2. História robotiky
+
+ Simulátor ­ Webots
+
+ www.cyberbotics.com
+ Simuluje ubovoné mobilné roboty ­ s kolesami, nohami, ...
+
+       3D editor robotov a svetov
+
+ Kniznica senzorov a aktuátorov
+ Programovanie v C/C++ (Java, Python, Matlab)
+ Simulácia fyziky ODE
+ Vytváranie filmového záznamu simulácie
+ 2. História robotiky
+
+ Simulátor ­ Coppelia Sim (pôvodne V-Rep)
+
+ http://coppeliarobotics.com
+ Simuluje ubovoné mobilné
+
+    roboty ­ s kolesami, nohami, ...
+
+       3D editor robotov a svetov
+
+ Kniznica senzorov a aktuátorov
+ Programovanie v C/C++ (Lua,
+
+    Java, Python, Matlab, Octave)
+ Simulácia fyziky ­ MuJoCo,
+
+    Bullet Physics, ODE, Newton a
+    Vertex
+ 2. História robotiky
+
+ Robotické súaze
+
+ http://www.robocup.org/
+ Istrobot
+
+ www.robotika.cz
+ www.robotika.sk
+
+ EUROBOT http://www.eurobot.org/
+ Robotický de http://roboticday.org/
+ 2. História robotiky
+
+ Inteligentný (autonómny) robot
+
+ Je to stroj schopný získava informácie zo svojho okolia a pouzíva
+    znalos svojho sveta na to, aby sa bezpecne pohyboval
+    zmysluplným a úcelným spôsobom
+
+ Navrhovanie robotov ­ vemi zlozitá úloha
+
+       hardware ­ mechatronika:
+
+              mechanika
+
+                       · trvanlivos (odolnos), dobré ovládanie, hmotnos a rozmery, stupne vonosti,
+                           pohon (kolesá, pásy, nohy,...) ...
+
+              elektronika
+
+                       · riadiaci pocítac (rýchlos, kapacita), senzory, ovládanie motorov, komunikácia, ...
+
+       riadenie: software
+
+                       · programovanie, uzívateské rozhranie, jazyky, ...
+
+ ALE dá sa urobi tak, aby to zvládlo i diea ­ robotické
+   stavebnice
+
+       LEGO ­ CyberMaster, Scout, MindStorm, Dacta
+3. CO JE TO EVOLUCNÁ
+ROBOTIKA
+ 3. Evolucná robotika
+
+ Co to je?
+
+ technika automatického vytvárania autonómnych robotov
+    inspirovaná darwinovskou selektívnou reprodukciou najúspesnejsích
+    jedincov
+
+ novos prístupu: roboty sú samostatné umelé organizmy rozvíjajúce
+    si svoje schopnosti v tesnej interakcii s prostredím bez udského
+    zásahu
+
+ pouzívajú sa neurónové siete, genetické algoritmy, dynamické
+    systémy a biomorfické inzinierstvo
+ 3. Evolucná robotika
+
+ História
+
+ pojem evolucná robotika ­ 1993 Cliff, Harvey a Husband:
+
+   Explorations in evolutionary robotics, Adaptive Behavior, 2:73­110.
+
+ prvé pokusy sú starsie ­ pocítacové simulácie koncom 80. rokov
+ technické predpoklady ­ nová generácia robotov zo zaciatku 90.
+
+    rokov s vlastnosami podobnými biologickým systémom:
+    robustnos, jednoduchos, malé rozmery, flexibilita, modularita
+ 1992­93 prvé hardwarové pokusy
+
+             · Swiss Federal Institute of Technology, Lausanne (Svajciarsko),
+             · University of Sussex, Brighton
+             · University of Southern California
+3. Evolucná robotika
+
+Evolúcia robotov
+
+  Generácia 0
+
+                selekcia
+                reprodukcia
+                mutácie
+
+  Generácia 1
+
+                selekcia
+                reprodukcia
+                mutácie
+
+  Generácia 2
+ 3. Evolucná robotika
+
+ Samoorganizácia
+
+ Na zaciatku sa náhodne vytvorí pociatocná populácia umelých
+    chromozómov, z ktorých kazdý kóduje riadiaci systém (a pripadne i
+    morfológiu) robota, a vlozí sa do prostredia.
+
+ Kazdý robot (fyzický alebo simulovaný) potom vone funguje
+    (pohybuje sa, pozerá sa, manipuluje, ...) poda geneticky urceného
+    riadenia. Pritom sa automaticky vyhodnocuje jeho výkonnos pre
+    rôzne úlohy.
+
+ Najlepsie roboty sa potom môzu reprodukova generovaním kópii
+    ich genotypu so zmenami, ktoré vnásajú nejaké genetické
+    operátory (mutácia, krízenie, duplikácia, ...).
+
+ Tento proces sa opakuje pocas niekokých generácií, dokia sa
+
+   "nenarodí" jedinec, ktorý spluje výkonnostné kritéria (fitness
+
+    funkcia) zadané experimentátorom.
+ História
+
+1. iba vývoj riadenia, morfológia fixná
+2. Súcasný vývoj riadenia i morfológie
+3. Evolúcia riadenia + ucenie
+4. Evolúcia riadenia, morfológie a ucenie
+5. Vsetko vyssie a kooperácia (komunikácia, spolupráca na riesení
+
+     úloh)
+4. EVOLUCNÁ ROBOTIKA
+A INÉ METÓDY VÝVOJA
+ROBOTOV
+ 4. ER a iné metódy vývoja robotov
+
+A. Robotika zalozená na správaniach ­ Behavior Based Robotics
+     Brooks, Rodney. "A robust layered control system for a mobile
+     robot." IEEE journal on robotics and automation 2.1 (1986): 14-23..
+
+B. Ucenie robotov ­ Robot Learning
+C. Umelý zivot ­ Artificial Life
+ 4. ER a iné metódy vývoja robotov
+
+ A. Robotika zalozená na správaniach
+ ,,behavior-based robotics"
+
+ robot má súbor jednoduchých základných správaní, celkové
+    správanie robota vzniká interakciou týchto základných správaní a
+    prostredia (Brooks, 1986).
+
+ základné správania + koordinácia sily jednotlivých správaní v
+    danom momente
+
+ koordinácia ­ kooperatívna vs. kompetitívna
+ kompetitívna: vyhráva len jedno správanie, napr. metóda
+
+    subordinácie (Brooks, 1986)
+ kooperatívna: rôzne správania prispievajú do výsledného správania
+
+    rôznou mierou, napr. metóda fúzie cez scítanie vektorov (Arkin,
+    1989)
+ 4. ER a iné metódy vývoja robotov
+
+ A. Robotika zalozená na správaniach
+
+ Vnímanie tesne spojené s akciami
+ Pri generovaní reakcie sa vôbec nepouzíva abstraktná reprezentácia
+
+    sveta
+ Modularita rovno v návrhu. Bývajú casto navrhované ako
+
+    hierarchické systémy
+ Metóda pokusov a omylov ­ ,,rucne"
+
+       ktoré základné správania
+       ich koordinácia
+       vyhodnocovanie
+4. ER a iné metódy vývoja robotov
+
+A. Porovnanie
+
+Robotika zalozená na správaniach
+
+senzory                 manipulácia      výkonné cleny
+                        vytváranie mapy
+                        vyhadávanie
+                        vyhýbanie sa
+                        pohon
+
+Evolucná robotika                 ?
+
+               senzory            ?
+
+                                  ?      výkonné cleny
+
+                                  ?
+
+                                  ?
+ 4. ER a iné metódy vývoja robotov
+
+ B. Ucenie robotov ­ ,,robot learning"
+
+ Riadiaci systém robota (napr. neurónová sie) je ucený na
+    neúplných dátach a potom sa spolieha na generalizáciu.
+
+ Casto sa ucí zobrazenie zo stavu senzorov na stav motorov, alebo
+    sa ucí nejaký subsystém.
+
+ Ako sa ucia závisí od metódy ucenia, napr. spätným sírením (back-
+    propagation), odlozeným ucením (reinforcement learning),
+    klasifikátory, samoorganizujúce sa mapy (self-organized maps).
+
+ Samoorganizácia spolocná pre ucenie robotov i ER
+ rozdiely
+
+       miera role ucitea
+       ER sa neobmedzuje iba na ucenie riadenia (napr. i návrh hardware)
+ 4. ER a iné metódy vývoja robotov
+
+ C. Umelý zivot ­ artificial life
+
+ Napodobenie zivota simuláciou ­ napodobovanie vzájomných
+    interakcií rôznych entít
+
+ Základy
+
+       teória dynamických systémov ­ popis na viacerých úrovniach, globálne
+         správanie na jednej úrovni vzniká lokálnou interakciou jednotlivých
+         prvkov nizsej úrovne a v podstate sa nedá predpoveda
+
+       pocítacové experimenty ­ nutné veké zjednodusenia
+
+ pre návrh robotov je nutné uvazova fyzikálne vlastnosti, ER
+    zdôrazuje vývoj na reálnych robotoch
+4. ER a iné metódy vývoja robotov
+
+C. Umelý zivot ­ ,,artificial life"
+ 4. ER a iné metódy vývoja robotov
+
+ C. Umelý zivot ­ ,,artificial life"
+
+ Pekný príklad je na Youtube
+                           https://youtu.be/N3tRFayqVtk
+5. VÝZNAM EVOLUCNEJ
+ROBOTIKY PRE INÉ
+OBORY
+5. Význam ER pre iné obory
+Technika
+
+  Strojné     Evolucná        Biológia
+inzinierstvo  robotika
+
+Autonómne     Evolucný návrh  Modelovanie
+   roboty          robotov       evolúcie
+5. Význam ER pre iné obory
+Technika
+
+ zlozitos návrhu reaktívnych systémov ­ ako rozlozi na
+    jednoduchsie podúlohy na základe znalosti globálneho správania
+
+ Správanie vzniká az interakciou s prostredím
+
+ I jednoduchý robot môze ma zlozité správanie ­ Ktoré pravidlá
+
+spôsobujú zlozité správanie?                     ,,rozde a panuj"
+
+1. klasický návrh ­ percepcia, plánovanie, vykonávanie
+
+2. Robotika zalozená na správaniach ­ správanie rozlozi na
+     základné správania a prida ich koordináciu
+
+1. moznos postupného (inkrementálneho) návrhu
+
+2. základné správania a koordinácia sa dajú uci
+
+3. ALE: ako zvoli základné správania?
+
+3. evolucná robotika ­ robot je celok, hodnotíme iba globálne
+     správanie
+ 5. Význam ER pre iné obory
+ Technika ­ príklad
+
+ úloha pre Kheperu: nájs objekt v bludisku a zosta v jeho blízkosti
+
+       rucná dekompozícia
+
+             1. Prieskum
+             2. Vyhýbanie sa stenám
+             3. Priblízenie k objektu a zotrvanie v jeho blízkosti
+             4. Rozpoznanie objektu od stien
+
+       na kazdé správanie sa naucila neurónová sie, ale dohromady sa to
+          nepodarilo spoji
+
+       ER prístup: geneticky sa hadá riadenie iba na základe hodnotenia
+          konkrétneho robota
+5. Význam ER pre iné obory
+Etológia (stúdium správania zivocíchov)
+
+Aj iné obory popisujú správanie organizmov ­ evolucná robotika z
+
+nich môze cerpa
+
+                 úrove
+
+Populácie        SUPERORGANIZMUS        Evolucná biológia
+ekosystémy                              ekológia
+spolocenstvá                            sociológia
+
+organizmy           ORGANIZMUS          psychológia
+                 (správanie / vedomie)  neurológia
+orgány
+bunky               nervový systém      anatómia/fyziológia
+molekuly                                biológia bunky
+                 SUBORGANIZMUS          Genetika, molekulárna biológia
+ 5. Význam ER pre iné obory
+ Biológia
+
+ Prirodzená evolúcia: Co umoznilo, ze úspesne vyvinuli výborne
+    adaptované formy zivota?
+
+ (Umelá) evolúcia robotov: Za akých podmienok adaptácia v
+    umelom prostredí vedie k vývoju komplexných schopností?
+
+ Pri oboch evolúciách nás zaujíma, ako podpori úspesnú evolúciu
+ Problémy:
+
+       Ako má umelá evolúcia vybera jedincov, ktorí majú schopnosti vhodné
+         na riesenie zlozitých úloh?
+
+       Ako sa pri prirodzenom vývoji objavujú nové schopnosti (napr.
+         lietanie)?
+
+ V prírode iba jedno kritérium: schopnos reprodukcie
+6. AKO VYVÍJA
+ZLOZITEJSIE SYSTÉMY
+ 6. Príklad ,,Bootstrap problem"
+
+ Ke chceme nájs jedincov schopných riesi danú úlohu, tak ich
+    budeme vybera poda ich schopnosti riesi danú úlohu
+
+       funguje iba na jednoduché úlohy, pre zlozité úlohy vsetci jedinci v
+         pociatocnej generácii dostanú rovnaké nulové ohodnotenie ­ selekcia
+         nemôze fungova ­ problém inicializácie ­ "bootsprap problem"
+
+ Mozné riesenia:
+
+     A. postupná (inkrementálna) evolúcia
+
+             bu postupným zvysovaním zlozitosti úlohy alebo súperením v rámci
+                 jedného druhu
+
+             alebo medzi rôznymi druhmi (ko-evolúcia);
+
+      B. systém bez vonkajsieho dohadu (riadenia), ktorý si musí sám
+          z prostredia extrahova informácie potrebné na riadenie vývoja ­
+          celozivotné ucenie
+
+     C. zahrnú zobrazenie z genotypu do fenotypu do evolucného procesu
+ 6.A.(i) Inkrementálna evolúcia
+
+1. S vyssou mierou dohadu: experimentátor do selekcného kritéria
+     pridá ohodnotenie za podúlohy
+
+       inkrementálna evolúcia: evolúcia sa zacne so zjednodusenou
+          úlohou, potom sa postupne jej zlozitos zvysuje zmenou selekcných
+          kritérií (fitness funkcie)
+
+       Príklad: Robot má ís k vyfarbenému obdzniku a má sa vyhnú
+          trojuholníku.
+
+             1. Nájdi vyfarbenú stenu.
+
+             2. Nájdi vyfarbený obdznik.
+
+             3. Nájdi obdznik a vyhýbaj sa trojuholníku.
+ 6.A.(ii) Ko-evolúcia
+
+2. Bez zvýseného dohadu: inkrementálna evolúcia môze vzniknú i
+     samo-organizáciou pri súperiacich populáciách s prepojenou fitness
+     funkciou ­ ko-evolúcia
+
+       Príklad: evolúcia dvojice ,,dravec ­ koris "
+
+              fitness:
+
+                       · dravec ­ schopnos chyti koris
+                       · koris ­ schopnos utiec dravcovi
+
+              evolucné preteky v zbrojení
+              aj ke sa selekcné kritérium nemení, tak je adaptácia postupne azsia a
+
+                  azsia
+ 6.B. Celozivotné ucenie
+
+ Vyuzitie prostredia na riadenie evolúcie
+
+ prostredie nedáva priamo návod, ako má agent postupova, aby
+    dosiahol cie
+
+ informácia o prostredí získaná zo senzorov sa dá vyuzi nielen na
+    urcenie agentovej reakcie, ale i na adaptáciu na prostredie po celú
+    dobu zivota agenta ­ celozivotné ucenie ­ ontogenetická adaptácia
+
+ principiálne kazdá schopnos, ktorá sa dá nauci pri celozivotnom
+    ucení, sa dá získa i evolúciou ­ fylogenetická adaptácia
+
+ celozivotné ucenie sa od evolucného ucenia lísi tým, ze pri
+    celozivotnom ucení máme síce málo specifickú, ale vemi bohatú
+    spätnú väzbu, pri evolúcii sú jedinci ohodnotení iba raz ­ jediným
+    císlom, ktoré hovorí, ako si viedli za celý zivot (pocet potomkov pri
+    prírodnej evolúcii, fitness pri umelej evolúcii)
+ 6.B. Celozivotné ucenie
+
+ Vemi mnoho vstupov zo senzorov, ale tie o celkovej úspesnosti
+    vypovedajú iba vemi nepriamo; Transformova tieto vstupy na
+    informácie, ako dobre si vedie a aké akcie má agent vykona, je
+    vemi azké
+
+ prirodzená evolúcia to riesi tak, ze vyvíja podsystémy schopné
+    extrahova informácie pre rýchle celozivotné ucenie.
+
+ to uz bolo vyskúsané v pocítacových experimentoch
+
+       riadiaci systém sa rozdelil na dve casti jedna pocítala ako reagova na
+         aktuálny stav senzorov a druhá generovala uciace signály pre prvú.
+         Kazdá z týchto castí bola neurónová sie
+
+       podobné výsledky priniesli experimenty, ke sa evolucne vyvíjali
+         neurónové siete, ktoré mohli meni svoju topológiu v evolucnom vývoji
+         a mohli sa uci pri celozivotnom ucení
+ 6.B. Celozivotné ucenie
+
+ zrejme to, co sa dá získa evolúciou a ucením, sa dá získa aj iba
+    samotnou evolúciou
+
+ evolúciou môzu vzniknú dva druhy jedincov schopných dobre
+
+    fungova premenlivom prostredí
+
+     1. plastic general (ucenlivý) ­ nemá obecnú stratégiu, ale je schopný
+          sa prispôsobi v priebehu zivota prostrediu, v ktorom sa nachádza
+
+     2. full general (vie vsetko)­ má obecnú stratégiu vhodnú pre rôzne
+          typy prostredí, teda sa v priebehu zivota nemusí prispôsobova
+
+ Môze sa vsak sta, ze full general sa nedá vytvori (neexistuje,
+    alebo je prílis zlozitý na to, aby ho selekcia vybrala).
+
+ Ukazuje sa, ze v niektorých prostrediach úplne obecné stratégie
+    neexistujú, alebo je azké ich nájs, ale súbor jednoduchých
+    stratégií vhodných v rôznych situáciách sa dá nájs jednoducho.
+ 6.C. Vývoj a evolúcia
+ vyvíjatenosti
+
+ Genotyp ­ súbor charakteristických vlastností udrzovaný
+    v reprodukovanej populácii alebo tiez genetický základ jednej alebo
+    skupiny charakteristických vlastností
+
+ Fenotyp ­ prejav genotypu vo forme správaní závislý
+    na konkrétnom prostredí
+
+ v prírode si jedinci s tým istým genotypom môzu v rôznych
+    prostrediach rozvinú rôzne vlastnosti (správania)
+
+                          rozvoj = rast organizmu
+
+ v evolucnej robotike ide o problém zobrazenia z genotypu do
+    fenotypu alebo problém reprezentácie
+ 6.C. Zobrazenie genotypu na
+ fenotyp
+
+ najjednoduchsie je vzájomne jednoznacné zobrazenie
+ v ER sa pouzívajú aj zlozitejsie formy
+
+      a) rôzne organizacné úrovne (genotyp, nervový systém, správanie)
+          usporiadané v hierarchii
+
+      b) instrukcie pre rast, ktoré sú rekurzívne
+      c) genotyp s premenlivou dzkou
+
+ pri prírodnej evolúcii je do evolucného procesu zahrnuté aj
+    samotné zobrazenie z genotypu do fenotypu
+
+ pri umelej evolúcii je toto zobrazenie väcsinou zostavené
+    experimentátorom
+7. APLIKÁCIE
+7. Aplikácie
+
+ clovek nemusí rozhodova o vsetkých detailoch
+ evolúcia nájde i prekvapivé riesenie ­ ,,soft roboty"
+ interakcia: biológia  robotika
+
+       biológia: kde  rojová robotika
+       robotický roj namiesto súazenia vyvinie spoluprácu medzi jedincami 
+
+         vysvetuje, ako sa táto forma roja mohla vyvinú v prírode
+
+ evolucné algoritmy sa v skutocnosti pouzívajú v niekokých
+    oblastiach robotiky
+
+A. Evolucná biorobotika  D. Rojová robotika
+B. Vývojová robotika     E. Modulárna robotika
+C. Evo-devo-robo         F. Soft robotika
+7. Aplikácie
+A. Evolucná biorobotika
+
+Evolucná robotika               Evolucná biorobotika: postaví
+modeluje proces evolúcie,       sa robot podobajúci sa zvierau a
+ktorá generuje roboty podobné   evolúciou sa vyvíja jedna cas
+alebo úplne iné nez prirodzená  jeho anatómie
+evolúcia
+
+Biorobotika:
+v morfológii robota sa
+modeluje produkt prirodzenej
+evolúcie
+
+ príklad:
+
+       J. Long skúmal tuhos umelej chvostovej plutvy; rôzne tuhosti
+         umozujú bu rýchlejsie plávanie alebo lepsiu obratnos  to pomáha
+         vyjasni, ako sa vyvinula chrbtica u prvých stavovcov
+ 7. Aplikácie
+ B. Vývojová robotika (developmental robotics)
+
+ ,,Ako mláa postupne dospieva do stále zlozitejsieho dospelého
+    jedinca?" ­ vývoj ,,tela" a ,,mozgu" od narodenia po dospelos
+
+ umelá evolúcia robotov môze slúzi ako (evolucný) model
+    biologického vývoja (= dospievania)
+
+ pozorovaním prirodzeného dospievania môzeme navrhova lepsie
+    roboty
+
+ Porovnanie:
+
+       evolucná robotika pouzíva populáciu, ktorá sa vyvíja v case
+       vývojová robotika navrhuje riadiaci systém jediného robota tak, aby sa
+
+         rozvíjal v case na základe svojich skúseností
+ 7. Aplikácie
+ C. Evolucne-vývojová robotika
+
+ ,,evo-devo-robo"
+
+ vývojová robotika: dozrievanie ,,tela" a ,,mozgu" od narodenia po
+
+    dospelos
+ evolucná robotika: roboty sú tým zlozitejsie, cím sú v neskorsej
+
+    generácii
+ príroda: mláa sa mení v priebehu vývoja jedinca (dospievania)
+
+    poda ,,programu vývoja (dospievania)" a tento ,,program vývoja
+    (dospievania)" sa evolucne mení ­ tzv. evolúcia vývoja
+    (dospievania; evo-devo)
+
+                                               evolucný cas
+
+cas v zivote
+   jedinca
+ 7. Aplikácie
+ C. Evolucne-vývojová robotika
+
+ Príklad: postupná evolúcia
+
+      1. na zaciatku evolúcie: robot z plazenia prechádza v priebehu
+          dospievania na krácanie (v jednom zivote)
+
+      2. neskôr: plazenie je úplne preskocené
+      ukazuje sa, ze takáto postupná evolúcia dospievania vyvíja krácajúce
+
+          roboty rýchlejsie nez evolúcia, ktorá nevedie cez stádium plazenia
+
+ Aby sme to mohli modelova, tak potrebujeme zvládnu súcasný
+    vývoj tela (morfológie) a riadenia (mozgu) robota
+
+       nevychádza sa z konkrétnej podoby robota
+       môze sa lepsie adaptova na prostredie
+       clovek urcí iba to, ako mera výkon robota
+       evolúcia môze vies az k výrobe evolúciou
+
+          navrhnutého robota
+ 7. Aplikácie
+ C. Evolucne-vývojová robotika
+
+ výhody:
+
+       menej predpokladov o robotoch
+       lepsia skálovatenos ­ namiesto plného popisu robota sa vyvíjajú
+
+         instrukcie na jeho postavenie; dlhsou aplikáciou tých istých instrukcií sa
+         dá zostroji zlozitejsí robot bez zvýsenia zlozitosti kódu
+
+ problémy:
+
+       simulácia fyziky ­ nutná robustnos
+       zlozitos ­ casová a výpoctová
+       kódovanie ­ kódovanie vemi rozdielnych
+
+         robotov, ale dobre evolvovatené (evolucne rozvíjatené)
+       Cieom je prekona ,,rucne" navrhované roboty
+ 7. Aplikácie
+ D. Rojová robotika
+
+ cie: navrhnú riadenie pre jedného robota tak, aby ke ho vyuzije
+    naraz mnoho robotov, tak ako celok vyriesia zadanú úlohu
+
+ kolektívny pohyb v kdli:
+
+       rovnováha medzi príazlivou a odpudivou silou medzi susedami
+
+ evolúcia sa dá pouzi na optimalizáciu správania jedinca v roji
+ koevolúcia skupín
+ komunikácia v roji
+ 7. Aplikácie
+ E. Modulárna robotika
+
+ malé roboty-moduly sa môzu spojova do väcsích celkov dynamicky
+    poda potreby
+ 7. Aplikácie
+ F. Mäkká robotika
+
+ kombinácia mäkkých (pruzných) dielov a pevných dielov
+ veká flexibilita pohybov
+ sodarace.net/- bohuzia uz nedostupné, ale
+ existuje podobný program OpenConstructor
+

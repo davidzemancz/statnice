@@ -1,0 +1,456 @@
+Evolucná robotika
+4. cas
+Základy evolucných experimentov
+
+Frantisek Mráz, KSVI MFF UK
+
+                                                                                                                                   1
+Schéma evolucného experimentu
+
+  Správca populácie
+
+                     mutácia
+
+                     krízenie
+
+                     selekcia
+
+                     vyhodnotenie
+
+                                   2
+ Schéma evolucného experimentu
+
+ Premiestovanie:
+
+       pri prepínaní medzi dvomi jedincami v populácii sa robot náhodne
+         premiestni
+
+              ak by sa testovaný jedinec dostal do zlozitej pozície a túto pozíciu
+                 zachováme pre nasledujúceho jedinca, tak bude v nevýhode
+
+       nie je dobré zacína vzdy z toho istého miesta ­ robot by sa mohol
+         nauci pevnú postupnos krokov (,,minimalistické riesenie!")
+
+                                                                                                                                     3
+ Simulovaná evolúcia
+
+ Preco simulácia?
+
+       Fyzická evolúcia trvá dlho (dni)
+       paralelná fyzická evolúcia nemusí pomáha
+
+                roboty, ktoré sú mechanicky i softwarovo zhodné, nemusia fungova totozne
+
+       Najprv simulovaná evolúcia a potom najlepsích jedincov vyskúsa na reálnych
+           robotoch
+
+                nezrýchuje vzdy ­ napr. simulácia videnia
+                bez overovania na fyzickom robote vôbec nemusí fungova
+                za urcitých podmienok to ide, ale v zlozitejsích prostrediach sa to casto nedarí
+                simulácia zjednodusuje ­ dodávku energie, ,,resetovanie" stavu prostredia
+
+                           · pr. ,,Khepera cistic"
+
+ 2 metódy simulácií
+
+      1. co najvyssia vernos
+      2. modelovanie iba podstatných aspektov
+
+                                                                                                                                     4
+Presné modelovanie interakcie
+robota s prostredím I
+
+ Senzory a motory i ke sú identické môzu fungova rozdielne
+
+       A) vzorkovanie rôznych objektov z rôznych vzdialeností a uhlov na
+         reálnom robote
+
+              napr. aréna so stenami a rovnako vekými valcami ­ 180 orientácií x 20
+                 vzdialeností ­ pre kazdý senzor zvlás
+
+              problematické v zlozitejsom prostredí
+
+                       · robot blízko dvoch objektov ­ napr. skladaním vektorov aktivít senzorov
+
+  
+
+    
+
+
+
+                
+
+                  
+
+              
+                
+            
+
+                                                                                                  5
+ Presné modelovanie interakcie
+ robota s prostredím II
+
+       B) matematický model, ale parametre funkcií sa odmerajú na reálnom
+          robote
+
+ Fyzické senzory dávajú neisté hodnoty, výkonné prvky majú neistý
+    efekt
+
+       napr. teplota prostredia, doba práce
+       riesi sa pridaním sumu
+
+             A. náhodný sum ­ je treba odhadnú interval
+
+                       · riadenie neurónovou sieou obcas spolieha na sum v urcitom rozsahu
+
+             B. náhodný, ale systematicky menený (napr. rozsah)
+
+ Telo robota a charakteristiky prostredia musia by presne
+    reprodukované
+
+       casto nestací mriezka ako model prostredia
+
+                                                                                                                                     6
+ Minimálna simulácia
+
+ dôlezité charakteristiky interakcie robota s prostredím ­ tzv.
+
+   základná mnozina charakteristík ­ je ich treba modelova presne
+
+ simulácia má okrem nich alsie aspekty, ktoré nekorespondujú s
+
+   realitou ­ tzv. implementacné aspekty
+
+ implementacné aspekty sa musia meni od pokusu k pokusu tak,
+    aby riadenie, ktoré by na nich bolo závislé, nefungovalo (t.j, aby
+    záviselo iba na základnej mnozine charakteristík)
+
+ základná mnozina charakteristík sa musí meni od pokusu k pokusu
+    tak, aby riadenie, ktoré je na nich závislé, bolo robustné (ale len
+    také variácie, s ktorými si riadenie poradí)
+
+ príklad ­ Jacobi (1997) Khepera v bludisku tvaru T
+
+                                                                                                                                     7
+Khepera v bludisku tvaru T
+
+ Na krizovatke má zahnú na tú stranu, kde svieti svetlo v hlavnej
+
+chodbe                            Základná mnozina charakteristík:
+
+                                  · pohyb kolies
+
+                                  · aktivácia detektorov vzdialenosti
+
+svieti svetlo 1  svieti svetlo 2      v chodbe
+                                  · aktivácia detektorov svetla
+
+                                  v chodbe
+
+                                  Implementacné aspekty:
+
+                                  aktivácia detektorov vzdialenosti
+
+svetlo 1         svetlo 2         v krizovatke ­ vôbec sa
+
+                                  nesimulovala
+
+                                                                       8
+Khepera v bludisku tvaru T
+
+ Bludisko modelované dvomi                             svieti svetlo 1     svieti svetlo 2
+     segmentmi
+                                                             svetlo 1   svetlo 2
+        hlavná chodba so svetlami ­ ke robot           svetlo 1
+            dosiel na jej koniec, tak bol prenesený                          9
+            do druhého segmentu a otocený o 90         svetlo 2
+
+        vodorovná chodba ­ po prenesení má           zasumená
+            robot za sebou komplikované                 zóna
+            napojenie chodieb; aby sa nemohol
+            orientova na základe senzorov
+            smerujúcich do hlavnej chodby, tak ich
+            hodnoty sa pri opakovaných pokusoch
+            lísili
+
+ aby sa zarucila robustnos riadenia tak
+     sa menili:
+
+        strana, na ktorej svietilo svetlo
+
+        sírka chodby, dzka chodby, dzka
+            osvetleného úseku chodby ­
+            v urcitom obmedzenom rozsahu
+Priestor funkcií fitness
+
+ Fitness funkcia ­ kúcový význam
+
+       premenné dobre popisujúce funkcný systém môzu by nanic na
+         zaciatku a naopak
+
+       malá zmena môze da úplne iné výsledky
+       metóda pokusu a omylu ­ stojí cas
+
+ Priestor fitness funkcií
+
+                                                            implicitná
+
+                        interná
+            externá
+
+explicitná
+
+            funkcionálna         Behaviorálna
+
+                                                                        10
+Charakteristiky fitness funkcie
+
+ Funkcionálna x behaviorálna                          Im
+                                                                In
+       Napr. krácajúci robot
+                                                      Ex Ex
+              a) frekvencia opakovania, výska zdvihu
+                                                      F             B
+
+ b) prejdená vzdialenos
+
+ Explicitná x implicitná
+
+ pocet premenných, konstánt a obmedzení (~dzka zápisu funkcie)
+
+ a) dosiahnutá rýchlos, aktivita vybraných neurónov, ci dorazil k zdroju
+   energie, ...
+
+ b) ako dlho vydrzal pracova
+
+ Externá x interná
+
+ dá sa mera iba zvonku, alebo je dostupná robotovi z jeho senzorov?
+
+ a) absolútna vzdialenos robota od ciea
+
+ b) mnozstvo svetla zachytené senzorom, napätie batérií
+
+ Externá ­ pri simuláciách ,,skoro zadarmo", inak drahá (cas, vybavenie)
+
+                                                                          11
+Ako voli fitness
+
+ Optimalizácia súboru parametrov systému, ktorý je zlozitý, ale dobre
+    definovaný FEE ­ Funkcionálna, Explicitná, Externá ­ tradicný ,,inziniersky
+    prístup"
+
+ autonómny robot schopný pracova v neznámom a nepredvídatenom
+
+prostredí BII ­ Behaviorálna, Implicitná, Interná ­ vhodná pre
+
+inkrementálny vývoj    Im
+                                  In
+  diagonála FEE - BII
+                       Ex Ex
+
+                       F              B
+
+ Subjektívna fitness ­ vyvíjaní jedinci sú hodnotení clovekom ­ BEE
+
+       pr. Biomorphy ­ clovek vyberá jedincov, ktorí budú reprodukovaní a mutovaní
+       môze sa meni clovek od cloveka alebo i pre jedného cloveka v case
+
+                       https://cdmckay.org/biomorph/
+
+                                                                                                     12
+ Príklady
+
+ Prehad niektorých jednoduchých riesených úloh:
+
+      1. Jednoduché správanie
+      2. Správanie, ktoré zrejme vyzaduje pamä alebo vnútorné stavy, ale
+
+          ukáze sa, ze to ide jednoduchsie
+      3. Zlozitejsia navigácia ­ modulárna architektúra a vnútorné stavy
+
+ Navigácia vyzaduje zobrazenie zo senzorických údajov na motorické
+    akcie
+
+                                                                senzory motory
+       vzájomná závislos
+       casto nestací urobi tabuku (stav senzorov  motory) pre vsetky
+
+         mozné stavy senzorov
+
+ ,,umelá evolúcia dokáze vytvori vemi efektívne riadenie s vyuzitím
+    interakcií medzi robotom a prostredím"
+
+                                                                                                                                    13
+ Evolúcia jednoduchej navigácie
+
+ Riadenie Breitenbergovho typu
+ Evolúcia jednoduchej navigácie
+
+       Sledovanie evolúcie
+
+                                                                                                                                    14
+Priamy pohyb s obchádzaním
+prekázok
+
+ Ak je morfológia robota symetrická ­ dá sa pouzi Braitenbergovo
+    autícko (1984)
+
+ motory priamo spojené vázenými spojmi so senzormi
+
+ spoj
+
+ pozitívny (+) ­ excitácia  senzory
+ negatívny (-) ­ inhibícia
+
+                            motory
+
+                                                                    15
+Braitenbergovo autícko
+
+      +                 +
+
++  +     ++
+
+      +                 +
+
+-  -     --
+
+                           16
+Riadenie Breitenbergovho typu
+pre Kheperu
+
+ Kazdý senzor má excitacný spoj s motorom na svojej strane a
+    inhibicný spoj s motorom na druhej strane; váhy sú symetrické
+
+ vstupy do motorov sú posunuté o kladnú konstantu ­ vynútený
+    pohyb dopredu
+
+ netriviálne nastavenie
+
+ vlastnosti motorov a senzorov (sila spoja)
+
+ pomery váh                                         +
+
+ ak najavejsí a avý celný senzor majú rovnakú váhu
+
+  robot zatáca prílis mnoho pri prekázke vavo
+
+  alebo robot zatáca málo pri prekázke celne
+
+ hodnoty váh závisia od rýchlosti pohybu a frekvencie cítania senzorov,
+   odrazivosti prekázok, ...
+
+ rôzne roboty v rôznych prostrediach vyzadujú starostlivé
+    nastavenie
+
+                                                                   17
+ Evolucný prístup
+
+ Bludisko s okruhom (80 x 50 cm)
+ cie: maximálna rýchlos vpred, vyhýbanie sa prekázkam
+
+   https://youtu.be/2LFzuBferew
+
+                                                                                                                                    18
+ Evolucný prístup
+
+ Bludisko s okruhom (80 x 50 cm)
+ cie: maximálna rýchlos vpred, vyhýbanie sa prekázkam
+ fitness (k je císlo kroku, n je celkový pocet krokov)
+
+                                             1 
+                                        =   
+
+                                                                  =1
+
+           =  1 -  1 -  where 0  , ,   1
+           =  +   = | - |
+           - rýchlos avého motora,   -0.5; 0.5
+           - rýchlos pravého motora,   -0.5; 0.5
+           - normalizovaná hodnota najaktívnejsieho infracerveného
+
+                     senzora
+
+                                                                                                                                    19
+Fitness
+
+      1         =  1 -  1 -  where 0  , ,   1
+ =   
+                =  +   = | - |
+           =1   - rýchlos avého motora,   -0.5; 0.5
+                - rýchlos pravého motora,   -0.5; 0.5
+                - normalizovaná hodnota najaktívnejsieho
+
+                            infracerveného senzora
+
+  maximalizuje rotáciu kolies (4 maximá)
+ 1 -  maximalizuje rotáciu rovnakým smerom
+ 1 -  posiluje vyhýbanie sa prekázkam
+ nepreferuje pohyb dopredu!
+
+                                                          20
+Riadenie
+
+bez skrytých neurónov, 8 vstupných (infra, 0,1 ),
+2 výstupné (motory, sigmoida posunutá do -0.5,0.5 ),
+2 neuróny na uchovanie stavu motorov do alsieho cyklu (Elman)
+výstupné neuróny majú prahy
+
+                                                     avý pravý
+                                                     motor motor
+
+infra  minulý prah
+
+       výstup                                                     21
+ Evolúcia
+
+ 80 jedincov v populácii
+ Váhy a prah inicializované na malé císla okolo 0
+ Infra senzory snímané kazdých 300 ms
+ 1 experiment 80 senzorovo-motorických cyklov ( 24 s)
+
+                                Najlepsí jedinec na konci evolúcie
+
+                                                                                                                                    22
+ Sledovanie vývoja
+
+ Priemerná a maximálna fitness v populácii
+
+      Fitness najlepsieho jedinca v populácii a priemerná fitness populácie v
+      jednotlivých generáciách. Zvislé úsecky ukazujú smerodajnú odchýlku z troch
+      behov s rôznymi pociatocnými populáciami.
+
+                                                                                                                                    23
+Sledovanie vývoja
+
+ Oddelene jednotlivé zlozky fitness
+
+                                     1 -   1 - 
+
+                                                              Generations
+
+ pre Breitenbergovo autícko (so symetrickými váhami) existujú
+    rovnovázne body, ke sa vstupy zo symetrických senzorov
+    vzájomne anulujú ­ autícko sa zastaví
+
+ tento problém riesia rekurentné spoje (zle sa nastavujú rucne)
+
+                                                                                                                                    24
+ alsie vyvinuté vlastnosti
+
+ Teoreticky by robot mohol cúva, ale vzdy preferoval smer, kde má
+    viacej senzorov
+
+       nevyvinulo sa v pravouhlom bludisku bez prekázok
+
+ maximálna rýchlos vyvinutých jedincov nikdy nedosiahla maximum
+    80 mm/s. ale len asi 48 mm/s ­ pravdepodobne preto, ze senzory
+    sú snímané kazdých 300 ms a pri vyssej rýchlosti by robot narázal
+    do prekázok, ktoré nestacil zaregistrova. Maximálna rýchlos
+    nevzrástla ani pri dvojnásobnom pocte generácií.
+
+                                         smer vpred
+
+                                                                                                                                    25
+

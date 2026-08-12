@@ -1,0 +1,1908 @@
+Data Mining
+
+DATA ANALYSIS
+
+BY: IVETA MRÁZOVÁ
+DATA                     Contents:
+ANALYSIS
+                         · Data standardization techniques
+Contents:                · Range, quartiles, and outliers
+                         · Relationship between the attributes
+· Data standardization
+    techniques                   · Relationship between categorical variables
+
+· Range, quartiles, and              · 2 - test and Fisher´s test
+    outliers
+                                 · Regression analysis (~ relationship between numerical
+· Relationship between              variables)
+    the attributes
+                                     · Linear regression for one input variable, correlation
+· Discriminant analysis                 coefficients
+
+· Cluster analysis                   · Multi-dimensional linear regression
+                                     · Logistic regression
+
+                           · Discriminant analysis
+                           · Cluster analysis
+
+                                 · The main clustering approaches
+
+                                     · Distance measures
+                                     · k-means clustering
+                                     · Hierarchical clustering
+                                     · Vector quantization
+
+                                 · Other clustering techniques
+
+                                     · k-medoids algorithm, grid-based methods, and density-based
+                                        algorithms
+
+                                     · Scalable data clustering approaches
+
+                         I. MRÁZOVÁ: DATA MINING  2
+DATA                     Contents:
+ANALYSIS
+                          · Data standardization techniques
+Contents:                 · Range, quartiles, and outliers
+                          · Relationship between the attributes
+· Data standardization
+    techniques                    · Relationship between categorical variables
+
+· Range, quartiles, and               · 2 - test and Fisher´s test
+    outliers
+                                  · Regression analysis (~ relationship between numerical
+· Relationship between              variables)
+    the attributes
+                                      · Linear regression for one input variable, correlation
+· Discriminant analysis                  coefficients
+
+· Cluster analysis                    · Multi-dimensional linear regression
+                                      · Logistic regression
+
+                            · Discriminant analysis
+                            · Cluster analysis
+
+                                  · The main clustering approaches
+
+                                      · Distance measures
+                                      · k-means clustering
+                                      · Hierarchical clustering
+                                      · Vector quantization
+
+                                  · Other clustering techniques
+
+                                      · k-medoids algorithm, grid-based methods, and density-
+                                         based algorithms
+
+                                      · Scalable data clustering approaches
+
+                         I. MRÁZOVÁ: DATA MINING                                               3
+Data Standardization
+
+ In the Euclidean space, standardization of attributes is
+   recommended so that all attributes can have equal
+   impact on the computation of distances.
+
+ Example: Consider the following pair of data points
+
+   · : (0.1, 20) and : (0.9, 720),
+        (, ) = (0.9 - 0.1)2 + (720 - 20)2 = 700.000457,
+
+ The distance is dominated by (720-20) = 700.
+
+ Standardize attributes: to force the attributes to have a
+   common value range
+
+I. MRÁZOVÁ: DATA MINING                                     4
+For the exact notation used, refer to the example solved during the lecture.
+
+Interval-Scaled Attributes
+
+ Their values are real numbers following a linear scale.
+
+   · e.g., the difference in Age between 10 and 20 is the same as that
+        between 40 and 50.
+
+   · The key idea is that intervals keep the same importance throughout
+        the scale
+
+ Decimal scaling to the interval [-1,1]: divides the attribute values
+   by the smallest power of 10 that keeps all the transformed values
+   within the interval [-1,1].
+
+ Range standardization to the interval [0,1] normalizes attribute
+   values in the following way (f is an attribute):
+
+(xif)  =     xif  - min( )      )  ,
+          max(    ) - min(
+
+       I. MRÁZOVÁ: DATA MINING                                           5
+Interval-Scaled Attributes (cont. ...)
+
+ Range standardization to the interval [-1,1] normalizes attribute
+   values in the following way (using   defined above):
+
+ -1,1  = 2    - 1
+
+ Standardization according to the mean absolute difference
+   transforms the attribute values so that they have a zero mean and
+   a mean absolute difference equal to 1.
+
+· For attribute , the mean absolute difference (denoted by ) is
+    computed as:
+
+               1
+        f =  1 + 2+. . . + ,
+
+        f  =  1  |1 - | + |2 - |+. . . +| - | ,
+              
+
+Score:  ()       =  -    .
+                       
+
+                    I. MRÁZOVÁ: DATA MINING                           6
+Interval-Scaled Attributes (cont. ...)
+
+ Standardization according to the standard deviation transforms the
+   attribute values so that they have zero mean and (corrected) sample
+   standard deviation equal to 1.
+
+· The (corrected) sample standard deviation of attribute f (denoted by  )
+    is computed as follows:
+
+  =  1  1 + 2 +  +  ,
+     
+
+ =        1      1 -  2 + 2 -  2 +  +  -  2 ,
+        -1
+
+std-score: std   = .  - 
+
+                        
+
+                 I. MRÁZOVÁ: DATA MINING  7
+Ratio-scaled attributes
+
+ Numeric attributes, but unlike interval-scaled attributes,
+  their scales are exponential,
+
+ For example, the total amount of microorganisms that
+  evolve in time t is approximately given by AeBt, where A
+  and B are some positive constants.
+
+    => first, perform a log transform: ( ),
+
+        then, treat the transformed attribute values like
+        interval-scaled attribute values
+
+I. MRÁZOVÁ: DATA MINING                                      8
+Nominal attributes
+
+ Sometimes, we need to transform nominal attributes
+   (e.g., colors, kinds of fruits, etc.) to numeric attributes
+
+  => Transform nominal attributes to binary attributes:
+
+         · Let the number of values of a nominal attribute be v.
+         · Create v binary-valued attributes to represent them.
+         · If a data instance for the nominal attribute takes a particular
+
+           value, the value of its binary attribute is set to 1, otherwise
+           it is set to 0.
+         · The resulting binary attributes can be used as numeric
+           attributes, with two values, 0 and 1.
+
+I. MRÁZOVÁ: DATA MINING                                                     9
+Nominal attributes: an example
+
+  Nominal attribute fruit has three values:
+
+     · Apple, Orange, and Pear
+
+  ==> We create three binary attributes - called, Apple,
+         Orange, and Pear in the new data.
+
+  If a particular data instance in the original data has Apple
+    as the value for fruit,
+
+     · then in the transformed data, we set the value of the attribute
+         Apple to 1, and
+
+     · the values of attributes Orange and Pear to 0
+
+I. MRÁZOVÁ: DATA MINING  10
+Ordinal attributes
+
+ Ordinal attribute: an ordinal attribute is like a nominal
+   attribute, but its values have a numerical ordering.
+
+     · Example: Age attribute with the values Young, MiddleAge and
+        Old. These values are ordered.
+
+ => Common approach to standardization:
+         treat ordinal attributes as interval-scaled attribute.
+
+I. MRÁZOVÁ: DATA MINING                                             11
+DATA                     Contents:
+ANALYSIS
+                          · Data standardization techniques
+Contents:                 · Range, quartiles, and outliers
+                          · Relationship between the attributes
+· Data standardization
+    techniques                    · Relationship between categorical variables
+
+· Range, quartiles, and               · 2 - test and Fisher´s test
+    outliers
+                                  · Regression analysis (~ relationship between numerical
+· Relationship between              variables)
+    the attributes
+                                      · Linear regression for one input variable and correlation
+· Discriminant analysis                  coefficients
+
+· Cluster analysis                    · Multi-dimensional linear regression
+                                      · Logistic regression
+
+                            · Discriminant analysis
+                            · Cluster analysis
+
+                                  · The main clustering approaches
+
+                                      · Distance measures
+                                      · k-means clustering
+                                      · Hierarchical clustering
+                                      · Vector quantization
+
+                                  · Other clustering techniques
+
+                                      · k-medoids algorithm, grid-based methods, and density-
+                                         based algorithms
+
+                                      · Scalable data clustering approaches
+
+                         I. MRÁZOVÁ: DATA MINING                                                  12
+Range, Quartiles and Outliers
+
+ The range of a set of data is the difference between the highest and
+   the lowest value in the set.
+
+ The quartiles Q1, Q2, Q3 split the data into four parts
+
+                   Q1       Q2                  Q3
+
+Lowest value                                              Highest value
+
+              25%      25%      25%                 25%
+
+     · 25% of the observations should have a value less than the lower quartile, Q1
+     · 50% of the observations should have a value below the median, Q2 , and
+     · 75% of the observations should have the value below the upper quartile, Q3
+
+ Interquartile range = upper quartile ­ lower quartile
+
+                       I. MRÁZOVÁ: DATA MINING                                       13
+Range, Quartiles and Outliers
+
+How to calculate the quartiles for n ascending values:
+
+                   Q1                  Q2                     Q3
+
+Lowest value                                                           Highest value
+
+              25%      25%                               25%      25%
+
+Discrete data:                                           Continuous data:
+
+- Lower quartile, Q1 - divide n by 4:                    - Lower quartile, Q1:
+     When n/4 is a whole number, find the midpoint of        · Divide n by 4 and use inter-
+         the corresponding term and the term above             polation to find the corres-
+                                                               ponding value
+     When n/4 is not a whole number, round the number
+         up and pick the corresponding term
+
+- Upper quartile, Q3 ­ divide n by 4 and multiply by 3:  - Upper quartile, Q3:
+     when 3n/4 is a whole number, find the midpoint of
+       the corresponding term and the term above              Divide n by 4 , then multiply by
+                                                                3 and use interpolation to find
+     when 3n/4 is not a whole number, round the number         the corresponding value
+       up and pick the corresponding term
+
+              I. MRÁZOVÁ: DATA MINING                                  14
+Range, Quartiles and Outliers
+
+                   Q1       Q2                  Q3
+
+Lowest value                                             Highest value
+
+              25%      25%      25%                 25%
+
+ An outlier is an extreme value that lies outside the
+   overall pattern of data.
+
+ The following rule is often used to identify outliers:
+
+   An outlier is any value, which is
+
+      · Greater than the upper quartile + 1.5 · interquartile range or
+      · Less than the lower quartile - 1.5 · interquartile range
+
+                       I. MRÁZOVÁ: DATA MINING                          15
+Range, Quartiles and Outliers
+
+Example 1:
+
+The blood glucose of 30 females is recorded. The results, in mmol/liter, are shown in the stem and
+
+leaf diagram below (30/4 = 7.5; 8th nr. is 3.2; 23rd nr. is 4.0).      Q1 = 3.2      Q2 = 3.8
+     stem | leaf Key: 2 | 1 means 2.1                                  Q3 = 4.0     IQR = 0.8
+
+   2 |223357                            (6)                            Llimit = 3.2 ­ 1.5 · 0.8 = 2
+                                                                       Ulimit = 4.0 + 1.5 · 0.8 = 5.2
+   3 |1267778888999                     (13)
+
+   4 |000045678                         (9)
+
+   5 |15                                (2)                            An outlier is the value 5.5.
+
+Draw a box plot to represent the data. (The outlier is marked with a cross. The highest value which
+is not an outlier is 5.1. Always use a scale and label it. Give your box plot a title.)
+
+Females          lower quartile         median                      highest value that is not an outlier or
+                                                                    the boundary for outliers
+
+lowest value that is not an outlier     upper quartile                 outlier
+or the boundary for outliers
+
+0        1    2                      3  4                        5  6            7
+
+                 Blood glucose level mmol/liter
+
+                                        I. MRÁZOVÁ: DATA MINING                     16
+Range, Quartiles and Outliers
+
+ Example 2:
+
+ Male and female turtles were weighted in grams. For males, the lower quartile was 400 g
+ and the upper quartile was 580 g. For females, the lower quartile was 260 g and the
+ upper quartile was 340 g.
+ An outlier is an observation that falls either 1x (interquartile range) above the upper
+ quartile or 1 x (interquartile range) below the lower quartile.
+ a) Which of these male turtles' weights would be outliers? (400 g, 260 g, 550 g, 640 g)
+
+         QM1 = 400 | QM3 = 580 | IQRM = 180 | Llimit = 400 ­ 1 · 180 = 220 | Ulimit = 580 + 1 · 180 = 760
+         Answer: There are no outliers among male turtles' weights.
+
+ b) Which of these female turtles' weights would be outliers? (170 g, 300 g, 340 g, 440 g)
+
+         QF1 = 260 | QF3 = 340 | IQRF = 80 | Llimit = 260 ­ 1 · 80 = 180 | Ulimit = 340 + 1 · 80 = 420
+         Answer: There are the following outliers among female turtles' weights: 170 g and 440 g.
+
+ c) What is the largest size a male turtle can be without being an outlier?
+
+      Answer: The largest size of a male tuI. rMtRlÁeZOwVÁit:hDAoTuAtMbINeINiGng an outlier is 760 g.
+
+I. MRÁZOVÁ: DATA MINING  17
+DATA                     Contents:
+ANALYSIS
+                         · Data standardization techniques
+Contents:                · Range, quartiles, and outliers
+                         · Relationship between the attributes
+· Data standardization
+    techniques                  · Relationship between categorical variables
+
+· Range, quartiles, and             · 2 - test and Fisher´s test
+    outliers
+                                · Regression analysis (~ relationship between numerical
+· Relationship between             variables)
+    the attributes
+                                    · Linear regression for one input variable and correlation
+· Discriminant analysis                 coefficients
+
+· Cluster analysis                  · Multi-dimensional linear regression
+                                    · Logistic regression
+
+                           · Discriminant analysis
+                           · Cluster analysis
+
+                                · The main clustering approaches
+
+                                    · Distance measures
+                                    · k-means clustering
+                                    · Hierarchical clustering
+                                    · Vector quantization
+
+                                · Other clustering techniques
+
+                                    · k-medoids algorithm, grid-based methods, and density-
+                                        based algorithms
+
+                                    · Scalable data clustering approaches
+
+                         I. MRÁZOVÁ: DATA MINING                                                18
+Contingency Tables
+
+~ relationship between two categorical quantities,
+  e.g., binary ones
+
+A general contingency table
+
+For n observations with      Y1   Y2                YS       
+
+R values for the quantity X1 a11 a12  a1S r1
+
+X and S values for the   X2  a21  a22               a2S      r2
+quantity Y
+                         ···                         
+
+                         XR  aR1  aR2               aRS      rR
+
+                             s1   s2                sS       n
+
+I. MRÁZOVÁ: DATA MINING                                  19
+     Contingency Tables (2)
+
+     Y1 Y2  YS  akl ... frequency of combination
+                                      ( X = Xk )  ( Y = Yl )
+X1   a11      a12       a1S       r1
+
+X2   a21      a22       a2S       r2  rk , sl ... row / column totals
+···                                   (the so-called marginal values)
+
+XR   aR1      aR2       aRS       rR  ekl ... expected frequency of
+
+                                      combination ( X = Xk )  ( Y = Yl )
+ s1 s2  sS n when assuming independence
+
+                                      of X and Y
+
+                   ;              ;                   ;    =    
+                                                                
+      =                =               =   
+
+          =1            =1            =1 =1
+
+                             I. MRÁZOVÁ: DATA MINING              20
+2 ­ test
+
+Checking the relationship between X and Y
+
+Evaluation of the difference between the observed
+
+frequencies of the respective combinations (denoted in the
+
+table) and the frequencies expected if the hypothesis about
+
+the independence of both quantities (computed from the
+
+marginal values) would hold true
+
+                   - 2                              -    2
+                                                       
+2 = =1 =1                     2 =  =1 =1
+
+alternatively:  2  =  =1  =1  2                -  
+                              
+
+                      I. MRÁZOVÁ: DATA MINING               21
+2 ­ test (2)
+
+· With the validity of the null hypothesis of the independence of the
+   quantities X and Y:
+
+              H0: P ( X = Xk  Y = Yl ) = P ( X = Xk ) P ( Y = Yl ) ;  k,l
+
+    2 distribution has ( R ­ 1 ) . ( S ­ 1 ) degrees of freedom
+
+· If the value of the 2­statistic is  to the value of the 2 ­ distribution
+   with the corresponding number of degrees of freedom at the chosen
+   level of significance  :
+                                2  (2-1)(-1)
+
+   the null hypothesis will be rejected
+   = > an alternative hypothesis of dependence is then accepted
+
+I. MRÁZOVÁ: DATA MINING                                                     22
+2 ­ test (3)
+
+Example: a four-field contingency table
+
+              PROVISION OF CREDIT
+
+              YES                      NO  
+
+INCOME  High  50                       0   50
+
+HEIGHT  Low   30                       40  70
+
+              80                       40  120
+
+              I. MRÁZOVÁ: DATA MINING           23
+2 ­ test (4)
+
+Example (continued):
+
+COMBINATION   ACTUAL  EXPECTED  DIFFERENCE      the value of the 2
+              NUMBER  NUMBER        16.7           statistics: 42.857
+INCOME_HIGH                         -16.7
+       and        50     33.3       -16.7       at the level of
+                                    16.7           significance  = 0.05,
+  CREDIT_YES      0      16.7                      the value of the 2
+                                                   distribution with one
+INCOME_HIGH       30     46.7                      degree of freedom is
+       and                                         equal to:
+                  40     23.3
+  CREDIT_NO                                          2(1) (0.05) = 3.84
+
+INCOME_LOW
+       and
+
+  CREDIT_YES
+
+INCOME_LOW
+       and
+
+  CREDIT_NO
+
+= > there is dependence between the income height and provision of credit
+
+                      I. MRÁZOVÁ: DATA MINING  24
+Fisher´s ­ test
+
+ 2 ­ test can be used only for big enough frequencies ­
+
+  when ( rk . sl ) / n  5  k, l
+
+ For the four-field contingency tables, it is possible to use
+  Fisher´s test (applicable to low frequencies)
+
+ Computation of the probability that the four-field table
+  has actual frequencies akl with the given marginal
+  frequencies r and s :
+
+    1! 2! 1! 2!                 1 2
+                                11 21
+ =  ! 11! 12! 21! 22!        =       
+
+                                1
+
+    I. MRÁZOVÁ: DATA MINING            25
+Fisher´s ­ test (2)
+
+ The probabilities p will be summed up for all
+
+considered values of actual frequencies at the
+
+given  marginals  (we  assume                =  min  ):
+
+                                                 
+
+       11  11 -  !     1! 2! 1! 2!                   22 -  !
+                       12 +  ! 21 +  !
+  =  !
+
+       =0
+
+ If P   , the null hypothesis will be rejected at the
+  level of significance 
+
+                  I. MRÁZOVÁ: DATA MINING                     26
+Fisher´s ­ test (3)
+
+      S+ S-             P1 S+ S-                       P = P0 + P1 =
+DA 5 13 18              DB 1 11 12                       = 0.204 > 0.05
+DB 1 11 12      ==> DA 5 13 18
+
+       6 24 30         6 24 30                          Accept the null
+                                                          hypothesis of
+P0 S+ S-                12!18!6!24!                        independence.
+DB 0 12 12             30!0!6!12!12!
+DA 6 12 18      P0  =                 =         0.031
+
+       6 24 30  P1  =   12!18!6!24!   =         0.173
+                       30!1!5!11!13!
+
+                       I. MRÁZOVÁ: DATA MINING                            27
+Fisher´s ­ test (4)
+
+P2 S+ S-        P3 S+ S-                 P2  =   12!18!6!24!   =  0.340
+DB 2 10 12      DB 3 9 12                       30!2!4!10!14!
+DA 4 14 18      DA 3 15 18
+                                         P3  =  12!18!6!24!    =  0.302
+       6 24 30         6 24 30                  30!3!3!9!15!
+
+P4 S+ S-        P5 S+ S-                 P4  =  12!18!6!24!    =  0.128
+DB 4 8 12       DB 5 7 12                       30!4!2!8!16!
+DA 2 16 18      DA 1 17 18
+                                         P5  =  12!18!6!24!    =  0.024
+       6 24 30         6 24 30                  30!5!1!7!17!
+
+P6 S+ S-                                 P6  =  12!18!6!24!    =  0.002
+DB 6 6 12                                       30!6!0!6!18!
+DA 0 18 18
+                Check:
+       6 24 30
+                  6=0  = 0.031 + 0.173 + 0.340 + 0.302 +
+                                 + 0.128 + 0.024 + 0.002 = 1.000
+
+                I. MRÁZOVÁ: DATA MINING                                  28
+DATA                     Contents:
+ANALYSIS
+                          · Data standardization techniques
+Contents:                 · Range, quartiles, and outliers
+                          · Relationship between the attributes
+· Data standardization
+    techniques                    · Relationship between categorical variables
+
+· Range, quartiles, and               · 2 - test and Fisher´s test
+    outliers
+                                  · Regression analysis (~ relationship between numerical
+· Relationship between              variables)
+    the attributes
+                                      · Linear regression for one input variable and correlation
+· Discriminant analysis                  coefficients
+
+· Cluster analysis                    · Multi-dimensional linear regression
+                                      · Logistic regression
+
+                            · Discriminant analysis
+                            · Cluster analysis
+
+                                  · The main clustering approaches
+
+                                      · Distance measures
+                                      · k-means clustering
+                                      · Hierarchical clustering
+                                      · Vector quantization
+
+                                  · Other clustering techniques
+
+                                      · k-medoids algorithm, grid-based methods, and density-
+                                         based algorithms
+
+                                      · Scalable data clustering approaches
+
+                         I. MRÁZOVÁ: DATA MINING                                                  29
+Regression analysis
+
+ ~ determine the relationship of variable Y to other (one or more)
+      variables X1,...,Xm
+
+Reasons for regression analysis:
+
+ 1. It is very costly to obtain / measure the output values => predict
+      the output based on the inputs that are easily available
+
+ 2. Input values are known earlier than the output => estimate the
+      output
+
+ 3. Controlled input values might help find correct behavior of the
+      output
+
+ 4. There can be a causal relationship between the input and output
+      of a system => find this relationship
+
+I. MRÁZOVÁ: DATA MINING                                                 30
+Regression analysis (2)
+
+  Correlation analysis
+
+        Is there a linear relationship between two numerical quantities?
+
+  Linear regression
+
+        What are the parameters of the linear relationship between two
+        numerical quantities?
+         Approximation of the observed values [ xi , yi ] ; i = 1, ...
+
+            by means of y = x +  + 
+
+I. MRÁZOVÁ: DATA MINING  31
+Regression analysis (3)
+
+ least squares method (minimizes the squared
+     differences between the actual and expected values)
+
+       y
+                                                        y = f(x)=  x + 
+
+                                                                x
+
+ look for: min =1  -   2
+
+I. MRÁZOVÁ: DATA MINING                                                  32
+Regression analysis (4)
+
+Generalized regression equation:
+          =  + 11 + 22 +  + 
+
+      for the individual patterns:
+            =  + 11 + 22 +  +  + 
+
+regression deviation for the pattern 
+
+I. MRÁZOVÁ: DATA MINING                33
+Regression analysis (5)
+
+Linear regression for one input variable:
+
+· Patterns: 1, 1 , ... , ,  ;   ,   
+· Regression equation:  =  + 
+
+                         regression coefficients
+· Use the least squares method to find regression coefficients!
+· Quadratic error
+
+              = =1 2 = =1  -  2 = =1  -  -  2
+
+I. MRÁZOVÁ: DATA MINING  34
+Regression analysis (6)
+
+                                  
+
+ =  2 =   -  2 =   -  -  2
+
+=1   =1                           =1
+
+ Derivative of the quadratic error with respect to  and :
+
+             
+
+     = -2   -  - 
+           =1
+
+         
+
+   = -2   -  -  
+         =1
+
+ Minimization of the error (the derivatives should be equal to 0)
+
+         I. MRÁZOVÁ: DATA MINING                                   35
+Regression analysis (7)
+
+    = -2 =1  -  -                            = -2 =1   -  -  
+                      
+
+           +  =1  = =1                                  =  =1   
+     =1  +  =1 2 = =1                                         
+
+                                                        =  =1   
+                                                              
+
+     +   =  hence  =  -  
+     -   =1  +  =1 2 = =1  
+
+                    I. MRÁZOVÁ: DATA MINING                     36
+Regression analysis (8)
+
+                                                 
+
+ =  -       -        +   2 =   
+
+                   =1           =1               =1
+
+                                
+
+  2 -    =    -   
+
+=1       =1      =1             =1
+
+                                                 =1    - 
+                                                 =1    - 
+    -  =    -                   hence         =
+
+=1           =1
+
+Predict y by means of y =  + x
+
+                   I. MRÁZOVÁ: DATA MINING                 37
+Regression analysis (9)
+
+  =  =1   -
+     =1   -
+
+ after re-writing:    =  =1 - -
+                             =1 - 2
+
+                and  =  - 
+
+  (  ~ sample covariance / sample variance in x)
+
+                         I. MRÁZOVÁ: DATA MINING  38
+Regression analysis (10)
+
+Correlation coefficients:
+
+An assessment of the ,,amount" of linear dependence
+
+ ,  =               ;          =             ;        =   
+               2 2                                         
+
+(corrected) sample covariance:  =              1     -       - 
+                                             -1
+
+(corrected) sample variances:     2 =          1     -   2
+                                             -1
+
+                                  2 =          1     -   2
+                                             -1
+
+                    I. MRÁZOVÁ: DATA MINING                      39
+Regression analysis - an example
+
+Source: I. Padrón Pea: World Bank data analysis ­ Spanish speaking countries
+
+I. MRÁZOVÁ: DATA MINING                                                       40
+Regression analysis (11)
+
+Multi-dimensional regression:
+
+  Linear
+
+     we assume a linear dependence of the explained
+     (dependent) quantity  on several explaining
+     (independent) quantities , , ... , 
+
+       an assumption for the  -th observation:
+             =  +   +   +  +   + 
+
+I. MRÁZOVÁ: DATA MINING                              41
+Regression analysis (12)
+
+Multi-dimensional regression:
+
+ Linear (continued)
+
+   matrix notation:  =   ;  = 1, ... ,  ;  = , 1,  ,  
+
+                                    1 11 ... 1
+                              =    
+
+                                    1 1 ... 
+
+   solution of  =   by means of the least squares`
+      method:  =  -
+
+I. MRÁZOVÁ: DATA MINING                                 42
+Regression analysis (13)
+
+Multi-dimensional linear regression:
+ variable Y is modeled as a linear function of several
+
+   predictive variables
+                =  + 11 + 22 +  + 
+
+ matrix notation
+          =   X ... extended matrix of input patterns
+                           Y ... matrix of the outputs
+          = , 1, ... ,  ;
+
+                                                                     
+
+ quadratic deviation  =  -     -  
+
+I. MRÁZOVÁ: DATA MINING                                                43
+Regression analysis (14)
+
+ optimization step (LMS)
+
+                          =0
+
+   =     -  - 
+                 
+
+                               =   
+
+ regression coefficients are determined according to:
+       =    -1   
+
+ Solution of complex practical tasks can be accompanied with high
+   computational costs
+                     approximative solutions
+
+                          I. MRÁZOVÁ: DATA MINING                  44
+Regression analysis (15)
+
+Multi-dimensional regression (continued):
+
+  non-linear
+
+         a more complex functional dependence is assumed between
+          and  ­ quadratic, exponential, ...
+
+       logistic regression (an example for non-linear regression)
+
+           assume that the dependent variable  is categorical, e.g., a
+             two-valued one
+
+           model the probability, that  has a certain value depending on
+             the combination of the values of independent quantities 
+
+           ,,conditional chance":  |   -  |
+
+I. MRÁZOVÁ: DATA MINING  45
+Regression analysis (16)
+
+Multi-dimensional regression (continued):
+
+ logistic regression (continued)
+
+  For y with binary values (1 or 0):    =1|1,2,...,   = + 
+                                      1- =1|1,2,...,
+
+  ln      = 1|1, 2, ... ,             =  + 11 +  + 
+      1 -   = 1|1, 2, ... , 
+
+  resp.                      +                                1
+     = 1|1, 2, ... ,   = 1 + +  =                     1 + -- 
+
+      I. MRÁZOVÁ: DATA MINING                               46
+Regression analysis (17)
+
+Multi-dimensional regression (continued):
+
+  logistic regression (continued)
+       estimate the ,,chance" / probability of y = 1 :
+
+the sigmoid function:                                                 1
+                                                             1 + exp -
+
+                                                              =  +   
+
+                                                                                       
+
+ estimate the parameters of the model by means of the
+ maximum likelihood method (maximization of L):
+
+ = =1  |,1, ,2, ... , ,  =  =1                            1      1       1-
+                                                1+-- ,
+                                                                 1++ ,
+
+                       I. MRÁZOVÁ: DATA MINING                                           47
+                                                                             =  +   ,
+
+                                                                                                                                   
+
+Regression analysis (18)
+
+Multi-dimensional regression - logistic regression (continued):
+
+ Instead of maximizing L, minimize the cross-entropy loss E = - log L :
+
+   |                  log  1                                     1
+       = -                                          + 1 -  log 1 + + ,
+                           1 + -- ,
+                 
+
+ The derivative of the sigmoid is:   =   ( 1 -   )
+
+ Then,   |  = -   log   + 1 -  log 1 -  
+ And for the adjustment rules, it follows that:
+
+  = -                =         - 1 -                  ( 1 -   ) x
+        
+                             1 -                           denotes the learning rates
+
+  =    -   x
+
+  = -   =                   -  
+
+                   
+
+                           I. MRÁZOVÁ: DATA MINING                       48
+DATA                     Contents:
+ANALYSIS
+                          · Data standardization techniques
+Contents:                 · Range, quartiles, and outliers
+                          · Relationship between the attributes
+· Data standardization
+    techniques                    · Relationship between categorical variables
+
+· Range, quartiles, and               · 2 - test and Fisher´s test
+    outliers
+                                  · Regression analysis (~ relationship between numerical
+· Relationship between              variables)
+    the attributes
+                                      · Linear regression for one input variable and correlation
+· Discriminant analysis                  coefficients
+
+· Cluster analysis                    · Multi-dimensional linear regression
+                                      · Logistic regression
+
+                            · Discriminant analysis
+                            · Cluster analysis
+
+                                  · The main clustering approaches
+
+                                      · Distance measures
+                                      · k-means clustering
+                                      · Hierarchical clustering
+                                      · Vector quantization
+
+                                  · Other clustering techniques
+
+                                      · k-medoids algorithm, grid-based methods, and density-
+                                         based algorithms
+
+                                      · Scalable data clustering approaches
+
+                         I. MRÁZOVÁ: DATA MINING                                                  49
+Discriminant analysis
+
+~ classification of patterns into known classes
+
+     search for the dependence of the nominal quantity
+         (that impacts the class membership) on the other 
+         numerical quantities
+
+ Assume, that to every class (~ value of the nominal
+
+quantity) ;  = , ... ,  there exists a (discriminative)
+function 
+
+   =  max      ;  = 1, ... , 
+
+        
+
+        = 1, 2, ... ,  belongs to 
+
+             I. MRÁZOVÁ: DATA MINING                     50
+Discriminant analysis (2)
+
+Linear discriminant analysis:
+
+ =  +  +  +  + 
+
+Discrimination into two classes:                                        Class A
+
+                                                                     a
+
+ Instead of the functions 1 and 2 we                              a        a     a
+   can look for the function                                            aa
+
+           = 1  - 2                                       b                         ()
+ Patterns are classified according to the                      b
+                                                          b b b Class B
+
+sign of                                                                             
+
+ "+" indicates class 1; "-" class 2
+
+                               I. MRÁZOVÁ: DATA MINING                              51
+Discriminant analysis (3)
+
+An optimum classification in the sense of a minimum error
+
+ discriminant function  conditional (a posteriori) 
+    probabilities of classifying observation  to the class 
+
+                   =     =        
+                                 
+
+ for two classes:
+
+  = 1  - 2  =
+
+                   =   1   1 -   2   2
+
+                   I. MRÁZOVÁ: DATA MINING                   52
+Discriminant analysis (4)
+
+ normal distribution (quadratic discriminant function) with
+    the means 1, 2 and covariance matrices  and :
+
+         =    1    1-1 - 2-1   +                11-1 - 22-1  +
+              2
+
+        1     2    1   11-11 - 22-12                 -       1
+      + 2 ln  1  -2                                     ln   2
+
+ different means 1 and 2, identical covariance matrices:
+    ( =  = , linear discriminant function)
+
+   =  1 - 2        -1  -  1  1 - 2              -1   1 - 2   -       1
+                          2                                     ln   2
+
+                       I. MRÁZOVÁ: DATA MINING                          53
+Discriminant analysis (5)
+
+ identity covariance matrices, both classes are
+
+equally probable
+
+   =  1 - 2              1                 1 - 2  1 - 2
+                   - 2
+
+ for normal distributions, the search for discriminant
+
+functions will be reduced to the estimation of the
+
+means  (based on the sample means) and covariance
+matrices  (composed of corrected sample variances )
+
+                  I. MRÁZOVÁ: DATA MINING                54
+Discriminant analysis (6)
+
+Examples:
+
+Normal distributions with the same variances
+     allow for discrimination according to
+           the estimated mean values
+
+I. MRÁZOVÁ: DATA MINING                       55
+DATA                     Contents:
+ANALYSIS
+                         · Data standardization techniques
+Contents:                · Range, quartiles, and outliers
+                         · Relationship between the attributes
+· Data standardization
+    techniques                   · Relationship between categorical variables
+
+· Range, quartiles, and              · 2 - test and Fisher´s test
+    outliers
+                                 · Regression analysis (~ relationship between numerical
+· Relationship between              variables)
+    the attributes
+                                     · Linear regression for one input variable and correlation
+· Discriminant analysis                 coefficients
+
+· Cluster analysis                   · Multi-dimensional linear regression
+                                     · Logistic regression
+
+                           · Discriminant analysis
+                           · Cluster analysis
+
+                                 · The main clustering approaches
+
+                                     · Distance measures
+                                     · k-means clustering
+                                     · Hierarchical clustering
+                                     · Vector quantization
+
+                                 · Other clustering techniques
+
+                                     · k-medoids algorithm, grid-based methods, and density-
+                                        based algorithms
+
+                                     · Scalable data clustering approaches
+
+                         I. MRÁZOVÁ: DATA MINING                                                 56
+Cluster analysis
+
+ Divide the observed patterns into groups (clusters)
+   of mutually similar patterns?
+
+    Assumption: we can measure the distance
+                          between patterns
+
+ Each pattern is characterized by m numerical quantities
+ Distance between two patterns:
+
+      1 = 11, ... , 1 and 2 = 21, ... , 2
+
+I. MRÁZOVÁ: DATA MINING                                   57
+Cluster analysis (2)
+
+1. Hamming distance:  1, 2 = =1 1 - 2
+    (~ Manhattan)
+
+2. Euclidean distance:  1, 2 = =1 1 - 2 2
+
+3.  Chebyshev distance:  1, 2  =  max  1  -  2
+
+                                    
+
+4. Minkovski metrics (1.-3. are its special cases):
+                   1, 2 =  =1 1 - 2 
+
+    I. MRÁZOVÁ: DATA MINING                          58
+Cluster analysis (3)
+
+ 1, 2 =  1 1, 2
+
+ 1, 2 =  2 1, 2
+
+ 1, 2  = lim    1, 2
+
+           
+
+ 0, 2 = 1
+
+ 0, 2 = 1
+ 0, 2 = 1
+
+                I. MRÁZOVÁ: DATA MINING  59
+Cluster analysis (4)
+
+ The choice of the distance metrics depends on the
+    involved quantities and their range
+      normalize the quantities ( ~ divide them by their
+          mean, standard deviation, range (max ­ min), ...)
+
+ We assume the same variance for all the quantities
+
+ Different variance for the quantities
+        Mahalanobis distance:
+               2 1, 2 = 1 - 2 -1 1 - 2
+
+                                                               S ­ the co-variance matrix
+
+I. MRÁZOVÁ: DATA MINING                                                                    60
+Cluster analysis (5)
+
+The distance between two clusters  and  :
+
+  the method of the nearest neighbor
+
+         ~ the minimum from the distances between their elements
+
+ ,   = min    ,               ;   ,   
+
+          ,
+
+ the method of the farthest neighbor
+
+        ~ the maximum from the distances between their elements
+
+ ,   = max    ,               ;   ,   
+
+           ,
+
+     I. MRÁZOVÁ: DATA MINING            61
+Cluster analysis (6)
+
+The distance between two clusters  and  (continued):
+
+ The method of average distance ~ the average of the distances
+
+    between the patterns; (  ~ number of patterns in cluster  ;  ~
+    number of patterns in cluster )
+
+ ,   =  1           , 
+                                       ;   ,   
+        
+          =1  =1
+
+ Centroid method ~ the distance between the centers of the clusters; (
+     ~ the center of the cluster ;  ~ the center of the cluster )
+                              ,  =  , 
+
+              I. MRÁZOVÁ: DATA MINING                               62
+                                                                                https://www.idnes.cz/revue/ankety/PA20110218_nh_572
+
+Cluster analysis (7)
+
+Centroid ~ the center of the cluster
+
+  A ,,prototype" that represents the given cluster
+  The same cluster can be represented by one or
+
+    even more centroids at the same time
+
+        depending on the shape of the cluster and the
+            metrics chosen to evaluate the distances
+
+  Clustering by means of the k-means method
+
+                               Source: https://www.huffingtonpost.ca/2013/10/07/average-woman-face-around-world_n_4058145.html
+                                                                                  A toy application to test: http://faceresearch.org/demos/average
+
+http://pmsol3.files.wordpress  I. MRÁZOVÁ: DATA MINING                                                                                              63
+
+.com/2009/10/czechman.jpg
+Cluster analysis (8)
+
+Clustering by means of the k-means method (Lloyd, 1982):
+
+1. Divide the patterns randomly into k clusters  ;    , ´=  = , 1kK
+2. Determine the centroids of all the clusters in recent division,
+
+e.g., according to:     =   1   
+                           
+
+3. For each pattern 
+
+     1. Determine the distance  ,  ; 1kK; ck ~ the centroid of the k-th cluster)
+
+2.  Let   ,          =  min    , 
+
+                          
+
+3. If  does not belong to cluster l (with the closest distance to centroid  ),
+    move  to cluster l
+
+4. If there was a transfer, then goto Step 2, else FINISH
+
+                               I. MRÁZOVÁ: DATA MINING                            64
+Cluster analysis (8a)
+
+Clustering by means of the k-means method:
+
+ Variants of the algorithm:
+
+     At the initial division, pronounce the first k patterns to
+        be centroids (eliminates Step 2)
+
+     Adjustment of the centroids after every transfer (in the
+        cycle of Step 3)
+
+ Afterwards, the clusters are represented by their
+   centroids
+
+I. MRÁZOVÁ: DATA MINING  65
+Cluster analysis (8b)
+
+Extensions to the Lloyd algorithm:
+   alternating minimization steps do not provide approximation guarantee, yet
+     the Lloyd´s algorithm never increases the cost of the initial clustering
+            => provide the algorithm with a provably good initialization
+   k-means++ seeding (Arthur and Vassilvitskii 2007):
+
+      Sample k of the P patterns with probability 2 ,  =1 2 ,  proportional
+
+       to their squared distance to the closest existing centroid 
+
+   LocalSearch++ (Lattanzi and Sohler, 2019):
+      First, use k-means++ to pick k initial centroids
+      Afterwards, new patterns are sampled with an analogue probability. Sampled
+       patterns replace existing centroids if they decrease the overall squared distance
+       between the patterns and their closest centroids.
+
+I. MRÁZOVÁ: DATA MINING                                                                   66
+Cluster analysis (9)
+
+Clustering by means of the k-medians algorithm:
+
+  Manhattan distance is used as the objective function, hence, the
+     distance  ,  is defined as:  ,  =  -  1.
+
+  it can be shown that this way, the optimal representative  is the
+     median of the data points along each dimension in cluster .
+
+  As the median is chosen independently along each dimension, the
+     resulting -dimensional representative will (typically) not belong
+     to the original data set .
+
+  In general, the -medians approach selects the cluster
+     representatives in a more robust way than -means, because the
+     median is not so sensitive to the presence of outliers as the mean
+
+I. MRÁZOVÁ: DATA MINING  67
+Cluster analysis (10)
+
+Hierarchical clustering algorithm:
+
+  ~ a ,,bottom up" approach
+     Initialization:
+
+        1. Determine mutual distances between all patterns
+        2. Assign each pattern to an individual cluster
+
+     Main cycle:
+
+        1. While there are more clusters (than one)
+
+             1. Find two mutually closest clusters and merge them together
+             2. For the new cluster, compute its distance from other clusters
+
+I. MRÁZOVÁ: DATA MINING                                                        68
+Cluster analysis (11)
+
+Hierarchical clustering algorithm (continued):
+
+     dendrogram
+     ~ shows (from the left to the right) gradual
+
+        merging of clusters
+
+    ~ the optimum number of clusters is not known
+        in advance
+
+I. MRÁZOVÁ: DATA MINING                            69
+Cluster analysis (11a)
+
+An example dendrogram for the USArrests data (USArrests (kaggle.com))
+
+Height (based on Euclidean distance)
+
+                                      I. MRÁZOVÁ: DATA MINING  70
+Vector Quantization: the LVQ ­ Algorithm
+
+for supervised clustering, classes are denoted by C
+
+Step 1: Initialize all weight vectors  0
+         Initialize the learning rates (0) and set k = 0
+
+Step 2: Test the stop condition:
+
+IF FALSE => CONTINUE
+
+IF TRUE => QUIT
+
+Step 3: For each training pattern  perform Step 4 and 5
+Step 4: Determine the index of the weight vector ( j = q ) such that
+
+min   -                             2
+                                    2
+  
+
+(use the Euclidean distance,   is the weight vector
+ with the minimum distance
+
+I. MRÁZOVÁ: DATA MINING                                   71
+Vector Quantization: the LVQ ­ Algorithm (2)
+
+for supervised clustering, classes are denoted by C
+
+Step 5: Adjust the respective weight vector   according to:
+
+  =     + 1 =   +    -  
+       + 1 =   -    -  
+
+Step 6: Set k  k + 1
+
+Decrease the learning rates, e.g., according to:
+
+(k)=(k­1)/(k+1)                                (k>0)
+
+Goto Step 2
+
+                      I. MRÁZOVÁ: DATA MINING                72
+Vector Quantization: the LVQ ­ Algorithm (3)
+
+MATLAB: The function for LVQ1 (~ a variant of LVQ)
+
+Function W = lvq1(X,CX,m,mu,maxiter)
+
+% W = lvq1(X,CX,m,mu,maxiter) computes the weight matrix
+
+%  for vector quantization LVQ1
+
+% X: is the input matrix (each column corresponds to an
+
+%  input vector
+
+% CX: is a row vector of ,,scalar" classes that correspond
+
+%  to the column vectors from X
+
+% m: the number of (different) classes
+
+% mu: initial learning rates
+
+% maxiter: the maximum number of iterations
+
+N = size(X,2); (~ the number of patterns, i.e., columns of X)
+
+                 I. MRÁZOVÁ: DATA MINING                    73
+Vector Quantization: the LVQ ­ Algorithm (4)
+
+MATLAB: The function for LVQ1 (continued)
+
+% the weight vectors are initialized by the first m vectors
+
+% from the training set (must include patterns from all the classes)
+
+% this process automatically calibrates the neurons with the classes
+
+W = X(:,1:m);
+
+CW = CX(1:m);        % the classes for the weight vectors
+
+snorm = zeros(1,m);
+
+niter = 1;
+
+while niter <= maxiter
+
+if niter == 1
+
+for i = m+1:N
+
+for j = 1:m
+
+            snorm(1,j) = norm(X(:,i) - W(:,j))^2;
+
+end
+
+[mind,index] = min(snorm);
+
+                        I. MRÁZOVÁ: DATA MINING              74
+Vector Quantization: the LVQ ­ Algorithm (5)
+
+MATLAB: The function for LVQ1 (continued)
+
+                     if CX(i) == CW(index)
+                   W(:,index) = W(:,index) +
+
+                                                    mu*(X(:,i)-W(:,index));
+                else
+
+                   W(:,index) = W(:,index) -
+                                                    mu*(X(:,i)-W(:,index));
+
+              end
+          end
+       else
+
+            for i = 1:N
+                  for j = 1:m
+                       snorm(1,j) = norm(X(:,i)-W(:,j))^2;
+                         end
+                  mind,index] = min(snorm);
+
+I. MRÁZOVÁ: DATA MINING                                                      75
+Vector Quantization: the LVQ ­ Algorithm (6)
+
+MATLAB: The function for LVQ1 (continued)
+
+                      if CX(i) == CW(index)
+                          W(:,index) = W(:,index) + (mu/niter)*
+                                                        (X(:,i)-W(:,index));
+
+                   else
+                         W(:,index) = W(:,index) - (mu/niter)*
+                                                         (X(:,i)-W(:,index));
+
+                  end
+            end
+       end
+       niter = niter + 1;
+ end
+
+I. MRÁZOVÁ: DATA MINING                                                        76
+DATA                     Contents:
+ANALYSIS
+                         · Data standardization techniques
+Contents:                · Range, quartiles, and outliers
+                         · Relationship between the attributes
+· Data standardization
+    techniques                   · Relationship between categorical variables
+
+· Range, quartiles, and              · 2 - test and Fisher´s test
+    outliers
+                                 · Regression analysis (~ relationship between numerical
+· Relationship between              variables)
+    the attributes
+                                     · Linear regression for one input variable and correlation
+· Discriminant analysis                 coefficients
+
+· Cluster analysis                   · Multi-dimensional linear regression
+                                     · Logistic regression
+
+                            · Discriminant analysis
+                            · Cluster analysis
+
+                                 · The main clustering approaches
+
+                                     · Distance measures
+                                     · k-means clustering
+                                     · Hierarchical clustering
+                                     · Vector quantization
+
+                                 · Other clustering techniques
+
+                                     · k-medoids algorithm, grid-based methods, and density-
+                                        based algorithms
+
+                                     · Scalable data clustering approaches
+
+                         I. MRÁZOVÁ: DATA MINING                                                 77
+Variants of the techniques
+applicable to cluster analysis
+
+The k-medoids algorithm:
+
+  considers a data set D consisting of n d-dimensional data points 1....
+  The goal is to determine k representatives 1...  (out of the original database D; k, is to
+
+    be specified by the user ) that would minimize the objective function O given by the sum
+    of the distances between the different data points and their closest representatives
+
+The objective function O:
+
+                         
+
+                          =   min   , 
+
+                         =1     
+
+                          time complexity of each iteration
+                            is O(knd); usually, a small constant
+                            number of iterations is necessary
+
+I. MRÁZOVÁ: DATA MINING                 78
+Variants of the techniques
+applicable to cluster analysis (2)
+
+The k-medoids algorithm - Why select the representatives from D?
+
+1. k-means clusters may be distorted by outliers
+
+            => cluster representatives can be located in empty regions, unrepresentative of
+                 most of the data points in that cluster
+
+             => such representatives may lead to partial merging of different clusters
+            Yet this problem can be resolved (at least partially ) with careful outlier handling
+
+ 2. it might be difficult to compute the optimal central representative for complex
+    data, e.g., a set of time series of varying length
+
+             => selecting representatives from the original dataset may be very helpful.
+
+     the k-medoids algorithm can be defined virtually for any data type, as
+        long as an appropriate similarity or distance function can be provided
+
+I. MRÁZOVÁ: DATA MINING                                                                           79
+Variants of the techniques
+applicable to cluster analysis (3)
+
+The k-medoids algorithm:
+
+   uses hill-climbing with the representative set S initialized to a set of points from D
+   S is iteratively improved by exchanging a point from S with a data point from D
+
+   Possible strategies for the exchange:
+
+       1. try all |S||D| possibilities for replacing a representative in S with a data point
+           from D and then select the best one => extremely expensive!
+
+       2. use a randomly selected set of r pairs ,  for a possible exchange
+           ( is from D,  is from the representative set S);
+           the best of the r pairs is then used for the exchange.
+
+          This solution requires time proportional to r |D| and is said to have converged when
+
+           the objective function does not improve, or if the average objective function
+           improvement is below a user-specified threshold in the previous iteration.
+
+  slower than the k-means method but applicable to various data types
+
+   a scalable version represents the CLARA/CLARANS algorithm.
+
+I. MRÁZOVÁ: DATA MINING             80
+Variants of the techniques
+applicable to cluster analysis (4)
+
+Grid-based methods (e.g., MAFIA):
+
+ Discretize the data into  (equi-width)
+   intervals yielding  hyper-cubes for an
+
+   -dimensional dataset.
+
+ The resulting hyper-cubes are the building
+   blocks for the following clustering.
+
+ A density threshold  is used to identify
+   dense hyper-cubes (with at least  points).
+
+ An arbitrarily shaped cluster involves
+   multiple dense regions that are connected
+   together (two grid regions are connected
+   if they share a side).
+
+ The objective: determine the clusters as      Clusters of arbitrary shape and grid partitions of different granularity
+   dense mutually connected regions
+
+I. MRÁZOVÁ: DATA MINING                        81
+Variants of the techniques
+applicable to cluster analysis (5)
+
+Grid-based methods:                     Agglomerating adjacent grids
+
+ Dense grid cells are associated with
+   nodes in a graph-based model used
+   for clustering. The edges stand for
+   adjacent connectivity.
+
+ The data covered by the cells from
+   the connected components of the
+   graph form the final clusters
+
+I. MRÁZOVÁ: DATA MINING                                               82
+Variants of the techniques
+applicable to cluster analysis (6)
+
+Density-based algorithms, e.g., DBSCAN, DENCLUE:
+
+ Density characteristics of data points are used to merge them into clusters.
+ Instead of grid cells, individual data points, resp. circular regions around them,
+
+   form the building blocks. Their density is given by the number of points that lie
+   within their radius  (including the point itself) ­ core, border, or noise points.
+
+                                              1. Core point: if the spherical region of 
+                                                 around it contains at least  data points.
+
+                                              2. Border point: if the spherical region of 
+                                                 around it contains less than  points, but
+                                                 also at least one core point within .
+
+                                              3. Noise point: a data point that is neither a
+                                                 core point nor a border point.
+
+I. MRÁZOVÁ: DATA MINING  83
+Variants of the techniques
+applicable to cluster analysis (6)
+
+DBSCAN:
+
+~ Density-Based Spatial Clustering of Applications with Noise
+
+ Determine the core, border, and noise points
+ Construct a connectivity graph, in which each node corresponds to a
+
+   core point; an edge is added between a pair of core points, if and only
+   if they lie within the distance of  from one another.
+ Identify all connected components of the connectivity graph. They
+   correspond to the clusters (constructed on the core points).
+
+      · The border points are then assigned to the cluster with which
+          they have the highest level of connectivity.
+
+      · The resulting groups are reported as clusters.
+
+      · The noise points are reported as outliers.
+
+I. MRÁZOVÁ: DATA MINING                                                     84
+Variants of the techniques
+applicable to cluster analysis (6)
+
+DBSCAN: Density-Based Spatial
+Clustering of Applications with Noise
+
+I. MRÁZOVÁ: DATA MINING                85
+Scalable data clustering
+
+The CLARA/CLARANS approach:
+
+  in many clustering applications, the size of the data is very large
+
+      the data cannot be stored in main memory and needs to reside on disk
+      a challenge with constraints on the algorithmic design of the methods
+
+  CLARA and CLARANS are scalable implementations of k-medoids
+
+       inherit both the advantages and disadvantages of the base algorithm
+       e.g., the CLARANS algorithm is easily generalizable to different data types
+
+         (beyond numeric data), but it inherits the relatively high computational
+         complexity of k-medoids
+
+  The choice of the most suitable algorithm depends on the application
+    at hand!
+
+I. MRÁZOVÁ: DATA MINING  86
+Scalable data clustering (2)
+
+The generic k-medoids approach:
+
+  works with a set of representatives
+  iteratively attempts to exchange a medoid with a non-medoid to improve
+
+     the clustering quality
+  allows flexibility in deciding how to execute the exchange
+
+The CLARA method (Clustering LARge Applications):
+
+   based on a variant of the k-medoids method - Partitioning Around Medoids (PAM)
+   all possible k (n-k) pairs of medoids and non-medoids are tested for an exchange
+   the pair with the best improvement of the objective function is then exchanged
+   Exchanges are performed until the algorithm converges to a locally optimal value
+   for each iteration, the exchange process requires O(k n2) distance computations,
+
+     i.e., O(k n2 d) time for a d-dimensional data set
+
+      => RATHER EXPENSIVE!
+
+I. MRÁZOVÁ: DATA MINING                                                              87
+Scalable data clustering (3)
+
+The CLARA method - continued:
+
+  Complexity can be reduced by applying the algorithm to a smaller sample
+    set of size f n to find the medoids (f is a sampling fraction, f << 1)
+
+  The remaining (non-sampled) data points are assigned to the medoids
+     found in the smaller sample.
+
+  The above approach is applied repeatedly over independently chosen
+    samples of data points of the same size f n.
+
+  The best clustering over all these independently chosen samples is then
+     selected as the optimal solution.
+
+  For small values of f, CLARA can be orders of magnitude faster
+      the complexity of each iteration is then: O(k f2 n2 d + k (n-k))
+
+  The main problem with CLARA occurs when the preselected samples do
+     not include a good choice of the medoids!
+
+I. MRÁZOVÁ: DATA MINING                                                     88
+Scalable data clustering (4)
+
+The CLARANS approach:
+
+  ~ Clustering Large Applications based on RANdomized Search
+
+   works with the full data to avoid the problem with incorrectly preselected samples
+   iteratively tests exchanges between random medoids with random non-medoids.
+
+       after each trial, it is checked if the quality improves.
+       if the quality improves, the attempted exchange is made final
+       otherwise, the number of unsuccessful exchange attempts is counted
+       a local optimal solution is said to have been found when a user-specified number
+
+          of unsuccessful attempts MaxAttempt has been reached.
+
+   the entire process of finding the local optimum is repeated for a user-specified
+     number of iterations, denoted by MaxLocal.
+
+   The clustering objective function of each of these MaxLocal locally optimal solutions
+     is evaluated.
+
+   The best among these local optima is selected as the optimal solution.
+
+ CLARANS explores a greater diversity of the search space than CLARA !
+
+I. MRÁZOVÁ: DATA MINING                                                                   89
+Scalable data clustering (5)
+
+The CURE approach:
+
+  ~ Clustering Using Representatives - an agglomerative hierarchical algorithm
+
+    very fast and able to discover clusters of an arbitrary shape (unlike, e.g., CLARANS)
+
+ The overall process can be described by the following steps:
+
+    1. Sample s points from the database D of size n.
+    2. Divide the sampled s points into p partitions of size s/p each.
+    3. Cluster each partition independently using the hierarchical merging to k' clusters in
+
+         each partition. The overall number k' · p of clusters across all partitions is still larger
+         than the user-desired target k.
+    4. Perform hierarchical clustering over the k' · p clusters derived across all partitions to
+         the user-desired target k.
+    5. Assign each of the (n-s) non-sample data points to the cluster containing the closest
+         representative.
+
+I. MRÁZOVÁ: DATA MINING                                                                               90
+DATA                     Contents:
+ANALYSIS
+                         · Data standardization techniques
+Contents:                · Range, quartiles, and outliers
+                         · Relationship between the attributes
+· Data standardization
+    techniques                   · Relationship between categorical variables
+
+· Range, quartiles, and              · 2 - test and Fisher´s test
+    outliers
+                                 · Regression analysis (~ relationship between numerical
+· Relationship between              variables)
+    the attributes
+                                     · Linear regression for one input variable, correlation
+· Discriminant analysis                 coefficients
+
+· Cluster analysis                   · Multi-dimensional linear regression
+                                     · Logistic regression
+
+                           · Discriminant analysis
+                           · Cluster analysis
+
+                                 · The main clustering approaches
+
+                                     · Distance measures
+                                     · k-means clustering
+                                     · Hierarchical clustering
+                                     · Vector quantization
+
+                                 · Other clustering techniques
+
+                                     · k-medoids algorithm, grid-based methods, and density-based
+                                        algorithms
+
+                                     · Scalable data clustering approaches
+
+                         I. MRÁZOVÁ: DATA MINING  91
+

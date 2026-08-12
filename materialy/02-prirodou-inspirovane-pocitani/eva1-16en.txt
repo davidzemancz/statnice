@@ -1,0 +1,2084 @@
+EVA I
+
+NAIL 025 ­ 2016/17
+
+Roman Neruda
+
+ENGLISH VERSION ­ 13-01-2017
+INTRODUCTION                  Topics, sources, outlines.
+
+ROMAN NERUDA: EVA1 - 2013/14                                         2
+                              Literature
+
+· Mitchell, M.: Introduc)on to Gene)c Algorithms. MIT
+   Press, 1996.
+
+· Eiben, A.E and Smith, J.E.: Introduc)on to Evolu)onary
+   Compu)ng, Springer, 2007.
+
+· Michalewicz Z.: Gene)c Algorithms + Data Structures =
+   Evolu)on Programs (3ed), Springer, 1996
+
+· Holland, J.: Adapta)on in Natural and Ar)ficial
+   Systems, MIT Press, 1992 (2nd ed).
+
+· Goldberg, D.: Gene)c Algorithms in Search,
+   Op)miza)on and Machine Learning, Addison-Wesley,
+   1989.
+
+ROMAN NERUDA: EVA1 - 2013/14                              3
+                 Topics
+
+· Evolu\on models, popula\on, recombina\on.
+· Gene\c algorithms. encoding, operators, selec\on, crossover,
+
+   muta\on.
+· Natural selec\on, simula\on, objec\ve func\on, roule_e wheel,
+
+   tournament, eli\sm.
+· Representa\onal schemata, schemata theorem, building blocks
+
+   hypothesis.
+· Prisonner`s dilemma, strategies, equilibria, evolu\onary stability.
+· Evolu\on strategies, coopera\on, meta-parameters.
+· Differen\al evolu\on, CMA-ES.
+· EA and combinatorial problems, NP-hard tasks, TSP, ...
+· Machine learning and data mining, evolu\on of rule-based systems,
+
+   Michigan vs. Pi_sburgh.
+· Learning classifier systems, bucket brigade algorithm, Q-learning.
+
+ROMAN NERUDA: EVA1 - 2013/14                                           4
+                                                                               Biological mo\va\on, basic parts
+
+EVOLUTIONARY ALGORITHMS
+
+ROMAN NERUDA: EVA1 - 2013/14  5
+      Darwin evolu\on theory
+
+· 1859 ­ On the origin of
+   species
+
+· Limited environment
+   resources
+
+· Reproduc\on is the key
+   to life
+
+· Be_er fi_ed (adapted)
+   individuals have bigger
+   chances to reproduce
+
+· Successful phenotype
+   traits are reproduced,
+   modified, recombined
+
+ROMAN NERUDA: EVA1 - 2013/14  6
+           Mendel gene\cs
+
+· 1856 - Versuche über
+   Pflanzenhybriden
+
+· Gene as a basic hereditary unit
+· Every diploid individual has
+
+   two pairs of allels, one is
+   transmi_ed to offspring
+   independently of others.
+· It`s complicated:
+
+     ­ Polygeny ­ more genes
+         influence one trait
+
+     ­ Pleiotropy ­ one gene
+         influences more traits
+
+     ­ Mitochondrial DNA
+     ­ Epigene\cs
+
+ROMAN NERUDA: EVA1 - 2013/14       7
+                   DNA
+
+· 1953 ­ Watson&Crick ­ double
+    helix structure of DNA
+
+· Molecular-biological view:
+
+      ­ How is the gene\c informa\on
+          stored in a living organism
+
+      ­ How is it inheri_ed
+
+· DNA consists of 4 nucleo\des/
+    bases ­ adenin, guanin, cytosin,
+    thymin
+
+· Codon ­ a tripplet of nucleo\des
+    encoding 1 out of 23 aminoacids
+    (redundancy)
+
+· These 23 aminoacids are the
+    basic building structure of
+    carbohydrates in all living
+    organisms
+
+ROMAN NERUDA: EVA1 - 2013/14           8
+Molecular gene\cs
+
+· Crossover
+· Muta\on
+
+· Transcrip\on: DNA->RNA
+
+· Transla\on: RNA->protein
+· GENOTYPE->PHENOTYPE
+
+· One-direc\on, complex
+   mapping
+
+· Lamarckism:
+
+     ­ There is an inverse mapping
+        from phenotype to genotype
+
+     ­ Acquired traits can be
+        inherited
+
+ROMAN NERUDA: EVA1 - 2013/14        9
+                              EA - summary
+
+· Natural evolu\on: environment, individuals,
+  fitness
+
+· Ar\ficial evolu\on: problem, candidate
+  solu\ons, quality of a solu\on measure
+
+· Eas are popula\on-based stochas\c search
+  algorithms
+
+· Recombina\on and muta\on create variability
+
+· Selek\on leads the search in the right
+  direc\on
+
+ROMAN NERUDA: EVA1 - 2013/14                10
+               General EA
+
+· EAs are robust meta-
+  algorithms
+
+· No free lunch theorem
+  ­ there is no one best
+  algorithm
+
+· It pays to create
+  domain-specific variants
+  of EAs
+
+    ­ Representa\on
+    ­ Operators
+
+ROMAN NERUDA: EVA1 - 2013/14  11
+                              General EA
+
+                                           · Create ini\al popula\on
+                                              P(0) at random
+
+                                           · In a cycle create P(t+1)
+                                              from P(t):
+
+                                                  ­ Parental selec\on
+                                                  ­ Recombina\on, and
+
+                                                     muta\on
+                                                  ­ New individuals P`(t+1) are
+
+                                                     created
+                                                  ­ Environmental selec\on
+
+                                                     chooses P(t+1) based on
+                                                     P(t) a P`(t+1)
+
+ROMAN NERUDA: EVA1 - 2013/14  12
+          Gene\c algorithms
+
+· 1975 - Holland
+· Binary encoded individuals
+· Roule_e-wheel selec\on
+· 1-point crossover
+· Bitwise muta\ons
+· Inversion
+· Schamata theory to explain the mechanism
+
+  how GAs work
+
+ROMAN NERUDA: EVA1 - 2013/14                13
+     Evolu\onary programming
+
+· 1965 ­ Fogel, Owens a Walsh
+· Evolu\on of finite automata
+· No dis\nc\on between genotype and
+
+  phenotype
+· Focus on muta\ons
+· No crossover, usually
+· Tournament selec\on
+
+ROMAN NERUDA: EVA1 - 2013/14         14
+Evolu\onaty strategies
+
+· 1964 - Rechenberg, Schwefel
+· Op\miza\on of real number vectors in
+
+  difficult computa\onal math problems
+· Floa\ng point encoding of individuals
+· Muta\on is the basic operator
+· The muta\on step is heuris\cally controlled or
+
+  udergoes an adapta\on (evolving)
+· Determinis\c environmental selec\on
+
+ROMAN NERUDA: EVA1 - 2013/14  15
+Gene\c programming
+
+· 1992 ­ Koza
+· Evolu\on of individuals represen\ng (LISP)
+
+  trees
+· Used (not only) to evolve computer programs
+· Specific operators of crossover, muta\on,
+
+  ini\aliza\on
+· Further applica\ons (neuroevolu\on, evolving
+
+  hw, ...)
+
+ROMAN NERUDA: EVA1 - 2013/14  16
+                                        Holland SGA, binary reprezenta\on, operators and their variants
+
+SIMPLE GENETIC ALGORITHM
+
+ROMAN NERUDA: EVA1 - 2013/14  17
+                              GA
+
+· Gene\c algorithms ­ 70s USA, Holland, DeJong,
+  Goldberg, ...
+
+· The original proposal is nowadays called SGA
+  (simple GA)
+
+    ­ Minimal set of operators, the simplest individual
+      encoding, research of theore\cal proper\es
+
+· Gradually, the SGA has been enriched of ­ or
+  transformed to ­ further operators, encodings,
+  ways of dealing with popula\ons, etc.
+
+ROMAN NERUDA: EVA1 - 2013/14                             18
+                              SGA - basics
+
+                                              · t=0; Generate at random
+                                                  ini\al population P(0) of n l-bit
+                                                  genes (individuals)
+
+                                              · Step from P(t) to P(t+1):
+                                                   ­ Compute f(x) for each x
+                                                      from P(t)
+                                                   ­ Repeat n/2 times:
+
+                                                            · Select a pair x, y from P(t)
+                                                            · Cross over x, y with
+
+                                                               probability pC
+                                                            · Mutate every bit of x and y
+
+                                                               with probability pM
+                                                            · Insert x, y to P(t+1)
+
+ROMAN NERUDA: EVA1 - 2013/14  19
+                Selec\on
+
+· RouleGe wheel selec)on:
+
+   ­ Selec\on mechanism is based on the individual
+      fitness value
+
+   ­ Expected number of individual selec\ons
+      ocekávaný should be propor\onal on the ra\o of
+      its fitness and an average fitness of the popula\on
+
+   ­ Roulette wheel selec\on: each individual has an
+      allocated slice of a roule_e wheel corresponding
+      to its fitness, the wheel is spun n-times
+
+ROMAN NERUDA: EVA1 - 2013/14  20
+                              Kízení
+
+· V GA je kízení hlavním operátorem
+· Rekombinuje vlastnos\ rodic
+· Doufáme, ze rekombinace povede k lepsí
+
+  fitness
+· Jednobodové kízení:
+
+   ­ náhodn zvolíme bod kízení,
+   ­ vymníme odpovídající cás\ jedinc
+   ­ Pravdpodobnost pC typicky v rozsahu dese\n
+
+ROMAN NERUDA: EVA1 - 2013/14                     21
+                              Muta\on
+
+· In simple GA, muta\on operator is less
+  important, acts as a mechanism against stuck in
+  local extrema
+
+· (On the contrary, in EP nebo early ES, muta\on is
+  the only source of variability)
+
+· Bit-string muta\on:
+
+    ­ With probability pM, every bit of the individual is
+      changed
+
+    ­ pM is small (eg. to change 1 bit in individual on
+      average)
+
+ROMAN NERUDA: EVA1 - 2013/14           22
+         Inversion and other
+
+· The original Holland's SGA proposal contains
+  another gene\c operator ­ inversion
+
+· Inversion
+
+   ­ Reversing a part of the bit string
+   ­ BUT with keeping the meaning of bits
+   ­ More complicated technically
+   ­ Inspira\on in nature
+   ­ Did not proven to be beneficial
+
+ROMAN NERUDA: EVA1 - 2013/14                    23
+                       Schema theorem, building blocks hypothesis, implicit paralelism, k-arm bandit
+
+SCHEMA THEORY
+
+ROMAN NERUDA: EVA1 - 2013/14  24
+                              Schemata
+
+· Individual is a word in alphabet {0, 1}
+· Schema is a word in alphabet {0, 1,*}
+
+    ­ (* = don't care)
+
+· Schema represents a set of individuals
+· Schema with r * represents 2r individuals
+· Individual with length m is represented by 2m
+
+  schemata
+· There is 3m schemata of length m
+· In popula\on of n individuals there is between 2m
+
+  and n.2m schemata represented
+
+ROMAN NERUDA: EVA1 - 2013/14            25
+Proper\es of schemata
+
+· Order of schema S: o(S)
+
+    ­ Number of 0 and 1 (fixed posi\ons)
+
+· Defininig length of schema S: d(S)
+
+    ­ Distance between the first and the last fixed posi\on
+
+· Fitness of the schema S: F(S)
+
+    ­ Average fitness of the individuals in a popula\on that
+      correspond to the schema S
+
+    ­ Note that fitness of S depends on the context of a
+      popula\on.
+
+ROMAN NERUDA: EVA1 - 2013/14                                  26
+        The schema theorem
+
+· Short (w.r.t. defining length), above-average
+  (w.r.t. fitness), low-order schemata increase
+  exponen)ally in successive genera)ons of GA.
+  (Holland)
+
+· Building blocs hypothesis:
+
+    ­ GA seeks subop\mal solu\on of the given problem by
+      recombina\on of short, low-order above-average
+      schemata (called building blocks).
+
+    ­ "just as a child creates magnificent fortress through
+      arrangement of simple blocks of wood, so does a GA
+      seek near op\mal performance ..."
+
+ROMAN NERUDA: EVA1 - 2013/14  27
+              Proof of TST
+
+· Popula\on P(t), P(t+1), ... n individuals of length
+  m
+
+· What happens to a par\cular schema S during:
+
+    ­ Selection
+    ­ Crossover
+    ­ Muta\on
+
+· C(S,t) ... Number of individuals represen\ng
+  schema S in population P(t)
+
+· We will es\mate C(S,t+1) in three steps
+
+ROMAN NERUDA: EVA1 - 2013/14                           28
+                              Proof of TST
+
+· Selec\on:
+
+   ­ An individual probability of selec\on is:
+
+   ps(v) = F(v) / F(t), where F(t) =  F(u), {u in P(t)}
+   ­ Probability of selec\on od schema S:
+
+   ps(S) = F(S) / F(t)
+   ­ Thus: C(S,t+1) = C(S,t) n ps(S)
+   ­ Or equivalently: C(S,t+1)=C(S,t) F(S)/Fprum(t)
+   Where Fprum(t)=F(t)/n ... is average fitness in P(t)
+
+ROMAN NERUDA: EVA1 - 2013/14                             29
+                              Proof of TST
+
+· ... S\ll selec\on:
+
+   ­ So, we have: C(S,t+1)=C(S,t) F(S)/Fprum(t)
+   ­ If the schema were "above-average" of e%:
+
+   ­ F(S,t)=Fprum(t) + e Fprum(t), for t=0, ...
+   ­ C(S,t+1)=C(S,t) (1+e)
+   ­ C(S,t+1)=C(S,0) (1+e)t
+
+   ­ I.e. the number of above-average schemata grows
+      exponen\ally (in consecu\ve popula\ons (and
+      with selec\on only)).
+
+ROMAN NERUDA: EVA1 - 2013/14                30
+                              Proof of TST
+
+· Crossover:
+
+   ­ Probability that a schema will be destroyed /
+      survive a crossover:
+
+   ­ pd(S) = d(S)/(m-1)
+   ­ ps(S) = 1 ­ d(S)/(m-1)
+   ­ Crossing over with probability pc:
+   ­ ps (S) >= 1 ­ pc . d(S) / (m-1)
+
+· Selec\on and crossover together:
+
+   ­ C(S,t+1) >= C(S,t) . F(S)/Fprum(t) [1- pc . d(S) / (m-1)]
+
+ROMAN NERUDA: EVA1 - 2013/14                31
+              Proof of TST
+
+· Muta\on:
+
+    ­ 1 bit will not survive: pm
+    ­ 1 bit will survive: 1 ­ pm
+    ­ A Schema will survive (pm<<1):
+    ­ ps(S) = (1 ­ pm)o(S)
+    ­ ps(S) = ... roughly ... = 1 ­ pm.o(S), for small pm
+
+· Selec\on, crossover and muta\on together:
+· C(S,t+1)>=C(S,t).F(S)/Fprum(t) [1-pc.d(S)/(m-1)-
+
+  pm.o(S)]
+· QED.
+
+ROMAN NERUDA: EVA1 - 2013/14                               32
+Consequences of TST and BBH
+
+· Encoding ma_ers
+· Size ma_ers
+· Premature convergence harms
+· When GA sucks:
+
+   ­ (111*******), (********11) are above-average
+   ­ But F(111*****11) << F(000*****00)
+   ­ Ideal is (1111111111); GA has hard \mes finding it
+   ­ The selec\on condi\on might be improved
+
+ROMAN NERUDA: EVA1 - 2013/14  33
+          Implicit paralelism
+
+· GA works with individuals, but implicitly it
+  evolves much more schemata: 2m to n.2m.
+
+· But how many schemata is processed efficiently:
+
+    ­ Holland (and others): (Under certain circumstances,
+      such as n = 2m , schemata stay above-average, ... )
+      Number of schemata that really grow exponen\ally is
+      in the order of n3.
+
+· It was jokingly commented as the only case
+  where combinatorial explosion is on our side.
+
+ROMAN NERUDA: EVA1 - 2013/14  34
+     Explora\on vs. Exploita\on
+
+· Original Holland mo\vace: GA is "adap\ve
+  plan" looking for equilibrium between:
+
+   ­ explora)on (finding new areas for search)
+   ­ exploita)on (u\lizing current knowledge)
+
+· Just explora\on: random walks, not u\lizing
+  previous knowledge
+
+· Just exploita\on: stucking in local op\ma,
+  rigidity
+
+ROMAN NERUDA: EVA1 - 2013/14                    35
+                              1-armed bandit
+
+ROMAN NERUDA: EVA1 - 2013/14                  36
+                              2-armed bandit
+
+· N coins, 2-armed bandit (arms payoffs have
+  expected values m1, m2 and variances s1, s2). N-n
+  coins is allocated to the be_er arm, n coins to the
+  worse one.
+
+· Goal: to maximize outcome / to minimalize loss.
+
+· Analy\cal solu\on: to allocate exponen\ally
+  more trials to the currently winning arm
+
+· N-n* = O(exp(c n*));
+
+    ­ c depends on m1, m2, s1, s2; and n* is the op\mal
+      value
+
+ROMAN NERUDA: EVA1 - 2013/14                  37
+                              Bandit and SGA
+
+· GA also allocates exponen\ally more trials (slots
+  in popula\on) to the more successful schemata
+
+· It thus solves the explora\on vs. exploita\on
+  problem in the op\mal way
+
+· Schemata plays many mul\-armed bandit games
+
+    ­ The winning prize is number of slots in popupla\on
+    ­ It is hard to es\mate the fitness of a scheme
+    ­ First people thought that SGA plays 3m ­armed bandit,
+    ­ Where all schemata are compe\ng arms ...
+
+ROMAN NERUDA: EVA1 - 2013/14                  38
+        ... but it's complicated
+
+· Actually, much more games is played in parallel
+· Schemata "compete" for "conflic\ng" fixed
+
+  posi\ons in a gene
+· Schemata of order k always compete for those k
+
+  fixed posi\ons ­ they play 2k ­armed bandit
+· So, the best of those games get the exponen\al
+
+  slots in popula\on
+· But, it depends if we can es\mate the fitness of a
+
+  scheme in a par\cular popula\on well (which can
+  be a problem)
+
+ROMAN NERUDA: EVA1 - 2013/14  39
+    Thus, a bad task for SGA is ...
+
+· = 2; for x ~ 111*... *
+· f(x) = 1; for x ~ 0*...*
+· = 0; otherwise.
+· For schemata we now have:
+
+    ­ F(1*...*) = 1/2 ;
+    ­ F(0*...*) = 1
+
+· But, the SGA es\mates F(1*...*) ~ 2,
+· Because schemata 111*...* will be much more
+
+   common in a popula\on
+· SGA here does not sample schemata independently, so
+
+   it does not es\mate their real fitness.
+
+ROMAN NERUDA: EVA1 - 2013/14  40
+                              Problems
+
+· The arms in bandit are independent, but the SGA
+  does not sample schemata independently
+
+· Selec\on does not work ideally, as in the TST, it is
+  dynamic and it has sta\s\cal errors.
+
+· SGA maximizes its on-line performance, they
+  should be suitable for adap\ve tasks (It is a pi_y
+  to stop a running SGA ;-)
+
+· (Paradoxically, maybe) the most common
+  applica\on of GA is to let them "only" find the
+  one best solu\on.
+
+ROMAN NERUDA: EVA1 - 2013/14            41
+               Sta\c BBH
+
+· GrafensteGe, 91: People consider that GA
+  converges to solu)ons with actual sta)s)c
+  average fitness; and not (as it really happens)
+  to those that exist in popula)ons, i.e. with the
+  best observed fitness
+
+· Then, people can be disappointed:
+
+   ­ Collateral convergence
+   ­ Large fitness variance
+
+ROMAN NERUDA: EVA1 - 2013/14                        42
+Collateral convergence
+
+· When GA converges somewhere, the schemata
+  are no longer sampled uniformly, but with a bias
+
+· If, e.g. a sheme 111***...* is good, it will spread
+  in a popula\on a<er few genera\ons, i.e. almost
+  all individuals will have this prefix.
+
+· But then, almost every sample of a scheme
+  ***000...* are also samples of a scheme
+  111000*...*.
+
+· Thus, the GA will not es\mate F(***000*...*)
+  correctly.
+
+ROMAN NERUDA: EVA1 - 2013/14                           43
+Large fitness variance
+
+· GA will not es\mate fitness of a scheme well in
+  the case if the sta\c average fitness has a large
+  variance.
+
+· Such as the scheme 1*...* from our evil example.
+
+· The variance of its fitness is large, so the GA will
+  probably converge to those parts of a search
+  space where the fitness is big.
+
+· Which in turn will bias further sampling of the
+  scheme. So, the sta\c fitness is not es\mated
+  well, again.
+
+ROMAN NERUDA: EVA1 - 2013/14  44
+                                          Integer and floa\ng point representa\ons operators, selec\on
+
+REPRESENTATION AND OPERATORS
+
+ROMAN NERUDA: EVA1 - 2014/15
+                Encoding
+
+· Binary
+
+    ­ Classic (Holland)
+    ­ There are nice theore\cal results (be_er than
+
+      schemata theory, we will see next semestr)
+    ­ Holland argumen: binary strings of length 100 are
+
+      beGer than decimal of leghth 30 because they encode
+      roughly the same informa)on but have more schemta
+      (2100>230).
+    ­ But we know schemata are not that important as
+      Holland thought
+    ­ The important factor is that binarz encoding is
+      some\mes unnatural for a given problem.
+
+ROMAN NERUDA: EVA1 - 2014/15
+           Other encodings
+
+· Alphabets with more symbols
+· Integers
+· Floa\ng point
+
+· Yet another examples:
+
+    ­ Permuta\ons,
+    ­ Trees (programs),
+    ­ Matrices,
+    ­ Neural networks (different ways),
+    ­ Finite automata
+    ­ Graphs,
+    ­ A-life agents ...
+
+ROMAN NERUDA: EVA1 - 2014/15
+         Selec\on - overview
+
+· Roule>e-wheel selecDon
+
+    ­ tradi\onal, fitness-propor\onal
+
+· SUS (stochasDc universal sampling)
+
+    ­ Just one random posi\on in a roule_e wheel, other
+       posi\ons are shi<s over angle 1/n
+
+    ­ ,,more fair roule_e" ­ why?
+
+· Turnament
+
+    ­ k-tournament ­ comparing k randomly selected
+       individuals, the winner is chosen by selec\on
+
+    ­ Typically, k is a small number, like 2, 3, 5
+    ­ Can be used in cases where fitness is not explicitly given (a
+
+       game is played, or a simula\on is involved)
+
+ROMAN NERUDA: EVA1 - 2014/15
+           Integer encoding
+
+· Muta\on:
+
+    ­ ,,unbiased" ­ new random value from the whole
+      domain
+
+    ­ ,,biased" ­ new value represents a random shi<
+      (normal distribu\on) from the original value
+
+· Crossover:
+
+    ­ One-point, mul\pe-point, ...
+    ­ Uniform ­ in every gene we throw a coin from which
+
+      parent the value is chosen
+    ­ Beware of ordinal representa\ons in cases where the
+
+      order does not make sense (then, probably, the
+      biased muta\on does not make sense)
+
+ROMAN NERUDA: EVA1 - 2014/15
+       Floa\ng point encoding
+
+· Historically, the first a_empts were encoding real
+  numbers into bit-string representa\ons
+
+· Not used o<en today, except for the cases when
+  a limited precision makes good sense
+  (compression of a search space, explicit control
+  over the accuracy of the representa\on)
+
+· Common prac\ce today is to encode real values
+  as floa\ng point representa\on, and the
+  operators take this into account
+
+ROMAN NERUDA: EVA1 - 2014/15
+      Floa\ng point operators
+
+· Muta\on
+
+   ­ biased
+   ­ Unbiased
+
+· Crossover
+
+   ­ Structural
+
+         · One-point, uniform, ...
+
+   ­ Arithme\c
+
+         · Combina\on of values
+
+ROMAN NERUDA: EVA1 - 2014/15
+         Arithme\c crossover
+
+· Simple average of parents` values
+· Variants:
+
+   ­ Some other convex combina\on:
+
+         · z = a*x + (1-a)*y, where 0<a<1
+
+   ­ How many values from an individual to cross:
+
+         · Typically all of them
+         · Some\mes just one chosen at random
+         · Some\mes a combina\on with 1-point crossover
+
+ROMAN NERUDA: EVA1 - 2014/15
+                                   Prisoners and their dilemma, Nash, von Neumann, Axelrod, Dawkins
+
+EVOLUTION OF COOPERATION
+
+ROMAN NERUDA: EVA1 - 2014/15
+      Altruism vs. darwinism ?
+
+· Darwinism is inherently compe\\v ­ survival of the fi_est
+
+                    ­ social darwinism ­ backing the laissez-faire (,,let it be") capitalism
+                    ­ Andrew Carnegie, The Gospel of Wealth, 1900 While the law of compe))on
+
+                       may be some)mes hard for the individual, it is best for the race, because it
+                       ensures the survival of the fiGest in every department. We accept and
+                       welcome, therefore, as condi)ons to which we must accommodate ourselves,
+                       great inequality of environment; the concentra)on of business, industrial and
+                       commercial, in the hands of the few; and the law of compe))on between
+                       these, as being not only beneficial, but essen)al to the future progress of the
+                       race.
+
+· But there is a lot of coopera\on both in nature and society
+· The main problem of evolu\onary (social) biology:
+· How can altruisDc behavior be evolved, when it (by
+
+   definiDon) decreases a fitness of a n individual?
+
+ROMAN NERUDA: EVA1 - 2014/15
+ Theories of evolu\on of altruism
+
+· Group selec\on
+
+                 ­ Evolu\on can work on groups of individuals (Darwin)
+                 ­ How to explain individuals who cheat and do not help
+
+· Kin selec\on
+
+                 ­ Preserva\on of almost iden\cal genes in close rela\ves
+                 ­ How to explain altruism of strangers, even other species
+
+· Dawkins, selfish gene
+
+                 ­ The unit of evolu\on is a gene, not an individual
+                 ­ Wilson: ,,the organism is only DNA's way of making more DNA."
+
+· Trivers, 1971: reciprocal altruism
+
+                 ­ Mutual benefits for both organisms (even different species)
+                 ­ Shadow of the future, paralell with iterated prisoners dilemma
+
+ROMAN NERUDA: EVA1 - 2014/15
+          Prisoner's dilema
+
+i/j  D    C
+
+D    2/2  0/5
+
+C    5/0  3/3
+
+i/j  D    C
+
+D    P/P  S/T
+
+C    T/S  R/R
+
+     ·Tempta)on > Reward > Penalty
+     > Suckers payoff
+     · R>P: mutual coopera)on is
+     beGer than mutual decep)on
+     · T>R a P>S: decep)on is a
+     dominant strategy for both
+     players
+     · (50s- RAND corp.)
+
+ROMAN NERUDA: EVA1 - 2014/15
+                  Nash
+
+· A strategy s is dominant for agent i, if it gives be_er or
+   the same result than any other strategy of an agent i
+   against all strategies of agent j
+
+· Strategies si and sj are in Nash equilibrium, if:
+
+    ­ If agent i plays strategy si, agent j does best with strategy sj
+    ­ If j plays sj, i does best with si
+
+· Or, si and sj are the best mutual answers to each other
+· This is Nash equilibrium of pure strategies
+
+          · But not every game has a Nash equilibrium in pure strategies
+          · And some games have more Nash equilibria
+
+ROMAN NERUDA: EVA1 - 2014/15
+           Nash and Pareto
+
+· Mixed strategies ­ random
+    selec\on among pure strategies
+
+      ­ Nash theorem: Every game with
+          finite number of strategies have
+          Nash equilibrium in mixed
+          strategies.
+
+· The solu\on is Pareto-op)mal/
+    efficient
+
+      ­ If there is no other strategy which
+          would improve agent outcome
+          without worsening some other
+          agent outcome
+
+      ­ The solu\on is not Pareto-efficinet:
+          if an outcome of one agent cen be
+          improved without decreasing other
+          agent`s outcome
+
+ROMAN NERUDA: EVA1 - 2014/15
+                 Thus ...
+
+· For ra\onal agents there is no dilemma/or is
+  there?
+
+   ­ DD is Nash equiilibrium
+   ­ DD is the only solu\on that is not Pareto-op\mal
+   ­ CC is a solu\on maximizing common outcome
+
+· Tragedy of the commons
+· What is ra\onal, and are people ra\onal?
+· Shadow of future ­ iterated version ­ Axelrod
+
+ROMAN NERUDA: EVA1 - 2014/15
+    Iterated prisoner`s dilemma
+
+· Players play more games,
+   they remember the results/
+   acitons of the oponent, and
+   can modify their strategies
+   according to the history
+
+· T>R>P>S,
+· 2R>T+S ­ it does not pay off
+
+   to alternate C and D
+· If the game is played N-
+
+   \mes (and the players know
+   the N) it can be proved by
+   induc\on, the best strategy
+   is ,,deceive all the \me".
+
+ROMAN NERUDA: EVA1 - 2014/15
+        Axelrod tournaments
+
+· The first tournament:
+
+                   ­ 14 strategies plus RANDOM, 200 games, everybody played with
+                      everybody (ncludit itself), 5x repeat
+
+· TFT = Tit For Tat strategy
+
+    ­ Start cooperate, then copy oponent`s moves
+
+· The second tournament:
+
+                   ­ 62 strategiíes­ everybody knew the results of previous tournament ­TFT
+                      wins again
+
+· The third ,,ecological" tournament
+
+                   ­ Resembling the genera\ons of GA, ini\al popula\on was the second
+                      tournament strategies, there were 1000 genera\ons
+
+                   ­ The number of individuals in the next genera\on was propor\onal to
+                      number of victories in the previous genera\on
+
+                   ­ Aaaaand, the TFT wins again!
+
+ROMAN NERUDA: EVA1 - 2014/15
+What does it mean for strategies?
+
+· 4 important proper\es of successful strategies:
+
+    ­ Niceness ­ do not deceive first
+    ­ Provocability ­ quickly punish decep\on
+    ­ Forgiveness ­ but quickly calm down
+    ­ Clarity ­ be simple, so others understand you
+
+· There is not a single strategy that would win against all
+   strategies
+
+· It is necessary to be successful against very diverse
+   strategies (ALL-D, TFTT, RANDOM, TRIGGER)
+
+· It is also good to learn play well against itself
+· A_empts to beat TFT by more decep\on did not help
+
+ROMAN NERUDA: EVA1 - 2014/15
+ What does it mean for coopera\on?
+
+· In environments that support coopera\on ...
+
+                ­ Payoffs favor coopera\on,
+                ­ There is a big probability of iterated PD (shadow of the future)
+
+· ... the coopera\on is usually evolved
+
+                ­ But not always, such as in the ALL-D world
+
+· Ra\onality, intelligence, consciousnes, ... is
+  not necessary for coopera\on, just bigger
+  fitness values
+
+· Ini\al coopera\on can emerge at random, and
+  then it can survive
+
+ROMAN NERUDA: EVA1 - 2014/15
+          Twenty years a<er
+
+· In environments with noise, the Pavlov strategy
+  (win-stay, lose-shi<) is successfu
+
+         · If the payoff R or P => C,
+         · if T or S => D
+
+· A<er 20 years the tournament was repeated with
+  more strategies from each team
+
+         · The winning strategies were coopera\ng as a team
+         · Few moves (10) tah to recognize the oponent, then all
+
+            strategies helped one father strategy from the team to get
+            be_er score
+         · The teams were even figh\ng the organizers (false teams to
+            get more slots in the tournament ...)
+
+ROMAN NERUDA: EVA1 - 2014/15
+                                Mo\va\on, popula\on cycle, floa\ng point muta\ons, meta-evolu\on
+
+EVOLUTIONARY STRATEGIES
+
+ROMAN NERUDA: EVA1 - 2014/15
+       Evolu\onaty strategies
+
+· Rechenberg, Schwefel, 60s
+· Op\miza\on of real func\on of many parameters
+· 'evolu\on of evolu\on'
+· Evolved individual:
+
+    ­ Gene)c parameters - affec\ng the behavior
+    ­ Strategic parameters - affec\ng evolu\on
+
+· New individual is accepted only if it is be_er
+· More individuals as parents
+· Todays most successful (and complex) is CMA-ES
+
+  (correla\on matrix adapta\on-ES)
+
+ROMAN NERUDA: EVA1 - 2014/15
+              ES nota\on
+
+· Important parameters:
+
+    ­ M number individuals in popula\on
+    ­ L number of new individuals
+    ­ R pocet 'rodic'
+
+· Special selec\on related nota\on:
+
+    ­ (M+L) ES ­ M individuals to a new genera\on is selected
+       from M+L old and new individuals
+
+    ­ (M,L) ES ­ M individuals to a new genera\on is selected
+       only from L new individuals
+
+          · Usually, the (M,L) strategies are more robust ­ less prone to stuck
+             in local op\ma
+
+· The individual: C(i)=[Gn(i),Sk(i)], k=1, or n, or 2n
+
+ROMAN NERUDA: EVA1 - 2014/15
+         ES popula\on cycle
+
+· n=0; Ini\alize at random a popula\on Pn of M
+  individuals
+
+· Evaluate the fitness values of individuals in Pn
+· Un\l the solu\on is not good enough:
+
+    ­ Repeat L \mes:
+
+         · choose R parents,
+         · Cross them over, mutate, evaluate the new individual
+
+    ­ Choose M new individuals (depending on the ES type)
+    ­ ++n
+
+ROMAN NERUDA: EVA1 - 2014/15
+     ES individual and muta\on
+
+· C(i)=[Gn(i),Sk(i)]
+· Sk are standard devia\ons of biased floa\ng point muta\ons
+· k=1:
+
+     ­ One common std dev for all evolved parameters G's
+
+· k=n:
+
+     ­ Non-correlated muta\ons, n individual normal distribu\ons
+     ­ Each parameter has its own std dev
+     ­ Geometricly, the muta\ons are within an ellipse parallel to axes
+
+· k=2n:
+
+     ­ Rota\ons are also included, the ellipse is not parallel to axes
+     ­ correlated muta\ons, they correspond to muta\ons from n-
+
+        dimensional normal distribu\on
+     ­ n parameters for rota\ons, n for std devs 2n
+
+ROMAN NERUDA: EVA1 - 2014/15
+             ES muta\ons
+
+· Gene\c parameters:
+
+    ­ Adding random number from normal distrbu\on with
+       corresponding devia\on, and rota\on, respec\velly
+
+· Standard devia\ons:
+
+    ­ Increase or decrease according to the success of the muta\on
+    ­ Originally, the so-called 1/5 rule (heuris\c, ,,the best case is
+
+       when the muta\on has 20% success rate", thus, the std dev is
+       increased for lower success rates, and decreased when the
+       success rate is higher
+    ­ More common now is to add a random number drawn from
+       N(0,1)
+
+· Rota\on:
+
+    ­ Add a random number drawn from N(0,1)
+
+ROMAN NERUDA: EVA1 - 2014/15
+              ES crossover
+
+· Uniform
+· ,,Gang bang" of more parents
+
+   ­ Local (R=2)
+   ­ Global (R=M)
+
+· Two versions:
+
+   ­ Discrete
+   ­ Arithme\c (average)
+
+ROMAN NERUDA: EVA1 - 2014/15
+                                                                     Alterna\ve, geometrically mo\vated EVA
+
+DIFFERENTIAL EVOLUTION
+
+ROMAN NERUDA: EVA1 - 2014/15
+DE ­ DscEh­emscehéamndaianii\naiclizaali\zaocne
+
+Inicializace                                          Mutace  Kízení  Selekce
+
+· In·iciIanlicziaaDliozanc:er:anádhoomdnpéarhaomdentoetryvpaaluraems etr
+· M·utMaDuotanc:e,,:sh,,pi<o"suanc"coproddinleg otosttahtneíochthers
+· Cr·osKsoízveenr:í:uunnififoorrmm,,nwí ,,itshpaojsiastfkeogu"ard"
+· Se·leSceDloenke: ceo:mppoarroivsonnánaínadppoípsasdibnleé nahrazení
+
+  repllaecpesmímenptobtoyma kbeem_er offspring
+
+ROMAN NERROUMDAAN: ENVEAR1U-D2A0:1E4V/A115 - 2013/14                           6
+                Muta\on
+
+· Every individual in a popula\on undergoes
+  muta\on, crossover, and selec\on
+
+· For an individual xi,p we choose three different
+  individuals xa,p, xb,p, xc,p at random
+
+· Define a donor v: vi,p+1 = xa,p + F.(xb,p-xc,p)
+· F is a muta\on parameter, a value from
+
+  interval <0;2>
+
+ROMAN NERUDA: EVA1 - 2014/15
+               Crossover
+
+· Uniform crowwover of original individual with a
+  donor
+
+· Parameter C controls the probability of a change
+· At least one element must come from a donor
+· Probe vector ui,p+1 :
+· uj,i,p+1 = vj,i,p+1 ; iff randji <= C or j=Irand
+· uj,i,p+1 = xj,i,p+1 ; iff randji > C and jIrand
+· randji is pseudorandom number from <0;1>
+· Irand pseudorandom integer from <1;2; ... ; D>
+
+ROMAN NERUDA: EVA1 - 2014/15
+                Selec\on
+
+· Compare fitness of x and v, select the be_er:
+
+   ­ xi,p+1 = ui,p+1 ; iff f(ui,p+1) <= f(xi,p)
+   ­ xi,p+1 = xi,p ; otherwise
+   ­ for i=1,2, ... , N
+
+· Muta\on, crossover, and selec\on is repeated
+  un\l some termina\on criterion is sa\sfied
+  (typically, the fitness of the best individual is
+  good enough)
+
+ROMAN NERUDA: EVA1 - 2014/15
+                                       Individual is a par\cle floa\ng in a swarm in the fitness landscape
+
+PARTICLE SWARM OPTIMIZATION
+
+ROMAN NERUDA: EVA1 - 2014/15
+                   PSO
+
+· Popula\on-based search heuris\c
+· Eberhart, Kennedy, 1995
+· Inspira\on of swarms of insect/fish
+· Individual is typically a floa\ng point vector
+· It is called a par/cle
+· No crossover
+· No muta\on as we know it
+· Individuals are moving in a swarm through their parameter
+
+   space
+· The algorithm is using local and global memory:
+
+    ­ pBest ­ each par\cle remembers a posi\on with the best fitness
+    ­ gBest ­ best pBest among all par\cles
+
+ROMAN NERUDA: EVA1 - 2014/15
+                              PSO algorithm
+
+· Ini\alize each par\cle
+
+· Do
+
+· Foreach par\cle
+
+·     Compute fitness of par\cle
+
+·     If the fitness is be_er than the best fitness seen so far (pBest)
+
+·      pBest := fitness;
+
+· End
+
+· Set gBest to the best pBest
+
+· Foreach par\cle
+
+·     compute the speed of par\cle by equa\on (a)
+
+·     update posi\on of par\cle by equa\on (b)
+
+· End
+
+· While maximum itera\ons or minimum error not sa\sfied
+
+ROMAN NERUDA: EVA1 - 2014/15
+PSO movement equa\ons
+
+· v : = v +
+
++ c1 * rand() * (pbest - present) +
+
++ c2 * rand() * (gbest - present)             (a)
+
+· present = persent + v                       (b)
+
+· v is par\cle speed, present is par\cle posi\on
+
+· pbest best posi\on of a par\cle in history
+
+· gbest best global posi\on in history
+
+· rand() random number from (0,1).
+
+· c1, c2 constants (learning rates) o<en c1 = c2 = 2.
+
+ROMAN NERUDA: EVA1 - 2014/15
+            PSO discussion
+
+· Common with GA:
+
+   ­ Start with random configura\on, have a fitness,
+      use stochas\c update methods
+
+· Different from GA:
+
+   ­ No gene\c operators
+   ­ Par\cles have memories
+   ­ The exchange of informa\on goes only from the
+
+      be_er par\cles to the rest
+
+ROMAN NERUDA: EVA1 - 2014/15
+                                         Michigan vs. Pi_sburg, machine learning, reinforcment learning
+
+EVOLUTIONARY MACHINE LEARNING
+
+ROMAN NERUDA: EVA1 - 2014/15
+    Machine learning ­ a subset
+
+· Learn rules based on the training examples
+
+   ­ Data mining
+   ­ Expert systems
+   ­ Agent, robots learning (reinforcement learning)
+
+· Basic evolu\onary approaches:
+
+   ­ Michigan (Holland): individual is one rule
+
+         · Holland LCS: learning classifier systems
+
+   ­ Pi>sburgh: individual is a set of rules
+
+ROMAN NERUDA: EVA1 - 2014/15
+                Michigan
+
+· Holland in 80s: learning classifier systems
+· The individual is a rule
+· The whole popula\on works as an expert or
+
+  control system
+· The rules are simple:
+
+    ­ Le<-hand side: feature is true/not/don`t care (0/1/*)
+    ­ Right-hand side: ac\on code or classifica\on category
+
+· Rules have weights (reflec\ng their success)
+· The weight makes their fitness
+· The evolu\on does not have to be genera\onal
+
+ROMAN NERUDA: EVA1 - 2014/15
+            Michigan - LCS
+
+· Evolu\on happens only from \me to \me and/or
+  on part of popula\on
+
+· The problem of reac\vness (lack of inner
+  memory)
+
+    ­ The right-hand side of the rule contains ­ besides the
+      ac\on/classifica\on code ­ other inner features,
+      called ,,messages"
+
+    ­ The le<-hand side of the rule has special features to
+      intercept the messages, called ,,receptors"
+
+    ­ The system has a buffer of messages and it has to
+      realize an algorithm to distribute a reward among
+      chains of rules
+
+ROMAN NERUDA: EVA1 - 2014/15
+   LCS ­ bucket brigade
+
+   LCS ­ bucket brigade
+· Jen nkterá pravidla vedou
+
+· oktOhdanamlktyctsrio,ingmzgaaee/rtkrrruteeelewsrstoalrouedadndfrpáotrosmolaestcdht\euoejndesí,                                                                             Prostedí
+· Reonvzidronlmneínot,dmny ­ pro
+                                                                                                                                                                  Detektory                                  Efektory
+
+· cTehleýreewtarzd úshsopuldsnbýecdhistributed
+   ptorathveidcehlain of successful rules
+·· sPlsReítrulraayledevn(isnijgdahghlaktatvoo(elmbitkthyeouepspgreaeievyjwneíinadugrzpád)mt,pocaknrádtesyoytzftstovhéeir                                                       Buffer zpráv
+
+   ctahktejpíasrot uinpteheitaco\omn)oizfnthoesyt                                                                                                                 Externí stavy | Interní zprávy | Akce
+
+                                                                                                                                                                                                  Výbr akce  Mnozina akcí
+                                                                                                                                                                  Matchující pravidla
+
+   bcoýmt vpectesftor akcheasnecneíto be                                                                                                                              Populace pravidel
+
+·  Bapupclkieedt brigade algoritm, v                                                                                                                              GA                                         Bucket
+   potcbTInahrdazalplemllkexartodaniecpckcBn\ehoáucnstmdcehiekcneipeattétlelisi,wbckzeodroakiinkgyoffivooaaicmtvdnnuiyeoyslévtamdoatalofogzinrokuuerajlieetisms,
+·                                                                                                                                                                                                            Brigade Odmna
+·
+
+   hardly used today
+
+ROMAN NERUDA: EVA1 - 2013/14                                                                                                                                                                                               74
+
+ROMAN NERUDA: EVA1 - 2014/15
+                Z(ero)CS
+
+· (Wilson, 1994) simplify LCS
+
+    ­ No internal messages
+    ­ No complicated mechanism of reward redistribu\on
+
+· Rules are just bitmap (and *) representa\ons:
+
+    ­ IF(inputs) THEN (outputs)
+
+· Cover operator:
+
+    ­ If there is no rule for current situa\on/example, it is
+      generated ad hoc
+
+    ­ Randomly some * are added and a random output is
+      selected
+
+ROMAN NERUDA: EVA1 - 2014/15
+               ZCS contd.
+
+· How the reward is disr\buted / the strength of rules is
+   modified:
+
+    ­ Rules not applicable to given situa\on: nothing
+    ­ Rules applicable to input but with different output:
+
+       decrese the strenght by mul\plying by constant 0<T<1
+    ­ All rules' strenghts are decreased by a small constant B
+    ­ This amount id distributed uniformly among the rules that
+
+       answered correctly in the previous step (decreased by a
+       factor 0<G<1)
+    ­ Finally, the answer of the system is decreased by B and
+       uniformely distributed among rules that answerd correctly
+       in this step
+
+ROMAN NERUDA: EVA1 - 2014/15
+         XCS ­ improved ZCS
+
+· Cons of ZCS:
+
+    ­ ZCS does not tend to evolve a complete rule system
+      covering all cases
+
+    ­ Rules at the beginning of the chains are seldom
+      rewarded and they are not surviving
+
+    ­ Rules leading to ac\ons with small rewards can die off
+      too, although they are important
+
+· XCS:
+
+    ­ Separate fitness from expected outcome/reward of
+      the rule
+
+    ­ Base fitness on the specificity of the rule
+
+ROMAN NERUDA: EVA1 - 2014/15
+                   Pi_
+
+· Individuals are sets of rules, complete systems
+· The evalua\on is more compicated
+
+   ­ Rule priori\es, conflicts
+   ­ False posi\ves, false nega\ves
+
+· Gene\c operators are more complicated
+
+   ­ Typically, dozen or more operators working os
+      sets of rules, individual rules, terms in the rules, ...
+
+· Emphasis on rich domain representa\on (sets,
+  enumera\ons, intervals, ...)
+
+ROMAN NERUDA: EVA1 - 2014/15
+    GIL, example of Pi_ aproach
+
+· Binary classifica\on tasks
+· The individual classifies implicitly to one class (no
+
+  right-hand side of the rules)
+· Each individual is a disjunc\on of complexes
+· Complex is conjunc\on of selectors (from 1
+
+  variable)
+· Selector is a disjunc\on of values from the
+
+  variable domain
+· Representa\on by a bitmap:
+
+         · ((X=A1)AND(Z=C3)) OR((X=A2)AND(Y=B2))
+         · [001|11|0011 OR 010|10|1111]
+
+ROMAN NERUDA: EVA1 - 2014/15
+               GIL contd.
+
+· Operators on the individual level:
+
+    ­ Swap of rules, copy of rules, generaliza\on of rule,
+      dele\on of rule, specializa\on of rule, inclusion of one
+      posi\ve example to the rule
+
+· Operators on the complex level:
+
+    ­ Split of complex on 1 selector, generaliza\on of
+      selector (replacing by 11...1), specializa\on of
+      generalized selector, inclusion of one nega\ve
+      example
+
+· Operators on selectors:
+
+    ­ Muta\on 0<->1, extension 0->1, reduc\on 1->0,
+
+ROMAN NERUDA: EVA1 - 2014/15
+                            Mul\-Objec\ve Evolu\onary Algorithms (MOEA), Paretova fronta, NSGA II
+
+MULTI-OBJECTIVE OPTIMIZATION
+
+ROMAN NERUDA: EVA1 - 2014/15
+                Problem
+
+· Instead of one fitness (objec\ve func\on), there is a vector
+   of them fi, i=1...n
+
+· For the sake of simplicity, we consider minimiza\on case,
+   so we try to achieve minimal values of all fi, which is
+   difficult
+
+· Defini\ons of dominance (of individual, or a solu\on):
+
+    ­ Individual x weakly dominates individual y, iff fi(x)<=fi(y), pro
+       i=1..n
+
+    ­ x dominates y, iff it weakly dominates him, and there exists j:
+       n(x) < n(y)
+
+    ­ x and y are uncomparable, when neither x dominates y, nor y
+       dominates x
+
+    ­ x does not dominate y, if either weakly dominates x, or they are
+       uncomparable
+
+ROMAN NERUDA: EVA1 - 2014/15
+              Pareto front
+
+· Pareto front is a set of individuals not
+  dominated by any other idividual
+
+ROMAN NERUDA: EVA1 - 2014/15
+            The simple way
+
+· How to solve MOEA in a simple (simplis\c?) way:
+· Aggregate the fitness:
+
+    ­ i.e. weighted sum of all fi, resul\ng in one value of f
+    ­ And solve it as a standard one-objec\ve op\miza\on
+    ­ This one is some\mes, in the context of MOEA, called
+
+      SOEA (single objec\ve EA), but is is nothing new to us,
+      actually we were doing only SOEA so far
+
+· Nevertheless, we do not know how to set
+  weights for individual fi`s.
+
+ROMAN NERUDA: EVA1 - 2014/15
+    VEGA (Vector Evaluated GA)
+
+· One of the first MOEAs, 1985
+· Idea:
+
+    ­ Popula\on of N individuals is sorted according to each
+      of the n objec\ve func\ons
+
+    ­ For each i we select N/n best individuals w.r.t. fi
+    ­ These are crossed over, mutated and selected to next
+
+      genera\on
+
+· This approach in fact, has lots of disadvantages:
+
+    ­ It is difficult to preserve a diversity of the popula\on
+    ­ It tends to converge to op\mal solu\ons for individual
+
+      objec\ves fi
+
+ROMAN NERUDA: EVA1 - 2014/15
+NSGA (non-dominated sor\ng GA)
+
+· 1994, an idea of dominance is used for fitness
+· This s\ll does not guarantee sufficient spred of
+
+  popula\on, it must be dealt with some other way
+  (niching)
+· Algorhitm:
+
+    ­ Popula\on P is divided into consequently contructed
+      fronts F1, F2, ...
+
+         · F1 is a set of all non-dominated individuals from P
+         · F2 is a set of all non-dominated individuals from P-F1
+         · F3 ... from P-(F1 disjuncted with F2)
+         · ...
+
+ROMAN NERUDA: EVA1 - 2014/15
+              NSGA contd.
+
+· For each individual we compute a niching faktor, as a sum
+   of sh(i,j) over all individuals j from the same front, where:
+
+    ­ sh(i,j) = 1-[d(i,j)/dshare]^2, for d(i,j)<dshare
+    ­ sh(i,j) = 0 otherwise
+
+           · d(i,j) is distance i from j
+           · dshare is a parameter of the algorithm
+
+· Individuals from the first front receive some,,dummy"
+   fitness, that is divided by a niching factor
+
+· Individuals from the second front recieve a dummy fitness
+   smaller that the fitness of the worst individual from the
+   first front, and it is again divided by their niching factor
+
+· ... For all fronts
+
+ROMAN NERUDA: EVA1 - 2014/15
+                 NSGA II
+
+· 2000, repairing some drawbacks of NSGA:
+
+    ­ Necessity to set the right dshare value
+    ­ Non-existence of eli\sm
+
+· Niching
+
+    ­ Dshare a niche count is replaced by a crowding distance:
+    ­ This is a sum of distances to the nearest neighbours
+    ­ The best individuals w.r.t. each fi`s have crowding distance
+
+       set to infinity
+
+· EliDsmus
+
+    ­ Old and new popula\ons are joined, sorted, the be_er
+       part goes to next genera\on
+
+ROMAN NERUDA: EVA1 - 2014/15
+            NSGA II contd.
+
+· Fitness:
+
+    ­ Each individual has a number of non-dominated front
+      it is in, and a crowding distance
+
+    ­ When comparing two individuals, first a front is
+      considered (smaller is be_er), and in case of the same
+      front, their crowding distance is considered (bigger is
+      be_er)
+
+    ­ And in fact, no fitness is really computed, just these
+      two numbers are compared in a tournament selec\on
+
+· And now we have an improvement ­ NSGA III
+
+ROMAN NERUDA: EVA1 - 2014/15
+                                         EVA solves NP-hard problems, TSP, permutaion representa\ons
+
+COMBINATORIAL OPTIMIZATION
+
+ROMAN NERUDA: EVA1 - 2014/15
+        EVA solves hard tasks
+
+· 0-1 knapsack problem
+
+    ­ Simple encoding
+    ­ Problema\c fitness
+    ­ Standard operators
+
+· Travelling Salesman problem (TSP)
+
+    ­ Simple fitness
+    ­ Problema\c encoding and opertators (crowwover,
+
+      really)
+
+· Scheduling, planning, transporta\on problems ...
+
+ROMAN NERUDA: EVA1 - 2014/15
+                Knapsack
+
+· Given:
+
+   ­ A knapsack of capacity CMAX
+   ­ N items,
+   ­ each have a price v(i)
+   ­ and a volume c(i)
+
+· The task is to choose items such that:
+
+   ­ Maximize a sum v(i)
+   ­ At the same \me we squeeze them into a
+
+      knapsack, i.e. Sum of c(i) <= CMAX
+
+ROMAN NERUDA: EVA1 - 2014/15
+                Knapsack
+
+· Encoding ­ a bitmap:
+
+   ­ 0110010 ­ take items 2,3 and 6
+   ­ Trivial almost
+   ­ But the individuals might not sa\sfy the CMAX
+
+      condi\on
+
+· Operators:
+
+   ­ Simple crossover, muta\on, selec\on
+
+· Fitness: has two parts:
+
+   ­ max [sum of v(i)] vs. min [CMAX ­ sum of c(i)]
+
+ROMAN NERUDA: EVA1 - 2014/15
+                Knapsack
+
+· So, we have a mul\-objec\ve op\miza\on:
+
+   ­ Either weight em and add em
+   ­ Or use your favourite MOEA from previous
+
+      chapter
+   ­ Or, change the encoding in a clever way:
+
+         · 1 means: PUT the item in the knapsack UNLESS the
+           capacity is not exceeded
+
+         · This way we achieve a nice property that with such a
+           decoder all strings in fact represent a valid solu\on
+
+ROMAN NERUDA: EVA1 - 2014/15
+         Travelling salesman
+
+· N ci\es, tour them with minimal cost
+· Fitness is clear cost of the trip
+· Reprezenta\ons are many
+
+   ­ Variants of vertex-based
+   ­ Edge-based, ...
+
+· Operators are heavily dependent on
+  representa\on
+
+   ­ Crossover allows to use heuris\cs we might have
+      to solve the TSP
+
+ROMAN NERUDA: EVA1 - 2014/15
+      Adjacency representa\on
+
+· Path is a list of ci\es, city j is at posi\on I iff there is an
+   edge from i to j
+
+· Ex:
+
+    ­ (248397156) corresponds to 1-2-4-3-8-5-9-6-7
+
+· Each path has 1 representa\on, some lists do not
+   generate valid paths
+
+· Not very intui\ve
+· Classical crowwover does not work
+· But schemata do:
+
+    ­ E.g. (*3*...) means all paths with 2-3 edge
+
+· Do not use it.
+
+ROMAN NERUDA: EVA1 - 2014/15
+ Ordinal (or buffer) representa\on
+
+· Mo\vova\on was to use the standard 1-point
+  crossover
+
+    ­ Let us have a buffer of ver\ces, maybe just ordered,
+      the encoding is in fact a posi\on of a city in this buffer
+
+    ­ When a city is used, it is deleted from a buffer
+
+· Ex:
+
+    ­ Buffer (123456789), and path 1-2-4-3-8-5-9-6-7 is
+      repesented as (112141311)
+
+· Do not use it either.
+
+ROMAN NERUDA: EVA1 - 2014/15
+Path (or permuta\on) representa\on
+
+· Probably a first idea of most people
+· Permuta\on representa\on is important as
+
+  natural for many other tasks, as well.
+
+    ­ path 5-1-7-8-9-4-6-2-3 is represented as (517894623)
+
+· The crossover does not work
+· So, the main problem with this representa\on is
+
+  to propose a crossover operator that produces
+  correct individuals, and represents some idea
+  about how a good solu\on should look like.
+
+    ­ PMX, CX, OX, ...
+
+ROMAN NERUDA: EVA1 - 2014/15
+                  PMX
+
+· Par\ally mapped crossover (Goldberg)
+· Preserve as many ci\es on their posi\ons from
+
+  the individuals as you can.
+· 2-point
+· (123|4567|89) PMX (452|1876|93) :
+
+    ­ (...|1876|..) (...|4567|..)
+    ­ and a mapping 1-4 8-5 7-6 6-7
+    ­ Can be addedd (.23|1876|.9) (..2|4567|93)
+    ­ According to the mapping
+
+         · (423|1876|59) (182|4567|93)
+
+ROMAN NERUDA: EVA1 - 2014/15
+                    OX
+
+· Order crossover (Davis)
+· Preserve rela\ve order of ci\es in the individuals
+· (123|4567|89) OX (452|1876|93) :
+
+    ­ (...|1876|..) (...|4567|..) rearrange the path from the
+      second crossover point
+
+    ­ 9-3-4-5-2-1-8-7-6
+    ­ Delete crossed over ci\es from 1, remains: 9-3-2-1-8
+    ­ Fill the first child: (218|4567|93)
+    ­ Similarly, the second child: (345|1876|92)
+
+ROMAN NERUDA: EVA1 - 2014/15
+                    CX
+
+· Cyclic crossover (Oliver)
+· Preserve the absolute posi\on in the path
+· (123456789) CX (412876935)
+
+    ­ First posi\on at random, maybe from th first parent:
+      P1=(1........),
+
+    ­ Now we have to take 4, P1=(1..4....), then 8, 3 a 2
+    ­ P1=(1234...8.), can't con\nue, we fill from the second
+
+      parent
+    ­ P1=(123476985)
+    ­ Similarly P2=(412856739)
+
+ROMAN NERUDA: EVA1 - 2014/15
+                    ER
+
+· Edge recombina\on (Whitley et al)
+· Observa\on: all previous crossovers preserve
+
+  only about 60% of edges from both parents
+· The ER tries to preserve as many edges as
+
+  possible.
+
+    ­ For each city make a list of edges
+    ­ Start somewhere (the first city),
+    ­ Choose ci\es with less edges,
+    ­ In case of the same number of edges, choose
+
+      randomly
+
+ROMAN NERUDA: EVA1 - 2014/15
+(123456789) ER (412876935)
+
+· 1: 9 2 4                    · Start in 1, successors are 9, 2, 4
+· 2: 1 3 8                    · 9 looses, has 4 succ., from 2 and 4
+· 3: 2 4 9 5
+· 4: 3 5 1                       choosing at random 4
+· 5: 4 6 3                    · succ. of 4 are 3 and 5, take 5,
+· 6: 5 7 9                    · Now we have (145......), and con\nue
+· 7: 6 8                      · ... (145678239)
+· 8: 7 9 2                    · It is possible that we cannot choose an
+· 9: 8 1 6 3
+                                 edge and the algorithm fails, but it is
+                                 very rare (1-1.5% pípad)
+
+ROMAN NERUDA: EVA1 - 2014/15
+(123456789) ER2 (412876935)
+
+· 1: 9 #2 4                   · ER2 ­ improving ER
+· 2: #1 3 8                   · Preserving more common edges
+· 3: 2 4 9 5                  · Mark edges that exist twice by - #
+· 4: 3 #5 1                   · They are priori\zed when choosing
+· 5: #4 6 3
+· 6: 5 #7 9                      where to go.
+· 7: #6 #8
+· 8: #7 9 2
+· 9: 8 1 6 3
+
+ROMAN NERUDA: EVA1 - 2014/15
+         Ini\aliza\on for TSP
+
+· Nearest neighbours:
+
+    ­ Start with a ranodm city,
+    ­ Choose next as the closest from the not chosen yet
+
+· Edge inser\on:
+
+    ­ To a path T (start with an edge) choose the nearest
+      city c not in T
+
+    ­ Find an edge k-j in T so it minimizes the difference
+      between k-c-j and k-j
+
+    ­ Delete k-j, insert k-c and c-j to T
+
+ROMAN NERUDA: EVA1 - 2014/15
+           Muta\on for TSP
+
+· Inversion (!)
+· Insert a city into a path
+· Shi< subpath
+· Swap 2 ci\es
+· Swap subpaths
+· Heuris\cs such as 2-opt etc.
+
+         · Take two edges, four ci\es, choose other two edges
+           connec\ng these 4 ci\es
+
+ROMAN NERUDA: EVA1 - 2014/15
+          Other approaches
+
+· (Binary) matrix representa\on:
+
+         · Either 1 on posi\on (i,j) means an edge from i to j
+         · Or it means that i is before j in a path (more common)
+
+    ­ Specific operators of matrix crossover:
+
+         · Conjunc\on ­ bitwise AND and random inser\on of edges
+         · Disjunc\on ­ dissect into quadrants, 2 of them delete,
+
+            remove contradic\ons, insert edges at random
+
+· Combina\on with local heuris\cs
+
+    ­ Evolu\onary strategy which improves paths by "smart
+      muta\ons" ­ heuris\cs like 2-opt, 3-opt
+
+ROMAN NERUDA: EVA1 - 2014/15
+       Other tasks - scheduling
+
+· Scheduling is NP-hard:
+
+    ­ Individual is a sechedule, direct matrix encoding
+
+          · Rows are teachers, columns classes, values are codes of subjects
+          · Muta\on ­ mix the subjects
+          · Crossover ­ swap be_er rows from individuals
+
+    ­ Fitness
+
+          · Fitness of a row (how a teacher is sa\sfied)
+          · Other so< criteria and constrains about the schedule quality
+
+    ­ Hard constrains
+
+          · Must respect in operators, otherwise too many inadmissable
+             solu\ons are generated
+
+          · Teachers constrains, when, where what to teach, ...
+
+ROMAN NERUDA: EVA1 - 2014/15
+ Other tasks ­ job shop scheduling
+
+· Produc\on planning
+
+          · products o1...oN, from parts p1...pK, for each part more plans how
+             to produce it on machines m1...mM, machines have different
+             \mes for setup to a different product
+
+          · Fitness ­ produc\on \me
+
+· Encoding is cri\cal:
+
+    ­ Permuta\on­ plan is just a permuta\n of products order.
+       Decoder must choose plans for parts. Simple
+       representa\on, can use TSP-inspired crossovers. But
+       shows not very efficient, decoder solves the complicated
+       part, TSP operators not suitable.
+
+    ­ Direct representa\on of individual as the complete plan ­
+       specialized and complex evolu\onary operators.
+
+ROMAN NERUDA: EVA1 - 2014/15
+                                                Just an introduc\on, the cool approaches are in the EVA II
+
+NEUROEVOLUTION
+
+ROMAN NERUDA: EVA2 - 2013/14  12
+                               2
+Learn neural networks by EVA
+
+· First experiments in 80s
+· Learn the parameters (weights)
+· Learn the structure (architecture, connec\ons)
+· Learn weights and structure together
+· Reinforcement learning tasks ­ when there is no
+
+  supervised algorithm(robo\cs)
+· Hybrid methods ­ combina\on of EVA with local
+
+  search etc
+
+ROMAN NERUDA: EVA2 - 2013/14                       12
+                                                    3
+          Learn the weights
+
+· Direct:
+
+    ­ Encode the weights to a (floa\ng point) vector,
+    ­ floa\ng point GA, standard operators
+    ­ Evolu\onary strategies, ...
+
+· Usually slower than specialized gradient based
+  local algorithms, but can be robust
+
+· Use mini batches
+· Can be parallelized easily
+· Can be used for reinforcement learning where
+
+  there s no gradient (robo\cs)
+
+ROMAN NERUDA: EVA2 - 2013/14                           12
+                                                        4
+Learn the structure
+
+· Fitness = build the network, ini\alize at random, train,
+   several \mes
+
+· Direct encoding
+
+    ­ Represent the structure as binary matrix
+    ­ Linearize the relevant part of the matrix into a binary
+
+       vector
+
+· Grama\cal encoding, Kitano
+
+    ­ Individual is a representa\on of 2D formal grammar that
+       are a program to create the binary matrix represen\ng the
+       strucrure of the neural net
+
+    ­ Bold but to heavy-weight solu\on, not used in prac\ce
+
+ROMAN NERUDA: EVA2 - 2013/14  12
+                               5
+

@@ -1,0 +1,856 @@
+EVOLUCNÁ ROBOTIKA
+7. cas
+
+           Evolúcia a ucenie
+
+                               Frantisek Mráz, KSVI MFF UK
+
+                                                                                                                          1
+Ucenie a evolúcia
+
+ Evolúcia a ucenie sú 2 formy biologickej adaptácie, ktoré sa lísia v
+    priestore a case
+
+evolúcia                              ucenie
+
+selektívna reprodukcia a substitúcia  zmeny v jednom jedincovi po dobu
+v geograficky distribuovanej          jeho zivota
+populácii
+                                      adaptácia jedinca ako reakcia na
+zmena trvá generácie ­ je pomalá;     nepredvídané zmeny prostredia v
+dokáze zachyti pomalé zmeny           zivote jednej generácie
+prostredia
+                                      rôzne mechanizmy: fyziologický vývoj,
+operuje na genotype                   dospievanie, synaptická plasticita;
+                                      ovplyvuje iba fenotyp; zmeny sa
+                                      neprenásajú priamo do genotypu
+
+ v tejto casti: ucenie = zmeny synaptických váh neurónovej siete; dajú sa
+    adaptova i iné atribúty ­ aktivacné stavy, architektúra, ...
+
+                                                                             2
+Ucenie a evolúcia
+
+ Konekcionizmus rozlisuje:
+
+       ucenie ­ dlhodobé zmeny synaptických váh
+       pamä ­ zmeny aktivacných stavov neurónov v rekurentných
+
+          sieach
+
+ oboje môze dáva podobné výsledky z hadiska správania
+ Terminológia:
+
+       ,,Ontogenéza alebo ontogénia (v sirsom zmysle) alebo vývin
+          jedinca je individuálny vývin organizmu od oplodneného vajícka (alebo
+          v prípade partenogenézy neoplodneného vajícka) po smr, teda
+          obdobie zahajúce zárodocný vývoj, dospievanie, rozmnozovanie,
+          starostlivos o potomstvo a starnutie." ­ Wikipédia
+
+                                                                                                                                      3
+Adaptívne funkcie ucenia
+
+Výhody ucenia
+
+1. Prispôsobenie sa zmenám v prostredí po dobu zivota jedinca alebo
+      malého poctu generácií ­ pomáha pri evolúcii, aby jedinec prezil
+      rýchle zmeny prostredia
+
+2. dovouje evolúcii vyuzíva informácie získané z prostredia na
+      urýchovanie a usmerovanie evolúcie
+
+       ontogenetická adaptácia má spätnú väzbu z prostredia; evolúcia má
+           jedinú hodnotu ­ pocet potomkov (prírodná) alebo fitness (umelá)
+
+       evolúcia v kombinácii s ontogenetickou adaptáciou môze senzorové
+           vnemy transformova na uciace signály (bude neskôr v prednáske)
+
+                                                                                                                                      4
+Adaptívne funkcie ucenia
+
+3. ucenie môze pomáha evolúcii a vies evolúciu
+
+       fyzické zmeny fenotypu sa síce nezapisujú do genotypu, ale aj
+           suboptimálni jedinci sa môzu reprodukova s tým, ze vo svojom zivote
+           získajú vlastnosti nutné na prezitie
+
+       ale ucenie stojí cas ­ preto evolúcia uprednostuje jedincov, ktorí majú
+           uz od narodenia vlastnosti, ktoré by sa inak museli nauci
+
+4. Iné prednosti: ucenie umozuje vytvori zlozité fenotypy z
+      krátkych genotypov ­ cas informácií nutných na vytvorenie
+      zodpovedajúceho fenotypu sa extrahuje z prostredia
+
+       umozuje to udrziava väcsiu genetickú rôznorodos
+
+                                                                                                                                      5
+Nevýhody ucenia
+
+1. doba potrebná na ucenie ­ vtedy sa jedinec nechová optimálne
+2. vyssia nespoahlivos: ak sa pri ucení nejaký podnet nevyskytne,
+
+      tak na jedinec nevie vhodne reagova
+3. iné náklady:
+
+       neskorsia schopnos reprodukcie
+       energia
+       nevyvinutý jedinec si môze nenávratne ublízi
+
+Ukázeme si niekoko modelov a experimentov, kde sa kombinuje
+ucenie a evolúcia
+
+                                                                                                                                      6
+Ako ucenie pomáha evolúcii ­
+kanalizacný efekt
+
+ Kanál (= komunikacný kanál) od ucenia k evolucnému vývoju
+
+       nepriama genetická asimilácia naucených vlastností
+
+ Hinton, Nowlan (1987)
+
+       jedinec s 20 génmi, ktoré kódujú 20 potenciálnych spojov
+       jeden gén má 3 mozné hodnoty
+
+               0 ­ spoj neexistuje
+               1 ­ spoj existuje
+               ? ­ spoj sa môze ucením vytvori alebo rusi
+        úloha (umelá) nájs správnu kombináciu spojov
+
+       ucenie ­ náhodné nastavovanie ucitených spojov po obmedzenú
+          dobu (ak sa uhádne správna kombinácia, tak +1 inak +0 do fitness)
+
+               fitness bez ucenia ­ rovná plocha s ostrými hrotmi v dobrých kombináciách
+                 spojov
+
+               fitness s ucením ­ okolie hrotov je hladsie a sirsie ­ genetický algoritmus
+                 dokáze splha k vrcholu
+
+                                                                                                                                      7
+Kanalizacný efekt
+
+ Ke sa nájdu jedinci s génmi ciastocne fixovanými na správnych
+    hodnotách, tak evolúcia zacne dáva prednos jedincom, ktoré majú
+    fixovaných viac správnych génov, teda menej ucitených
+
+ jedinci bez ucitených génov sa po celú dobu zivota nemôzu pohybova v
+    priestore fenotypu
+
+ ucenie umozuje evolúcii prehadáva okolie kandidátov na reprodukciu
+
+                       · bez ucenia ­ hadanie ihly v kôpke sena
+                       · s ucením ­ hadanie ihly v kôpke sena, ale niekto nám napovedá, ke sme blízko
+
+bez ucenia  s ucením
+
+kombinácie alel       kombinácie alel  Kam sa môzu dosta
+                                       Pociatocní jedinci
+
+                                                   8
+Kritika Hinton-Nowlanovho modelu
+
+ Kritika Hinton-Nowlanovho                   Je mozné závery Hintona a
+    modelu                                      Nowlanského zovseobecni pre
+                                                prípad menej korelovaných
+       Ucenie je iba náhodný proces             priestorov ucenia a evolúcie?
+
+       ucenie a evolúcia majú ten istý             Adaptívna výhoda ucenia je
+           cie                                         úmerná korelovanosti priestorov
+                                                       ucenia a evolúcie
+       prostredie sa nemení
+                                                   Asimilácia jedincov, ktorí boli
+       priestor ucenia a priestor evolúcie             najprv získaní ucením je úmerná
+           sú kompletne korelované                     korelovanosti priestorov a cene
+                                                       ucenia
+
+                                                   Za urcitých okolností môze cena
+                                                       ucenia prevýsi jeho výhody
+
+                                                                                        9
+Evolúcia a ucenie s rôznymi ciemi
+
+ Evolúcia ­ poda schopnosti hada potravu
+ Ucenie ­ predpovedanie stavu senzorov poda motorických akcií
+ ke animat vstúpi na polícko s potravou, tak ju hne zozerie a jeho fitness
+
+     sa zvýsi
+ riadenie ­ NS:
+
+        Vstup: plánovaná motorická akcia, uhol a vzdialenos najblizsej potravy
+        Výstup: motorická akcia, predpove stavu senzorov
+
+                 motorická akcia = dva bity: otocenie o 90° doava, o 90° doprava, zosta stá, krok
+                    dopredu
+
+        casová postupnos:
+
+                1. sie vezme minulú motorickú akciu a skutocný stav senzorov po jej vykonaní
+                2. vydá novú motorickú akciu a predpove stavu senzorov
+                3. plánovaná motorická akcia sa vykoná; bude novým vstupom
+                4. precíta sa stav senzorov ­ pouzije sa na ucenie (rozdiel medzi skutocným a
+
+                      predpovedaným stavom senzorov ­ algoritmus spätného sírenia chyby), potom ako
+                      nový vstup
+
+                        · Váhy do neurónov s plánovanou akciou sa neucia
+
+                                                                                                                                     10
+Evolúcia a ucenie s rôznymi ciemi
+
+     nová     predpove             Neucené váhy
+   motorická     stavu             Ucené váhy
+
+     akcia     senzorov
+
+A
+
+   avý pravý  uhol vzdialenos
+      motor
+
+   pouzitá    skutocný
+
+   motorická  stav
+
+   akcia      senzorov             11
+Evolúcia a ucenie s rôznymi ciemi
+
+ Vyhodnotenie fitness:
+
+ 20 epoch
+
+ V epoche 5 náhodných prostredí
+
+ V jednom prostredí 50 akcií
+
+ Fitness = pocet pozbieraných kusov potravy
+
+ Populácia 100 jedincov, na zaciatku s náhodnými váhami z (-1; 1)
+
+ Nová generácia:
+
+ 20 najlepsích jedincov sa skopíruje 5 krát
+
+ V kazdom jedincovi sa náhodne zvolí 5 váh a k nim sa pricíta náhodné
+   císlo z (-1; 1)
+                              Pozbieraná potrava
+ Pocet generácií 100
+
+                                                  Bez predikcie
+                                                  S predikciou
+
+                                                  generácie
+
+                                                                                                        12
+Výsledky
+
+ Jedinci, ktorí sa ucili predpoveda, boli aj v hadaní potravy lepsí
+    ako jedinci, ktorí sa neucili
+
+ Vysvetlenie poda Hintona a Nowlana nestací, pretoze ucenie a
+    evolúcia majú rozdielne ciele
+
+                                                                                             priestor evolúcie
+
+Zmeny vyvolané ucením posúvajú fenotyp
+
+                                                                                 fitness
+
+v priestore ucenia a tiez v priestore fitness
+
+(evolúcie)
+
+· ucenie maximalizuje (správnos
+
+predpovede) v priestore ucenia                                                            A                     B
+
+· evolúcia vyberá jedincov, ktorí pri zvýsení
+
+výkonu v priestore ucenia zárove zlepsujú
+
+výsledky v evolucnej úlohe                     Správnos                                      priestor ucenia
+ evolúcia má tendenciu vybera                  predikcie
+
+jedincov v dynamicky korelovaných
+
+oblastiach (skôr A nez B)
+
+                                                                                                                   13
+Výsledky
+
+ Evolúcia a ucenie sú dva druhy zmien na dvoch rôznych entitách
+    (populácia × jedinec), ktoré sa vsak navzájom ovplyvujú
+
+       evolúcia ucenie ­ zdedený genotyp ciastocne urcuje, ako sa bude
+          jedinec chova a co sa naucí
+
+       ucenie evolúciu ­ zlepsuje výkon vzhadom k evolucnej úlohe
+
+ charakteristiky získané ucením sa neprenásajú do genotypu jedinca
+    (aspo nie úplne), aj ke by to mohlo zvýsi fitness
+
+       cena za ucenie sa dá znízi zrýchlením ucenia
+       priestor ucenia a evolucný priestor nie sú úplne korelované, genetické a
+
+          ucebné operátory sú rôzne; body blízke v ucebnom priestore môzu by
+          od seba aleko v evolucnom priestore
+
+                                                                                                                                     14
+Iná interpretácia
+
+ Harvey ­ zlepsenie priemernej výkonnosti uciacich sa jedincov
+
+   nenastáva interakciou ucenia a evolúcie, ale iba doucením váh
+
+pozmenených mutáciou; zalozené na pozorovaní:
+
+ sie bola trénovaná na trénovacej mnozine T1, potom boli váhy siete
+   pozmenené perturbáciou a alej bola sie trénovaná na T2
+   (nekorelované s T1); výkonnos siete sa zlepsila i na T1
+
+ A reprezentuje váhy siete po trénovaní s T1, B1 a B2 sú dve mozné
+   pozície siete po perturbácii, C je poloha siete po trénovaní na T2; nech
+   výkon na T1 je nepriamo úmerný vzdialenosti od A
+
+P                   pri pohybe z B2 sa iba vzauje od A
+
+               B2        ale pri pohybe z B1 je po urcitú dobu sie blizsie
+        A                    k A ­ nastáva vo viac nez 50% prípadov
+B1
+                   C  Ak C lezí vo vnútri kruznice ­ zlepsenie nastáva
+           Q
+                             v 100% prípadov
+
+                                                                     15
+Iná interpretácia
+
+          P          vlastne by to malo dopadnú podobne, ke
+
+             B2     najlepsieho jedinca získaného evolúciou na
+       A
+B1               C  hadanie potravy nahradíme mutovaným
+
+         Q          jedincom a potom ho ucíme predpoveda
+
+                    stavy senzorov
+
+ Nech A je silne skonvergovaná populácia (hadanie potravy), mutáciou sa
+    dostane do nejakého bodu B na kruznici a potom pokracujeme ucením
+    predpoveda do C
+
+ Nedopadlo to tak: Nolfi skúsil najprv evolúciu (niekoko generácií) bez
+    ucenia, potom ucenie predpoveda ­ výsledky boli horsie
+
+ Záver:
+
+      a) výhody celozivotného ucenia nastávajú v interakcii ucenia s evolúciou
+
+      b) Pri evolúcii uciacich sa jedincov populácia nekonverguje k A, ale niekam vavo
+           od A a potom pri ucení (pohybe smerom k C) jedinec strávi väcsinu zivota
+           blizsie k A, pretoze to tak nastavila evolúcia (evolúcia vyberá jedincov, ktorí pri
+           zvýsení výkonu v priestore ucenia zárove zlepsujú výsledky v evolucnej úlohe)
+
+                                                                                                                                      16
+Evolúcia ucenia
+
+ V predchádzajúcich experimentoch sa váhy vzdy dedili; v prírode
+    vsak väcsinou genotyp nekóduje celý fenotyp
+
+ Floreano, Mondala 1996: genotyp kóduje iba architektúru a pravidlá
+    ucenia pre váhy (nie ich hodnoty)
+
+        chromozóm sa dekóduje na riadiacu NS, váhy sa inicializujú na malé náhodné
+           hodnoty
+
+        gény kódujú pre jednu synapsiu 4 mozné uciace pravidlá, uciacu konstantu,
+           chemické vlastnosti synapsie (excitacná-inhibicná, riadiaca-modulacná)
+
+        NS:
+               2 neuróny pre motory a jeden skrytý neurón;
+               kazdý neurón dostáva na vstup signály z 8 senzorov a zo skrytého neurónu
+               27 spojov s meta-vlastnosami kódovanými v genotype
+               zvlástna dvojzlozková aktivacná funkcia (riadenie, modulácia): súcet
+                 riadiacich signálov urcuje smer otácania motora, súcet modulacných
+                 rýchlos
+
+                                                                                                                                     17
+Architektúra experimentu
+
+ Genotyp:
+
+       6 bitov na spoj
+
+               riadiaci-modulacný
+               excitacný-inhibicný
+               4 pravidlá ­ hebbovské,
+
+                 postsynaptické, presynaptické a
+                 kovariantné (2 bity); obmedzenie váh
+                 na interval <0, 1.0>
+               uciaca konstanta [0, 0.3, 0.7, 1] (2
+                 bity)
+
+ fitness ­ 3 zlozková viz Navigácia s
+    vyhýbaním sa prekázkam
+
+                                                       skrytý avý pravý
+                                                       neurón motor motor
+
+                                                                                     18
+                                                       avý   pravý          skrytý
+                                                       moto  moto           neurón
+
+                                                         r     r
+
+Architektúra experimentu                                               ...
+                                                             infra senzory
+ Genotyp:
+
+       6 bitov na spoj
+
+               riadiaci-modulacný
+               excitacný-inhibicný
+               4 pravidlá ­ hebbovské,
+
+                 postsynaptické, presynaptické a
+                 kovariantné (2 bity); obmedzenie váh
+                 na interval <0, 1.0>
+               uciaca konstanta [0, 0.3, 0.7, 1] (2
+                 bity)
+
+ fitness ­ 3 zlozková viz Navigácia s
+    vyhýbaním sa prekázkam
+
+                                                       skrytý avý pravý
+                                                       neurón motor motor
+
+                                                                                     19
+Architektúra experimentu
+
+ Genotyp:                                              avý pravý
+                                                       motor motor
+       6 bitov na spoj
+
+              riadiaci-modulacný
+              excitacný-inhibicný
+              4 pravidlá ­ hebbovské,
+
+                 postsynaptické, presynaptické a
+                 kovariantné (2 bity); obmedzenie váh
+                 na interval <0, 1.0>
+
+              uciaca konstanta [0, 0.3, 0.7, 1] (2
+                 bity)
+
+ fitness ­ 3 zlozková viz Navigácia s
+    vyhýbaním sa prekázkam
+
+                                                                    20
+z predchádzajúcej prednáskyEvolucný prístup
+
+ Bludisko s okruhom (80 x 50 cm)
+ cie: maximálna rýchlos vpred, vyhýbanie sa prekázkam
+ fitness (k je císlo kroku, n je celkový pocet krokov)
+
+                                              1 
+                                         =   
+
+                                                                  =1
+
+            =  1 -  1 -  where 0  , ,   1
+            =  +   = | - |
+            - rýchlos avého motora,   -0.5; 0.5
+            - rýchlos pravého motora,   -0.5; 0.5
+            - normalizovaná hodnota najaktívnejsieho infracerveného
+
+                      cidla
+
+                                                                                                                                     21
+Uciace pravidlá
+
+ Uciace pravidlá
+
+               hebbovské ­ súhlasné aktivácie neurónov ­ spoj sa posiluje, nesúhlasné
+                 aktivácie ­ spoj sa zoslabuje
+
+                  ·  = 
+
+               postsynaptické ­ ten istý vzorec, ale uplatní sa iba ke je aktívny
+                 postsynaptický neurón
+
+               presynaptické ­ ten istý vzorec, ale uplatní sa iba ke je aktívny
+                 presynaptický neurón
+
+             kovariantné ­  = ( - 0.5) ( - 0.5)
+
+               
+
+presynaptický  postsynaptický
+
+                                                                                       22
+Uciace pravidlá V SKUTOCNOSTI
+
+ Váhy obmedzené do intervalu -1; 1
+
+ hebbovské ­ súhlasné aktivácie neurónov ­ spoj sa posiluje, nesúhlasné
+   aktivácie ­ spoj sa zoslabuje
+
+·  = 1 -  
+
+ postsynaptické ­ podobný vzorec, ale naviac znizuje zmenu váhy, ke
+   postsynaptický neurón je aktívny a presynaptický nie
+
+·  =  -1 +   + 1 -  
+
+ presynaptické ­ zmena váhy sa znizuje, ke presynaptický neurón je
+   aktívny a postsynaptický nie
+
+·  =  -1 +  + 1 -  
+
+ kovariantné ­ ak sa aktivity neurónov lísia viac nez o polovinu rozsahu, tak
+
+sa váha redukuje úmerne vekosti rozdielu, inak sa zvysuje úmerne tomuto
+
+rozdielu
+
+               1  -       ,   ak  ,   >0                             
+                     ,        inak
+·         =                               presynaptický postsynaptický
+
+·  ,  = tanh 4 1 -  -               - 2 , tanh   =  --                   23
+                                                    +-
+Podrobnosti
+
+ Váhy boli upravované kazdých 0.3 s poda vzorca
+                                () = (-1) + ()
+
+  je geneticky kódovaná uciaca konstanta
+
+ výslední najlepsí jedinci fungovali podobne ako u predchádzajúcich
+    experimentov, ale
+
+ navigova nevedeli uz ,,od narodenia", ale tí najlepsí sa uz po 10
+   krokoch ucenia vedeli vyhýba stenám
+
+ prvé 2s dopredu-dozadu dokia nenasiel stenu napravo od seba, potom
+
+uz siel dopredu, kazdé 2-3 kroky mierne pootocenie doprava, potom
+
+znova rovno dopredu                                                 Príklady
+
+ postupne sa jazda ,,vyhladzuje"                                    vývoja
+ hodnoty váh ­ váhy nezostali konstantné                            dvoch váh
+
+­ prekvapivá dynamická rovnováha
+
+                                                                    24
+Výsledky
+
+ Vyvinuté váhy zodpovedajú za ucenie i za správanie.
+ Ucenie riadenia bolo zalozené na dvoch zdedených schopnostiach:
+
+       pohyb dozadu, dokia nenarazí na objekt
+       otocenie doprava dokia nezacne by aktívny najpravejsí senzor; potom
+
+          zacne ucenie ­ akýsi instinkt
+
+ vyvinuté správanie je emergentné ­ vzniká interakciou s prostredím
+
+       je mozné zmensi genetický kód
+       evolúcia môze nájs jedincov schopných prispôsobi sa zmenám
+
+          prostredia ucením
+       váhy sa vyvíjajú iba u senzorov, kde je nejaká aktivita (pravá strana)
+
+ na rozdiel od predchádzajúcich experimentov evolúcia a ucenie
+    operujú na rôznych velicinách (meta-vlastnosti, váhy)
+
+ takto vyvinuté riadenie môze reagova na zmeny prostredia bez
+    alsej evolúcie
+
+                                                                                                                                     25
+Sekvencná úloha
+
+zapnutie svetla vypínacom
+
+ Urzelai, Floreano, 2001 ­ robot má ís k vypínacu, tým sa rozsvieti svetlo
+    a robot má ís k svetlu a zosta pri om
+
+ Fitness
+
+          doba pod rozsvieteným svetlom
+
+          celková doba
+
+                                                                            26
+Sekvencná úloha
+
+zapnutie svetla vypínacom
+
+ ucené jedince (adaptované váhy)     Geneticky kódované  adaptované váhy
+    si dokázali poradi so zmenou              váhy
+    farby stien, ale jedince s
+    geneticky kódovanými váhami nie
+
+ Podobne pri prenose na reálneho
+    robota
+
+                                     https://youtu.be/GdKvQtmcq_A
+
+                                                                                             27
+Sekvencná úloha                                 adaptované váhy
+
+zapnutie svetla vypínacom
+
+ Vyvinuté jedince zvládli i zmenu
+     polohy vypínaca a svetla
+
+                            Geneticky kódované
+                                     váhy
+
+                                                                 28
+Adaptácia na rýchle zmeny prostredia
+
+ Ackley, Littman, 1991: umelé organizmy v simulovanom prostredí s
+     dravcami, rôznymi druhmi potravy a inými objektmi
+
+ organizmus sa skladal z 2 modulov:
+
+        výkonný ­ vrstevnatá NS s dopredným sírením; výstup sú pravdepodobnosti
+           vykonania akcií
+
+        vyhodnocovací ­ výstupom je spätná väzba ­ uciaci signál; závisí na zmenách
+           výstupu hodnotiaceho modulu v case
+
+ genetický algoritmus vyvíjal váhy pre výkonný i vyhodnocovací modul, ale
+     pocas zivota jedinca sú menené iba váhy výkonného modulu na základe
+     spätnej väzby z vyhodnocovacieho modulu
+
+        kladná hodnota zvysuje váhu a záporná znizuje
+        finálne váhy sa do genotypu naspä neprepisujú
+
+ organizmy sa môzu reprodukova, ke majú dostatok energie a blízko seba
+     partnera, ktorý je pripravený k reprodukcii
+
+                                                                                                                                     29
+Ackley, Littman          vyhodnocovací modul
+
+          výkonný modul             spätná väzba
+
+                 akcie                  vstupy
+       pravdepodobnosti
+                                                                           30
+            vstupy
+Adaptácia na rýchle zmeny prostredia
+
+ potomkovia vznikajú krízením a mutáciou
+ organizmus zomiera, ke je starý alebo nemá energiu
+ autori porovnávali
+
+       1. Evolúciu bez ucenia
+       2. Ucenie bez evolúcie
+       3. Evolúcia s ucením ­ Evolutionary Reinforcement Learning (ERL)
+
+ ERL ­ najvýkonnejsie; viac nez 3000 generácií
+
+        prvých 600 generácií sa jedinci museli uci hada potravu
+        neskôr to uz vedeli od ,,narodenia"
+        evolúcia formovala ucenie ­ autonómne samo-ucenie, ktoré rozhodovalo kedy a
+
+           co sa uci
+
+                                                                                                                                     31
+Nolfi, Parisi ­ premenlivé steny
+
+ Khepera má nájs cie v aréne, kde steny môzu meni farbu (iba
+     simulovaný experiment)
+
+ aréna 60x20 cm, cie ­ kruh s priemerom 2 cm náhodne umiestnený
+ Khepera nepozná, ci nasla cie, ale fitness je tým vyssia, cím skôr nájde
+
+     cie ­ má co najefektívnejsie preskúma arénu
+ 2 prostredia
+
+       tmavé steny ­ musí sa pohybova opatrne, ke ,,vidí" stenu, tak je uz
+          vemi blízko pri stene
+
+       svetlé steny ­ aby preskúmala celú plochu, tak sa stenám musí vyhýba
+          az pri vemi silnom signále zo senzorov
+
+                                                                                                                                     32
+Premenlivé steny
+
+ Robot nevie, do ktorého prostredia sa dostal ­ musí to rozlísi a
+    nauci sa adekvátne pohybova
+
+motory           ucenie   4 vstupy ­ infracidlá zdruzené po dvoch
+                          4 výstupy
+        senzory
+                               · 2 rýchlosti motorov
+                               · 2 uciace signály
+
+                          ucenie delta-pravidlom
+                          2 podsiete ­ standardná a uciaca
+                          vsetky váhy sú geneticky vyvíjané, ale
+
+                              váhy standardnej sa môzu meni pocas
+                              zivota jedinca; váhy uciacej sa pocas
+                              zivota nemenia
+
+                                                                                                         33
+Výsledky
+
+ Ucenie závisí od váh uciacej podsiete (nemenných) a od
+    senzorových vstupov (závisia na prostredí)
+
+ porovnanie
+
+       ucení x neucení ­ ucení lepsí po pár generáciách
+       dospelí ucení v jednom prostredí, testovaní kazdý v oboch prostrediach
+
+               vo ,,svojom prostredí" jasne lepsie
+
+       ucení v dvoch rôznych prostrediach
+
+               iné úrovne vstupných signálov po celý zivot
+               iné úrovne signálov na rovnakých senzoroch (porovnávali sa najaktívnejsie)
+
+       vyvinutí uciaci sa jedinci x vyvinutí neuciaci sa jedinci
+
+               pred ucením ­ uciaci sa boli horsí
+               po ucení ­ uciaci sa boli lepsí
+               teda jedinci boli vyberaní poda toho, ako sa dokázu uci
+
+                                                                                                                                     34
+Predispozície k uceniu
+
+       pociatocné podmienky (napr. pociatocné váhy)
+       evolúcia môze zvoli pociatocné váhy vhodné na ucenie
+
+               ke nechali jedincom náhodné pociatocné váhy, tak sa síce celý zivot ucili,
+                 ale neboli prílis úspesní ­ chyba klesala, ale efektivita prehadávania sa
+                 nemenila
+
+       predispozícia uci sa prehadáva ­ v zdedených váhach standardnej
+          siete, ale tiez v zdedených váhach uciacej siete
+
+               pri náhodných váhach uciacej siete ­ mizerný výkon
+               pri riadení robota uciacimi signálmi ­ tiez
+
+       nájdené siete mali predispozíciu k uceniu, nie k chovaniu; chovanie
+          vzniká emergentne interakciou standardných váh, uciacich váh a
+          prostredia
+
+       vyvinutí jedinci majú predispozície k vobe uzitocných skúseností
+
+               po ,,narodení" sa správajú tak, aby zosilnili vnímatené rozdiely medzi
+                 prostrediami a mohli sa nauci 2 rôzne správania pre rôzne prostredia
+
+                                                                                                                                     35
+Záver
+
+ Evolucné ucenie sa lísi od tradicného
+
+       tradicné ucenie nezohaduje vlastnosti jedinca pred ucením
+       evolucné ucenie ich vyuzíva
+
+ evolúcia uciacich pravidiel
+
+       kratsí genóm
+       jedinci sú vyvíjaní pre ich schopnos prispôsobova sa prostrediu a
+
+          vyvíja si chovanie, ktoré vyhovuje selekcnému kritériu
+       takto vyvinuté roboty sú schopné sa ,,preuci" aj bez alsieho
+
+          evolucného vývoja
+
+                                                                                                                                     36
+Doplnenie ­ Peter Krcah (2016)
+
+ Ucená môze by aj morfológia ­ stavba tela
+
+ Daphnia Lumholtzi    Mravce rodu Acanthomyrmex: vedúci a
+    v prostrediach                 obycajný robotník
+
+s chemickými stopami
+  po dravcoch a bez
+          nich
+
+ Evolucne vyvíjané robotické organizmy
+
+ Telo z kvádrov spojených pántmi; pohyb pántov riadený neurónovými
+   sieami
+
+ Evolucný algoritmus ­ NEAT ­ NeuroEvolution of Augmenting
+   Topologies ­ bude neskôr
+
+ Jedince by sa mali co najrýchlejsie pohybova v dvoch rôznych
+   prostrediach
+
+ Pláva vo vonej vode x pohybova sa pri (rovnom) dne
+
+ Pláva v kvapalinách s rôznou viskozitou
+
+                                                                    37
+Doplnenie ­ Peter Krcah (2016)
+
+Organizmus vyvinutý v kvapaline   Organizmus pozmenený ucením
+        s nízkou viskozitou      v kvapaline s vysokou viskozitou,
+
+                                      porovnajte hrúbku plátov
+
+ Ucenie ­ hillclimbing s mutáciami rozmerov kvádrov
+
+ Fitness (maximalizovaná) = nizsia z priemerných rýchlostí v oboch
+    prostrediach
+
+                                                                    38
+Doplnenie ­ Peter Krcah (2016)
+
+ Ucenie
+
+       8 krát mutácia rozmerov a krátky test (2s) rýchlosti, ak sa rýchlos
+          nezvýsila, organizmus zmeny ,,vrátil"
+
+       1 krát dlhé meranie rýchlosti
+
+Voná voda  Nízka viskozita  Dno
+
+Fitness v závislosti na hbke a sírke centrálneho bloku
+
+                                                                                                     39
+Peter Krcah (2016)
+
+ Plávanie vo vonej vode a pri dne
+
+      1. Evolúcia s ucením
+      2. Evolúcia bez ucenia
+      3. Evolúcia bez ucenia vo vonej vode (testovanie v oboch prostrediach)
+      4. Evolúcia bez ucenia pri dne (testovanie v oboch prostrediach)
+
+                                                                                                                                     40
+Peter Krcah (2016)
+
+ Plávanie v kvapaline s nízkou viskozitou a vo vode
+
+      1. Evolúcia s ucením
+      2. Evolúcia bez ucenia
+      3. Evolúcia bez ucenia vo vode (testovanie v oboch prostrediach)
+      4. Evolúcia bez ucenia v kvapaline s nízkou viskozitou (testovanie v oboch
+
+           prostrediach)
+
+                                                                                                                                     41
+Peter Krcah (2016)
+
+ Ucenie interaguje s evolúciou
+
+       Evolúcia bez ucenia doplnená o ucenie nenahradí zlepsenie dosiahnuté
+          evolúciou kombinovanou s ucením, ani ke sa zapocíta vyssia
+          nárocnos evolúcie s ucením (zvýsenie poctu generácií bez ucenia o
+          50%)
+
+ Video https://youtu.be/d9Rc3gKRwTk (Virtual Creatures_
+    Morphological Plasticity.mp4)
+
+                                                                                                                                     42
+

@@ -1,0 +1,325 @@
+Social Networks
+and their Analysis
+
+INFLUENCE MODELING
+
+BY: IVETA MRÁZOVÁ
+Social Networks     Basic Concepts
+and their Analysis
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+
+                    Influence Modeling
+
+                     · Linear Threshold Model
+                     · Independent Cascade Model
+                     · Influence vs. Correlation
+Common properties of influence modeling methods
+
+· A social network is represented as a directed graph, with each
+  actor being one node;
+
+· Each node is started as active or inactive;
+· A node, once activated, will activate its neighboring nodes;
+· Once a node is activated, this node cannot be deactivated.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                    3
+Linear Threshold Model
+
+An actor (~node) would take an action if the number of his friends who
+have taken the action exceeds a certain threshold
+
+  · Each node  chooses a threshold  randomly from a uniform distribution in an
+     interval between 0 and 1.
+
+  · In each discrete step, all nodes that were active in the previous step remain active
+
+  · The nodes satisfying
+
+                                 ,  
+
+                           ,   
+
+will also be activated.
+
+                         I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                   4
+Linear Threshold Model- Diffusion Process
+
+(Threshold = 50%)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  5
+Social Networks     Basic Concepts
+and their Analysis
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+
+                    Influence Modeling
+
+                     · Linear Threshold Model
+                     · Independent Cascade Model
+                     · Influence vs. Correlation
+Independent Cascade Model (ICM)
+
+~ focuses on the senders rather than the receivers
+
+    · A node , once activated at step , has one chance to activate each of its
+       neighbors randomly
+
+        · For a neighboring node (say, ), the activation succeeds with probability ,
+           (e.g.,  = 0.5)
+
+    · If the activation succeeds, then  will become active at step  + 1
+    · In the subsequent rounds,  will not attempt to activate  anymore.
+    · The diffusion process starts with an initial activated set of nodes and then
+
+       continues until no further activation is possible
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                        7
+Independent Cascade Model- Diffusion Process
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  8
+Influence maximization
+
+· Given a network and a parameter , which k nodes should be
+  selected to be in the activation set  in order to maximize the
+  influence in terms of active nodes at the end?
+
+· Let () denote the expected number of nodes that can be
+  influenced by , the optimization problem can be formulated as
+  follows: max ()
+
+                 &  
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                    9
+Influence maximization ­ a greedy approach
+
+~ an NP-hard problem
+
+x but it can be proved that the greedy approach yields solutions
+  that are 63 % of the optimal.
+
+· Greedy approach:
+
+    · Start with  = Ø
+    · Evaluate () for each node, and pick the node with maximum () as the first
+
+      node  to form  = {}
+    · Select a node that will increase () most if the node is included in .
+
+   Essentially, we greedily find a node    \ such that argmax (  {})
+
+                                                                                               V\B
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                      10
+Social Networks     Basic Concepts
+and their Analysis
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+
+                    Influence Modeling
+
+                     · Linear Threshold Model
+                     · Independent Cascade Model
+                     · Influence vs. Correlation
+Influence vs. correlation in social networks
+
+User attributes and behaviors quite often tend to correlate with their social networks:
+
+ · suppose a binary attribute is associated with each node
+
+     · e.g., whether or not being a smoker
+
+ · if the attribute is correlated with the network, the actors are expected to share the same
+    attribute values that would be positively correlated with social connections
+
+ · i.e., smokers are more likely to interact with other smokers, and non-smokers with non-
+    smokers
+
+     Test for correlation: If the fraction of edges linking nodes with different
+         attribute values occur significantly less often than the expected probability,
+         then there is evidence of correlations.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                 12
+                      non-smokers               smokers
+
+Test for correlation
+
+EXAMPLE (evidence of correlation)):
+
+· if connections are independent of the smoking behavior:  fraction are
+  smokers (4/9); 1 -  non-smokers (5/9)
+
+· one edge is expected to connect two smokers with probability  × ,
+· two non-smokers with probability: (1 - ) × (1 - )
+· a smoker and a non-smoker: 2  (1 - )
+
+· In the above graph, red nodes denote non-smokers, and green ones are
+  smokers. If there is no correlation, then the probability of one edge
+  connecting a smoker and a non-smoker is 2 × 4/9 × 5/9 = 49%.
+
+· But here, the fraction is 2/14 = 14% < 49%, so this network demonstrates
+  some degree of correlation with respect to smoking behavior.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS           13
+Correlation in social networks
+
+· in real social networks, there exist correlations between the behavior or
+  attributes of adjacent actors / nodes
+
+· social processes explaining correlation:
+
+· Homophily: the tendency to link to others who share certain similarity with us
+                    ´birds of a feather flock together´
+
+· Confounding: correlation between actors / nodes can also be forged due to
+                    external influences from the environment
+                    ´individuals living in the same city are more likely to become
+                     friends than random individuals´
+
+· Influence:  process causing behavioral correlations between adjacent actors
+              ´if most of one's friends switch to a mobile company, he might be
+              influenced by his friends and switch to the company as well.´
+
+              I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                        14
+Correlation in social networks
+
+Social processes explaining correlation:
+
+homophily  influence                                       confounding
+
+           I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS               15
+Correlation in social networks
+
+Why distinguish influence from homophily and confounding?
+
+· Analysis: to predict the dynamics of the        homophily influence  confounding
+   system ­ whether a new norm of behavior,
+   technology, or idea can diffuse like an
+   epidemic
+
+· Design: to design a system for inducing a
+   particular behavior, e.g.
+     · Vaccination strategies (random, targeting
+        a demographic group, random
+        acquaintances, etc.)
+     · Viral marketing campaigns
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                      16
+Influence vs. Correlation
+
+In many studies about influence modeling, influence is determined by
+timestamps
+
+ · An edge (, ): the node  can influence the node  at discrete time steps:  = 0, 1, 2, ...
+ · For each , every inactive node becomes active with the probability (), where  is the
+
+   number of active contacts
+
+Active                                                    Active contacts
+Inactive
+
+          I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                    17
+Influence vs. Correlation
+
+The probability of one node being active is a logistic function of the number of
+his active friends as follows
+
+ ln +1 +                                                     
+  = 1 +  ln +1 + equivalently ln 1 -   =  ln  + 1 + 
+
+·  is the number of active friends,
+·  is the social correlation coefficient
+·  is a constant to explain the innate bias for activation
+· ln  + 1 as an explanatory variable
+
+          I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                          18
+Activation likelihood
+
+Suppose at a time point , , users with  active friends become active, and , users
+who also have  active friends yet stay inactive at time .
+
+The likelihood of activation at time  is    , 1 -   ,                              , and , decreases
+                                                                                quickly with , only    is
+                                                                              
+                                                                                 used for some constant 
+
+The likelihood of the whole sequence  ,, ,      is    
+                                            =0
+                                                        , 1 -   ,
+
+                                                    =0 
+
+· Given the user activity log, we can compute  to maximize the above likelihood
+· Compute  and  that maximize     1 -    where  =  , and  =  ,
+
+·  measures the correlation between nodes.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                   19
+Shuffle test - Influence vs. Correlation
+
+In studies modeling influence, influence is determined by timestamps
+
+Key idea: if influence does not play a role, the timing of activation should
+             be independent of the timing of other actors / nodes
+
+   even if we randomly shuffle the timestamps of user activities, we
+      should obtain similar social correlation (coefficient values)
+
+Test for Influence:
+  Shuffle the timestamps of user activities. If the new estimate of
+  social correlation is significantly different from the estimate based
+  on the user activity log, then there is evidence of influence.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  20
+Shuffle test - Influence vs. Correlation
+
+ a social network,   =    {1  ,  ...  ,  }  the  set  of  nodes  activated  during               whole  measuring  with    time  steps;  node
+ was activated at   time
+
+1. For all  = 1, ... , : compute , and ,.
+2. Compute  and  that maximize     1 -    where  =  , and  =  , and   =
+
+       .  ln +1 +
+
+        1+ ln +1 +
+
+3. Pick a random permutation  of 1, ... ,  . Set the activation time of node  to  =   . Based on 1 , ... , ,
+      compute , and , .
+
+4. Again, compute  and  that maximize  ´   1 - ´   where  =  , and  =  ,
+
+and    = .  ln +1 +
+
+           1+ ln +1 +
+
+5. The model exhibits no social influence if the values of  and  are close to each other.
+
+                                                 I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                          21
+Social Networks     Basic Concepts
+and their Analysis
+                     · Network Representation
+                     · Tie Strength
+                     · Key Players
+                     · Cohesion
+
+                    Influence Modeling
+
+                     · Linear Threshold Model
+                     · Independent Cascade Model
+                     · Influence vs. Correlation
+
+                    Homophily, Social Influence, and
+                    Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+

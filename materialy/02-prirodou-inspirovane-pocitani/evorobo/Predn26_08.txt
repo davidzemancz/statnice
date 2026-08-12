@@ -1,0 +1,758 @@
+EVOLUCNÁ ROBOTIKA
+8. cas
+
+  Ko-evolúcia, model dravec-koris
+
+                  Frantisek Mráz, KSVI MFF UK
+
+                                                                                                                          1
+Kompetitívna ko-evolúcia
+
+ Súcasná evolúcia dvoch alebo viacerých populácií s previazanou
+
+    fitness funkciou. Napr. dravec x koris, hostite x parazit
+
+ súazenie populácií môze postupne vies k stále zlozitejsím
+    správaniam ­ ,,preteky v zbrojení", napr. koris-dravec
+
+ inkrementálne ucenie ­ postupná zmena fitness a prostredia ­
+    vemi úspesné, ale vyzaduje dobré plánovanie od experimentátora
+
+ koris-dravec: na zaciatku môzu ma obidve populácie jednoduché
+    stratégie, ktoré si postupne v súazi zdokonaujú
+
+ k zlepsovaniu dochádza, aj ke sa nemení ani prostredie ani
+    selekcné kritériá
+
+ v priebehu zivota sa jedinec stretne s urcitým poctom súperov z tej
+    istej alebo dvoch generácií; takíto súperi sa postupne zdokonaujú,
+    takze vyvinuté stratégie sa zdokonaujú
+
+                                                                                                                                      2
+Kompetitívna ko-evolúcia
+
+ porovnanie s evolúciou dravcov proti nemennej koristi
+
+ menej obecná stratégia, ak sa koris zmení, tak nemusí fungova
+
+ ak sa zacína vývoj proti dokonalej koristi, tak nevyvinutí dravci nic
+   nechytia a nefunguje selekcia
+
+ ko-evolúcia môze pomôc vyhnú sa lokálnym minimám
+
+ historicky prvý model ­ 1925-26 Lotka, Voltera
+
+ 1 hustota populácie koristi
+
+ 2 hustota populácie dravcov
+1                                2
+   =  1  1 - 12               ,     =  2(-2      +  21)
+
+ 1 prírastok koristi bez dravcov, 2 úbytok dravcov bez koristi, 1
+
+   úbytok koristi pozieraním dravcami, 2 schopnos dravcov ulovi
+   koris
+
+                                                                        3
+Problémy
+
+ Rovnice nepostihovali vývoj druhov
+
+ ko-evolúcia nemusí vies k zdokonaovaniu jedincov ­ vývoj
+
+s cyklicky sa opakujúcimi stratégiami
+
+­ úplne sa eliminujú                   A1 B1
+
+výhody súaze          A1>B1            A1 B2
+                                       A2 B2
+                      A1<B2
+                                       A2 B1
+                      A2>B2
+                                       A1 B1
+                      A2<B1
+                                       A1 B2
+                                       
+ zmena v jednom druhu zmení fitness druhého druhu ,,efekt cervenej
+
+kráovnej" (Alenka v rísi divov) ­ pokrok sa nedá sledova
+
+monitorovaním priemernej alebo najlepsej fitness
+
+                                                           4
+Problémy ko-evolúcie
+
+                  Ako sledova vývoj?                  Ko-evolúcia dvoch druhov   Pri zmene jedinca
+                                                                                 jedného druhu dochádza
+   Pravdepodobnos            Evolúcia jedného druhu                              k zmene fitness krajiny
+reprodukcie                                                                      pre druhý druh!
+                                          I
+                                   Priestor genotypufitness I                    pri ko-evolúcii nestací
+                                                                             II  sledova fitness, pretoze
+                                        generácie                                tá zavísí na meniacej sa
+                                                      Priestor genotypu          stratégii súaziaceho
+                                                                                 druhu
+                                                           generácie
+
+                                                                                 5
+Problémy ko-evolúcie
+
+ Monitorovanie ko-evolucného pokroku:
+
+ CIAO (Current Individual vs. Ancestral Opponents) ­ najlepsí
+
+z generácie proti najlepsím súperom z prechádzajúcich generácií ­
+
+jeden zápas = 1 pixel                 Gen. koris
+
+                         Gen. dravec              vyhrala koris
+
+ideálny výsledok:                                 vyhral dravec
+
+ po skoncení evolúcie
+
+ majstrovstvá ­ najlepsí z generácie proti najlepsím zo vsetkých (aj
+   neskorsích) generácií (dá sa pouzi na výber najlepsieho v prípade
+
+optimalizácie) ­ do grafu sa vynása priemerná úspesnos ­ ide urobi
+
+az po skoncení evolúcie
+
+fitness                                           koris
+                                                  dravec
+
+                                                  ideálne stále rastú
+                                                                           6
+Aplikácie ko-evolúcie
+
+ HILLIS, W. Daniel. Co-evolving parasites improve simulated evolution as an
+     optimization procedure. Physica D: Nonlinear Phenomena, 1990, 42.1-3: 228-234.
+
+         triediace siete ­ súperom boli parazitné testovacie vstupy
+
+                                                                                                                                      7
+Aplikácie ko-evolúcie
+
+ ARCURI, Andrea; YAO, Xin. A novel co-evolutionary approach to automatic
+     software bug fixing. In: Evolutionary Computation, 2008. CEC 2008.(IEEE World
+     Congress on Computational Intelligence). IEEE Congress on. IEEE, 2008. p. 162-
+     168.
+
+ triediace programy ­ súperom boli parazitné testovacie programy ­ unit testy
+
+testovací program  neutriedené triediaci program  utriedené
+
+                   f (triediaci) = kvalita
+                   f (testovací ) = 1- kvalita
+
+                                                                        8
+Aplikácie ko-evolúcie
+
+ ROSIN, Christopher D.; BELEW, Richard K. Methods for
+    Competitive Co-Evolution: Finding Opponents Worth Beating.
+
+    In: ICGA. 1995. p. 373-381.
+
+       hrác pre Tic-Tac-Toe
+
+        Hrác pre Nim
+        Hrác pre zmensenú verziu Go
+
+                                                                                                                                      9
+Aplikácie ko-evolúcie
+
+ Sipper, Moshe and Moore, Jason H. and Urbanowicz, Ryan J." :
+    New Pathways in Coevolutionary Computation. In: Genetic
+    Programming Theory and Practice XVII, Springer International
+    Publishing, 2020, pages 295­305
+
+         OMNIREP: kooperatívy koevolucný algoritmus, vyvája naraz reprezentáciu a jej kód pre
+             rieseie zadaného problému (napr. pocet bitov pre jednotlivé parametre
+
+         SAFE: koevolvuje populácie kandidátov na riesenie a kandidátov na objektívne (fitness)
+             funkcie, ktoré majú hodnoti riesenia
+
+ Jamal Toutouh, Una-May O'Reilly.. Coevolutionary Computation
+    for Adversarial Deep Learning. In: Proceedings of the Genetic
+    and Evolutionary Computation Conference Companion (GECCO
+    '24 Companion). Association for Computing Machinery, New
+    York, NY, USA, 2024,1410­1431.
+
+         Koevolúcia pre vývoj GAN (Generative Adversarial Networks)
+
+                                                                                                                                     10
+Ciele
+
+1. Rola ko-evolúcie v robotike.
+2. Dajú sa dobré riadiace systémy vyvíja s jednoduchými fitness funkciami ­
+
+     kedy ko-evolúcia vedie k ,,pretekom v zbrojení"?
+3. Aká je dosiahnutá emergentná dynamika systémov?
+4. Sú riesenia vyvinuté ko-evolúciou lepsie nez riesenia vyvinuté standardnou
+
+     evolúciou?
+5. Dá sa sledova postupné zlepsovanie stratégií?
+
+ ukázeme experimenty, kde dostaneme rôznorodé stratégie, ale po
+     krátkom case sa vývoj dostane do cyklu
+
+ opakovanie sa dá obmedzi ­ ,,sie slávy": uchovávame vsetky v minulosti
+     objavené stratégie a pouzívame ich na testovanie kazdého jedinca
+
+                ­ biologicky neadekvátne
+                ­ nemusí vies k lepsiemu výkonu (jednoduchá ko-evolúcia môze by lepsia)
+
+ ukázeme, ze ko-evolúcia dokáze riesi problémy, na ktoré jednoduchá
+     evolúcia nestací
+
+                                                                                                                                     11
+Ko-evolúcia robotického dravca a koristi
+
+ Kombinácia experimentov na reálnych robotoch a simulácie
+ aréna 47x47 cm s bielymi stenami, dravec:
+
+       Khepera s lineárnym videním; 64 pixelov s 256 stupami sedi, zorný
+          uhol 36°
+
+       dravec ,,vidí" koris ako ciernu skvrnu na bielom pozadí (az na
+          vzdialenos 100 cm)
+
+       8 infra senzorov; detekujú stenu na 3 cm, druhého robota na 0,5 cm
+
+ koris:
+
+       koris dvakrát rýchlejsia nez dravec
+       8 infra senzorov; detekujú stenu na 3 cm, druhého robota na 0,5 cm
+
+ oba roboty detekujú dotyk druhého robota (vodivý prúzok okolo
+    robota)
+
+ Senzorovo-motorický cyklus 100ms
+
+                                                                                                                                     12
+Dravec-koris
+
+ Riadenie ­ NS s rekurentnými spojmi na výstupoch
+ koris ­ slepá, ale dvakrát rýchlejsia nez dravec
+
+       8 vstupov z infra senzorov
+       2 výstupy pre motory
+
+ dravec ­ to isté + 5 neurónov pre videnie
+
+                                                                                                                                     13
+Dravec-koris
+
+ Riadenie ­ NS s rekurentnými spojmi na výstupoch                    Koris
+ koris ­ slepá, ale dvakrát rýchlejsia nez dravec
+                                                   avý a pravý motor
+      8 vstupov z infra senzorov
+      2 výstupy pre motory                            infra senzory
+
+ dravec ­ to isté + 5 neurónov pre videnie
+
+                                                   avý a pravý motor
+
+              Dravec                               videnie infra senzory
+
+                                                                              14
+Dravec-koris
+
+ Dva genetické algoritmy bezia na pracovnej stanici, NS sa nahrajú
+    do robotov
+
+ zápas koncí bu dotykom dravca a koristi alebo po 500 krokoch
+    (50s) prezitia koristi; doba prezitia koristi je fitness pre koris i pre
+    dravca
+
+ okrem reálnych robotov mali simuláciu zalozenú na vzorkovaní
+    senzorov
+
+       rýchle testovanie variant
+       výpoctovo nárocná analýza fitness
+
+ parametre simulácie; genetické kódovanie
+
+       váhy a prahy 5 bitov (znamienko + 4 bity hodnota)
+       dravec 5 x (30 váh + 2 prahy) bitov
+       koris 5 x (20 váh + 2 prahy) bitov
+       2 populácie po 100 jedincoch; 100 generácií
+
+                                                                                                                                     15
+Dravec-koris: simulácia
+
+ Kazdý jedinec bol testovaný proti 10 súperom najlepsím v
+    predchádzajúcich 10 generáciách
+
+       v generácii 0 súperi vyberaní náhodne z tejto generácie
+       v generáciách 1-9: súperi vyberaní náhodne z najlepsích jedincov z
+
+         predchádzajúcich generácií
+
+ pociatocná poloha na vodorovnej ciare v strede, vzdialenos
+    polovicnej sírky arény s náhodnou orientáciou
+
+                                                                      koris
+                                                                      dravec
+
+  Fitness  cas do kontaktu  koris,  1  -  cas do kontaktu  dravec
+           maximálny cas                  maximálny cas
+
+   reprodukova sa mohlo 20 najlepsích jedincov z generácie
+
+                                                                                                                              16
+Sledovanie ko-evolúcie
+
+ Poda ocakávania priemerná i maximálna fitness oscilovala
+
+Reálne roboty                                    Najlepsia fitness
+
+Priemerná fitness
+
+                                                                                     pr ­ dravec
+                                                                                     py ­ koris
+
+                                Pocet generácií                     Pocet generácií
+
+simulované roboty                                Najlepsia fitness
+
+Priemerná fitness
+
+Pocet generácií                                  Pocet generácií
+
+                                                                                                  17
+Vyhodnotenie ko-evolúcie ­ po skoncení
+evolúcie
+
+   Reálne roboty    Majstrovstvá ­ jedince sa zlepsovali
+   majstrovstvá        iba v prvých 20 generáciách, po 50
+                       generáciách nastalo zhorsovanie.
+Simulované roboty
+majstrovstvá        Naznacuje to, ze doslo k zacykleniu
+                       stratégií
+
+                                Gen. koris
+
+                   Gen. dravec              CIAO tiez
+                                            neprehadné
+
+                                                        18
+Dravec-koris:
+výsledky simulácie
+
+ zo zaciatku mala koris vysoké skóre ­ dravci nevedeli lovi
+ neskôr vznikli oscilácie vo fitness; avsak fitness koristi mala vyssie
+
+    vrcholy (výhoda polohy a rýchlosti koristi)
+ Pokrok jedného druhu bol nasledovaný pokrokom druhého
+ majstrovstvá: jedinci z neskorsích generácií nemusia by lepsí, nez
+
+    jedinci z predchádzajúcich populácií
+ na fyzických robotoch to dopadlo podobne
+ typické zápasy:
+
+       koris krúzi okolo arény, dravec útocí iba, ke je koris blízko
+       koris krúzi na mieste, ke sa priblízi dravec, tak rýchle utecie ­ prílis
+
+          rýchla koris nedokáze v rýchlosti zareagova na dravca ­ zistí ho prílis
+          neskoro)
+       dravec po neúspesnom útoku ide po oblúku a snazí sa dosta ku koristi
+          z boku (tam nemá infra senzory)
+
+                                                                                                                                     19
+Dravec-koris:
+výsledky simulácie
+
+                                                             Koris
+                                                             Dravec
+
+                                                         1. Zaciatok evolúcie, ani dravec, ani koris ,,sa nevedia"
+                                                               koordinovane pohybova
+
+                                                         2. koris krúzi okolo arény, dravec útocí iba, ke je koris
+                                                               blízko
+
+                                                         3. Dravec stratil schopnos vyhýbania sa stenám, pretoze
+                                                               väcsinou chytil koris skôr nez sa dostal k stene
+
+                                                         4. koris krúzi na mieste, ke sa priblízi dravec, tak rýchle
+                                                               utecie; nefungovalo to, ke sa dravec priblízil z boku
+                                                               (málo senzorov)
+
+                                                         5. Variant stratégie koristi 2, ale prílis rýchla koris
+                                                               nedokáze v rýchlosti zareagova na dravca ­ zistí ho
+                                                               prílis neskoro); dravec má ,,pavúciu stratégiu" ­ k
+                                                               stene a caka
+
+                                                         6. dravec po neúspesnom útoku ide po oblúku a snazí sa
+                                                               dosta ku koristi z boku (tam nemá infra senzory);
+                                                               koris sa otáca na mieste a ke príde dravec, tak cúva,
+                                                               aby videla dravca infra senzormi
+
+                                                                                                                                     20
+Dravec-koris analýza stratégií
+
+ rovnaké stratégie sú opätovne objavované znova a znova, teda
+    efektívne stratégie sa môzu stráca namiesto ich uchovania a
+    zdokonaovania
+
+ Triedy stratégií pre dravcov:
+
+A1 prenasleduj koris a snaz sa k nej priblízi
+
+A2 sleduj koris, ale zosta viacej-menej tam, kde si, zaútoc iba, ak je
+   koris v speciálnej pozícii vzhadom k dravcovi
+
+ Triedy stratégií pre koris:
+
+B1 stoj na mieste, ale ,,krytý" pri stene (dravec obycajne nechodí blízko
+   steny, aby nenarazil.
+
+B2 rýchle sa pohybuj a vyhýbaj sa dravcovi i stenám  A1>B1
+                                                     A1<B2
+                                                     A2>B2
+                                                     A2<B1
+
+                                                                           21
+Dravec-koris analýza stratégií
+
+ Pozorovanie stratégií nie je jednoduché:
+
+      1. Pozorované stratégie sú triedy podobných stratégií.
+      2. Výhoda/nevýhoda konkrétnej stratégie oproti inej sa mení
+
+           kvantitatívne a je pravdepodobnostná.
+      3. Populácie v jednej generácii obecne pouzívajú viacej stratégií.
+      4. Niektoré stratégie sa dajú objavi jednoduchsie nez iné.
+
+                                                                                                                                     22
+Dravec-koris a ,,sie slávy"
+
+ ,,Sie slávy"­ ako elitizmus, ale cez vsetky predchádzajúce
+    generácie ­ fitness jedinca je priemerná fitness voci vsetkým
+    jedincom najlepsím vo vsetkých predchádzajúcich generáciách
+
+ úcelom má by vyvolanie ,,pretekov v zbrojení" a zabráni
+    opakovaniu
+
+       biologicky nepodlozená metóda
+       so zvysujúcim sa poctom generácií bude klesa miera adaptácie ­
+
+          tendencia hada efektívnejsie stratégie proti súcasnému súperovi bude
+          potlacená hadaním stratégií proti minulým súperom
+       So zvysujúcim sa poctom generácií rastie casová zlozitos
+
+                                                                                                                                     23
+Dravec-koris a ,,sie slávy"
+
+ Ukázalo sa, ze stací, aby kazdý jedinec zápasil s 10 súpermi náhodne
+    vybranými z najlepsích jedincov z predchádzajúcich (vsetkých) generácií.
+
+             CIAO        majstrovstvá
+
+             Gen. koris
+
+Gen. dravec                            dravec
+                                       koris
+
+ nájdené stratégie boli z rovnakých tried ako u obycajnej ko-evolúcie, ale
+    boli stabilnejsie, nemenili sa tak casto a mali cas na vylepsovanie
+
+                                                                                                                                    24
+Dravec-koris a ,,sie slávy"
+
+ Metóda ,,siene slávy" by mala vies na obecnejsie stratégie ­
+    potvrdilo sa
+
+Standardný dravec  standardní jedinci                          jedinci získaní ,,sieou slávy"
+proti standardnej                             1.0
+koristi
+
+                                              0.75
+
+                                              0.5
+
+                                              0.25
+
+                                              0
+
+                   dravec              koris        dravec  koris
+
+ pravdepodobnosti víazstva druhu nad súperom
+
+                   ,,standardným"
+
+                   získaným metódou ,,siene slávy"
+
+                   chyba
+
+                                                                                               25
+Dravec-koris: zmenená koris
+
+ Senzorový systém koristi je vemi obmedzený, mozno ze kvôli nemu
+    nie je mozné alej zdokonaova stratégiu koristi; ke ho zmeníme,
+    tak bude mozno koris schopná postupne zlepsova svoju stratégiu
+    bez rýchleho prepínania medzi stratégiami
+
+ koris vybavili videním ­ 150 receptorov dávajúcich 256 stupov
+    sedi, zorný uhol 240°
+
+       5 neurónov, kazdý pre 48°
+
+ standardná ko-evolúcia, jedinci sa testovali proti najlepsím súperom
+    z 10 predchádzajúcich generácií
+
+ po dobu 100 generácií rástol výkon jedincov ­ teda zmena
+    podmienok umoznila postupné vylepsovanie jedincov bez skorého
+    zacyklenia
+
+                                                                                                                                     26
+Dravec-koris: zmenená koris
+
+ alej porovnali jedince získané standardnou ko-evolúciou s
+    jedincami získanými metódou ,,sie slávy"
+
+ pri ,,sieni slávy" sa výborne zlepsovali jedinci, ale nakoniec neboli
+    lepsí, nez jedinci získaní zo standardnej ko-evolúcie
+
+  ,,sie slávy" zmensuje pravdepodobnos, ze sa budú opakova
+    stratégie, ale nemusí jednoznacne dáva lepsie výsledky, ak
+    standardná ko-evolúcia dokáze dostatocne dlho robi ,,preteky v
+    zbrojení", tak môze by lepsia nez ,,sie slávy" (tá naviac pri dlhsom
+    vývoji bude menej a menej efektívna)
+
+                                                                                                                                     27
+Dravec-koris
+
+ Existuje problém, ktorý dokáze vyriesi ko-evolúcia, ale nie
+    jednoduchá evolúcia?
+
+       pri ko-evolúcii jedinci dostávajú viacej vonkajsích podnetov
+       ko-evolúcia môze spusti ,,preteky v zbrojení"
+
+ skúsili vyvíja (jednoduchou evolúciou) dravcov proti najlepsej
+    koristi získanej z ko-evolúcie a naopak vyvíja koris proti
+    najlepsiemu dravcovi
+
+       evolúcia bola schopná nájs efektívne stratégie proti jednej najlepsej
+          stratégii
+
+ alsí experiment ­ dravec i koris bez videnia, ale so zapnutými
+    senzormi na okolité svetlo (druhý rezim infra senzorov); naviac oba
+    roboty majú svietiacu ziarovku, v aréne (60 x 60 cm) je 13
+    valcovitých prekázok
+
+                                                                                                                                     28
+Dravec-koris bez videnia
+
+ 16 senzorov (8 infra + 8 svetlo)
+ genotyp 8 x 34 bitov
+
+       16 x 2 váh + 2 prahy
+
+ ko-evolúcia zlepsovala oba roboty
+ jednoduchá evolúcia (evolúcia jednej populácie proti jednému
+
+    (najlepsiemu z ko-evolúcie) súperovi) nefungovala ­ v 8/10
+    prípadoch dravec nedokázal chyti koris
+
+       naproti tomu pri ko-evolúcii v 9/10 simulácií dravec chytil aspo v 25%
+          prípadov
+
+       problém asi v tom, ze pociatocní dravci majú nulovú úspesnos
+
+ jednoduchá evolúcia fungovala pre koris ­ stacila jednoduchá
+    stratégia
+
+       ko-evolúcia ,,vymyslela" stratégiu pocka az sa dravec priblízi na 10 cm
+          a potom ujs
+
+                                                                                                                                     29
+Dravec-koris
+
+ Iba v 1 zo 4 experimentov bola jednoduchá evolúcia neúspesná,
+    inak vzdy dokázala nájs jednoduchú a efektívnu stratégiu proti
+    jednotlivcovi
+       Existujú úlohy, pre ktoré neexistuje úplne obecné riesenie ­
+         potom je zacyklenie v stratégiách nevyhnutné a je to optimálne
+         riesenie
+
+             ak obecné riesenie neexistuje alebo je málo pravdepodobné, ze sa
+               nájde, tak ko-evolúcia povedie na cyklicky menené stratégie také,
+               ze:
+
+                     · sú vhodné proti aktuálnemu súperovi
+                     · dajú sa ahko zmeni, ke súper v budúcnosti zmení svoje správanie
+
+       Ke obecné riesenie existuje a dá sa nájs zmenami v
+         genotype, tak ko-evolúcia vedie k takémuto rieseniu
+
+                                                                                                                                     30
+Dravec-koris a celozivotné ucenie
+
+ Cyklicky menené stratégie + ontogenetická adaptácia
+ ucenie by mohlo zlepsi výkon jedinca, dokázal by sa adaptova na
+
+    zmenu súpera uz priebehu jednej generácie
+ 2 druhy úspesných jedincov:
+
+       úplne obecný ­ s jednou univerzálnou stratégiou
+       plasticky obecný ­ s mnozinou jednoduchých stratégií a mechanizmom
+
+          výberu z nich
+
+ úplne obecný je efektívnejsí, ale môze by nedostupný
+ nájs plasticky obecného jedinca môze by tiez azké
+
+       musí ma viacej stratégií
+       musí by schopný správne vybra vhodnú stratégiu
+
+                                                                                                                                     31
+Dravec-koris a celozivotné ucenie
+
+ alsí experiment: genotyp kóduje vlastnosti váh a pravidlá
+     ucenia (viz minulá prednáska); dravec vidí, koris nevidí
+
+ Kód pre váhu
+
+      1. Hodnota váhy
+      2. Hebbovské pravidlo ­ znamienko váhy (1 bit), uciaca konstanta (2
+
+           bity); pociatocné váhy malé náhodné císla
+      3. Náhodné císlo
+
+ ucenie zlepsovalo výsledky; ale aj tu sa dalo vysledova
+     prispôsobovanie stratégie stratégii aktuálneho súpera, ale nie tak
+     markantne ako bez ucenia
+
+ Po 20 generáciách dravce vzdy vyhrávali.
+
+       Dravce volili vzdy hebbovské ucenie
+       Koris volila náhodné váhy ­ adaptácia jej nepomáhala, pretoze mala
+
+           slabé senzory
+
+                                                                                                                                     32
+Dravec-koris a celozivotné ucenie
+
+ zmena stratégie dravca v priebehu zivota
+
+       príklad zmeny stratégie: koris sa otáca po malom kruhu, dravec sa 3
+           krát otocí (upravuje váhy) a potom vyrazí za korisou
+
+ plastickí dravci sa vedia prispôsobi stratégiám B1 (caka pri stene
+     ...) a B2 (rýchly pohyb okolo arény)
+
+                                                                                                                                     33
+Ko-evolúcia robotických organizmov
+
+ Karl Sims: ,,Evolving 3D Morphology and Behaviour by
+    Competition". Artificial Life IV Proceedings, ed. by Brooks & Maes,
+    MIT Press, 1994, pp.28-39.
+
+ Ko-evolúcia vyvíja nie len správanie, ale i telo robotického
+    organizmu
+
+ Organizmy sa skladali z kvádrov spojených kbmi
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   http://www.karlsims.com/crab-vs-arm200.jpg
+
+                             https://youtu.be/JBgG_VSP7f8?t=130
+
+                                                                                                                                     34
+Ko-evolúcia robotických organizmov
+
+ Karl Sims: ,,Evolving 3D Morphology and Behaviour by
+    Competition". Artificial Life IV Proceedings, ed. by Brooks & Maes,
+    MIT Press, 1994, pp.28-39.
+
+ Ko-evolúcia vyvíja nie len správanie, ale i telo robotického
+    organizmu
+
+ Organizmy sa skladali z kvádrov spojených kbmi
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   http://www.karlsims.com/crab-vs-arm200.jpg
+
+                             https://youtu.be/JBgG_VSP7f8?t=130
+
+                                                                                                                                     35
+Ko-evolúcia robotických organizmov
+
+ Organizmy súperia o kocku ­ vyhráva ten, ktorý je (ubovonou
+
+casou tela) blizsie ku kocke; pocíta sa vzdialenos d1 od kocky na
+
+konci experimentu trvajúceho 8s, ale zárove sa pocíta vzdialenos
+
+oponenta d2 od kocky  -  1                2  -
+              2       +  2                1  +  1
+1  =  1.0  +  1             2  =  1.0  -        2
+
+    Aký je súcet fitness funkcií?
+ Do fitness alej zahrnul ,,ovládnutie" kocky ­ ak sa obidva
+
+    organizmy dotýkajú kocky, tak vzdialenos sa organizmu zmensí, ak
+    sa dotýka kocky na stene, ktorá je na opacnej strane vzhadom ku
+    kocke, nez je azisko organizmu
+ Naviac, ak sa niektorý z organizmov nepohne pocas celej sekundy,
+    tak sa experiment ukoncí a vyhodnotí predcasne
+
+                                                                                                                                    36
+Ko-evolúcia robotických organizmov
+
+ Kvôli ,,neelegantným" stratégiám ­ ,,zaahnutiu" na zaciatku
+    experimentu ­ pociatocná pozícia organizmu je pod 45 rovinou v
+    pevne j vzdialenosti od kocky
+
+                                                                                                                                     37
+Ko-evolúcia robotických organizmov
+
+ Súazenie ­ kompetícia:
+
+       Sims uvazoval rôzne súazenie
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          http://www.karlsims.com/crab-vs-arm200.jpg
+
+                                                    https://youtu.be/JBgG_VSP7f8?t=130
+
+                                                                                                                                     38
+Ko-evolúcia stroj vs. clovek
+
+ Funes & Pollack [2000] ko-evolvovali pocítacové programy a
+    udských hrácov zjednodusenej verzie pocítacovej hry Tron.
+
+ Pocítacové programy boli reprezentované ako stromy a evolvované
+    genetickým programovaním. Vyssiu pravdepodobnos reprodukcie
+    mali programy, ktoré porazili udského protihráca. udskí hráci si
+    mohli vybra, ci budú v hraní pokracova alebo nie.
+
+                                                                                                                                     39
+Ko-evolúcia stroj vs. clovek ­ stroj víazí
+
+ Pocítacové programy sa stále zlepsovali.
+ udská populácia sa nevyvíjala ­ udia sa ucili iba medzi
+
+    jednotlivými po sebe idúcimi hrami.
+
+                                                                                                                                     40
+Dravec-koris: záver
+
+ Ko-evolúcia je zaujímavá
+
+       adaptácia v stále sa meniacom prostredí
+       inkrementálna evolúcia bez dohadu
+
+ problém cyklenia stratégií
+
+       dá sa redukova porovnávaním jedinca s minulými rieseniami (napr.
+          náhodne vybraná vzorka z predchádzajúcich, ,,sie slávy")
+
+       pravdepodobne sa ho nedá zbavi (ako lokálnych miním)
+
+ ko-evolúcia môze vies k hadaniu obecných stratégií
+ obecnos sa dá dosiahnu ko-evolúciou plastických (ucitených)
+
+    jedincov
+
+                                                                                                                                     41
+

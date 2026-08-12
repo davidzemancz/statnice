@@ -1,0 +1,749 @@
+Evolucná robotika
+5. cas
+
+Vizuálna navigácia
+Re-adaptácia
+Reaktívna inteligencia
+
+Frantisek Mráz, KSVI MFF UK
+
+                                                                                                                                   1
+ VIZUÁLNA NAVIGÁCIA
+
+ Ciele
+
+       Problém Bootstrapingu
+       Zrýchlenie evolúcie
+
+              Simulovaná
+              Doladenie na reálnom robotovi
+
+                                                                                                                                     2
+ VIZUÁLNA NAVIGÁCIA
+
+ Zrak je jeden z najdôlezitejsích zmyslov
+ zlozitos spracovania
+
+       Klasicky ­ predspracovanie, segmentácia, hadanie vzorov, ...
+       Evolucne ­ vývoj riadenia zviazaný s vývojom spracovania obrazu
+
+ hardware
+
+ Harvey, 1994 ­ portálový robot ("gantry robot")
+
+       kamera zavesená z portálového zeriavu riadeného pocítacom
+       obraz cez naklonené zrkadlo + 4 dotykové senzory
+       64 x 64 bodový monochromatický obraz, 50 Hz
+       fyzická evolúcia
+       vývoj SAGA ­ Species Adaptation Genetic Algorithm ­ premenná dzka
+
+         genotypu, do znacnej miery geneticky skonvergovaná populácia
+       redukovaný vizuálny vstup ­ recepcné polia
+
+                                                                                                                                     3
+Portálový robot  kamera
+                             4
+ zrkadlo
+ nárazníky
+Portálový robot
+
+                                                                                                                                   5
+Portálový robot
+
+                                                     Recepcné polia
+
+                                                                                                                                   6
+Vizuálna navigácia ­ senzory a
+riadenie
+
+ digitálny obraz  rotovaný obraz    vzorkovanie      videnie
+
+                                                                                                      0-15
+                                                                                                      0-15
+                                                                                                      0-15
+
+                                    Recepcné polia ­ kruhové výseky
+
+                         predný
+
+                         avý                     PP  0-1
+
+                  zadný  predný                  ZP  0-1
+                  avý     pravý
+
+      zrkadlo     zadný                          PL  0-1
+                  pravý
+virtuálny robot                                  ZL  0-1
+
+                  dotykové senzory  údaje z nárazníkov
+
+                                                                                                            7
+ Vizuálna navigácia ­ evolúcia
+ riadenia
+
+ Súcasná evolúcia
+
+       Recepcných polí
+
+              polomer a poloha vzhadom k stredu (polomer, vzdialenos od stredu, uhol)
+              z celého poa za rovnomerne vyberie 25 pixelov, ich jas sa spriemeruje a
+
+                 prevedie na 4-bitové císlo
+
+       Neurónovej siete
+
+              7 vstupov
+              4 výstupy ­ signál do jedného motora je rozdiel dvoch výstupov
+              pocet skrytých neurónov premenlivý
+              neuróny majú oddelené excitacné a inhibicné kanály (viz. výstup)
+
+ Riesené úlohy
+
+       Vyhýbanie sa prekázkam
+       Sledovanie pohyblivých cieov
+      Rozlisovanie objektov
+
+                                                                                                                                     8
+ Vizuálna navigácia - bootstraping
+
+ Úloha: Nájs biely trojuholník a zosta pri om, vyhýba sa
+    bielemu obdzniku
+
+ Premenlivé svetelné podmienky
+ Bootstraping ­
+
+       Priama evolúcia neúspesná
+       Evolúcia navigácie v 3 stádiách s rôznymi fitness funkciami i prostredím
+
+                                                                                                                                     9
+Stádium 1
+
+ Jedna dlhá stena celá biela (150 x 22 cm)
+
+ Fitness  20
+
+          1 =  
+
+          =1
+
+  ­ vzdialenos od steny protiahlej k cieu meraná 20-krát v priebehu
+    jedného experimentu (25 s)
+
+ kazdý jedinec testovaný 4-krát z toho istého rohu, ale náhodne otocený
+
+ inicializácia pociatocnej konfigurácie
+
+       náhodne sa generovali jedinci a vybraný bol jeden so ,,zaujímavým" chovaním a
+           ten sa naklonoval
+
+ asi po 10 generáciách bol nájdený jedinec, ktorý sa najprv rozhliadol okolo
+    seba a potom sa vydal k cieovej stene
+
+                                            10
+Stádium 2
+
+ Cie ­ 22 cm pruh v 2/3 tej istej steny
+
+ Fitness   20
+
+          2 =  -
+
+                    =1
+
+  ­ vzdialenos robota od stredu pruhu
+ pokracuje z poslednej generácie Stádia 1
+
+ po 6 generáciách sa nasiel jedinec, ktorý nasiel cie
+
+                                                       11
+Stádium 3
+
+ Ciele: rovnoramenný trojuholník a obdznik, oba 21 cm siroké, 29.5
+    cm vysoké
+
+ robot zacínal v 4 rôznych polohách s náhodnou orientáciou pri
+    protiahlej stene
+
+ fitness
+
+                                          20
+
+3 =   1 - 1 -  2 - 2
+
+                                         =1
+
+ 1 (2) ­ vzdialenos trojuholníka (obdznika) od rohu portálu;
+    konstanty
+
+ 1 (2) ­ vzdialenos robota od trojuholníka (obdznika)
+
+ ,  > 0 sú váhy                               Zjednoduste 3
+
+                                                                12
+ Výsledok
+
+ Extrémne minimalistický systém
+
+       2-3 pixely stacia na spoahlivé riesenie úlohy
+
+ Hlavná nevýhoda:
+
+       Inkrementálna evolúcia ­ musí ju navrhnú experimentátor
+
+                                                                                                                                    13
+ RE-ADAPTÁCIA
+
+ ako modifikova riadiaci systém pri zmenách vonkajsích podmienok
+ 2 úrovne
+
+       jedinec ­ vyuzije robustnos a generalizáciu NS
+       populácia ­ vyuzije sa rôznorodos jedincov v populácii
+
+              pri zmene podmienok sa dokáze rýchlo adaptova (napr. vizuálna navigácia
+                 ­ tam sa este vyuzívali zásahy cloveka, zmeny fitness).
+
+              Adaptácia pri zmene robota ­ s pevnou fitness
+              adaptácia na fyzického robota po simulácii evolúcie ­ s pevnou fitness
+
+                                                                                                                                    14
+ Adaptácia pri zmene robota
+
+ Riadiaci systém pre jednoduchú navigáciu Khepery v bludisku
+
+       adaptovaný na prostredie i na morfológiu a senzory Khepery
+
+ Ale Khepera sa nehodí do terénu a je prílis slabá  riadiaci systém
+    bol prenesený na Koalu; zmena senzorov a motorov je tiez zmena
+    prostredia; Koala sa podobá Khepere:
+
+       6 kôl, ale prostredné sú nizsie ulozené
+       infra senzory majú väcsí dosah (50 cm), ale má ich 16
+       software je totozné
+
+ Koalu umiestnili do zväcseného bludiska pre Kheperu; ako vstup
+    vzali iba 8 zo 16 infra senzorov
+
+                                                                                                                                    15
+ Zmena robota
+
+ 106 generácií na Khepere
+ alej do 150. generácie na Koale
+
+                               ......
+
+ po prenose na Koalu fitness poklesla, ale rýchle sa vrátila na úrove
+    poslednej generácie pre Kheperu
+
+                                                                                                                                    16
+Simulácia  realita
+
+ Výhody simulácie
+
+ rôzne experimentálne podmienky                    dá sa toho vyskúsa
+ rôzne fitness funkcie                             viac, nez sa prejde na
+                                                   reálneho robota
+ 100 gen. 1 hod., na reálnom robote 66 hod.
+
+ prechod zo simulácie do reality je tiez krok inkrementálnej evolúcie
+
+ Pr. Khepera v obdznikovom bludisku s 3 valcami
+
+ 100 jedincov v populácii                          60 cm
+
+ 200 generácií simulovaných
+
+ následne na fyzickom robote  35 cm
+ 3 experimenty
+
+1. Bez sumu
+2. Náhodný sum 0; 0,4 na senzoroch
+
+3. Konzervatívny sum ­ senzory dávajú hodnoty akoby bol robot posunutý náhodne
+   v rozsahu -30; 30 mm pre  i pre 
+
+                                                                                17
+ Simulácia  realita
+
+ Prechod na reálneho robota
+
+      1. Bez sumu ­ veká zmena prostredia ­ mierny pokles fitness, ale po
+         niekokých generáciách návrat na úrove najlepsieho simulovaného
+         jedinca
+
+      2. Náhodný sum ­ realistickejsia simulácia, ale výsledok podobný variantu
+         bez sumu
+
+      3. Konzervatívny sum ­ ziaden pokles, iba vylepsenie, este blizsie realite,
+         pretoze
+
+             · simuluje aj odchýlky senzorov spôsobené chybami v motorickom systéme
+             · náhodný sum je na susedných senzoroch nezávislý
+             · vonkajsie príciny odchýlok ovplyvujú pravdepodobne vsetky senzory
+
+                 podobne
+
+                                                                                                                                    18
+ Záver
+
+ Umelá evolúcia dokáze vytvori riadiaci systém porovnatený s
+    rucným kódom
+
+ získaný systém je schopný alsieho vývinu
+ pre zlozitejsie úlohy je vhodné pouzi inkrementálny postup
+
+    riadený uzívateom, prípadne najprv simuláciu a doladenie na
+    reálnom robote
+ evolúcia robotov je kontinuálny proces s otvoreným koncom
+
+                                                                                                                                    19
+ REAKTÍVNA INTELIGENCIA
+
+ Reaktívne systémy: senzory sú priamo prepojené na motory a na
+    rovnaký stav senzorov systém reaguje rovnako. Ak má systém stavy, tak
+    iba pomocné na urcenie motorických akcií
+
+ Vtelené systémy (embodied): majú telo, získavajú vstupy zo senzorov v
+    tele a produkujú výstupy, ktoré riadia motorické akcie tela
+
+ Situacné systémy (situational): nachádzajú sa v externom prostredí a
+    môzu interagova s týmto prostredím
+
+ O mnohých úlohách sa predpokladá, ze na ich riesenie je nutná interná
+    reprezentácia:
+
+       klasická umelá inteligencia ­ explicitná reprezentácia externého sveta
+       vtelené situacné systémy ­ ciastocný model sveta, iba tie aspekty, ktoré sú
+
+           potrebné pre agentov, aby dosiahli svoje ciele
+
+ vtelené a situacné systémy napriek intuícii dokázu riesi aj zlozité úlohy bez
+    vnútorných stavov a bez vnútornej reprezentácie ­ vyuzívajú koordináciu
+    vnímania a akcií nazývanú senzorovo-motorická koordinácia.
+
+                                                                                                                                    20
+ REAKTÍVNA INTELIGENCIA ­
+ Senzorovo-motorická koordinácia
+
+ Senzorovo-motorická koordinácia = schopnos agenta vyuzi
+    interakciu s prostredím ­ agent môze ciastocne ovplyvni senzorové
+    signály tým, ze vykoná nejakú akciu, ktorá zmení jeho polohu,
+    alebo zmení okolité prostredie.
+
+ Vyuzitie:
+
+      1.1.VyVbyebrearaaavvyyuuzzíívvaa sseennzzoorriicckkéévvzzooryry, ,ktkotroérséúsjúedjneodznnoazcnnaécné
+      2.2.VyVuyzuívzíavatatakkéésseennzorické vvzzoorryy,,zzeesksukpuipniynyvzvozrorvo, vk,tokrtéovréyzvaydzuajúdurôjúzne
+
+          rôrzenaekcrie,askacinee,psraeknrýevparjeúk(raýlveabjoúp(raelkerbýovasjúa ipbraesklraýbvoa)jú iba slabo)
+      3.3.VyVuyzuívzíavaememeerrggeenntné sspprráávvaanniai,ak, tkotroérvéznvizknnikúniebaibinateinratkecriaokucaioguenatgaesnta s
+
+          prporsotsrtereddímím
+
+ ALE: existujú úlohy, na ktoré senzorovo-motorická
+    koordinácia nestací.
+
+                                                                                                                                    21
+Problém nejednoznacnosti
+vnemov
+
+ Dva (alebo viaceré) objekty generujú tie isté senzorové vnemy, ale
+   vyzadujú rôzne odozvy.
+
+ Riesenie: vykona akcie tak, aby sa nasli jednoznacné vnemy
+
+ Pr. Khepera v prostredí s dvomi typmi prekázok, ktoré sa lísia
+    farbou spicky. Objektom s tmavou spickou sa má vyhýba,
+    k ostatným sa má priblízi. Khepera je vybavená 8 infra senzormi a
+    64-pixelovou lineárnou kamerou s uhlom záberu 36°
+
+ ke prekázku nevidí kamerou, tak je vnem nejednoznacný, ale stací,
+
+aby sa otocila a dostala prekázku do zorného poa ­ tzv. aktívne
+
+vnímanie  1. Vybera a vyuzíva senzorické vzory,
+                ktoré sú jednoznacné
+
+          2. Vyuzíva také senzorické vzory, ze skupiny
+                vzorov, ktoré vyzadujú rôzne reakcie, sa
+                neprekrývajú (alebo prekrývajú iba slabo)
+
+          3. Vyuzíva emergentné správania, ktoré
+                vzniknú iba interakciou agenta s prostredím
+
+                                                                    22
+ Aktívne vnímanie
+
+ Rôzne akcie môzu ma rôzne efekty:
+
+       niektoré vedú k jednoznacným vnemom, iné nie (ís rovno, otáca sa)
+       niektoré sú efektívnejsie (otácanie smerom k objektu, alebo vzdy tým
+
+         istým smerom)
+
+ Akcia
+
+       ciastocne urcuje ako robot plní ciele
+       ciastocne urcuje senzorové vnemy v nasledujúcom kroku
+
+ je mozné iba vtedy, ke robot dokáze nájs aspo jeden stav
+    senzorov, ktorý je jednoznacný
+
+                                                                                                                                    23
+ Senzorovo-motorická koordinácia a
+ zjednodusovanie azkých problémov
+
+ Skupiny senzorových signálov, ktoré vyzadujú rôzne motorické
+    reakcie sa môzu ciastocne prekrýva
+
+       problémy typu 1 (ahké) ­ v signáloch zo senzorov je mnoho priamo
+         pozorovatených príznakov, ktoré umozujú urci správnu reakciu
+
+       problémy typu 2 (azké) ­ rozlisujúce príznaky sú slabé, skryté
+
+ Co s tým?
+
+      1. problémy typu 2 sa niekedy dajú redukova na problémy typu 1
+          prekódovaním stavov senzorov, aby sa zosilnili uzitocné príznaky
+
+              napr. neurónová BP-sie sa najprv ucí na jednoduchsej podúlohe, az potom
+                 na zlozitej úlohe; prvá fáza ovplyvní kódovanie signálov vo vnútornej
+                 reprezentácii
+
+      2. aktívna senzorovo-motorická koordinácia (je mozná iba pre
+          vtelené a situacné systémy)
+
+              napr. Khepera sa má priblizova k vekým (priemer 5,5 cm) a vyhýba sa
+                 malým (priemer 2,3 cm) valcom; pouzíva iba predných 6 infra senzorov
+
+                                                                                                                                    24
+Pasívne rozpoznávanie malých a
+vekých valcov
+
+ 6 vstupných neurónov, 1 výstupný (malý/veký)
+
+ 3 rôzne architektúry:
+
+ a) bez skrytých neurónov
+
+ b) skrytá vrstva ­ 4 neuróny
+
+ c) skrytá vrstva ­ 8 neurónov
+
+ trénovacia mnozina 2 (objekty) x 20 (vzdialeností) x 180 uhlov =
+
+7200 vzorov                               Správnos rozpoznávania
+
+                           40 %
+
+                                    30 %                          stena / valec
+                                                                  malý / veký
+......
+                                    20 %
+
+                           10 %
+
+                           0%             0  4  8 pocet skrytých
+
+                                                                   25
+Pasívne rozpoznávanie malých a
+vekých valcov
+
+      Správnos rozpoznávania
+
+40 %                          stena / valec
+30 %                          malý / veký
+20 %
+10 %  0  4  8 pocet skrytých
+ 0%
+
+                                             stena/malý valec  malý/veký valec
+
+ Vzájomné polohy Khepery a objektu, pre ktoré NS správne rozlísila malý
+    valec od steny
+
+       obr. nesymetrické ­ senzory nie sú identické
+
+       VÝSLEDOK: pasívna sie nie je schopná rozlísi objekty (problém typu 2, ale
+           uvidíme, ze pomocou senzorovo-motorickej koordinácie sa dá riesi)
+
+                                                                                  26
+ Pasívne x aktívne vnímanie
+
+ Úloha: priblízi sa k vekému valcu a vyhnú sa malému valcu
+ robot sa dokázal pomocou aktívneho vnímania nauci rozlísi
+
+    malé a veké valce
+
+       v 86 % prípadov: robot sa pohybuje, dokia nenarazí na objekt;
+         zacne sa okolo neho otáca a, ak je to malý valec, tak ho opustí
+
+       v 14% zastaví pred objektom, ale rozlísenie je horsie
+       krúzivé pohyby vyvolávajú rozdielne signály pre malé a veké valce
+      paradoxne: relatívnych polôh robota a objektu, pri ktorých robot
+
+         správne rozlísi malý a veký valec je menej ako u pasívnej siete
+
+                                                                                                                                    27
+Index geometrickej separability
+
+ [Thorton, 1997] Zaznamenáme stavy senzorov v  krokoch robota
+
+­ 1, 2, ... , 
+ pre kazdý z nich urcíme najblizsí (Euklidovsky) vzor 1 , ... , 
+ Ak je  a  z rovnakej triedy, tak pripocítame 1, inak 0. Výslednú
+hodnotu vydelíme .
+                                                 =1  () +          +1   2
+                                              =                  
+
+IGS=0,5         IGS=0,7             IGS=1
+
+ Pre pasívnu sie                              Tucne sú vyznacené stavy
+                                              senzorov zaznamenané v
+       IGS stena/malý valec ­ 0,56            jednotlivých experimentoch
+       IGS malý/veký valec ­ 0,50
+                                                Pre robota
+
+                                                      IGS okolo 0,9
+
+                                                                                              28
+Index geometrickej separability
+
+ Zaznamenáme stavy senzorov v                                     gsi = priemerný IGS v
+    krokoch robota ­ 1, 2, ... ,                                        jednotlivých generáciách v
+                                                                        10 behoch
+ pre kazdý z nich urcíme najblizsí
+    (Euklidovsky) vzor 1 , ... ,                                  % correct = úspesnos najlepsieho
+                                                                        jedinca po 500 cykloch
+ Ak je  a  z rovnakej triedy, tak
+    pripocítame 1, inak 0. Výslednú hodnotu
+    vydelíme .
+
+ Pre robota
+
+        IGS okolo 0,9
+
+                1. Vybera a vyuzíva senzorické vzory, ktoré
+                       sú jednoznacné
+
+                2. Vyuzíva také senzorické vzory, ze skupiny
+                       vzorov, ktoré vyzadujú rôzne reakcie, sa
+                       neprekrývajú (alebo prekrývajú iba slabo)
+
+                3. Vyuzíva emergentné správania, ktoré
+
+                 vzniknú iba interakciou agenta s prostredím
+
+                                                                                                    29
+ Riesenie pomocou atraktora správania
+
+ Úloha: Khepera má rozlísi steny od malého valca a zosta pri valci
+
+       aréna 60 × 35 cm, náhodne umiestnený valec (2,3 cm)
+       NS: 6 vstupných neurónov (infra), 2 výstupné (motory)
+
+ vyvinutí jedinci nekrúzia okolo, ale posúvajú sa vpred/vzad alebo
+    doava/doprava, pritom zostávajú pod urcitým uhlom a v urcitej
+    vzdialenosti
+
+ pozícia, na ktorej zacne robot oscilova, je atraktor a robot sa do
+    nej dostane nezávisle na tom pod akým uhlom sa k cieu priblízil
+
+ IGS je stabilizované asi na 0,8 ­ tzn. ze rozlísenie ciea závisí menej
+    na schopnosti aktívne vybera signály, ktoré sú ahko rozlísitené
+
+ riesenie je zalozené na takých reakciách na signály zo senzorov,
+    ktoré spôsobia vytvorenie atraktoru v blízkosti valca, ale nie v
+    blízkosti steny
+
+                                                                                                                                    30
+Atraktor správania
+
+         robot  Cieová zóna ­
+valec           pozitívna fitness
+
+1. Vybera a vyuzíva senzorické vzory, ktoré      Pohyb
+      sú jednoznacné                             khepery
+                                                 blízko
+2. Vyuzíva také senzorické vzory, ze skupiny     steny
+      vzorov, ktoré vyzadujú rôzne reakcie, sa
+      neprekrývajú (alebo prekrývajú iba slabo)  Pohyb
+                                                 khepery
+3. Vyuzíva emergentné správania, ktoré           blízko
+                                                 valca
+     vzniknú iba interakciou agenta s
+                                                          31
+      prostredím
+alsí príklad atraktora správania
+
+ Simulovaný agent
+
+       v kruhovom páse zo 40 buniek (20 vavo + 20 vpravo);
+       bunky na kazdej strane sú náhodne ocíslované 0-19;
+       agent je v jednej bunke a na vstupe má císlo bunky, v ktorej sa
+
+         nachádza
+       môze sa pohnú o 1 bunku v smere/proti smeru hodinových ruciciek
+       cie agenta je zosta v avej polovici
+       NS ­ 20 vstupov: císlo bunky (práve jeden neurón má 1); 1 binárny
+
+         výstup (v smere/proti smeru); váhy iba 0/1
+       vnemy z avej a pravej polovice sa úplne prekrývajú ­ senzorovo-
+
+         motorická koordinácia nestací
+       riesenie: v avej casti sa vyvinú atraktory
+
+                                                                                                                                 32
+alsí atraktor                                                     Reakcia, ze v bunke 3 má
+správania                                                            robot ís v smere hodinových
+                                                                     ruciciek, sama o sebe nemá
+                           19 4  14 19  2                            ziadnu funkciu, ale dohromady
+                     12                                              s ostatnými dáva zmysel
+                                           6
+                  1                                               V tomto prípade sa nejedná o
+                                                                     nejednoznacnos vnemov,
+               9                               17                    lebo vnemy v avej a pravej
+                                                                     casti sa nedajú rozlísi a
+           17                                      8                 vyvolávajú jednoznacnú
+                                                                     odpove
+       5                                               5
+                                                                  evolúcia vyberá
+    3                                                     0
+                                                                        jedincov s co najúspesnejsou
+15                                                           4              stratégiou
+
+7                                                            11         u jedincov s vybranou
+                                                                            stratégiou vyberá tých, ktorí
+11                                                           3              vedia vyuzíva senzorovú a
+                                                                            motorickú koordináciu
+2                                                            13
+                                                                                                                               33
+   13                                                     1
+
+       18                                              7
+
+          16                                       18
+
+               8                               15
+
+                  6                        10
+
+                     14 0 10 9 16 12
+Vyuzívanie obmedzení
+
+ Klasický inziniersky prístup: prostredie a struktúra (tela) robota sú
+    obmedzenia a riesenie je treba postavi na základe modelu
+    prostredia a tela robota poda obmedzení
+
+ umelá evolúcia vidí obmedzenia ako prílezitosti
+
+ Pr. krysy hadajú potravu; najprv odkrytú, potom na tom istom
+    mieste zahrabanú, potom bludisko náhodne otocili
+
+       35% krýs hadalo potravu správne, 31% sa pozeralo na symetricky
+         opacný kút ­ tzv. rotacná chyba
+
+       niekoko autorov to povazovalo za dôkaz, ze krysy museli ma
+         postavenú mapu prostredia a pouzíva ju pre navigáciu
+
+                                  cieová
+                                 oblas
+
+Geometricky
+
+symetrická oblas                                                        34
+ Vyuzívanie obmedzení
+
+ Khepera
+
+       zacínala iba z vyznacených 8 pozícií
+       NS s 8 vstupnými neurónmi (infra) a 2 výstupnými neurónmi (motory) ­ cisto
+
+          reaktívne riadenie
+       podobne ako krysy v 41% prípadoch Khepera nasla správne miesto, v 41%
+
+           urobila rotacnú chybu, v 18% oblas nenasla
+       princíp: rozlísenie dlhej a krátkej steny; stací, aby robot sledoval dlhú stenu a v
+
+           50% nájde správne miesto, v 50% urobí iba rotacnú chybu
+       Khepera nemôze rozlísi dlhú a krátku stenu! Pomôze senzorovo-motorická
+
+           koordinácia ­ pohybuje sa po zakrivenej dráhe a nutne narazí na dlhú
+           stenu
+       NEZNAMENÁ to, ze krysy nepouzívajú mapu
+
+                                                                                                                                    35
+ Vyuzívanie obmedzení
+
+ Khepera
+
+       zacínala iba z vyznacených 8 pozícií
+       princíp: rozlísenie dlhej a krátkej steny;
+
+           stací, aby robot sledoval dlhú stenu a v
+           50% nájde správne miesto, v 50% urobí
+           iba rotacnú chybu
+       Khepera nemôze rozlísi dlhú a krátku
+           stenu! Pomôze senzorovo-motorická
+           koordinácia ­ pohybuje sa po
+           zakrivenej dráhe a nutne narazí na
+           dlhú stenu
+       NEZNAMENÁ to, ze krysy nepouzívajú
+          mapu
+
+                                                                                                                                    36
+ Reaktívne riesenie
+
+ Ke sa aréna zväcsila 2x, tak v 2 prípadoch (z 8) Khepera iba
+    jazdila v kruhu
+
+ ke sa aréna 2x zmensila, tak v 2 prípadoch (z 8) Khepera narazila
+    na kratsiu stenu a potom ju sledovala
+
+ Co sa stane, ke prostredie nebude tak obmedzené?
+
+       Khepera startuje z náhodného miesta v náhodnej orientácii
+       Vekos arény premenlivá (pomer dzky stien zachovaný) ­ 25% chýb
+       Mení sa i pomer vekostí strán arény ­ 33% chýb
+
+ Záver: cím menej obmedzení, tým azsia úloha
+
+                                                                                                                                    37
+ Diskusia
+
+ Väcsinou v robotickom výskume sa problémy riesia rozlozením na
+    jednoduchsie podúlohy, ktoré sa implementujú do samostatných
+    modulov; napr. v metódach zalozených na správaniach sa robí
+    dekompozícia na úrovni správaní
+
+      a) rozlozi správanie na elementárne správania
+      b) implementova základné správania
+      c) koordinácia jednotlivých modulov (vrstiev) správaní
+
+ b) a c) sa casto dá nauci (samo-organizácia)
+ a) sa robí rucne ­ v evolucnej robotike nie je treba
+
+                                                                                                                                    38
+ Diskusia
+
+ Pr. robot, ktorý sa má vyhýba stenám a zosta pri valci
+
+       základné správania:
+
+              prehadávanie prostredia ­ pohyb
+              vyhýbanie sa prekázkam
+              priblízenie a zotrvanie v blízkosti objektu
+              rozlísenie objektov ­ toto je ale azsie nez zvysok
+
+       takáto dekompozícia problém nezjednodusila!
+       Vyssie sme videli, ze evolúcia vytvorila správanie, ktoré rozlísenie
+
+         objektov umoznilo
+
+ rozklad na základné správania je azký a umelá evolúcia casto
+    nájde riesenie, ktoré clovek sotva navrhne
+
+       dáva viacej rôznych riesení naraz
+       casto vyberá riesenia zalozené na vyvinutých správaniach
+
+                                                                                                                                    39
+

@@ -1,0 +1,342 @@
+Data Mining
+
+BAYESIAN MODELS
+
+BY: IVETA MRÁZOVÁ
+Bayesian Classification
+
+ Bayesian formula for the computation of the
+  conditional probability
+
+  ~ probability, that hypothesis H is true, if we observe E
+
+P(H | E) =  P(E | H ) P(H )
+                P(E)
+
+· P(H) ......... apriori probability of the hypothesis H
+
+· P(H|E) ..... a posteriori (conditional) probability
+
+· P(E) .......... probability of the event E
+
+            I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                    2
+Bayesian Classification (2)
+
+ the most probable hypothesis HMAP
+
+   ~ the biggest a posteriori probability
+
+ =  ;   |  =  max                          |     
+                                               
+                 
+
+ neglect the denominator:   =   |  
+
+                                                                                    
+
+ =    |       =                       max   |     
+
+                                         
+
+       I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                                                  3
+Bayesian Classification (3)
+
+Example:
+
+Shall we provide credit to a client with a high income?
+
+   P(BORROW) = 0.667
+   P(REJECT) = 0.333
+   P(HIGH_INCOME|BORROW) = 0.91
+   P(HIGH_ INCOME|REJECT) = 0.12
+   P(LOW_ INCOME |BORROW) = 0.09
+   P(LOW_ INCOME|REJECT) = 0.88
+
+   P(HIGH_INCOME|BORROW) P(BORROW) = 0.607
+   P(HIGH_INCOME|REJECT) P(REJECT) = 0.040
+   HMAP = BORROW
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                            4
+Naïve Bayesian Classifier
+
+ Assumption:
+
+  - the respective events , ... ,  are conditionally
+    independent subject to the validity of the hypothesis 
+
+  - in real-world tasks, this assumption is rarely fulfilled
+          therefore called ,,naïve"
+
+ evaluation of the a posteriori probability of the
+    hypothesis  subject to the validity of all , ... , 
+
+   1, ... ,   =   1, ... ,     
+                        1, ... , 
+
+              I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                   5
+Naïve Bayesian Classifier (2)
+
+ evaluation of the a posteriori probability of the
+
+hypothesis subject to the validity of all , ... ,  as:
+
+                                    
+
+                 
+   1, ... ,     =  1, ... ,                        
+
+                                               =1
+ for classification by means of the naive Bayesian
+
+classifier, we will look for the hypothesis with the
+
+biggest a posteriori probability HMAP
+
+                                                    
+
+ =              = max                                
+
+      =1                                       =1
+
+                I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ           6
+Naïve Bayesian Classifier (3)
+
+ P(Ht) = P(class_t) =
+        = Nr_of_patterns_from_t / Nr_of_all_patterns
+
+ P(Ek|Ht) = P(patterns_from_t_matching_Ek ) =
+               Nr_of_patterns_from_t_matching_Ek
+
+            =
+                        Nr_of_patterns_from_t
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                         7
+Naïve Bayesian Classifier (4)
+
++ possibility to classify also incompletely described
+ patterns
+
+- zero a posteriori probability of (  ) in the
+  case of no patterns in the training set (for )
+   or underestimated terms (  ) in the case
+  of a low mutual incidence of  and 
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                          8
+Example:
+training data for the Bayesian classifier
+
+Client  Income  Account  Gender                Unemployed  Credit
+  1      HIGH    HIGH    FEMALE                      NO     YES
+  2      HIGH    HIGH     MALE                       NO     YES
+  3      LOW      LOW     MALE                       NO     NO
+  4      LOW     HIGH    FEMALE                     YES     YES
+  5      LOW     HIGH     MALE                      YES     YES
+  6      LOW      LOW    FEMALE                     YES     NO
+  7      HIGH     LOW     MALE                       NO     YES
+  8      HIGH     LOW    FEMALE                     YES     YES
+  9      LOW              MALE                      YES     NO
+  10     HIGH   MIDDLE   FEMALE                      NO     YES
+  11     LOW    MIDDLE   FEMALE                     YES     NO
+  12     LOW    MIDDLE    MALE                       NO     YES
+                MIDDLE
+
+                I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                      9
+Bayesian classifier ­ an example
+
+ Apriori probability of various values of the target
+  attribute CREDIT:
+
+   P(Credit(YES)) = 8/12 = 0.667
+   P(Credit(NO)) = 4/12 = 0.333
+   P(Account(Middle)|Credit(YES)) = 2/8 = 0.25
+   P(Account(Middle)| Credit(NO)) = 2/4 = 0.5
+   P(Unemployed(NO)|Credit(YES)) = 5/8 = 0.625
+   P(Unemployed(NO)|Credit(NO)) = 1/4 = 0.25
+  ...
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ     10
+Bayesian classifier ­ an example
+
+Example (continued):
+
+ For a client who applies for credit, has a middle
+    balance on his account and is not unemployed,
+    we will compute:
+
+P(Credit(YES))  P(Account(Middle)|Credit(YES)) 
+         P(Unemployed(NO)|Credit(YES)) = 0.1042
+
+   P(Credit(NO))  P(Account(Middle)| Credit(NO)) 
+            P(Unemployed(NO)|Credit(NO)) = 0.0416
+
+ The client will be assigned to class Credit ( YES )
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                         11
+Data Mining
+
+EXTREME LEARNING MACHINES
+
+BY: IVETA MRÁZOVÁ
+ELM-networks:
+Extreme Learning Machines (G.-B. Huang)
+
+                                       1 output neuron    Output of hidden neurons:
+                                       L hidden neurons
+                                       n input neurons       () = [(, , ), ... , (, , )]
+
+A feedforward network with one hidden layer               : the weight vector of the -th
+                                                                 neuron
+
+                                                          : bias of the -th neuron
+                                                          Sigmoid:
+
+                                                             ( , , ) =  (  + )
+                                                          RBF:
+
+                                                             (, , ) =    - 
+
+                                                          Output of the network:
+
+                                                                                          
+
+                                                                       =   , , 
+
+                                                                                         =1
+
+                                                          : the weight between the -th
+                                                                 hidden and the output neuron
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                            13
+ELM-networks: a new approach to learning
+
+Training without iterative adjustments of the model:
+
+ Let us have a piecewise continuous function . If it would be possible to
+   approximate a continuous function () by means of a feedforward neural
+   network with a hidden layer of adjustable neurons that would compute the
+   function , it would not be necessary to adapt the parameters of the
+   hidden neurons in such a network.
+
+ The parameters of all its hidden neurons can be randomly generated, even
+   without the knowledge of the training data.
+
+For each continuous function  and a randomly generated sequence
+
+,        it holds with probability one:
+     =1
+
+lim    -    = lim     - =1  , ,            =0
+
+                
+
+subject to setting the values of  in such a way, that they minimize
+   - () ,  = , ... ,  .
+
+            I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                            14
+ELM-networks: a general training problem
+
+                                                        The mathematical model:
+
+                                      1 output neuron    for  different randomly chosen
+                                                        training patterns ( , )    ,
+                                      L hidden neurons  it is possible to model the
+                                                        feedforward network with  hidden
+                                      n input neurons   neurons that have the transfer
+                                                        function (, , ), and are
+A feedforward network with one hidden                   organized within a single hidden
+    layer of neurons with a piecewise                   layer, as:
+
+continuous transfer function (, , )                        
+
+                                                           , ,  =  ;  = 1, . . . , 
+
+                                                         =1
+
+                                                         ,  : parameters of the -th
+                                                                       hidden neuron
+
+                                                         : the weight between the -th
+                                                                hidden and the output neuron
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                                                    15
+ELM-networks: a general training problem
+
+The mathematical model:
+
+ =1  , ,  =  ;  = 1, . . . ,  is equivalent to   = , where
+
+     1                    1, 1, 1 ...  , , 1
+       
+ =       =                                              
+     
+                          1, 1,  ...  , ,  ×
+
+           1                           1
+     =                   and  = 
+
+            ×                           ×
+
+  denotes the output matrix of the hidden layer of the neural network;
+   the -th column of  is the output of the -th hidden neuron for the
+   inputs , , ... , .
+
+                         I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                  16
+ELM-networks: the training algorithm
+
+ Input:
+
+   Training set  = (, ) |  ,  ,  = , ... ,  ,
+   transfer function of hidden neurons (, , ) and the
+   number of hidden neurons 
+
+ Algorithm:
+
+   1. Choose randomly the parameters of hidden neurons
+       ( , ),    
+
+   2. Compute the matrix of the outputs in the hidden layer 
+   3. Compute the weights for the output neurons :  = +
+
+ + denotes the Moore-Penrose pseudoinverse matrix for the
+   output matrix  from the hidden layer of the neural network
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ         17
+ELM-networks: the training algorithm
+
+To get a better solution:
+
+  more stable with improved generalization
+  add a positive value / to the elements on the
+
+   diagonal of 
+  draw the solution from the relationship:
+
+   () = () =    -  
+
+              h ( x ) ( I / C + HT H )-1 HT T
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ                    18
+ELM-networks: the training algorithm
+
+Advantages:
+
+  a simple non-iterative procedure consisting of three steps (many traditional
+     training algorithms are considerably more complex)
+
+  very fast and straight-forward training process (it is not necessary to solve the
+     tasks concerning local minima, appropriate parameter initialization, overtraining,
+     etc.)
+
+  the parameters of the hidden neurons ai and bi are independent of the training
+     data and themselves, too
+
+  ELM-networks can generate the parameters of the hidden neurons already
+     before presenting the training data (conventional training techniques must ,,see"
+     the training data before they set the parameters of the hidden neurons
+
+  ELM-networks can be used with any bounded piecewise continuous non-
+     constant transfer function (gradient training algorithm work with smooth
+     transfer functions only)
+
+I. MRÁZOVÁ: DOBÝVÁNÍ ZNALOSTÍ         19
+

@@ -1,0 +1,795 @@
+EVOLUCNÁ ROBOTIKA
+3. cas
+
+Neurónové siete,
+genetické programovanie,
+gramatická evolúcia,
+evolúcia robotov
+
+ Frantisek Mráz, KSVI MFF UK
+Obsah                   Evolúcia a neurónové siete  Genetické programovanie
+
+       Neurónové siete
+
+Gramatická Evolúcia     Evolúcia robotov
+
+                                                                             2
+NEURÓNOVÉ SIETE
+
+                                                                                                                                 3
+Umelé neurónové siete
+
+ Súbor jednotiek (neurónov) prepojených ohodnotenými spojmi
+
+(synaptické váhy), ktoré prenásajú signály
+
+ neuróny                                              vonkajsie prostredie
+
+       vstupné, výstupné a skryté
+
+ pracujú paralelne
+
+                                   výstupné
+
+                                             spoje s
+                                             váhami
+
+                                   skryté
+
+                                   vstupné
+
+                                                      vonkajsie prostredie
+                                                                                    4
+Neurón
+
+ Realizuje funkciu na vázenom súcte jeho vstupov 1, 2, ... , 
+
+  je váha spoja z  -teho (vstupného) neurónu do neurónu 
+
+  je výstup neurónu                                                    
+
+  je tzv. prah neurónu 
+
+  je prenosová funkcia                                            
+                                                        
+                              =    -                       
+                                                       =1          
+
+                       potenciál                           1
+                                                                  2 3
+                                                                         4 5
+
+                                                           1 2 3 4 5
+
+                                                                              5
+    Prenosové funkcie
+
+        2                     1.00                 1.00              3
+        1                     0.75                 0.75              2
+                              0.5                  0.5               1
+-2  -1  -1  12                0.25                 0.25
+
+        -2
+
+                           -2 -1 0  12          -2 -1 0  12          -2 -1 0  12
+
+        lineárna              skoková              sigmoida          ReLU
+
+      =             = 10            ak  > 0                    1       = max 0, 
+                                    inak          = 1 + -
+
+                  binárna                                 je strmos
+
+                           =  -1 1  ak    >  0     = tanh 
+            bipolárna               inak           = --
+
+                                                       +-
+
+                                                         do intervalu (-1,1)
+                                                                                                      6
+Architektúra NS
+
+ Architektúra = mnozina neurónov a ich prepojenie ­ graf
+
+ casto vrstvy: vstupná, výstupná, skryté
+  môze by váha spoja z dodatocného neurónu s výstupom ­ 1;
+
+    typicky sa vsak pouzíva virtuálny neurón s výstupom 1
+
+ =                    =             +1                a +1, = -
+
+       -                             
+
+     =1                             =1
+
+ 2 typy:  potenciál                  potenciál
+
+ s dopredným sírením (feedforward)
+
+ acyklický graf, signály sa síria od vstupnej vrstvy k výstupnej
+
+ rekurentné
+
+ spoje aj z vyssích vrstiev do nizsích, príp. slucky
+
+                                                                  7
+ Ucenie NS
+
+ výstup siete závisí na nastavení váh; nastavenie váh sa hadá ucením ­
+    opakovane sa sieti predkladajú vzory a sie si poda nich upravuje váhy
+
+       s uciteom ­ poda chyby na výstupe; s oneskoreným ucením (az na základe
+           celkového ohodnotenia siete, bez znalosti presného výstupu (reinforcement)
+
+       bez ucitea ­ samo-organizácia; klasifikácia, kompresia dát
+
+     spriahnuté ­ (on-line) váhy sa upravujú po predlození kazdého vzoru
+
+
+     nespriahnuté, dávkové ­ (off-line) váhy sa upravujú po predlození vsetkých vzorov
+
+ zmena váhy   + 1 =   + (), kde  je cas a  je uciaca
+    konstanta
+
+ Vylepsenie ucenia: moment, metódy druhého rádu
+
+                                                                                                                                     8
+         Vrstevnaté neurónové siete ­
+         algoritmus spätného sírenia
+
+výpocet  výstupná vrstva  úprava váh   Trénovacia mnozina
+          vstupná vrstva
+                                                    1, 1 , 2, 2 , ... , , 
+
+                                       Postup
+
+                                            1. Predloz vstup  na vstupnú vrstvu.
+                                            2. Spocítaj výstup  .
+                                            3. porovnaj skutocný výstup  s
+
+                                                 pozadovaným  .
+                                            4. Rozdiel pouzi na úpravu váh.
+                                            Trik: Prahy sa nahradia vstupom z
+
+                                                 virtuálneho neurónu, ktorý dáva vzdy
+                                                 výstup 1. Kazdá vrstva okrem
+                                                 výstupnej má práve jeden taký
+                                                 neurón.
+
+                                                                                                           9
+Algoritmus spätného sírenia
+(chyby)
+
+ Cie: nájs váhy také, aby pre vsetky vstupné vzory z trénovacej mnoziny
+    skutocný výstup siete bol rovnaký ako pozadovaný výstup siete.
+
+ Nie je specifikovaná skutocná ani pozadovaná aktivita na skrytých
+    neurónoch
+
+ Celková chyba siete ­ chybová funkcia siete ­ vyjadruje rozdiel medzi
+    pozadovaným a skutocným výstupom siete
+
+     1                              , - ,  2
+ = 2  
+=1 =1
+
+ pocet vzorov v trénovacej mnozine
+
+ pocet výstupov siete
+ indexuje vzory z trénovacej mnoziny
+, skutocná aktivita výstupného neurónu  pri vstupe 
+, pozadovaná aktivita výstupného neurónu  pri vstupe , kde  = 1,, ... , ,
+
+                                                                           10
+Algoritmus spätného sírenia
+
+ Aktualizácia synaptických váh   + 1 =   +   
+
+    ... prírastok váhy  prispievajúci k minimalizácii 
+ Pre výstupnú vrstvu platí (parameter () je vynechaný)
+
+   =            =  -         =                      =             
+           -                    -                         = - 
+                                                 
+                           
+  = -           =     -         =  -   -             = 
+
+                                             1           výstupná
+                       =   = 1 + -
+=  
+
+       =1
+
+     1     , - ,   2       =  1 -                        vrstva
+ = 2  
+   
+                                                    
+
+                                                         11
+Algoritmus spätného sírenia
+
+ Pre skryté vrstvy                                    =         =                 
+                                                         
+                                                              
+                                
+      =  -      =   -                        =
+                          
+                        
+
+=-                                     =  -                  =
+                                                      
+                                                
+
+=        = 
+
+                                                      k
+
+                                    1                  j
+ = -           =   = 1 + -
+                =  1 -                                 wi j
+
+                                                      i
+
+                                                                              12
+Algoritmus spätného sírenia
+
+1. krok: zvo náhodné hodnoty synaptických váh
+
+2. krok: predloz nový trénovací vzor ,  v tvare
+                       (vstup, pozadovaný výstup)
+
+3. krok: vypocítaj skutocný výstup siete; aktivita neurónu
+
+ =                    =          1  ,  kde    =  =1   
+                            1+-
+
+3. krok: Aktualizuj váhy postupne smerom od výstupnej vrstvy k vstupnej
+              vrstve. Váhy sa adaptujú poda:
+
+  + 1 =   +  +    -   - 1
+
+kde pre výstupné neuróny  =  -   1 -  
+
+a pre skryté neuróny         =  1 -   
+
+5. krok: pokracuj krokom 2
+
+                                                                         13
+ Oznacenie
+
+ () ... váha z neurónu  do neurónu j v case 
+
+  ... parameter ucenia 0,1
+  ... moment ucenia  0,1
+  ... oznacuje neuróny z vrstvy nad neurónom 
+  ... celkový vázený vstup neurónu 
+  ... strmos prenosovej funkcie
+
+ Je to teda gradientná metóda, ktorá minimalizuje strednú
+    kvadratickú odchýlku medzi pozadovanou a skutocnou aktivitou
+    vsetkých výstupných neurónov systému
+
+                                                                                                                                    14
+ Rekurentné neurónové siete
+
+ detekcia casových závislostí v casovom rade
+ okienko
+
+       2 13 22 5 32 14 7 81 2 28 24
+
+ Neurónové siete s casovým posunom (time delay neural networks)
+
+       aké veké okienko? nárast poctu váh
+
+ inak: rekurentné siete (RNN) ­ spätné spoje,
+
+       s diskrétnym casom, alebo
+       so spojitým casom (rekurentné signály a vstupy sú kontinuálne integrované)
+
+       RNN spracúva dáta po jednom prvku a udrzuje si skryté stavy, ktoré môzu
+         uchováva informácie o predchádzajúcich vstupoch
+
+       RNN pouzíva rovnaké váhy vo vsetkých krokoch a umozuje pracova so
+         sekvenciami rôznej dzky
+
+       Skryté stavy reprezentujú krátkodobú pamä
+
+                                                                                                                                    15
+Ucenie rekurentných neurónových
+sietí (RNN ­ recurrent neural networks)
+
+ Architektúra RNN ­ obecný graf, reprezentovaný maticami váh
+
+  váhy zo vstupov (vstupných neurónov) do vsetkých skrytých neurónov
+  váhy spojov medzi skrytými neurónmi
+  váhy zo skrytých do výstupných neurónov
+  prahy (biasy) skrytých neurónov
+  prahy (biasy) výstupných neurónov
+   je aktivacná funkcia skrytých neurónov
+
+   je aktivacná funkcia výstupných neurónov
+
+ Základná rovnica RNN:
+
+       aktivácia skytých neurónov    =    +   - 1 + 
+
+ Výstup:
+
+ aktivácia výstupných neurónov () = (  + )
+
+                                                                      16
+ Algoritmus spätného sírenia
+ chyby v case
+
+1. Dopredné sírenie cez celú sekvenciu
+2. Výpocet chyby na výstupe
+3. Spätné sírenie chyby cez cas
+
+      Sie ,,rozbalíme v case"
+
+4. Aktualizácia váh
+
+                                                                                                                                    17
+Ucenie posilovaním
+(Reinforcement Learning ­ RL)
+
+ Reinforcement ­ posilovanie; posilnenie odmenou za správnu
+    reakciu; odmeovanie; spätná väzba
+
+ vtedy, ke je spätná väzba
+
+   hrubá ­ napr. len 1 pre dobre a 0 pre zle
+
+   riedka ­ nie vzdy, napr. az po dlhej postupnosti akcií
+
+ cie ­ posilni akcie, ktoré maximalizujú odmenu,
+
+  1. Ktoré to sú?
+
+  2. Ako medzi nimi odmenu rozdeli?
+
+ agent (robot) musí vyskúsa mnoho dvojíc stav-akcia
+
+  Detaily neskôr
+
+                                                             18
+Rekurentné siete
+
+ Elman            Jordan
+
+                    
+
+ Elman ­ pamäové bunky uchovávajú stav skrytých neurónov z
+
+    predchádzajúceho kroku
+
+ Jordan ­ pamäová bunka pocíta svoj stav z výstupu siete a svojho stavu
+
+    v predchádzajúcom kroku
+
+                                                                                                                                    19
+EVOLÚCIA A NEURÓNOVÉ
+SIETE
+
+                                                                                                                               20
+ Evolucný vývoj a NS
+
+ Preco NS?
+
+      · relatívne hladký prehadávaný priestor
+      · rôzne úrovne evolucnej granularity:
+
+             · fylogenetická (evolucná) ­ iba GA
+             · vývojová (dozrievanie) ­ sie ,,dorastie"
+             · ontogenetická (celozivotné vzdelávanie) ­ sie sa ucí
+
+      · úrovne evolucnej granularity môzu by kombinované
+      · NS poskytujú priamociare zobrazenie senzory  motory
+      · analógové vstupy na analógové alebo diskrétne výstupy
+      · robustnos voci sumu
+
+ biologicky motivovaný model adaptívneho chovania
+
+                                                                                                                                    21
+   Evolucný vývoj NS
+
+   Problémy s ucením
+
+    Skupina 1        Skupina 2      súperiace skupiny
+
+   AB CD E F         BA E F CD            vemi odlisné
+                                            genotypy zodpovedajú
+         1              1                   sieam s vemi
+                                            podobným chovaním
+   A        B        B     A                 viacej maxím;
+                                            krízenie vedie na
+   2D E 3            2F C 3                 slabých jedincov
+
+C              F  E             D         v praxi to väcsinou
+                                            nevadí, ale casto sa
+fitness                                     volí nizsia
+                                            pravdepodobnos
+                                            krízenia
+
+                        genotyp
+                                                                                                  22
+ Evolúcia váh a parametrov ucenia
+
+ Preco
+
+       A) GA skúsajú celú populáciu sietí, nie len jednu sie
+       B) bez obmedzení na architektúru, prenosovú funkciu, ...
+       C) nepotrebujeme detailne pozna výstup siete pre kazdý vzor
+
+ Kódovanie váh:
+
+       reazec reálnych císel
+       reazec binárnych císel ­ ako císla s pevnou desatinnou ciarkou so zadanou
+
+           presnosou
+
+                Varianta: dynamické kódovanie
+
+                           · císla v kóde na zaciatku ucenia najvýznamnejsie bity,
+                           · neskôr (ke je nájdené uchádzajúce riesenie) tie isté císla kódujú menej významné bity
+
+ príklad: analýza sonarových signálov ­ GA lepsie nez BP
+ iná stratégia: kombinácia evolúcie a ucenia s uciteom
+
+       BP je citlivé na pociatocné nastavenie váh
+       GA môze nájs pociatocné nastavenie váh ­ fitness=chyba siete po doucení
+
+           algoritmom BP (Darwinistická evolúcia)
+
+ gén môze kódova i iné parametre ucenia
+
+                                                                                                                                    23
+ Evolúcia architektúry
+
+ Priestor mozných architektúr je nekonecný a nie je derivovatený
+    (nedá sa prehadáva gradientnými metódami)
+
+ kódovanie:
+
+       typicky ,,nepriame kódovanie": kódujú sa iba niektoré charakteristiky
+         siete ­ pocet neurónov, pravdepodobnos ich spojenia, typ prenosovej
+         funkcie, ...; váhy sa doladia ucením
+
+       ,,priame kódovanie"
+
+ príklad 1: genetický kód obsahuje plán budovania siete ­
+   postupnos segmentov zodpovedajúcich vrstvám; jeden segment
+   kóduje:
+
+             vlastnosti uzlov (pocet neurónov, prenosová funkcia, geometrické
+                rozlozenie)
+
+             vlastnosti vychádzajúcich spojov (hustota spojov, parametre ucenia)
+
+      dekódovaná sie sa ucí BP
+      vo fitness sa dá penalizova pocet spojov alebo pocet cyklov ucenia
+
+                                                                                                                                    24
+Evolúcia architektúry
+
+ Príklad 2: genotyp kóduje prepisovacie pravidlá, výsledkom prepisovania
+    je binárna matica susednosti (spojov) medzi neurónmi, váhy sa doucujú
+    BP
+
+     A  B
+     C  D
+
+A    a  d  B     c  b  C      b  a   D     a  b
+     a  a        b  a         a  c         a
+                                              d  
+                                                 
+
+a    0  0  b     1  0  c      0  0   d     0  1
+     0  1        0  0         1  0         0  0
+
+                              0 0 0 1 0 0 1 0
+
+                              0 1 0 0 1 0 0 0
+              a d c b 0 0 0 0 1 0 0 0
+              a           
+     A  B     b  a  b  a      0  1   0  1  0  0    0  1
+     C  D        a  a         1  0   0  0  0  0    1  0
+                       b
+
+              a  c  a  d      0 0 0 1 0 1 0 0
+                                                      
+
+                              0 0 0 0 0 0 0 1
+
+                              0 1 1 0 0 1 0 0
+
+                                                         25
+ Evolúcia architektúry
+
+ Príklad 3: ,,dozrievanie" ­ sie, ktorá riadi robot, rastie v dobe,
+   ke sa robot pohybuje vo svete
+
+      NS je na 2D substráte, genotyp kóduje
+
+             pozíciu neurónu v pletive
+             smer rastu axónov
+             dzku axónov, ...
+
+      axón, ktorý koncí tam, kde nie sú ziadne neuróny, odumiera, inak
+         vytvára synaptické spoje
+
+      rast závisí aj na aktivite robota
+
+                                                                                                                                    26
+Evolúcia pravidiel ucenia
+
+  Pravidlo ucenia (Heb):     funkcia presynaptickej  aktivity    ,
+                             a aktuálnej váhy 
+  postsynaptickej aktivity                                       ,
+
+  =  , , 
+
+ predpíse sa ako lineárna kombinácia súcinov premenných
+
+   = 1  + 2  + 3  + 4  + 5  + 6 
+
+  bu diskrétna hodnota z -1,0,1 alebo spojitá hodnota z
+    intervalu -1,1 ; genotyp obsahuje hodnoty konstánt
+
+ fitness: váhy sa nastavia náhodne a sie sa trénuje dekódovaným
+    pravidlom ucenia a fitness siete je jej výkon
+
+                                                                    27
+GENETICKÉ
+PROGRAMOVANIE
+
+                                                                                                                               28
+ Genetické programovanie
+
+ Genetický reazec nekóduje riesenie problému, ale program riesiaci
+    problém
+
+ typicky zalozené na LISPovskej reprezentácii programov
+
+       (f,a,b) ... f funkcia, a,b argumenty
+       (+,2,5) zodpovedá výrazu 2+5
+       (+,2,(,3,7)) ... 2+(37)
+
+1. zvolí sa mnozina funkcií F a terminálov T. Napr.
+
+      F={+,-,,%,IFLTE}, T={X,Y,Z,}, kde % je bezpecné delenie
+         (vracia 1 pri delení nulou), IFLTE je ,,if-less-than-or-equal",  je
+         náhodné císlo.
+
+      Funkcie musia by uzavreté, t.j. vsade definované.
+
+2. Náhodne sa vygeneruje pociatocná populácia programov
+
+3. alej ako GA ­ selekcia, krízenie, mutácia.
+
+                                                                                                                                    29
+Genetické programovanie
+
+                                 Krízenie: krízením 2
+                                    programov má vzniknú
+X     %        Z          Z         zase funkcný
+                                    (syntakticky správny)
+   Y     -                          program ­ zámena
+                                    podstromov medzi
+      X     Z                       náhodne zvolenými
+                                    uzlami
+                       
+                                       dvoch rodicov alebo
+
+                                       samotného jedinca
+
+X     %           Z          -
+
+   Y     Z             X        Z
+
+                                   30
+ Genetické programovanie
+
+ Mutácia: náhodne sa zvolí uzol a
+
+       bu sa zrusí, alebo
+       na jeho mieste sa náhodne vytvorí nový podstrom
+
+ mutácie sa nepouzívajú casto, miesto toho sa pracuje s vekými
+    populáciami a vekou pravdepodobnosou krízenia
+
+ hypotéza: náhodné programy vyjadrené v LISPe majú vyssiu
+   pravdepodobnos, ze sú správne, nez iné reprezentácie
+
+                                                                                                                                    31
+ Genetické programovanie
+
+ vylepsenie: automaticky definované funkcie ­ funkcia
+
+    nahradzujúca celý podstrom
+
+       Chromozóm obsahuje napr. 3 stromy
+       prvý strom môze obsahova ubovoný pocet uzlov s oznacením 1 a 2
+
+              Kazdý výskyt  reprezentuje podstrom (podprogram) totozný so stromom
+                 
+
+       druhý strom môze obsahova ubovoný pocet uzlov s oznacením 2
+
+                                                                                                                                    32
+GRAMATICKÁ EVOLÚCIA
+
+                                                                                                                               33
+ GRAMATICKÁ EVOLÚCIA
+
+ Evolúcia programu v ubovonom programovacom jazyku
+ Pouzíva lineárny genóm (GP stromy)
+ Genóm = postupnos kodónov (obycajne 8 bitov)
+ Zobrazenie genotyp  fenotyp konstruuje odvodenie programu
+
+    poda gramatiky:
+
+       Ak  je najavejsí neterminál v reazci, tak císlo pravidla pouzitého na
+         prepísanie  sa spocíta ako (kodón mod pocet pravidiel pre  )
+
+       Kodóny sa aplikujú jeden za druhým, po poslednom kodóne sa
+         pokracuje znova od prvého
+
+       Ak po dopredu zadanom pocte ,,cyklov" cez celý kodón reazec stále
+         obsahuje neterminály, tak jedinec je oznacený ako nepouzitený a
+         dostáva minimálnu moznú hodnotu fitness
+
+                                                                                                                                    34
+Príklad gramatickej evolúcie
+
+Gramatika                         Genotyp  fenotyp
+
+<expr> ::= <expr><op><expr> (0)
+
+           | <var>           (1)  154:  <expr>
+                                   37:  <expr> <op> <expr>
+<op> ::= + (0)                          <var> <op> <expr>
+            | - (1)               211:  y <op> <expr>
+            | * (2)                92:  y * <expr>
+                                        y * <expr> <op> <expr>
+<var> ::= x (0)                   254:  y * <var> <op> <expr>
+              | y (1)              79:  y * y <op> <expr>
+                                        y * y - <expr>
+Genotyp                           143:  y * y - <var>
+                                  154:  y*y-y
+   154 37 211 92 254 79 143
+                                   37:
+                                  211:
+
+                                   92:
+
+                                                    35
+EVOLÚCIA ROBOTOV
+
+                                                                                                                               36
+ EVOLÚCIA ROBOTOV
+
+ Okruhy problémov:
+
+       mechanická odolnos: nárazy do stien vo vekej rýchlosti
+       prívod energie: batérie nestacia
+       analýza: vyvinuté riadiace systémy môzu by vemi zlozité; na ich popis
+
+         je mozné vyuzi metódy z neuroetológie
+       casová nárocnos: hodiny, dni i týzdne
+       návrh fitness funkcie
+
+a) evolúcia fyzických robotov ­ Khepera
+b) simulovaná evolúcia ­ minimalistická simulácia
+
+c) priestor fitness
+
+                                                                                                                                    37
+ Khepera
+
+ 1993:
+ www: www.k-team.com
+ simulátor: Webots, CopeliaSim (predtým V-Rep)
+ parametre:
+
+       priemer 55 mm
+       hmotnos 70 g
+       dve samostatne poháané kolá s inkrementálnymi enkodérmi (600
+
+           pulzov/otácka)
+       8 aktívnych infracervených senzorov;
+
+                2 rezimy
+
+                           · ,,pasívny" - meria infracervené svetlo z okolia; pozor na zdroje tepla
+                         · ,,aktívny" - vysiela infra svetlo a meria odrazené svetlo ­ detekuje biely papier na 5 cm;
+
+                                                   distancný senzor ­ detektor prekázok
+
+               rezimy sa prepínajú softwarovo a vemi rýchle ­ je mozné sníma oboje naraz
+
+                                                                                                                                    38
+ Khepera
+
+ Parametere ­ pokracovanie
+
+       akumulátory ­ 30-40 min. samostatnej cinnosti
+       CPU Motorola MC68331, 128 kB EEPROM, 256 kB statickej RAM
+       A/D prevodník, RS232
+
+ miniaturizácia:
+
+       pracovný stôl 0,9 x 1,8 m je pre Kheperu priestor ekvivalentný tenisovému
+           ihrisku pre robota s priemerom 55 cm
+
+       na malom priestore sa dá jednoduchsie (technicky) sledova
+       náraz 55 mm Khepery pri rýchlosti 55 mm/s verzus náraz 1 m robota pri
+
+           rýchlosti 1 m/s
+
+ modularita: moznosti rozsírenia
+
+       nástavce: lineárne videnie ­ 64-pixelový riadok, uhol 36°
+       chápadlo s 2 stupami vonosti
+       rozsirujúca doska
+
+                                                                                                                                    39
+ Khepera
+
+ Pripojenie rotacnými kontaktmi
+
+       spojenie s pocítacom
+       dlhodobá práca
+
+ 2 rezimy
+
+      interaktívny ­ riadenie z pocítaca ­ castejsie
+      autonómny ­ riadenie na robote
+
+ Analýza vyvinutého riadiaceho systému nie je mozná oddelene od
+    jeho okolia, preto je uzitocné ma moznos presne mera polohu
+    robota
+
+                                                                                                                                    40
+alsie roboty
+
+ Koala: príbuzný robot
+
+       rozmery: d x s x v 32 x 32 x 20 cm, 3 kg
+       2 motory, 6 kôl, 16 infracervených senzorov
+       softwarovo kompatibilná s Kheperou
+
+ Koala II: novsia verzia
+
+ Khepera II
+
+ Motorola 68331, 25MHz
+
+ priemer 70 mm
+
+ Hemison        K-Junior V2  Thymio II
+
+                                                    41
+alsie roboty ­ pokracovanie
+
+ Khepera III (Linux)   Khepera IV
+
+ E-Puck                Koala 2.5
+ E-Puck2
+
+                                   42
+ alsie roboty ­ pokracovanie
+
+ KiloBot
+
+       http://www.k-team.com/mobile-robotics-products/kilobot
+       https://www.youtube.com/watch?v=JmyTJSYw77g
+       https://www.youtube.com/watch?v=LHgVR0lzFJc
+       Priemer 33 mm, výska 34 mm i s nohami
+       Vibracné motory
+       Komunikácia so susednými robotmi do vzdialenosti 7 cm (odrazom
+
+         infracerveného svetla od podlahy
+
+                                                                                                                                    43
+

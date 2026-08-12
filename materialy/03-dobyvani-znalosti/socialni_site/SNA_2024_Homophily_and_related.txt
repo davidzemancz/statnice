@@ -1,0 +1,1133 @@
+Social Networks
+and their Analysis
+
+HOMOPFHILY, SOCIAL INFLUENCE, AND AFFILIATION
+
+BY: IVETA MRAZOVA
+Social Networks     Influence Modeling
+and their Analysis
+                     · Linear Threshold Model
+                     · Indepenent Cascade Model
+                     · Influence vs. Correlation
+
+                    Homophily, Social Influence, and
+                    Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+Homophily, Social Influence, and Affiliation
+
+Motivation:
+
+· "Birds of a feather flock together."
+
+· Your friends are more similar to you
+  in age, race, interests, opinions, etc.,
+  than a random collection of
+  individuals
+
+· Homophily: the principle that we
+  tend to be similar to our friends
+
+based on: Networks, Crowds and Markets by Easley & Kleinberg (2010)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  3
+Homophily, Social Influence, and Affiliation
+
+A social network built by
+students from the town's
+middle and high schools
+ ~ Clustering by race
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  Moody (2001)
+
+                                                      4
+Homophily, Social Influence, and Affiliation
+
+A social network built by
+students from the town's
+middle and high schools
+
+~ Clustering by age
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  Moody (2001)
+
+                                                      5
+Homophily and Triadic Closure
+
+Triadic closure:
+
+· When two individuals share a common friend, a friendship between the two
+   individuals is also more likely to occur
+
+· Homophily suggests two individuals are more alike because of a common
+   friend, so a link may occur even if neither is aware of a mutual friend!
+
+· Usually, it is difficult to attribute the formation of a link to any one factor
+
+==> Is there a simple test for the presence of homophily?
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                     6
+Social Networks     Influence Modeling
+and their Analysis
+                     · Linear Threshold Model
+                     · Indepenent Cascade Model
+                     · Influence vs. Correlation
+
+                    Homophily, Social Influence, and
+                    Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+Homophily, Social Influence, and Affiliation
+
+An example:
+a male/female network
+
+==> What would this network look
+like if it did not exhibit homophily?
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  8
+Homophily, Social Influence, and Affiliation
+
+                              p2
+                                                                 2pq
+
+                              q2
+
+A randomly generated network:
+· If each node would be randomly assigned a gender according to the
+
+  gender balance of the real network, the number of cross-gender
+  edges should not change significantly relative to the real network
+· If fraction p are males and q are females, what is the probability of...
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  9
+Homophily, Social Influence, and Affiliation
+
+A Homophily Test:
+
+~ If the fraction of heterogeneous (cross-
+gender) edges is significantly less than
+2pq, then there is evidence for homophily
+
+Cross-gender edges: 5 of 18
+
+p = 6/9 = 2/3
+
+q = 3/9 = 1/3
+
+x without homophily, # of cross-gender
+edges should be 2pq = 4/9 = 8 out of 18
+ Evidence of homophily
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  10
+Homophily, Social Influence, and Affiliation
+
+Notes on Homophily Test:
+
+· "significantly less than" ­ How significant? A deviation
+   below the mean is suitable
+
+· What if the network had significantly more than 2pq
+   cross-gender edges?
+
+    · inverse homophily
+    · Example: male-female dating relationships
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS              11
+Homophily, Social Influence, and Affiliation
+
+Notes on the homophily test:
+
+· Homophily test can be used to test any characteristic like race,
+   age, native language, preferences, etc.
+
+· For characteristics that have more than 2 values, perform the
+   same type of calculation
+
+· Compare the number of heterogeneous edges (edges with
+   nodes that differ in interested characteristic) to what a
+   randomly generated graph would look like using real data as
+   probabilities
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                      12
+Social Networks     Influence Modeling
+and their Analysis
+                     · Linear Threshold Model
+                     · Indepenent Cascade Model
+                     · Influence vs. Correlation
+
+                    Homophily, Social Influence, and
+                    Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+Homophily, Social Influence, and Affiliation
+
+Why is homophily often present in a social network?
+
+   Selection
+
+        ~ people tend to choose friends who are like themselves
+        · can operate at different scales and levels of intentionality
+
+             · you actively choose friends that are like yourself among a small
+               group of people
+
+             · your school's population is relatively homogeneous compared to
+               the overall population, so your environment compels you to choose
+               friends like yourself
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  14
+Homophily, Social Influence, and Affiliation
+
+Mutable and Immutable Characteristics:
+
+· Selection operates differently based on the type of characteristic
+
+   · Immutable: Characteristics that don't change (gender, race) or change
+      consistently with the population (age, generation)
+
+   · Mutable: Characteristics that can change over time (behaviors, beliefs,
+      interests, opinions)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                15
+Homophily, Social Influence, and Affiliation
+
+Selection and Social Influence:
+
+· Research has shown that people are susceptible to social influence
+  ~ they may change their behaviors so as to more closely resemble
+    the behaviors of their friends (surprise!)
+
+· "Bad company corrupts good character." ­ 1 Corinthians 15:33
+
+· Social influence is the opposite of selection.
+
+   · Selection: Individual characteristics drive the formation of links
+
+   · Social influence: Existing links shape people's mutable characteristics
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  16
+Homophily, Social Influence, and Affiliation
+
+Longitudinal Studies (long time span):
+
+ · Difficult to tell if selection or social influence is at play with
+   a single snapshot of a network
+
+ · Longitudinal studies tracking social connections and individual
+   behaviors over time can help researchers uncover the effect of
+   social influence
+
+ · Does behavior change after changes to network, or does
+   network change after changes in behavior?
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                         17
+Homophily, Social Influence, and Affiliation
+
+Example:
+
+· Longitudinal studies have been used to determine if selection or social
+   influence has had more an effect on teenagers' scholastic achievement and
+   drug use
+
+· Understanding these effects can be helpful in developing interventions
+
+· If drug use displays homophily in a network, a program to target social
+   influence (get friends to influence other friends to stop) might work best
+
+· But if homophily took place due to selection, former drug users may choose
+   new friends and the drug-using behavior of others is not strongly affected
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                 18
+Homophily, Social Influence, and Affiliation
+
+Social Influence of Obesity:
+
+· Christakis and Fowler tracked the
+    obesity status and social network
+    of 12,000 people over 32 years
+
+· Homophily found based on obesity
+    status
+
+       ==> WHY?
+
+Christakis & Fowler (2007), http://www.ted.com/talks/nicholas_christakis_the_hidden_influence_of_social_networks.html
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  19
+Why does there occur obesity homophily?
+
+· Selection effects:
+         Do people choose to befriend others of similar obesity status?
+
+· Confounding effects of homophily:
+         Are there other factors, too, that correlate with obesity status?
+
+· Social influence:
+         If friends changed their obesity status, did it influence a person's
+         future obesity status?
+
+    Discovered significant evidence for hypothesis 3:
+
+          Obesity is a type of "contagion" that can spread through social influence!
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  20
+Social Networks     Influence Modeling
+and their Analysis
+                     · Linear Threshold Model
+                     · Indepenent Cascade Model
+                     · Influence vs. Correlation
+
+                    Homophily, Social Influence, and
+                    Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+Affiliation Network
+
+ Putting context into the network by showing connections to
+ activities, companies, organizations, neighborhoods, etc.
+
+Sue   Chess Club
+
+                                                      Affiliations
+
+                                                      or foci
+
+Bill  Band
+
+Bipartite graph: every edge joins two nodes belonging to different sets
+
+      I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                     22
+Social-Affiliation Network
+
+Two types of edges:
+
+  · Person to person: friendship or other social relationship
+  · Person to foci: participation in the focus
+
+Gary   Sue   Chess Club
+
+Alice  Band  Bill
+
+       I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS          23
+Closure Processes
+
+Gary   Sue       Band  Sue                                       Sue  Band
+
+Alice            Bill                                                 Gary
+
+Triadic closure  Focal closure: closure                          Membership closure:
+                 due to selection                                closure due to social
+                                                                 influence
+
+                 I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS       24
+Questions About Closure
+
+Would Sue be more likely to become friends with Alice if they shared more than
+one friend?
+
+In other words, is triadic closure dependent on the number of shared friends?
+
+More formally: What is the probability that two people form a link as a
+function of the number of mutual friends they share?
+
+Gary   Sue                                                  Gary   Sue
+
+Alice                                                       Alice  Moe
+
+            I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS              25
+Questions About Closure
+
+For focal closure, what is the probability                       Band     Sue
+                                                                       Ping Pong
+that two people form a link as a function
+                                                                          Band
+of the number of foci they are jointly                           Bill       Jill
+affiliated with?
+                                                                                                  26
+For membership closure, what is the
+
+probability that a person becomes
+involved in a particular focus as a function Sue
+
+of the number of friends who are already
+
+involved in it?                                                  Gary
+
+                 I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS
+Methodology: Measuring Triadic Closure
+
+1. Take two snapshots of the network at times t1 and t2
+2. For each k, identify all pairs of nodes who have exactly k friends in
+
+    common at t1 but who are not directly connected by an edge
+3. Define T(k) to be the fraction of these pairs that form an edge
+
+    by t2. This is the probability that a link will form between two
+    people with k friends in common
+
+4. Plot T(k) as a function of k to illustrate the effect of common
+    friends on link formation
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  27
+Another example: Email Social Network
+
+Kossinets and Watts (2006) examined an email communication of
+22,000 students over one year at a large US university
+Assumed a link between two people if an email was sent between
+the two in the past 60 days
+Each snapshot is one day apart
+T(k) averaged over multiple pairs of snapshots
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                  28
+Triadic Closure in the Email Data Set
+
+Figure from http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch04.pdf
+
+   Baseline model:
+    probability p of
+ forming link when k
+ friends in common
+ = 1 - 1 -  
+
+                        = 1 - 1 -  -1
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                            29
+Triadic Closure in the Email Data Set
+
+ Figure from: http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch04.pdf
+
+                               Almost no emails
+                                exchanged when
+
+                                  no friends in
+                                     common
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                              30
+Triadic Closure in the Email Data Set
+
+ Figure from http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch04.pdf
+
+  Significant      Significant
+increase going  increase but on
+                 much smaller
+  from 1 to 2   subpopulation
+    friends
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                             31
+Email Social Network
+
+To evaluate focal closure, Kossinets and Watts obtained class
+schedules for 22,000 students
+Created a social-affiliation network where classes are foci
+
+ENG 101  Sue
+
+Bill     HIST 202
+
+Determined probability of link formation as a function of the number of shared
+foci
+
+      I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                            32
+Focal Closure in the Email Data Set
+
+Figure from http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch04.pdf
+
+                  Tbase(k) = 1 ­ (1 ­ p)k
+
+Sharing a class
+   has nearly
+
+same effect as
+sharing a friend
+
+                                                Diminishing
+                                                  returns
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                            33
+Measuring Membership Closure
+
+Backstrom et al. (2006) created a social-affiliation network for LiveJournal
+
+ · Friendships designated by users in their profile
+ · Foci are membership in user-defined communities
+
+Sue   Jazz Comm
+
+Gary  Jill
+
+      I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  34
+Membership Closure in LiveJournal Data Set
+
+  Significant                                   Diminishing
+increase going                                    returns
+
+ from 1 to 2
+
+Figure from http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch04.pdf
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                            35
+Measuring Membership Closure in the Wikipedia Data Set
+
+Crandall et al. (2008) created a social-affiliation network for Wikipedia
+
+ · Node for editors maintaining a user talk page
+ · Link if two editors have communicated using talk page
+ · Foci are articles edited by editors
+
+Sue   Jazz Article
+
+Gary  Jill
+
+      I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  36
+Membership Closure in the Wikipedia Data Set
+
+Figure from http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch04.pdf
+
+  Significant                                   Diminishing
+increase going                                    returns
+
+  from 1 to 2
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                            37
+Selection and Social Influence in the Wikipedia Data Set
+
+A further examination of the Wikipedia data set to see evidence of
+homophily produced by selection and social influence
+How to measure the similarity of two editors?
+
+                 number of articles edited by both editors
+             number of articles edited by at least one editor
+
+Evaluated for editors in an affiliation network of editors and articles
+Similar to the neighborhood overlap for edges
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                           38
+Selection and Social Influence in the Wikipedia Data Set
+
+ Pairs of Wikipedia editors who have communicated are
+ significantly more similar in behavior than editors who have
+ never communicated
+
+ Homophily arises because...
+
+  · editors are talking with editors who have edited the same article?
+    (selection)
+
+  · editors are led to the articles by those they talk to? (social influence)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                 39
+Selection and Social Influence in the Wikipedia Data Set Figure from http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch04.pdf
+
+                                                       Average of interaction histories
+                                                       · 0 corresponds to time when the link
+
+                                                          occurred (friendship ­ they talk to each
+                                                          other)
+                                                       · Similarity measured relative to time
+                                                          when they became friends
+                                                       · Only editors that have at least 100
+                                                          actions both before and after the firt
+                                                          interaction.
+                                                       · Baseline: the similarity of random pair
+                                                          of Wikipedia editors
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  40
+Social Networks     Influence Modeling
+and their Analysis
+                     · Linear Threshold Model
+                     · Indepenent Cascade Model
+                     · Influence vs. Correlation
+
+                    Homophily, Social Influence, and
+                    Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+Homophily, Social Influence, and Affiliation
+
+  Segregation:
+  ~ Cities are often divided into
+  homogeneous
+  neighborhoods based on
+  ethnic and racial lines
+
+Image: http://wideurbanworld.blogspot.com/2011/08/race-ethnicity-social-class-are-most.html
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                               42
+Homophily, Social Influence, and Affiliation
+
+ Racial distribution in St. Louis, 2010 U.S. Census. Each dot
+ is 25 people:  White  Black  Asian  Hispanic  Other
+
+                                                          Segregation:
+
+                                                          ~ Cities are often divided into homogeneous neigh
+                                                             -borhoods based on ethnic and racial lines
+
+                                                         · Desegregation efforts (e.g., forced busing), ,,white
+                                                            fly," and suburbanization
+
+Image: http://wideurbanworld.blogspot.com/2011/08/race-ethnicity-social-class-are-most.html
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                 43
+Homophily, Social Influence, and Affiliation
+
+Segregation:                     High density
+                                  of African-
+~ Cities are often divided into   Americans
+homogeneous neighborhoods
+based on ethnic and racial
+lines
+
+                                                                                 Low density
+                                                                                 of African-
+                                                                                 Americans
+
+Figure from http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch04.pdf
+
+                                 I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS               44
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:
+
+· a simple model introduced by Thomas Schelling in the 1970s
+· shows how global patterns of self-chosen segregation might
+
+  occur because of homophily at the local level
+· the population is formed by two types of individuals
+
+    · agents (X and O in our case)
+
+· two types of agents represent immutable characteristics
+
+    · race, ethnicity, country of origin, or native language
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                45
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:
+
+                                       X XO
+
+                                                      Agents placed
+
+                          X O O O randomly in grid
+
+                                             XX     XX
+
+Agents are satisfied with their location     XO     XX
+in the grid if at least  of their neighbors
+are agents of the same type.                    OO
+
+ denotes a (pre-set) threshold
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                       46
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:           X XO
+
+  · In each round, first identify all     XOOO
+      unsatisfied agents
+                                          XX        XX
+  · Assume  is 3 ­ all agents prefer to
+      have at least 3 neighboring agents  XO        XX
+      that are of the same type
+
+                                                OO
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS          47
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:                     XXO
+
+                          Unsatisfied because only  X OOO
+                          two neighbors are X
+                                                    XX   XX
+ Assume  is 3 ­ all agents prefer to
+ have at least 3 neighboring agents that            XO   XX
+ are of the same type
+                                                    OO
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS               48
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:
+
+                                         X* X O
+
+Unsatisfied because only                        X OOO
+two neighbors are X
+                                                XX  XX
+
+Assume  is 3 ­ all agents prefer to             XO  XX
+have at least 3 neighboring agents that
+are of the same type                            OO
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS          49
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:                          X* X* O
+
+                                    Satisfied because 3  XOOO
+                                    neighbors are O
+                                                         XX       XX
+Assume  is 3 ­ all agents prefer to
+have at least 3 neighboring agents that                  XO       XX
+are of the same type
+                                                         OO
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                        50
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:                        X* X* O
+
+                                  Satisfied because 4  X OOO
+                                  neighbors are X
+                                                       XX       XX
+ Assume  is 3 ­ all agents prefer to
+ have at least 3 neighboring agents that               XO       XX
+ are of the same type
+                                                       OO
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                      51
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:                X* X* O
+
+                                  Unsatisfied  X OOO
+
+ Assume  is 3 ­ all agents prefer to           XX       XX
+ have at least 3 neighboring agents that
+ are of the same type                          XO       XX
+
+                                                OO
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS              52
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:                       X* X* O
+
+                                           Satisfied  X O* O O
+
+Assume  is 3 ­ all agents prefer to                   XX       XX
+have at least 3 neighboring agents that
+are of the same type                                  XO       XX
+
+                                                      OO
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                     53
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:                     X* X* O
+
+                                       Unsatisfied  X O* O O
+
+Assume  is 3 ­ all agents prefer to                 XX       XX
+have at least 3 neighboring agents that
+are of the same type                                XO       XX
+
+                                                    OO
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                   54
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:            X* X* O
+
+  · etc.                                   X O* O O*
+
+         the final result where unsati-    XX          XX
+             sfied agents marked with *
+                                           X* O*       XX
+  · Now, all unsatisfied agents move to
+      a location where they are satisfied       O* O*
+
+  · Assumed  was 3 ­ all agents prefer
+      to have at least 3 neighboring
+      agents that are of the same type
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS             55
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation:                           OOO
+
+ => The grid is now more segregated                    X  OOO
+     than before!
+                                                       XXXXX
+                           Previously satisfied agent
+                           no longer satisfied!           XXXX
+
+             Sometimes an agent can't find a new          O*
+             location that will satisfy ­ leave alone
+             or move to random location
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                  56
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation ­ Model Variations:
+
+  · Schedule agents to move in random order or in sweeping motion
+  · Agents move to the nearest location that satisfies or a random one
+  · Threshold could be percentage or vary among or within population groups
+  · World could wrap (left edge meets up with right edge)
+  · Many other variations, but results usually end up the same:
+
+       => self-imposed segregation!
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                               57
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation ­ Simulators:
+
+                                                             Luke Sean's Schelling Model using t = 3
+
+Uri Wilensky's NetLogo Segregation model
+
+http://ccl.northwestern.edu/netlogo/models/Segregation
+
+Sean Luke
+
+http://cs.gmu.edu/~eclab/projects/mason/projects/schelling/
+
+                          Randomly placed                    After 20 rounds
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                           58
+Homophily, Social Influence, and Affiliation
+
+Schelling Model of Segregation ­ Conclusions:
+
+ · Schelling model is an example of how immutable characteristics
+    can become highly correlated with mutable characteristics
+
+ · Choice of where to live (mutable) over time conforms to agents'
+    type (immutable), producing segregation (homophily)
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  59
+Social Networks     Influence Modeling
+and their Analysis
+                     · Linear Threshold Model
+                     · Indepenent Cascade Model
+                     · Influence vs. Correlation
+
+                    Homophily, Social Influence, and
+                    Affiliation
+
+                     · Homophily Test
+                     · Selection and Social Influence
+                     · Affiliation Networks
+                     · Schelling Model of Segregation
+                     · Positive and Negative Relationships
+Positive and Negative Relationships
+
+Till now, mostly a relation in a network has a positive connotation, but there
+exist social networks where also negative relationships can be expressed ­
+antagonistic (enemy).
+
+In the following part
+
+   · Positive relations ­ friendly
+   · Negative relations ­ enemy
+
+Question: when is the network in a balanced state?
+
+  · We will see how local properties enforce global properties, cf. Schelling Model of Segregation
+
+Note: we will greatly oversimplify ­ e.g., we consider networks where all pairs
+of nodes are connected by a positive or negative relation. Later we will relax it.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  61
+Positive and Negative Relationships
+
+All nodes are connected = complete graph = clique
+
+Applicable to small groups of nodes (people) or countries
+
+Four (up to) possible configurations of positive/negative edges among three
+nodes
+
+   A                A                A                                        A
+
+   ++               +-               ++                                       --
+
+B  +   C         B  -   C         B  -                                  C  B  -   C
+
+A, B, and C are    A and B are    B and C are friends of                   A, B, and C are
+mutual friends:  friends, with C  A, but they don't get                    mutual
+                 as a mutual en-  along with each other:                   enemies: not
+   balanced.     emy: balanced.   not balanced.                            balanced.
+
+                        I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                      62
+Positive and Negative Relationships
+
+   A               A                                            Structural balance property:
+                                                                For every triangle edges, all
+      +                                                         three are positive or exactly
+B               + B                                             one is positive.
+
+C            D     ++
+
+   +            C         D
+
+   balanced     not balanced
+
+                   A             A                                    A             A
+                ++                                                 ++            --
+                B +C          +-
+                balanced      B-C                                  B- C         B- C
+                                                                not balanced  not balanced
+                              balanced
+
+                I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                63
+Positive and Negative Relationships:
+Balance Theorem
+
+T: If a labeled complete graph is balanced, then either
+
+   · all pairs of nodes are friends, or
+   · the nodes can be divided into two groups,  and , such that every pair of nodes in  like each other,
+
+      every pair of nodes in  like each other, and everyone in  is the enemy of everyone in .
+
+   A         A                                        A             A
+++                                                 ++            --
+B +C      +-
+balanced  B-C                                      B- C         B- C
+                                                not balanced  not balanced
+          balanced
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                64
+Positive and Negative Relationships:
+Balance Theorem
+
+T: If a labeled complete graph is balanced, then either
+
+   · all pairs of nodes are friends, or
+   · the nodes can be divided into two groups,  and , such that every pair of nodes in  like each other,
+
+      every pair of nodes in  like each other, and everyone in  is the enemy of everyone in .
+
+Proof:
+
+ · Let  be a balanced network
+ · If all edges are positive ­ O.K.
+ · If there is at least one negative edge, pick a node 
+
+   ·   all friends of 
+   ·   all enemies of 
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  65
+Positive and Negative Relationships:
+Balance Theorem
+
+T: If a labeled complete graph is balanced, then either
+
+   · all pairs of nodes are friends, or
+
+   · the nodes can be divided into two groups,  and , such that every pair of nodes in  like each other,
+      every pair of nodes in  like each other, and everyone in  is the enemy of everyone in .
+
+Proof:                                               B              ?    D
+
+   ·   all friends of  (including )                       +      A     
+   ·   all enemies of                              ?
+                                                                                  ?
+ 1. Every two nodes in  are friends.                      +
+ 2. Every two nodes in  are friends.                                           E
+                                                     C
+ 3. Every node in  is an enemy of every node in .                   ?
+
+                                                   friends of A        enemies of A
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                       66
+Positive and Negative Relationships:
+Balance Theorem
+
+T: If a labeled complete graph is balanced, then either
+
+   · all pairs of nodes are friends, or
+
+   · the nodes can be divided into two groups,  and , such that every pair of nodes in  like each other,
+      every pair of nodes in  like each other, and everyone in  is the enemy of everyone in .
+
+Proof:                                               B              ?    D
+
+   ·   all friends of  (including )                       +      A     
+   ·   all enemies of                              +
+                                                                                  ?
+ 1. Every two nodes in  are friends.                      +
+ 2. Every two nodes in  are friends.                                           E
+                                                     C
+ 3. Every node in  is an enemy of every node in .                   ?
+
+                                                   friends of A        enemies of A
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                       67
+Positive and Negative Relationships:
+Balance Theorem
+
+T: If a labeled complete graph is balanced, then either
+
+   · all pairs of nodes are friends, or
+
+   · the nodes can be divided into two groups,  and , such that every pair of nodes in  like each other,
+      every pair of nodes in  like each other, and everyone in  is the enemy of everyone in .
+
+Proof:                                               B          ?    D
+
+   ·   all friends of  (including )                       +  A     
+   ·   all enemies of                              +
+                                                                              +
+ 1. Every two nodes in  are friends.                      +
+ 2. Every two nodes in  are friends.                                       E
+                                                     C
+ 3. Every node in  is an enemy of every node in .               ?
+
+                                                    ­ friends of A  ­ enemies of A
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                      68
+Positive and Negative Relationships:
+Balance Theorem
+
+T: If a labeled complete graph is balanced, then either
+
+   · all pairs of nodes are friends, or
+
+   · the nodes can be divided into two groups,  and , such that every pair of nodes in  like each other,
+      every pair of nodes in  like each other, and everyone in  is the enemy of everyone in .
+
+Proof:                                                B                  D
+
+     ·   all friends of  (including )                      +      A    
+     ·   all enemies of                             +
+                                                                                   +
+  1. Every two nodes in  are friends.                      +
+  2. Every two nodes in  are friends.                                           E
+                                                      C
+  3. Every node in  is an enemy of every node in .                   
+
+QED.
+
+                                                    friends of A       enemies of A
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                        69
+Applications of Structural Balance
+
+The evolution of alliances in            Three Emperors'   Triple alliance 1882                            German-Russian
+Europe, 1872-1907                        League 1872-81                                                       Lapse 1890
+
+ · Solid dark edges indicate friendship
+
+ · dotted red edges indicate enmity.
+
+ · Note how the network slides into a
+   balanced labeling ­ and into World
+   War I.
+
+GB = Great Britain
+Fr = France
+Ru = Russia
+It = Italy,
+G= Germany
+AH = Austria-Hungary
+
+                                         French-Russian                                  Entente Cordiale  British Russian
+                                         Alliance 1891-94                                       1904       Alliance 1907
+
+Figure from http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch05.pdf
+
+                                         I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                     70
+Applications of Structural Balance
+
+Moore described the conflict over Bangladesh's separation from Pakistan in
+1972:
+
+ "[T]he United States's somewhat surprising support of Pakistan ... becomes less surprising when one
+ considers that the USSR was China's enemy, China was India's foe, and India had traditionally bad
+ relations with Pakistan. Since the U.S. was at that time improving its relations with China, it supported the
+ enemies of China's enemies. Further reverberations of this strange political constellation became
+ inevitable: North Vietnam made friendly gestures toward India, Pakistan severed diplomatic relations with
+ those countries of the Eastern Block which recognized Bangladesh, and China vetoed the acceptance of
+ Bangladesh into the U.N."
+
+USA              USSR
+
+       Pakistan        N Vietnam                     India
+China            Bangladesh                            Eastern Block
+
+     I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                   71
+Weak Structural Balance Property
+
+No set of three nodes such that the edges among them consist of exactly two
+positive edges and one negative edge.
+
+                                                                                           This is a stronger
+                                                                                               imbalance
+
+                                                B and C try to  A pair makes an
+                                                resolve their   alliance against
+                                                                 the third one
+                                                  animosity
+
+   A         A                                        A               A
+++                                                 ++              --
+B +C      +-
+balanced  B-C                                      B- C           B- C
+                                                not balanced    not balanced
+          balanced
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                                                 72
+Weak Structural Balance Property
+
+No set of three nodes such that the edges among them consist of exactly two
+positive edges and one negative edge.
+
+T: If a labeled complete graph is weakly balanced, then its nodes can be divided
+into groups of mutual friends and every two nodes belonging to different groups
+are enemies.
+
+Proof:
+
+ 1. Let A be a node and  is the set of friends of A, including A.
+ 2. All A's friends are friends with each other.
+ 3. A and all its friends are enemies with everyone else.
+ 4. Remove  from the network and continue with 1.
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS  73
+Generalizing Structural Balance
+
+1. Not all pairs in a network are connected
+
+2. Not all triangles must be balanced, e.g., if most triangles are balanced, then
+    the network can be approximately divided into two fractions?
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                     74
+Structural Balance in Arbitrary (Non-Complete)
+Networks
+
+A. a (non-complete) graph is balanced if it can be "completed" by adding edges
+    to form a signed complete graph that is balanced.
+
+B. Not all triangles must be balanced, e.g., if most triangles are balanced, then
+    the network can be approximately divided into two fractions?
+
+I. MRAZOVA: SOCIAL NETWORKS AND THEIR ANALYSIS                                     75
+
