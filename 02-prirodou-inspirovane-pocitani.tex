@@ -1433,6 +1433,7 @@ zbylý zmutuje a~vloží se do nové populace. Tím je tvorba každého jedince
 nové populace nezávislá.
 
 \subsubsection{Formalizace populace}
+\label{ssec:vose}
 
 Každý binární řetězec délky $l$ ztotožníme s~číslem
 $i \in \{0,1,\dots,2^l-1\}$ (např.\ $00000111 \equiv 7$). Populaci v~čase $t$
@@ -1615,8 +1616,10 @@ kde mají spolupracující geny ležet, se algoritmus naučí sám.
 \item BBH: GA skládá krátká, nízkého řádu, nadprůměrná schémata (stavební
   bloky). Důsledky: záleží na kódování, na velikosti populace, škodí předčasná
   konvergence.
-\item Implicitní paralelismus ($\sim n^3$ užitečně zpracovaných schémat),
-  analogie s~$k$-rukým banditou (exponenciální alokace pokusů vítězi).
+\item Implicitní paralelismus ($\sim n^3$ užitečně zpracovaných schémat)
+  a~analogie s~banditou: schémata řádu $k$ soupeří o~tytéž $k$ pevných pozic,
+  hrají tedy hru s~$2^k$ pákami; analytické řešení alokuje vítězi exponenciálně
+  více pokusů, $N - n^* = O(e^{c n^*})$.
 \item Kritika: nerovnost pro jeden krok, konečné populace, deceptivní úlohy,
   kolaterální konvergence, velký rozptyl fitness, ignorování konstruktivních
   efektů, závislost schémat.
@@ -3618,6 +3621,55 @@ SMS-EMOA & příspěvek k~hypervolume & implicitní & teoreticky nejlépe podlo�
 \addcontentsline{toc}{section}{Souhrnné srovnání a~typické zkouškové otázky}
 \label{sec:zaver}
 %=====================================================================
+\subsection*{Jeden pohled na všechny algoritmy}
+
+Slidy EVA~II tuto myšlenku formulují u~CMA-ES, ale platí pro celý okruh a~je to nejlepší
+možné zahájení kterékoli odpovědi.
+
+\begin{defbox}[Stochastické black-box hledání]
+\textbf{Black-box optimalizace}: minimalizujeme $f : \mathbb{R}^n \to \mathbb{R}$, přičemž
+jedinou dostupnou informací o~$f$ jsou \emph{její hodnoty ve zvolených bodech} (žádný gradient,
+žádný analytický popis) a~cenou hledání je \emph{počet vyhodnocení}~$f$.
+
+Všechny probírané metody mají pak tentýž skelet: algoritmus udržuje \textbf{rozdělení
+pravděpodobnosti} $p_\theta(x)$ nad prostorem řešení a~opakuje
+\[
+\text{navzorkuj } \{x_i\}_{i=1}^n \sim p_\theta
+\;\longrightarrow\;
+\text{vyhodnoť } \{(x_i, f(x_i))\}
+\;\longrightarrow\;
+\theta \leftarrow h(\theta, D).
+\]
+Parametr $\theta$ je \emph{jediná} informace přenášená mezi iteracemi: kóduje, co se algoritmus
+dosud naučil, a~určuje, kde bude hledat dál. Jednotlivé metody se liší jen tím, \emph{co je}
+$\theta$ a~jak zní aktualizační heuristika~$h$.
+\end{defbox}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{3.2cm}p{11.6cm}@{}}
+\toprule
+\textbf{algoritmus} & \textbf{co je $\theta$} \\
+\midrule
+EA (GA, GP, \dots) & rodičovská populace --- rozdělení je empirické, dané vzorkem;
+  aktualizace $=$ selekce $+$ variace \\
+ES & gaussián: střed a~šířka $\vec\sigma$ (u~samoadaptace nese $\sigma$ každý jedinec sám) \\
+CMA-ES & $(\vec m, \sigma, \mathbf{C}, \vec p_\sigma, \vec p_c)$ --- plná kovariance
+  $+$ evoluční cesty \\
+EDA & parametry explicitního modelu: marginály (UMDA, PBIL), párové závislosti (MIMIC),
+  bayesovská síť (BOA) \\
+PSO & pozice a~rychlosti částic $+$ paměť $\vec p_i$, $\vec g$ \\
+ACO & feromonová matice $\tau$ --- rozdělení nad \emph{konstrukcemi}, ne nad body \\
+SA & aktuální bod $+$ teplota $T$ \\
+tabu search & aktuální bod $+$ seznam zakázaných tahů \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Z~téhle perspektivy je EDA (\S\ref{ssec:eda}) jen důsledné domyšlení: když je populace stejně
+jen implicitní model, proč ho nemodelovat rovnou explicitně. A~naopak --- pochopení, že GA je
+transformace rozdělení, je přesně obsahem Voseho modelu (\S\ref{ssec:vose}).
+
 \subsection*{Mapa oboru}
 
 \begin{itemize}

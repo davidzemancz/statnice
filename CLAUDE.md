@@ -16,13 +16,20 @@ Repozitář je podsložkou osobního archivu `~/DEV/MFF/`, kde jsou v adresář�
 
 | Okruh | Zdroje (relativně k tomuto repu) |
 |---|---|
-| Multiagentní systémy | `../5-2/MAS/mas25-en.pdf` (NAIL106, Pilát), `../4-2/MAS/` |
-| Přírodou inspirované počítání | `../5-1/EVA 1/`, `../4-2/EVO/` (EVA I/II, Neruda/Pilát) |
+| Multiagentní systémy | `../5-2/MAS/mas25-en.pdf` (NAIL106, **Neruda**, 2025 — nejnovější), `../4-2/MAS/mas24-en2-compressed.pdf` (2024) |
+| Přírodou inspirované počítání | `../5-1/EVA 1/EVA I-24en.pdf` (NAIL025, 2024 — nejnovější), `../4-2/EVO/EVA II-24en.pdf` (NAIL086, 2024), `../4-2/EVO/` (EVO, Pilát) |
 | Dobývání znalostí | `../5-2/Data Mining/` (NDBI023, Mrázová), `../6-1/SNA/` (Social Networks and their Analysis) |
 | Internet a klasifikační metody | `../6-2/Internet a klasifikacni metody/` (NAIL105, Holeňa) |
 | Neuronové sítě, strojové učení a náhodnost | `../6-2/Internet a klasifikacni metody/nmr1–nmr5.pdf` (volitelný kurz, Holeňa) |
 
 Pozn.: `nmr1`–`nmr5` leží ve složce IKM, ale jsou to slidy jiného (volitelného) Holeňova kurzu — v metadatech PDF nesou zastaralý titul „The specificity of neural networks in extracting rules from data“.
+
+**Verze slidů se meziročně liší obsahem, ne jen kosmeticky.** Vždy ověřit, že se pracuje s nejnovější dostupnou verzí:
+
+- `mas25-en.pdf` (2025) přidává proti `mas24` celou kapitolu **LLM agenti** (LLM jako politika / plánovač / kritik / volání nástrojů, agentové simulace) a vyčleňuje IDA do „Complex Agent Architectures“.
+- `EVA I-24en.pdf` (2024) přidává proti `EVA I-22en` celou kapitolu **vícekriteriální optimalizace** (dominance, Pareto fronta, skalarizace, VEGA, NSGA, NSGA-II, NSGA-III, MOEA/D, SMS-EMOA / hypervolume) — tedy přímo látku věty 6 okruhu.
+- Neruda MAS slidy **nepokrývají** hledání cesty a MAPF, metodologie (Gaia, Prometheus, Tropos), platformu FIPA (AMS/DF/MTS), VCG, Zeuthena, epistemickou logiku ani DisCSP, přestože je okruh jmenuje — ty se čerpají z Wooldridge, AIMA a z NAIL071.
+- EVA slidy nepokrývají ABC, firefly, SPEA2 ani MAP-Elites (to je nadstavba z EVO / Pilát).
 
 ## Dokumenty
 
@@ -63,9 +70,13 @@ Potřebné balíčky: `babel` (czech), `tcolorbox` (`most`), `algorithm`, `algps
 ### Konvence shrnutí (`*-shrnuti.tex`)
 
 - **Invariant: jedna otázka = přesně jedna strana.** Kondenzát velkého textu, ne jeho náhrada — obsahově se nesmí rozejít s odpovídajícím `Shrnutí ke~zkoušce` v plné verzi.
-- Vzor strany: `\qpage{číslo}{doslovné znění věty okruhu}` + `\begin{multicols}{2}` + velikost písma + `\end{multicols}` + `\newpage`. Mezititulky přes `\hh{…}`, termíny `\tm{…}`, anglické ekvivalenty `\en{…}`.
+- **Styl je telegrafický, ne prozaický.** Zápis `termín — fakt; fakt`, ne věty s „jde o“, „znamená to, že“, „je třeba umět“. Cílem je hustota informace, ne plynulost. Prázdné místo na straně je v pořádku; vata není.
+- Vzor strany: `\qpage{číslo}{doslovné znění věty okruhu}` → *(volitelně tabulka přes celou šířku)* → `\begin{multicols}{2}` + velikost písma → **`\hh{Osnova odpovědi}`** → obsahové bloky → *(volitelně `\ph{Pasti}`)* → `\end{multicols}` + `\newpage`.
+- **`\hh{Osnova odpovědi}` je povinná** a je hlavní přidanou hodnotou proti plné verzi: jeden odstavec, kroky číslované `\ok{n}`, každý krok pár slov — je to scénář, v jakém pořadí u zkoušky mluvit.
+- Makra: mezititulek `\hh{…}` (modrý), varovný nadpis `\ph{…}` (oranžový, pro „Pasti“), krok osnovy `\ok{n}`, termín `\tm{…}`, anglický ekvivalent `\en{…}`, šipka `\ra` (= `$\rightarrow$`, používat místo `-->` a `→`).
+- Srovnávací tabulky patří **před** `\begin{multicols}`, tedy přes celou šířku strany (aukce v MAS ot. 5, rodiny architektur v MAS ot. 2, přehled algoritmů na 1. straně EVA). Do sloupce se vejde nanejvýš tabulka o 4 úzkých sloupcích.
 - Velikost písma je **na dokument, ne na stranu**: MAS `\small`, EVA a DZ `\footnotesize` (jejich otázky jsou objemnější). Nemíchat velikosti mezi stranami jednoho dokumentu.
-- Bez `\section`/obsahu/`\label` — navigaci dělá rozcestník na 1. straně (odkaz na okruh, seznam otázek s čísly stran, průřezová témata, „co se chce spočítat u tabule“, nejčastější chyby). Při změně počtu stran aktualizovat čísla stran v rozcestníku.
+- Bez `\section`/obsahu/`\label` — navigaci dělá rozcestník na 1. straně (odkaz na okruh, seznam otázek s čísly stran, jednotící pohled na okruh, průřezová témata, „co se chce spočítat u tabule“, nejčastější chyby, co ve slidech není). Při změně počtu stran aktualizovat čísla stran v rozcestníku.
 - V úzkých sloupcích držet matematiku krátkou; delší vzorec do `$$…$$`.
 - `lmodern` je povinný: `microtype` s font expansion na bitmapových EC fontech shodí překlad (`auto expansion is only possible with scalable fonts`).
 - `\raggedcolumns` (hned za `\begin{document}`) — bez něj multicol svisle roztáhne kratší sloupec a odtrhne `\hh{}` nadpis od jeho odrážek.
@@ -81,7 +92,8 @@ Potřebné balíčky: `babel` (czech), `tcolorbox` (`most`), `algorithm`, `algps
    ```
    Cíl: žádný overfull box nad ~10 pt. Typický viník je dlouhý inline vzorec (v inline matematice se láme jen na relacích a binárních operátorech) nebo bold slovo se spojovníkem (`Metropolis--Hastings`) na konci řádku — řešením je přesun do `\[...\]`, `multline*`, nebo přeformulování věty.
 3. Zkontrolovat, že `\ref` nehlásí `undefined`.
-4. U shrnutí navíc ověřit **počet stran** (`pdfinfo <soubor>.pdf | grep Pages`) — musí být 1 + počet otázek: MAS 8, EVA 7, DZ 8. Vyšší číslo znamená, že se nějaká otázka nevešla na jednu stranu. Vizuální kontrola: `pdftoppm -f <n> -l <n> -r 100 -png <soubor>.pdf out`.
+4. U shrnutí navíc ověřit **počet stran** (`pdfinfo <soubor>.pdf | grep Pages`) — musí být 1 + počet otázek: MAS 8, EVA 7, DZ 8. Vyšší číslo znamená, že se nějaká otázka nevešla na jednu stranu.
+5. U shrnutí projít **všechny strany vizuálně** (`pdftoppm -r 100 -png <soubor>.pdf out`) a hledat `\hh{}` nadpis osamocený na konci sloupce — kompilace na to neupozorní. Lék je `\columnbreak` před ním.
 
 ### Pasti
 

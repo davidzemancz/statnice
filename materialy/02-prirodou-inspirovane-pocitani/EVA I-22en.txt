@@ -1,0 +1,2641 @@
+                EVA I
+NAIL 025 –2022
+Roman Neruda
+ENGLISH VERSION – 31-12-2022
+INTRODUCTION
+
+  Topics, sources, outlines.
+                     LITERATURE
+
+
+• Eiben, A.E and Smith, J.E.: Introduction to Evolutionary
+  Computing, Springer, 2007.
+• Michalewicz, Z.: Genetic Algorithms + Data Structures =
+  Evolution Programs (3ed), Springer, 1996
+• Mitchell, M.: Introduction to Genetic Algorithms. MIT Press,
+  1996.
+• Holland, J.: Adaptation in Natural and Artificial Systems, MIT
+  Press, 1992 (2nd ed).
+• Goldberg, D.: Genetic Algorithms in Search, Optimization and
+  Machine Learning, Addison-Wesley, 1989.
+                             TOPICS
+
+
+• Evolution models, population, recombination, natural selection,
+  simulation, objective function, roulette wheel, tournament, elitism.
+• Genetic algorithms. encoding, operators, selection, crossover,
+  mutation.
+• Representational schemata, schemata theorem, building blocks
+  hypothesis.
+• Prisoner's dilemma, strategies, equilibria, evolutionary stability.
+• Evolution strategies, cooperation, meta-parameters, differential
+  evolution, CMA-ES.
+• EA and combinatorial problems, NP-hard tasks, TSP, ...
+• Machine learning and data mining, evolution of rule-based systems,
+  learning classifier systems, bucket brigade algorithm, Q-learning.
+EVOLUTIONARY
+ ALGORITHMS
+
+Biological motivation, basic parts
+         DARWIN EVOLUTION THEORY
+
+
+• 1859 – On the origin of species
+• Limited environment resources
+• Reproduction is the key to life
+• Better fitted (adapted) individuals have
+  bigger chances to reproduce
+• Successful phenotype traits are reproduced,
+  modified, recombined
+                      MENDEL GENETICS
+
+
+• 1856 - Versuche über Pflanzenhybriden
+• Gene as a basic hereditary unit
+• Every diploid individual has two pairs of alleles, one
+  is transmitted to offspring independently of others.
+• It‘s complicated:
+  • Polygeny – more genes influence one trait
+  • Pleiotropy – one gene influences more traits
+  • Mitochondrial DNA
+  • Epigenetics
+                                     DNA
+
+
+• 1953 – Watson and Crick – double helix structure of
+  DNA
+• Molecular-biological view:
+  • How is the genetic information stored in a living organism
+  • How is it inherited
+• DNA consists of 4 nucleotides/bases – adenine,
+  guanin, cytosine, thymine
+• Codon – a triplet of nucleotides encoding 1 out of
+  23 amino acids (redundancy)
+• These 23 amino acids are the basic building structure
+  of carbohydrates in all living organisms
+                MOLECULAR GENETICS
+
+
+• Crossover, Mutation
+• Transcription: DNA->RNA
+• Translation: RNA->protein
+• GENOTYPE->PHENOTYPE
+• One-direction, complex mapping
+• Lamarckism:
+  • There is an inverse mapping from phenotype to
+    genotype
+  • Acquired traits can be inherited
+                  EA - SUMMARY
+
+
+• Natural evolution: environment, individuals, fitness
+• Artificial evolution: problem, candidate solutions, quality of
+  a solution measure
+• EAs are population-based stochastic search algorithms
+• Recombination and mutation create variability
+• Selection leads the search in the right direction
+                     GENERAL EA
+
+
+• EAs are robust meta-algorithms
+• No free lunch theorem
+  • “There is no one best algorithm that outperforms them all.”
+     • Wolpert, Macready, 1995 (search), 1996 (learning), 1997
+       (optimization)
+• It pays to create domain-specific variants of EAs
+  • Representation
+  • Operators
+                                   GENERAL EA
+
+
+                           R
+INITIALIZATION           ESUL                   • Create initial population P(0) at
+                           T
+                                                  random
+  EVALUATION                      PARENTAL      • In a cycle create P(t+1) from
+                                  SELECTION       P(t):
+                 TERMINATION                      • Parental selection
+                  CONDITION
+                                                  • Recombination, and mutation
+
+         ENVIRONMENTAL
+                                                  • New individuals P’(t+1) are
+           SELECTION                                created
+                                RECOMBINATION
+                                                  • Environmental selection chooses
+           EVALUATION                               P(t+1) based on P(t) a P’(t+1)
+                                  MUTATION
+         GENETIC ALGORITHMS
+
+
+• 1975 - Holland
+• Binary encoded individuals
+• Roulette-wheel selection
+• 1-point crossover
+• Bitwise mutations
+• Inversion
+• Schemata theory to explain the mechanism how GAs work
+ EVOLUTIONARY PROGRAMMING
+
+
+• 1965 – Fogel, Owens a Walsh
+• Evolution of finite automata
+• No distinction between genotype and phenotype
+• Focus on mutations
+• No crossover, usually
+• Tournament selection
+     EVOLUTIONARY STRATEGIES
+
+
+• 1964 - Rechenberg, Schwefel
+• Optimization of real number vectors in difficult
+  computational math problems
+• Floating point encoding of individuals
+• Mutation is the basic operator
+• The mutation step is heuristically controlled or undergoes
+  an adaptation (evolving)
+• Deterministic environmental selection
+        GENETIC PROGRAMMING
+
+
+• 1992 – Koza
+• Evolution of individuals representing (LISP) trees
+• Used (not only) to evolve computer programs
+• Specific operators of crossover, mutation, initialization
+• Further applications (neuroevolution, evolving hardware,
+  evolution of graph structures, …)
+    SIMPLE GENETIC
+      ALGORITHM
+
+Holland SGA, binary representation, operators
+and their variants
+                            GA
+
+
+• Genetic algorithms – 70s USA, Holland, DeJong, Goldberg,
+  …
+• The original proposal is nowadays called SGA (simple GA)
+• Minimal set of operators, the simplest individual encoding,
+  research of theoretical properties
+• Gradually, the SGA has been enriched of – or transformed
+  to – further operators, encodings, ways of dealing with
+  populations, etc.
+                     SGA - BASICS
+
+
+• t=0; Generate at random initial population P(0) of n l-bit
+  genes (individuals)
+• Step from P(t) to P(t+1):
+  • Compute f(x) for each x from P(t)
+  • Repeat n/2 times:
+     • Select a pair x, y from P(t)
+     • Cross over x, y with probability pC
+     • Mutate every bit of x and y with probability pM
+     • Insert x, y to P(t+1)
+        SGA – BASICS
+
+
+       PARENTAL SELECTION
+         ROULETTE WHEEL
+
+
+
+
+                      CROSSOVER
+                       1-POINT
+
+
+                            MUTATION
+                             BIT-FLIP
+
+
+
+
+P(t)        ENVIRONMENTAL SELECTION     P(t+1)
+                P(t+1) REPLACES P(t)
+                       SELECTION
+
+
+• Roulette wheel selection:
+  • Selection mechanism is based on the individual fitness value
+  • It is a selection with replacement – each individual can be
+    selected more times
+  • Expected number of individual selections should be
+    proportional on the ratio of its fitness and an average fitness of
+    the population
+  • Each individual has an allocated slice of a roulette wheel
+    corresponding to its fitness, the wheel is spun n-times
+                      CROSSOVER
+
+
+• Crossover is the main operator in GA
+• It recombines (good?) properties of parents
+• It expresses our hope that recombination can lead to
+  better fitness
+• One-point crossover:
+  • Choose crossover point at random
+  • Exchange corresponding parts of individuals
+  • Probability of crossover pC typically in the range of tenths
+                       MUTATION
+
+
+• In simple GA, mutation operator is less important,
+• It acts as a mechanism against stuck in local extrema
+• (On the contrary, in EP or early ES, mutation is the only
+  source of variability)
+• Bit-string mutation:
+  • With probability pM, every bit of the individual is changed
+  • pM is small (e.g. to change 1 bit in individual on average)
+        INVERSION AND OTHERS
+
+
+• The original Holland’s SGA proposal contains another
+  genetic operator – inversion
+• Inversion
+  • Reversing a part of the bit string
+  • BUT with keeping the meaning of bits
+  • More complicated technically
+  • Inspiration in nature
+  • Did not proven to be beneficial (but wait for permutations)
+  SCHEMA THEORY
+
+Schema theorem, building blocks hypothesis,
+implicit parallelism, k-arm bandit
+                       SCHEMATA
+
+
+• Individual is a word in alphabet {0, 1}
+• Schema is a word in alphabet {0, 1,*}
+  • (* = don't care)
+• Schema represents a set of individuals
+• Schema with r * represents 2r individuals
+• Individual with length m is represented by 2m schemata
+• There is 3m schemata of length m
+• In population of n individuals there is between 2m and n.2m
+  schemata represented
+      PROPERTIES OF SCHEMATA
+
+
+• Order of schema S: o(S)
+  • Number of 0 and 1 (fixed positions)
+• Defining length of schema S: d(S)
+  • Distance between the first and the last fixed position
+• Fitness of the schema S: F(S)
+  • Average fitness of the individuals in a population that
+    correspond to the schema S
+  • Note that fitness of S depends on the context of a population.
+          THE SCHEMA THEOREM
+
+
+• Short (w.r.t. defining length), above-average (w.r.t. fitness), low-
+  order schemata increase exponentially in successive generations
+  of GA. (Holland)
+• Building blocs hypothesis:
+  • GA seeks suboptimal solution of the given problem by
+    recombination of short, low-order above-average schemata
+    (called building blocks).
+  • “just as a child creates magnificent fortress through
+    arrangement of simple blocks of wood, so does a GA seek near
+    optimal performance ...”
+                   PROOF OF TST
+
+
+• Population P(t), P(t+1), ... n individuals of length m
+• What happens to a particular schema S during:
+  • Selection
+  • Crossover
+  • Mutation
+• C(S,t) ... Number of individuals representing schema S in
+  population P(t)
+• We will estimate C(S,t+1) in three steps
+                    PROOF OF TST
+
+
+• Selection:
+  • An individual probability of selection is:
+    ps(v) = F(v) / F(t), where F(t) = Σ F(u), {u in P(t)}
+  • Probability of selection od schema S:
+    ps(S) = F(S) / F(t)
+  • Thus: C(S,t+1) = C(S,t) n ps(S)
+  • Or equivalently: C(S,t+1)=C(S,t) F(S)/Favg(t)
+    Where Favg(t)=F(t)/n … is the average fitness in P(t)
+                     PROOF OF TST
+
+
+• ... Still selection:
+  • So, we have: C(S,t+1)=C(S,t) F(S)/Favg(t)
+  • If the schema were “above-average” of e%:
+  • F(S,t)=Favg(t) + e Favg(t), for t=0, ...
+  • C(S,t+1)=C(S,t) (1+e)
+  • C(S,t+1)=C(S,0) (1+e)t
+  • I.e., the number of above-average schemata grows exponentially
+    (in consecutive populations (and with selection only)).
+                    PROOF OF TST
+
+
+• Crossover:
+  • Probability that a schema will be destroyed / survive a
+    crossover:
+  • pd(S) = d(S)/(m-1)
+  • ps(S) = 1 – d(S)/(m-1)
+  • Crossing over with probability pc:
+  • ps (S) >= 1 – pc . d(S) / (m-1)
+• Selection and crossover together:
+  • C(S,t+1) >= C(S,t) . F(S)/Favg(t) [1- pc . d(S) / (m-1)]
+                     PROOF OF TST
+
+
+• Mutation:
+  • 1 bit will not survive: pm
+  • 1 bit will survive: 1 – pm
+  • A schema will survive (pm<<1):
+  • ps(S) = (1 – pm)o(S)
+  • ps(S) = … roughly estimate … = 1 – pm.o(S), for small pm
+• Selection, crossover and mutation together:
+• C(S,t+1)>=C(S,t).F(S)/Fprum(t) [1-pc.d(S)/(m-1)-pm.o(S)]
+• QED.
+   CONSEQUENCES OF TST AND
+            BBH
+
+
+• Encoding matters
+• Size matters
+• Premature convergence harms
+• When GA sucks:
+  • (111*******), (********11) are above-average
+  • But F(111*****11) << F(000*****00)
+  • The ideal is (1111111111); GA has hard times finding it
+  • The selection condition might be improved
+          IMPLICIT PARALLELISM
+
+
+• GA works with individuals, but implicitly it evolves much
+  more schemata: something between 2m and n.2m.
+• But how many schemata is processed efficiently:
+  • Holland (and others): (Under certain circumstances, such as n =
+    2m , schemata stay above-average, ... ) Number of schemata that
+    really grow exponentially is in the order of n3.
+• It was jokingly commented as the only case where
+  combinatorial explosion is on our side.
+                EXPLORATION VS.
+                 EXPLOITATION
+
+
+• Original Holland motivation:
+• GA is an “adaptive plan” looking for equilibrium between:
+  • exploration (finding new areas for search)
+  • exploitation (utilizing current knowledge)
+• Just exploration: random walks, not utilizing previous
+  knowledge
+• Just exploitation: stuck in local optima, rigidity
+1-ARMED BANDIT
+                2-ARMED BANDIT
+
+
+• N coins, 2-armed bandit (arms payoffs have expected values
+  m1, m2 and variances s1, s2). N-n coins is allocated to the
+  better arm, n coins to the worse one.
+• Goal: to maximize outcome / to minimalize loss.
+• Analytical solution: to allocate exponentially more trials to
+  the currently winning arm
+• N-n* = O(exp(c n*));
+  • c depends on m1, m2, s1, s2; and n* is the optimal value
+               BANDIT AND SGA
+
+
+• GA also allocates exponentially more trials (slots in
+  population) to the more successful schemata
+• It thus solves the exploration vs. exploitation problem in
+  the optimal way
+• Schemata plays many multi-armed bandit games
+  • The winning prize is number of slots in popuplation
+  • It is hard to estimate the fitness of a scheme
+  • First people thought that SGA plays 3m –armed bandit,
+  • Where all schemata are competing arms …
+      … BUT IT’S COMPLIC ATED
+
+
+• Actually, much more games is played in parallel
+• Schemata “compete” for “conflicting” fixed positions in a
+  gene
+• Schemata of order k always compete for those k fixed
+  positions – they play 2k –armed bandit
+• So, the best of those games get the exponential slots in
+  population
+• But, it depends if we can estimate the fitness of a scheme in
+  a particular population well (which can be a problem)
+ THUS, A BAD TASK FOR SGA IS ...
+
+
+• f(x) =
+   •   = 2; for x ~ 111*... *
+   •   = 1; for x ~ 0*...*
+   •   = 0; otherwise.
+• For schemata we now have:
+   •   F(1*...*) = 1/2 ;
+   •   F(0*...*) = 1
+• But, the SGA estimates F(1*...*) ~ 2,
+• Because schemata 111*...* will be much more common in a population
+• SGA here does not sample schemata independently, so it does not estimate
+  their real fitness.
+                        PROBLEMS
+
+
+• The arms in bandit are independent, but the SGA does not
+  sample schemata independently
+• Selection does not work ideally, as in the TST, it is dynamic,
+  and it has statistical errors.
+• SGA maximizes its on-line performance; they should be
+  suitable for adaptive tasks
+  • It is a pity to stop a running SGA ;-)
+  • (Paradoxically, maybe) the most common application of GA is to
+    let them “only” find the one best solution.
+                      STATIC BBH
+
+
+• Grafenstette, 91: People consider that GA converges to solutions
+  with actual statistic average fitness; and not (as it really
+  happens) to those that exist in populations, i.e. with the best
+  observed fitness
+• Then, people can be disappointed:
+  • Collateral convergence
+  • Large fitness variance
+    COLLATERAL CONVERGENCE
+
+
+• When GA converges somewhere, the schemata are no
+  longer sampled uniformly, but with a bias
+• If, e.g. a sheme 111***...* is good, it will spread in a
+  population after few generations, i.e. almost all individuals
+  will have this prefix.
+• But then, almost every sample of a scheme ***000...* are
+  also samples of a scheme 111000*...*.
+• Thus, the GA will not estimate F(***000*...*) correctly.
+       LARGE FITNESS VARIANCE
+
+
+• GA will not estimate fitness of a scheme well in the case if
+  the static average fitness has a large variance.
+• Such as the scheme 1*...* from our evil example.
+• The variance of its fitness is large, so the GA will probably
+  converge to those parts of a search space where the fitness
+  is big.
+• Which in turn will bias further sampling of the scheme. So,
+  the static fitness is not estimated well, again.
+                   TST WRAP-UP
+
+
+• TST was an important first attempt to formalize GAs
+• Now, more exact results exist
+• The weak points of TST:
+  • Populations are finite and small – the theoretical exponential
+    increase from one generation to the next one is harmed by
+    factors such as sampling errors, and dynamic representation of
+    schema in populations – the longer run predictions do not hold.
+  • The competition of schemata is much more complex and not
+    independent at all.
+  • TST ignores the constructive effect of operators.
+REPRESENTATION AND
+  OPERATORS IN GA
+
+ Integer and floating point representations
+ operators, selection
+                        ENCODING
+
+
+• Binary
+  • Classic (Holland)
+  • There are nice theoretical results (better than schemata theory, we
+    will see next semester)
+  • Holland argument: binary strings of length 100 are better than decimal of
+    leghth 30 because they encode roughly the same information but have
+    more schemata (2100>230).
+  • But we know schemata are not that important as Holland thought
+  • The important factor is that binary encoding is sometimes unnatural
+    for a given problem.
+                   OTHER ENCODINGS
+
+
+• Alphabets with more symbols   • Permutations,
+• Integers                      • Trees (programs),
+• Floating point                • Matrices,
+                                • Neural networks (different
+                                  ways),
+                                • Finite automata
+                                • Graphs,
+                                • A-life agents …
+        SELECTION - OVERVIEW
+
+
+• Roulette-wheel selection
+  • traditional, fitness-proportional
+• SUS (stochastic universal sampling)
+  • Just one random position in a roulette wheel, other
+    positions are shifts over angle 1/n
+  • „more fair roulette“ – why?
+        SELECTION - OVERVIEW
+
+
+• Tournament
+ • k-tournament – comparing k randomly selected
+   individuals, the winner is chosen by selection
+ • Typically, k is a small number, like 2, 3, 5
+ • Can be used in cases where fitness is not explicitly given
+   (a game is played, or a simulation is involved)
+            INTEGER ENCODING
+
+
+• Mutation:
+  • „unbiased“ – new random value from the whole domain
+  • „biased“ – new value represents a random shift (normal
+    distribution) from the original value
+• Crossover:
+  • One-point, multiple-point, …
+  • Uniform – in every gene we throw a coin from which parent the
+    value is chosen
+  • Beware of ordinal representations in cases where the order does
+    not make sense (then, probably, the biased mutation does not make
+    sense)
+   FLOATING POINT ENCODING
+
+
+• Historically, the first attempts were encoding real numbers
+  into bit-string representations
+• Not used often today, except for the cases when a limited
+  precision makes good sense (compression of a search
+  space, explicit control over the accuracy of the
+  representation)
+• Common practice today is to encode real values as floating
+  point representation, and the operators take this into
+  account
+   FLOATING POINT OPERATORS
+
+
+• Mutation
+  • Biased
+  • Unbiased
+• Crossover
+  • Structural
+    • One-point, uniform, ...
+  • Arithmetic
+    • Combination of values
+       ARITHMETIC CROSSOVER
+
+
+• Simple average of parents‘ values
+• Variants:
+  • Some other convex combination:
+    • z = a*x + (1-a)*y, where 0<a<1
+  • How many values from an individual to cross over:
+    • Typically all of them
+    • Sometimes just one chosen at random
+    • Sometimes a combination with 1-point crossover
+      EVOLUTION OF
+      COOPERATION
+
+Prisoners and their dilemma, Nash, von Neumann,
+Axelrod, Dawkins
+        ALTRUISM VS. DARWINISM ?
+
+
+• Darwinism is inherently competitive – survival of the fittest
+         •   Social Darwinism – backing the laissez-faire („let it be“) capitalism
+
+         •   Andrew Carnegie, The Gospel of Wealth, 1900 While the law of competition may
+             be sometimes hard for the individual, it is best for the race, because it ensures the
+             survival of the fittest in every department. We accept and welcome, therefore, as
+             conditions to which we must accommodate ourselves, great inequality of
+             environment; the concentration of business, industrial and commercial, in the hands
+             of the few; and the law of competition between these, as being not only beneficial,
+             but essential to the future progress of the race.
+
+• But there is a lot of cooperation both in nature and society
+• The main problem of evolutionary (social) biology:
+• How can altruistic behavior be evolved, when it (by definition)
+  decreases a fitness of an individual?
+    THEORIES OF EVOLUTION OF
+            ALTRUISM
+
+
+• Group selection
+         •   Evolution can work on groups of individuals (Darwin)
+
+         •   How to explain individuals who cheat and do not help
+
+• Kin selection
+         •   Preservation of almost identical genes in close relatives
+         •   How to explain altruism of strangers, even other species
+
+• Dawkins, selfish gene
+         •   The unit of evolution is a gene, not an individual
+         •   Wilson: „the organism is only DNA's way of making more DNA.“
+
+• Trivers, 1971: reciprocal altruism
+         • Mutual benefits for both organisms (even different species)
+         • Shadow of the future, parallel with iterated prisoner's dilemma
+                        PRISONER’S DILEMMA
+
+
+ i/j          C           D           i/j   C     D
+ C            -1 / -1     -3 / 0      C     R/R   S /T
+ D            0 / -3      -2 / -2     D     T/S   P/P
+
+
+
+•Temptation > Reward > Penalty >
+Suckers payoff
+• R>P: mutual cooperation is better
+than mutual deception
+• T>R and P>S: deception is a
+dominant strategy for both players
+• (50s - RAND corp.)
+                                NASH
+
+
+• A strategy s is dominant for agent i, if it gives better or the
+  same result than any other strategy of an agent i against all
+  strategies of agent j
+• Strategies si and sj are in Nash equilibrium, if:
+  • If agent i plays strategy si, agent j does best with strategy sj
+  • If j plays sj, i does best with si
+• Or, si and sj are the best mutual answers to each other
+• These are called pure strategies
+          NASH IN MIXED STRATEGIES
+
+
+• Mixed strategies – random
+  selection among pure
+  strategies
+• Nash theorem: Every game
+  with finite number of
+  strategies have Nash
+  equilibrium in mixed
+  strategies.
+• Example: Rock-Paper-Scissors
+                    NASH AND PARETO
+
+
+• The solution is Pareto-
+  optimal/efficient
+  • If there is no other strategy
+    which would improve agent
+    outcome without worsening
+    some other agent outcome
+  • The solution is not Pareto-
+    efficient: if an outcome of one
+    agent can be improved without
+    decreasing other agent‘s
+    outcome
+                         THUS …
+
+
+• For rational agents there is no dilemma/or is there?
+  • DD is Nash equilibrium
+  • DD is the only solution that is not Pareto-optimal
+  • CC is a solution maximizing common outcome
+• Tragedy of the commons
+• What is rational, and are people rational?
+• Shadow of future – iterated version – Axelrod
+        ITERATED PRISONER‘S DILEMMA
+
+
+• Players play more games, they
+  remember the results/actions of the
+  opponent, and can modify their
+  strategies according to the history
+• T>R>P>S,
+• 2R>T+S – it does not pay off to
+  alternate C and D
+• If the game is played N-times (and
+  the players know the N) it can be
+  proved by induction, the best
+  strategy is „deceive all the time“.
+           AXELROD TOURNAMENTS
+
+
+•   The first tournament:
+           •   14 strategies plus RANDOM, 200 games, everybody played with everybody (ncludit
+               itself), 5x repeat
+
+•   TFT = Tit For Tat strategy
+    •   Start cooperate, then copy opponent's moves
+•   The second tournament:
+           •   62 strategies– everybody knew the results of previous tournament –TFT wins again
+•   The third „ecological“ tournament
+           •   Resembling the generations of GA, initial population was the second tournament
+               strategies, there were 1000 generations
+           •   The number of individuals in the next generation was proportional to number of
+               victories in the previous generation
+           •   Aaaaand, the TFT wins again!
+        WHAT DOES IT MEAN FOR
+             STRATEGIES?
+
+• 4 important properties of successful strategies:
+   • Niceness – do not deceive first
+   • Provocability – quickly punish deception
+   • Forgiveness – but quickly calm down
+   • Clarity – be simple, so others understand you
+• There is not a single strategy that would win against all strategies
+• It is necessary to be successful against very diverse strategies (ALL-D,
+  TFTT, RANDOM, TRIGGER)
+• It is also good to learn play well against itself
+• Attempts to beat TFT by more deception did not help
+       WHAT DOES IT MEAN FOR
+          COOPERATION?
+
+
+• In environments that support cooperation …
+        • Payoffs favor cooperation,
+        • There is a big probability of iterated PD (shadow of the future)
+• … the cooperation is usually evolved
+        • But not always, such as in the ALL-D world
+• Rationality, intelligence, consciousness, … is not necessary for
+  cooperation, just bigger fitness values
+• Initial cooperation can emerge at random, and then it can
+  survive
+           TWENTY YEARS AFTER
+
+
+• In environments with noise, the Pavlov strategy (win-stay, lose-
+  shift) is successful
+     • If the payoff R or P => C,
+     • if T or S => D
+• After 20 years the tournament was repeated with more
+  strategies from each team
+     • The winning strategies were cooperating as a team
+     • Few moves (10) to recognize the opponent, then all strategies
+       helped one father strategy from the team to get better score
+     • The teams were even fighting the organizers (false teams to get
+       more slots in the tournament …)
+EVOLUTIONARY STRATEGIES
+
+   Motivation, population cycle, floating point
+   mutations, meta-evolution
+      EVOLUTIONARY STRATEGIES
+
+
+• Rechenberg, Schwefel, 60s
+• Optimization of real function of many parameters
+• 'evolution of evolution'
+• Evolved individual:
+   • Genetic parameters - affecting the behavior
+   • Strategic, endogenous parameters - affecting evolution
+• New individual is accepted only if it is better
+• More individuals as parents
+• Todays most successful (and complex) CMA-ES (correlation matrix
+  adaptation-ES)
+                     ES NOTATION
+
+
+• Important parameters:
+  • M number individuals in population
+  • L number of new individuals
+  • R number of ‘parents'
+
+• Special selection related notation:
+  • (M+L) ES – M individuals to a new generation is selected from M+L old
+    and new individuals
+  • (M,L) ES – M individuals to a new generation is selected only from L new
+    individuals
+                      SIMPLEST ES EXAMPLE
+
+
+• Minimize f: Rn->R                          Initialize x(0) = (x1, …, xn), t = 0
+• Individuals are vectors                    Repeat
+   •   (x1, …, xn)                              y(t) = x(t) + N(0,s)
+• Population is just one individual             If f(x(t))< f(y(t)) then x(t+1) := x(t)
+
+• One offspring is created                                          else x(t+1) := y(t)
+
+• Mutations are drawn from normal               Keep track of p … % of successful mutations
+  distribution                                  Every k iterations modify s based on p:
+• Variance of the distribution (step size)      If p>1/5 then s := s/c // explore more
+  is changed by simple heuristics to
+  balance exploration/exploitation              If p<1/5 then s := s.c // exploit more
+                                                If p=1/5 then s := s    // 0.8 <= c <= 1
+                                             t++, Until x(t) is good enough
+                          ES SELECTIONS
+
+
+• Parental selection: random – does not depend on fitness
+• Environmental selection:
+   •   Deterministic – choose M best from the pool:
+       •   (M,L) – the pool is just L offspring
+           •   Better for real-valued domains
+           •   Avoids local optima better
+           •   M<L, otherwise the selection provides no useful information
+       •   (M+L) – the pool is M parents and L offspring
+           •   Faster convergence
+           •   Recommended for discrete optimization
+           •   M>L or M=L possible, special case L=1 is called steady-state ES
+                                ES INDIVIDUAL
+
+
+• The individual: C(i)=[Xn(i),Sk(i)], k=1, or n,   • k=n(n+1)/2: Rotations are also
+  or 2n, or n(n+1)/2                                 included, the ellipses are not parallel
+                                                     to axes
+• Sk are endogenous parameters
+  (such as standard deviations of biased           • correlated mutations, they
+  floating point mutations)                          correspond to mutations from n-
+                                                     dimensional normal distribution
+• k=1: One common std dev for all
+  evolved parameters X’s                           • Thus, Sk correspond to the
+                                                     covariance matrix C that is a (non-
+• k=n: Non-correlated mutations, n                   diagonal) product of rotation matrix
+  individual normal distributions                    M: C = M’M
+   • Each parameter has its own std dev                        cii = si2
+   • Geometrically, the mutations are                          cij = 1/2(si2 – sj2) tan(2aij)
+     within an ellipse parallel to axes
+                     ES MUTATIONS
+
+
+• Endogenous parameters: - always mutate first
+• Standard deviations:
+  • Increase or decrease according to the success of the mutation (Originally,
+    the so-called 1/5 rule (heuristic - „the best case is when the mutation has
+    20% success rate“), thus, the std dev is increased for lower success rates,
+    and decreased when the success rate is higher
+  • Now, multiply by a random number drawn from N(0,1)
+• Rotations:
+  • Add a random number drawn from N(0,1)
+• Genetic parameters:
+  • Adding random number from normal distribution with corresponding
+    deviation, and rotation, respectively
+ES INDIVIDUAL AND MUTATION
+
+
+
+
+              Image source: Baeck, Hoffmeister, Schwefel: A survey of
+              Evolution Strategies (1991)
+         ES CROSSOVER (C ALLED
+         RECOMBINATION HERE)
+
+
+• „Gang bang“ of more parents -> one offspring
+  • Local (R=2)
+  • Global (R=M)
+• Two versions (often combined together):
+  • Uniform (dominant)– the value of a gene is selected at random
+    from parents' genes at a particular position
+  • Arithmetic (intermediate) – average of all parents’ values on a
+    particular position
+                   SUMMARY – ES CYCLE
+
+
+•   n=0; Initialize at random a population Pn of M individuals
+•   Evaluate the fitness values of individuals in Pn
+•   Until the solution is good enough:
+    •   Repeat L times:
+        •   choose R parents from Pn at random,
+        •   Cross them over -> one new individual [x,s],
+        •   Mutate endogenous parameters s of [x,s]
+        •   Mutate genetic parameters x of [x,s]
+        •   Evaluate [x,s] and put it to set of candidate solutions Cn+1
+    •   For (M,L)-ES: choose M best individuals from Cn+1 the to Pn+1
+    •   For (M+L)-ES: choose M best individuals from Pn U Cn+1 the to Pn+1
+    •   ++n
+DIFFERENTIAL EVOLUTION
+
+   Alternative, geometrically motivated EVA
+      DIFFERENTIAL EVOLUTION
+
+
+• R. Storn and K. Price (1997)
+• Powerful algorithm designed for black-box optimization (or
+  derivative-free optimization).
+• Find the minimum of a function f(x): Rn→R, if we do not
+  know its analytical form.
+• Relatively simple algorithm
+• Used in many applications
+  • European Space Agency – optimal spaceships trajectories
+Pablo R. Mier: A tutorial on Differential Evolution with Python,
+https://pablormier.github.io/2017/09/05/a-tutorial-on-differential-evolution-with-python/
+      DIFFERENTIAL EVOLUTION
+
+
+• Initialization: random parameter values
+• Mutation: „shift“ according to the others
+• Crossover: uniform „with a safeguard“
+• Parental selection: all individuals in a population
+• Environmental selection: comparison and possible
+  replacement by a better offspring
+                       MUTATION
+
+
+• Every individual in a population undergoes mutation,
+  crossover, and selection
+• For an individual xi,p we choose three different individuals
+  xa,p, xb,p, xc,p at random
+• Define a donor v: vi,p+1 = xa,p + F.(xb,p-xc,p)
+• F is a mutation parameter, a value from interval <0;2>
+                         CROSSOVER
+
+
+• Uniform crossover of original individual with a donor
+• Parameter C controls the probability of a change
+• At least one element must come from a donor
+• Probe vector ui,p+1 :
+• uj,i,p+1 = vj,i,p+1 ; iff randji <= C or j=Irand
+• uj,i,p+1 = xj,i,p+1 ; iff randji > C and jǂIrand
+• randji is pseudorandom number from <0;1>
+• Irand pseudorandom integer from <1;2; ... ; D>
+                     ENV. SELECTION
+
+
+• Compare fitness of x and v, select the better:
+  • xi,p+1 = ui,p+1 ; iff f(ui,p+1) <= f(xi,p)
+  • xi,p+1 = xi,p ; otherwise
+  • for i=1,2, ... , N
+• Mutation, crossover, and selection is repeated until some
+  termination criterion is satisfied (typically, the fitness of the
+  best individual is good enough)
+            MUTATION VARIANTS
+
+
+• The described mutation is denoted as rand/1
+  • Xa is chosen at random, Xb – Xc create one difference vector
+• rand/2:
+  • we choose Xb, Xc, Xd, Xe, and create two difference vectors:
+  • V = Xa + F(Xb - Xc + Xd –Xe)
+• best/1:
+  • Xa is not random, but the best Xbest in population
+• best/2: - homework
+    PARTICLE SWARM
+     OPTIMIZATION
+
+Individual is a particle floating in a swarm in the
+fitness landscape
+                               PSO
+
+
+• Population-based search heuristic, Eberhart, Kennedy, 1995
+• Inspiration of swarms of insect/fish
+• Individual is typically a floating point vector, called a particle
+• No crossover, no mutation as we know it
+• Individuals are moving in a swarm through their parameter
+  space
+• The algorithm is using local and global memory:
+  • pBest – each particle remembers a position with the best fitness
+  • gBest – best pBest among all particles
+                     PSO ALGORITHM
+
+
+• Initialize each particle
+• Do
+•    Foreach particle
+•        Compute fitness of particle
+•        If the fitness is better than the best fitness seen so far (pBest)
+•            pBest := fitness;
+•    End
+
+• Set gBest to the best pBest
+•   Foreach particle
+•      compute the speed of particle by equation (a)
+•      update position of particle by equation (b)
+•   End
+• While maximum iterations or minimum error not satisfied
+     PSO MOVEMENT EQUATIONS
+
+
+• v := v +
+      + c1 * rand() * (pbest - present) +
+      + c2 * rand() * (gbest - present)               (a)
+• present = present + v                               (b)
+• v is particle speed, present is particle position
+• pbest best position of a particle in history
+• gbest best global position in history
+• rand() random number from (0,1).
+• c1, c2 constants (learning rates) often c1 = c2 = 2.
+                PSO DISCUSSION
+
+
+• Common with GA:
+  • Start with random configuration, have a fitness, use stochastic
+    update methods
+• Different from GA:
+  • No genetic operators
+  • Particles have memories
+  • The exchange of information goes only from the better
+    particles to the rest
+EVOLUTIONARY MACHINE
+      LEARNING
+
+   Michigan vs. Pittsburg, machine learning,
+   reinforcement learning
+ MACHINE LEARNING – A SUBSET
+
+
+• Learn rules based on the training examples
+  • Data mining
+  • Expert systems
+  • Agent, robots learning (reinforcement learning)
+• Basic evolutionary approaches:
+  • Michigan (Holland): individual is one rule
+    • Holland LCS: learning classifier systems
+  • Pittsburgh: individual is a set of rules
+                      CLASSIFIC ATION
+
+
+                                   • Accuracy
+                                     • = number of correct answers /
+Predicted/   Positive   Negative       number of all answers
+Real                                 • = (TN+TP)/(TN+TP+FN+FP)
+Positive         TP         FP
+                                   • Specificity
+Negative         FN        TN
+                                     • = TN/(TN+FP)
+                                   • Sensitivity
+                                     • = TP/(TP+FN)
+                         MICHIGAN
+
+
+• Holland in 80s: learning classifier systems
+• The individual is a rule
+• The whole population works as an expert or control system
+• The rules are simple:
+  • Left-hand side: feature is true/not/don‘t care (0/1/*)
+  • Right-hand side: action code or classification category
+• Rules have weights (reflecting their success)
+• The weight makes their fitness
+• The evolution does not have to be generational
+                 MICHIGAN - LCS
+
+
+• Evolution happens only from time to time and/or on part of
+  population
+• The problem of reactivness (lack of inner memory)
+  • The right-hand side of the rule contains – besides the
+    action/classification code – other inner features, called
+    „messages“
+  • The left-hand side of the rule has special features to intercept
+    the messages, called „receptors“
+  • The system has a buffer of messages and it has to realize an
+    algorithm to distribute a reward among chains of rules
+          LCS – BUCKET BRIGADE
+
+
+• Only some rules lead to actions that trigger reward from the
+  environment,
+• The reward should be distributed to the chain of successful
+  rules leading to the reward
+• Rules have to give up part of their strength (like paying money
+  to take part in the action) if they compete for a chance to be
+  applied
+• The technical way it is done is called Bucket brigade
+  algorithm
+• In practice it is difficult to balance the economy of rules, hardly
+  used today
+BUCKET BRIGADE ALGORITHM
+
+
+
+    DETECTORS
+
+E
+N
+V               MESSAGE BUFFER                  POPULATION OF RULES
+I         EXTERNAL | INTERNAL | ACTION    EXTERNAL | INTERNAL | ACTION | STRENGTH
+R
+O
+N                     AS
+M                     CE
+E      MATCHING       TL         SET OF
+         RULES        IE        ACTIONS
+N
+                      OC
+                                              BUCKET
+T                     NT
+                                              BRIGADE                   GA
+
+    EFFECTORS
+                                             REWARD
+CURRENT LCS SCHEME
+
+
+
+
+            © R. Urbanowicz, J.Moore: LCS: A complete introduction, review and roadmap, 2009
+                         Z(ERO)CS
+
+
+• (Wilson, 1994) simplify LCS
+  • No internal messages
+  • No complicated mechanism of reward redistribution
+• Rules are just bitmap (and *) representations:
+  • IF(inputs) THEN (outputs)
+• Cover operator:
+  • If there is no rule for current situation/example, it is generated
+    ad hoc
+  • Randomly some * are added and a random output is selected
+       ZCS – ACTION SELECTION
+
+
+• P – population – set of all rules
+• Detector presents an input x
+• M – match set
+  • rules with condition satisfied compared to input x
+• Action a is selected from M
+  • by roulette wheel mechanism
+  • based on strengths of rules from M
+• A – action set – all members of M that advocated action a
+         ZCS – REINFORCEMENT
+
+
+• How the reward is distributed / the strength of rules is
+  modified – operate on current A and previous A-1
+  • Create a bucket B by reducing each rule from A strength by
+    0<b<=1 (and adding those numbers – denote B the sum)
+  • If the system receives reward r from environment after action a:
+    • Add (b*r) / |A| to strength of each rule in A
+    • Add (g*B) / |A-1| to all members of A-1 (0<g<=1)
+  • The strength of the rules in the set M – A (matching but
+    advocating different action than a) are reduced by 0<“tax”<=1
+              XCS – IMPROVED ZCS
+
+
+
+• Cons of ZCS:
+  • ZCS does not tend to evolve a complete rule system covering all cases
+  • Rules at the beginning of the chains are seldom rewarded and they are
+    not surviving
+  • Rules leading to actions with small rewards can die off too, although they
+    are important
+  • The previous LCS were “strength-based” - both a measure of fitness for
+    GA, and to control which rules “fire”
+  • “Wilson’s intuition was that prediction should estimate how much
+    reward might result from a certain action, but that the evolution learning
+    should be focused on most reliable classifiers, that is, classifiers that give a
+    more precise (accurate) prediction” (P. Lanzi, 2000)
+                  XCS - PROPERTIES
+
+
+• Rule is a tuple (c, a, p, e, f)
+   • c – condition
+   • a – action
+   • p – payoff prediction
+   • e – prediction error
+   • f – fitness used in GA
+• Fitness is based on accuracy of the rule:
+   • Accuracy k = h * (e / e0)-v ; h, e0 and v are parameters
+• Payoff and error estimates are updated by Q-learning
+      XCS – ALGORITHM SKETCH
+
+
+• Based on input, form a match set M
+  • M is subdivided into action sets Ai based on actions
+  • We keep track of previous step action set as well
+• For each action in A, predict the payoff pa as average of
+  payoffs of rules in the action set weighted by fitness values
+• Choose the winning action a either as max pa , or
+  stochastically (roulette wheel). Perform the action.
+     XCS – ALGORITHM SKETCH
+
+
+• Redistribute the payoff from environment to rules in the
+  previous step Action set
+  • Update accuracies using errors
+  • Update fitness using accuracies
+  • Update payoffs using previous step payoff and max payoff from
+    action set
+• Run GA (only) on previous Action set
+                 XCS – WRAPUP
+
+
+• Accuracy based fitness
+• Niche GA operating on action set A
+• Q-learning algorithm as credit assignment
+
+
+• Bridging the gap between RL and LCS
+• Great applications in practice
+                                 PITT
+
+
+• Individuals are sets of rules, complete systems
+• The evaluation is more complicated
+  • Rule priorities, conflicts
+  • False positives, false negatives
+• Genetic operators are more complicated
+  • Typically, dozen or more operators working of sets of rules,
+    individual rules, terms in the rules, ...
+• Emphasis on rich domain representation (sets,
+  enumerations, intervals, ...)
+       GIL, EXAMPLE OF THE PITT
+              APPROACH
+
+
+• Binary classification tasks
+• The individual classifies implicitly to one class (no right-hand
+  side of the rules)
+• Each individual is a disjunction of complexes
+• Complex is conjunction of selectors (from 1 variable)
+• Selector is a disjunction of values from the variable domain
+• Representation by a bitmap:
+     • ((X=A1)AND(Z=C3)) OR((X=A2)AND(Y=B2))
+     • [001|11|0011 OR 010|10|1111]
+                      GIL CONTD.
+
+
+• Operators on the individual level:
+  • Swap of rules, copy of rules, generalization of rule, deletion of
+    rule, specialization of rule, inclusion of one positive example to
+    the rule
+• Operators on the complex level:
+  • Split of complex on 1 selector, generalization of selector
+    (replacing by 11...1), specialization of generalized selector,
+    inclusion of one negative example
+• Operators on selectors:
+  • Mutation 0<->1, extension 0->1, reduction 1->0,
+    COMBINATORIAL
+     OPTIMIZATION
+
+EVA solves NP-hard problems, TSP, permutation
+representations
+        EVA SOLVES HARD TASKS
+
+
+• 0-1 knapsack problem
+  • Simple encoding
+  • Problematic fitness
+  • Standard operators
+• Travelling Salesman problem (TSP)
+  • Simple fitness
+  • Problematic encoding and operators (crossover, really)
+• Scheduling, planning, transportation problems ...
+                        KNAPSACK
+
+
+• Given:
+  • A knapsack of capacity CMAX
+  • N items,
+  • each have a price v(i)
+  • and a volume c(i)
+• The task is to choose items such that:
+  • Maximize ∑ v(i)
+  • At the same time, we squeeze them into a knapsack, i.e.
+     • ∑ c(i) <= CMAX
+                      KNAPSACK
+
+
+• Encoding – a bitmap:
+  • 0110010 – take items 2,3 and 6
+  • Trivial almost
+  • But the individuals might not satisfy the CMAX condition
+• Operators:
+  • Simple crossover, mutation, selection
+• Fitness: has two parts:
+  • max [ ∑v(i) ] vs. min [ CMAX – ∑c(i) ]
+                      KNAPSACK
+
+
+• So, we have a multi-objective optimization:
+  • Either weight ‘em and add ‘em
+  • Or use your favorite MOEA from previous chapter
+  • Or, change the encoding in a clever way:
+    • 1 means: PUT the item in the knapsack UNLESS the capacity
+      is not exceeded
+    • This way we achieve a nice property that with such a
+      decoder all strings in fact represent a valid solution
+         TRAVELLING SALESMAN
+
+
+• N cities, tour them with minimal cost
+• Fitness – the cost of the trip
+• Representations are many
+  • Variants of vertex-based
+  • Edge-based, ...
+• Operators are heavily dependent on representation
+  • Crossover allows to use heuristics we might have to solve the
+    TSP
+    ADJACENCY REPRESENTATION
+
+
+• Path is a list of cities
+   •    city j is at position i iff there is an edge from i to j
+• Ex:
+   • (248397156) corresponds to 1-2-4-3-8-5-9-6-7
+• Each path has 1 representation, some lists do not generate valid paths
+• Not very intuitive
+• Classical crossover does not work
+• But schemata do:
+   • E.g. (*3*...) means all paths with 2-3 edge
+• Do not use it.
+          ORDINAL (OR BUFFER)
+            REPRESENTATION
+
+
+• Motivation was to use the standard 1-point crossover
+  • Let us have a buffer of vertices, maybe just ordered, the
+    encoding is in fact a position of a city in this buffer
+  • When a city is used, it is deleted from a buffer
+
+• Ex:
+  • Buffer (123456789), and path 1-2-4-3-8-5-9-6-7 is represented
+    as (112141311)
+• Do not use it either.
+       PATH (OR PERMUTATION)
+          REPRESENTATION
+
+
+• Probably a first idea of most people
+• Permutation representation is important and natural for many
+  other tasks, as well.
+  • path 5-1-7-8-9-4-6-2-3 is represented as (517894623)
+• The crossover does not work
+• So, the main problem with this representation is to propose a
+  crossover operator that produces correct individuals and
+  represents some idea about how a good solution should look
+  like.
+  • PMX, CX, OX, ...
+                                  PMX
+
+
+• Partially mapped crossover (Goldberg)
+• Preserve as many cities on their positions from the individuals
+  as you can.
+• 2-point
+• (123|4567|89) PMX (452|1876|93) :
+  • (...|1876|..) (...|4567|..)
+  • and a mapping 1-4, 8-5, 7-6, 6-7
+  • Can be added (.23|1876|.9) (..2|4567|93)
+  • According to the mapping
+     • (423|1876|59) (182|4567|93)
+                                OX
+
+
+• Order crossover (Davis)
+• Preserve relative order of cities in the individuals
+• (123|4567|89) OX (452|1876|93) :
+  • (...|1876|..) (...|4567|..) rearrange the path from the second
+    crossover point
+  • 9-3-4-5-2-1-8-7-6
+  • Delete crossed over cities from 1, remains: 9-3-2-1-8
+  • Fill the first offspring: (218|4567|93)
+  • Similarly, the second offspring: (345|1876|92)
+                                CX
+
+
+• Cyclic crossover (Oliver)
+• Preserve the absolute position in the path
+• (123456789) CX (412876935)
+  • First position at random, maybe from th first parent: P1=(1........),
+  • Now we have to take 4, P1=(1..4....), then 8, 3 a 2
+  • P1=(1234...8.), can’t continue, we fill from the second parent
+  • P1=(123476985)
+  • Similarly P2=(412856739)
+                               ER
+
+
+• Edge recombination (Whitley et al)
+• Observation: all previous crossovers preserve only about
+  60% of edges from both parents
+• The ER tries to preserve as many edges as possible.
+  • For each city make a list of edges
+  • Start somewhere (the first city),
+  • Choose cities with less edges,
+  • In case of the same number of edges, choose randomly
+             (123456789) ER (412876935)
+
+
+• 1: 9 2 4                 • Start in 1, successors are 9, 2, 4
+• 2: 1 3 8                 • 9 looses, has 4 succ., from 2 and
+                             4 choosing at random 4
+• 3: 2 4 9 5
+                           • succ. of 4 are 3 and 5, take 5,
+• 4: 3 5 1
+                           • Now we have (145......), and
+• 5: 4 6 3                   continue
+• 6: 5 7 9                 • ... (145678239)
+• 7: 6 8                   • It is possible that we cannot
+• 8: 7 9 2                   choose an edge and the
+                             algorithm fails, but it is very rare
+• 9: 8 1 6 3                 (1-1.5% cases)
+          (123456789) ER2 (412876935)
+
+
+• 1: 9 #2 4              • ER2 – improving ER
+• 2: #1 3 8              • Preserving more common edges
+• 3: 2 4 9 5             • Mark edges that exist twice by -
+                           #
+• 4: 3 #5 1
+                         • They are prioritized when
+• 5: #4 6 3                choosing where to go.
+• 6: 5 #7 9
+• 7: #6 #8
+• 8: #7 9 2
+• 9: 8 1 6 3
+        INITIALIZATION FOR TSP
+
+
+• Nearest neighbors:
+  • Start with a random city,
+  • Choose next as the closest from the not chosen yet
+• Edge insertion:
+  • To a path T (start with an edge) choose the nearest city c not in
+    T
+  • Find an edge k-j in T so it minimizes the difference between k-c-
+    j and k-j
+  • Delete k-j, insert k-c and c-j to T
+             MUTATION FOR TSP
+
+
+• Inversion (!)
+• Insert a city into a path
+• Shift subpath
+• Swap 2 cities
+• Swap subpaths
+• Heuristics such as 2-opt etc.
+     • Take two edges, four cities, choose other two edges
+       connecting these 4 cities
+             OTHER APPROACHES
+
+
+• (Binary) matrix representation:
+     • Either 1 on position (i,j) means an edge from i to j
+     • Or it means that i is before j in a path (more common)
+  • Specific operators of matrix crossover:
+     • Conjunction – bitwise AND random insertion of edges
+     • Disjunction – dissect into quadrants, 2 of them delete, remove
+       contradictions, insert edges at random
+• Combination with local heuristics
+  • Evolutionary strategy which improves paths by “smart mutations” –
+    heuristics like 2-opt, 3-opt
+                                SAT
+
+
+• Paradigmatic NP-complete problem of satisfiability of
+  Boolean formula (expressed in CNF)
+  • Given formula f: Bn -> B where B = {0,1}
+  • Find evaluation x = (x1,…xn) from Bn such that F(x) = 1
+• CNF: f(x) = c1(x) & c2(x) & … & cm(x)
+  • conjunction of clauses
+  • each clause is disjunction of literals
+  • each literal is a variable or its negation
+                          K-SAT
+
+
+• k-SAT: each conjunction has !k literals
+• 2-SAT is solved in polynomial time
+• 3-SAT and more are NP-complete
+• Many heuristic algorithms exist for approximate SAT
+  solving
+• WSAT – popular local search heuristic evaluating solution
+  based on number of satisfied classes, smart selection of
+  local search direction
+               REPRESENTATIONS
+
+
+• Straightforward bit-string - individual is Boolean vector x
+• Floating-point - encode the formula as an expression
+  • Conjunction is *, disjunction is +,
+  • x is (1-y)2, non x is (1+y)2
+  • Boolean 1 is 1, Boolean 0 is -1
+  • Minimize the encoded formula
+  • (round negative values to -1, positive to 1)
+              REPRESENTATIONS II
+
+
+• Clause-based – for each clause find feasible assignments of
+  variables
+  • the individual is a vector of assignments for all clauses
+  • The length is m*k for k-SAT with m clauses
+  • A special fitness is needed that reflect global inconsistencies in
+    assignments
+• Path-based – visit clauses and select !1 variable assignments
+  in each that is consistent,
+  • not all variables are assigned, the individual represents more
+    solutions
+  • Again, a special fitness solving inconsistencies is needed
+                             bit  mutation       and 2-point  of crossover       (De Jongand  and weighted
+                                                                                                    Spears, 1989)      to problem-specific op-
+              functions;
+ ng fitness functions   that
+                         whichSection
+                              countis      be3number
+                                          the      describes
+                                                minimized.            these
+                                                                   inconsistencies
+                                                                    Note    that  approaches
+                                                                                   the   Boolean          in  greater
+                                                                                                       values 0
+                             erators (Gottlieb and Voss, 1998a) and local optimization (Marchiori and Rossi, 1999) –
+                                                                                                                    vari-
+                                                                                                                    and      detail.
+                                                                                                                           1 are   associated with
+ them. In contrast to the    previously
+                         andhave
+                               1. In    theirused
+                                      been        described
+                                                  implementation,   variable-oriented
+                                                       within bit string    Bäck
+                                                                               based et al.
+                                                                                         EAs.    approaches,
+                                                                                              converted
+                                                                                                  The mostcontinuous  this EAs
+                                                                                                                successful       vectors     by rounding
+                                                                                                                                       for SAT      use
+              2.2 a The     Floating
+                         negative       must
+                                       and       be
+                                                Point guided
+                                               positive          by   a  fitness
+                                                             Representation
+                                                             valueson to           function
+                                                                                 and             reflecting
+                                                                                        1 in order             the
+                                                                                                         to check   global
+                                                                                                                      whether  amount      of   inconsistencies
+ ntation implies     search   process
+                             this            that
+                                    representation,  focuses
+                                                           together     the
+                                                                       with   relations
+                                                                              non-standard    between
+                                                                                                   variation variables
+                                                                                                                operators     or a     solution
+                                                                                                                                  adaptive     fitnessfor SAT
+                         already     is among       the variable assignments for the clauses. Hao (1995) made several proposals,
+                                         represented.
+e linked together
+              The by    distinct
+                    floating         clauses.
+                             functions;
+                                   point
+                                             Section 3 describes these approaches in greater detail.
+                                                 representation
+                                        including fitness                     wascount
+                                                                  functions that        suggested
+                                                                                               the  number    byof Bäck       et al.
+                                                                                                                   inconsistencies        (1998),
+                                                                                                                                          and            who      proposed
+ e clausal representation2.2   Although
+                              allows        the  the
+                                                   use  experiments
+                                                          ofInclassical     with
+                                                                             variationtandard       variation
+                                                                                              operators             operators
+                                                                                                               as solu-              used    inweighted
+                                                                                                                                                  evolution   vari-
+                                     Theants   of  them.
+                                            Floating      Point contrast    to
+                                                                  Representationthe previously        described     variable-oriented approaches, this
+              to transform
+                         strategies
+re also represented by bit
+                                    SAT
+                                strings;
+                                         showedinto     a   continuous
+                                                        the basic
+                                                nevertheless
+                                                                       ability
+                                                                      care    must
+                                                                                   optimization
+                                                                                   of process
+                                                                                       the    floating        problem,
+                                                                                                           point    representationwhichtothen            solu- be tackled
+                                                                                                                                                  find can
+                                                                              was be         taken
+                                        representation        implies     a search                thatto    ensure
+                                                                                                         focuses   on lo-
+                                                                                                                        the relations between variables
+                             The
+                         tions   forfloating
+                                        SAT,     pointoverall
+                                                 the      representation
+                                                                    performance      suggested
+                                                                                        is  clearly  by Bäck
+                                                                                                         inferioret al.
+                                                                                                                     to  (1998),
+                                                                                                                          SAWEA,   whowhichproposed uses    thecandidates
+sistency. Hao      classical
+              by(1995)   argued
+                             to
+                                 evolutionary
+                                      the
+                                 transform
+                                               are linked techniques
+                                        thatelimination
+                                                  SAT    into
+                                                              together
+                                                               a  of       by distinct
+                                                                      unfeasible
+                                                                  continuous
+                                                                                            numerical
+                                                                                     forvariable
+                                                                                           clauses.
+                                                                                  optimization
+                                                                                                                 optimization.
+                                                                                                        assignments
+                                                                                                      problem,     which    then    can   be
+                                                                                                                                               Solution
+                                                                                                                                              tackled
+                         bit string representation    clausal and       an adaptive        fitness
+                                                                                                 the function       (Bäckvariation
+                                                                                                                              et al., 1998;      Eibenas   and
+                                                                             EXAMPLE
+              arethe
+                   represented            by   The
+                                                continuous       representation
+                                                                        vectors       allows           use of, and
+                                                                                                                classicalthe    fitness    operators
+                                                                                                                                              function       solu-
+                                                                                                                                                               is designed
+a reduction of        search byspace.
+                                  classical     evolutionary
+                                            However,          as   techniquesbits  for
+                                                                                    are numerical
+                                                                                          needed        optimization.
+                                                                                                         to  represent      Solution     candidates
+                         van der Hauw,  tions are 1997),
+                                                      alsoand      which we
+                                                             represented           present
+                                                                              by bit    strings;in Section     3.1. care must be taken to ensure lo-
+                                                                                                    nevertheless
+ion candidate such     -SAT,are
+                for that          represented
+                             global
+                               the      caloptima
+                                       representationby continuous
+                                             consistency.  directly
+                                                                 induces
+                                                                Hao
+                                                                          vectors
+                                                                           correspond
+                                                                       (1995)mucharguedlarger      to,search
+                                                                                                       and   the spaces
+                                                                                                         feasible
+                                                                                            the elimination
+                                                                                                                 fitness   function is designed
+                                                                                                                        solutions
+                                                                                                                   of unfeasible           for SAT.
+                                                                                                                                       variable             The transfor-
+                                                                                                                                                    assignments
+                         2.3 such
+                                The  that   global
+                                        Clausal       optima     directly
+                                                      Representation        correspond       to  feasible   solutions     for SAT. The transfor-
+              mation is
+ ances with many            based
+                      clauses    when
+                             mation      ison
+                                        yields areplacing
+                                             compared
+                                            based
+                                                     reduction
+                                                     on replacing   literals
+                                                                to ofthe
+                                                                       the bit
+                                                                             search
+                                                                       literals  stringand        However, as We bits
+                                                                                           representation.
+                                                                                       space.
+                                                                                     and       by by           and          and    are needed toand
+                                                                                                                                 and substituting             substituting
+                                                                                                                                                        represent
+                         Haothe(1995)   a  solution
+                                           proposed     candidate
+                                                            the        for
+                                                                 clausal      -SAT,   the    representation       induces     much      larger    search   spaces
+  aware of extensive
+              the Booleancomputational
+                                  operators
+                                  Boolean           studies
+                                                operators   and  for
+                                                                  and this
+                                                                         bybyrepresentation
+                                                                               representation,
+                                                                              their
+                                                                              their                 that
+                                                                                         arithmetical
+                                                                                      arithmetical          emphasizes
+                                                                                                          but we       ex-and
+                                                                                                                  counterparts
+                                                                                                         counterparts          the local       and of ,the
+                                                                                                                                             effects
+                                                                                                                                     , respectively.         respectively.
+                         variables      for
+                                        in    instances
+                                             the   clauses.  with   many
+                                                                  This       clauses
+                                                                          representationwhen      compared
+                                                                                                  selects        to
+                                                                                                             feasiblethe   bit  string
+                                                                                                                          variable       representation.
+                                                                                                                                        assignments         for We
+similar performance      as for this
+              To illustrate  To   theare  path
+                                 illustrate
+                                              not  representation
+                                                this
+                                                    aware ofwe
+                                            approach, approach,       we    due
+                                                                          consider
+                                                                        consider
+                                                                   extensive        to the
+                                                                                      the   3-SAT
+                                                                                          the
+                                                                                 computational          studiesoffor
+                                                                                               similarity
+                                                                                                      instance
+                                                                                                  3-SAT             both
+                                                                                                                 given
+                                                                                                              instance    by  the
+                                                                                                                        this given
+                                                                                                                                    formula
+                                                                                                                                            by
+                                                                                                                              representation,      the    formula
+                                                                                                                                                      but we    ex-
+ ntations’ underlyingeach ideas.clause, and it aims at finding globally consistent partial variable assignments. Re-
+                                        pect a similar performance as for the path representation due to the similarity                              (1) of both
+                       calling therepresentations’
+                                    Boolean function           fromideas.
+                                                                      Equation (1), eight variable assignments exist for
+                       the The
+                            variables  occurring
+                                function     IB
+                                                      underlying
+                                                     in isthe first
+                                                     IB              clause,
+                                                            transformed   intoand
+                                                                               the only   one of
+                                                                                    continuous      them causes a clause
+                                                                                                function                 IR vio-
+                                                                                                                                                                         (1)
+he Path Representation
+                           according
+                       lation:    2.4 toThe  Path   Representation
+                                                             . In the clausal representation, a solution candidate is a
+ th representation function
+              The was    suggested
+                       combination
+                                     IB         IB  is
+                                             variable
+                                                        transformed
+                                  The path representationVoss
+                                       by
+                                       of  Gottlieb     and           (1998b)
+                                                           assignments,
+                                                                             into
+                                                                           where
+                                                                 was suggested   and the  continuous
+                                                                                       exploits
+                                                                                    each
+                                                                                   by     defines
+                                                                                      Gottlieb  andthe
+                                                                                                     all
+                                                                                                              function
+                                                                                                         variables
+                                                                                                      Voss  (1998b) contained
+                                                                                                                    and exploitsinthe
+                                                                                                                                                                          IR
+              according
+at a feasible solution must
+                       one to  satisfy
+                            clause  andat
+                                  fact thatleast
+                                            a
+                                          only     one literal
+                                               feasible
+                                                 feasible solution     each
+                                                                   inmust
+                                                            variable         clause.
+                                                                           satisfy
+                                                                       assignments          order
+                                                                                        In one
+                                                                                   at least
+                                                                                       are           to The
+                                                                                                 literal
+                                                                                            allowed.     in each clause. In
+                                                                                                             solution       order to
+                                                                                                                      candidate
+ ine a solution, we may selectwhich is oneto   be
+                                       determine    minimized.
+                                                literala    in   each
+                                                             solution, Note  wethat
+                                                                            clause,
+                                                                                  may the   Boolean
+                                                                                        yielding
+                                                                                         select           values
+                                                                                                             path0
+                                                                                                   one aliteral        and
+                                                                                                                        each1 are
+                                                                                                                    inthrough        associated
+                                                                                                                                clause,    yielding with
+                                                                                                                                                      a path through
+                              and 1. all
+                                       In their
+                                            clauses  implementation,            Bäck   et  al.  converted        continuous       vectors    by   rounding
+ ses that visits each clause      exactly
+                              negative
+                                                once.that
+                                           and positive
+                                                                 visits is
+                                                           If there         each
+                                                                               noclause       exactly once.
+                                                                                    inconsistency                  If there the
+                                                                                                               between         is no inconsistency between the
+                                       literals     in such values
+                                                                a path,to            and 1 in
+                                                                             a complete            order to
+                                                                                               variable          check whether
+                                                                                                             assignment        can bea constructed
+                                                                                                                                         solution for SAT
+                                                                                                                                                        immediately.
+ in such a path, a complete
+                          combinesvariable
+                              already is feasible
+                                       Given       assignment
+                                            represented.
+                                                   the   assignments
+                                                          SAT     instancecan    be
+                                                                                for
+                                                                                (1),  constructed
+                                                                                      the
+                                                                                      the    clauses
+                                                                                            path              immediately.
+                                                                                                            but    alsois contains
+                                                                                                                          feasible     andinconsistent
+                                                                                                                                             induces    the assign-
+                                                                                                                                                             complete with
+              which
+the SAT instance (1), theis to   be
+                          mentspathforminimized.
+                                    Although .  If a   solution
+                                                     the        isNote
+                                                           experimentscandidate
+                                                                     feasible  that
+                                                                                withand the
+                                                                                        was
+                                                                                        standard
+                                                                                                 Boolean
+                                                                                                 globally
+                                                                                             induces         the
+                                                                                                         variation
+                                                                                                                   values
+                                                                                                                consistent,
+                                                                                                                    complete
+                                                                                                                       operators
+                                                                                                                                  0
+                                                                                                                                  a  and      1
+                                                                                                                                     (complete)
+                                                                                                                                      used    in
+                                                                                                                                                 are   associated
+                                                                                                                                                      variable
+                                                                                                                                                  evolution     as-
+                                       variable assignments                                       and                          , while the path                   con-
+ e assignmentsand     1. In   their
+                          signmentand
+                              strategiesimplementation,
+                                        couldanbe derived
+                                       tains showed        the    basic
+                                                      inconsistency.          A Bäck
+                                                                        directly.
+                                                                           ,ability
+                                                                             while         et
+                                                                                       Therefore,
+                                                                                      of
+                                                                                       the the
+                                                                                  reasonable     al.
+                                                                                               path     converted
+                                                                                                 floating
+                                                                                                    fitnessan EA
+                                                                                                               point  using
+                                                                                                               function       continuous
+                                                                                                                        representation
+                                                                                                                             con-
+                                                                                                                             for  thisclausal
+                                                                                                                                the          to      vectors
+                                                                                                                                                  representation
+                                                                                                                                                  find
+                                                                                                                                        representation solu-must by
+                                                                                                                                                                 mea- rounding
+              negative                for
+                                       sureSAT,
+                              tions positive
+                            and                 thethe     overallofperformance
+                                                         values
+                                                       amount           to           and
+                                                                         inconsistencies.   is 1clearly
+                                                                                                   in
+                                                                                                    While   inferiortoto
+                                                                                                         order this         SAWEA,whether
+                                                                                                                           check
+                                                                                                                     corresponds         towhich    usesathe
+                                                                                                                                            the clausal    solution for SAT
+                                                                                                                                                           representa-
+n inconsistency.    A reasonable        fitness       function         for    this   representation               must      mea-
+                              bit string
+                          Evolutionary      representation
+                                          Computation               and
+                                                                Volume       an
+                                                                             10, adaptive
+                                                                                 Number       1fitness     function     (Bäck
+                                       tion, one relevant difference between both codings is the length of solution candidates.  et al.,  1998;  Eiben  and       3
+ e amount ofalready        is van
+                              represented.
+               inconsistencies.        While
+                                    derAs Hauw,      this
+                                                     1997),of
+                                             the choice       corresponds
+                                                               and onewhich
+                                                                          literalwe   to   the
+                                                                                      present
+                                                                                   in a           clausal
+                                                                                          clauseincan  Section   representa-
+                                                                                                            be 3.1.
+                                                                                                                encoded by                 bits, the total number of
+ne relevant difference     betweenbits
+                      Although           both
+                                       the         codings
+                                                 experiments
+                                               needed       is     is the ,withlength
+                                                                                which of        solution
+                                                                                           standard
+                                                                                           results     in a more candidates.
+                                                                                                                 variation
+                                                                                                                      compact operators
+                                                                                                                                    representation. used Anotherin   evolution
+                                                                                                                                                                   dis-
+                              2.3 The Clausal Representation
+choice of onestrategies
+                literal in a clause
+                               showed    can     be
+                                       tinguishing
+                                                 the   encoded
+                                                            feature is
+                                                           basic        bythat theof
+                                                                        ability         bits,
+                                                                                          clausal
+                                                                                              the thefloating
+                                                                                                         total    number
+                                                                                                       representation            of at
+                                                                                                                              aims
+                                                                                                                          point           determining exactly one
+                              Hao   (1995)
+                                       feasibleproposed
+                                                     solution, the while
+                                                                     clausal   a representation
+                                                                                  path   is  able    to that    emphasizes
+                                                                                                         represent        family theofrepresentation
+                                                                                                                                      local   effects
+                                                                                                                                         feasible     of the
+                                                                                                                                                    solutions.
+                                                                                                                                                                to find solu-
+eded is             , which
+              tions for SAT,   results     in
+                                       theinThe  a  more
+                                                 overall       compact
+                                                                  performance   representation.               Another         dis-
+                              variables          the   clauses. This
+                                                       path     representation          was is
+                                                                              representation          clearly
+                                                                                                      selects
+                                                                                                 evaluated            inferior
+                                                                                                                 feasible
+                                                                                                                  in  an     variable
+                                                                                                                           experimentaltoassignments
+                                                                                                                                            SAWEA,for
+                                                                                                                                               study         which
+                                                                                                                                                       (Gottlieb  and uses the
+hing feature is that the each clausal      representation
+                                     clause,     and    it aims    at    aims
+                                                                       finding     at  determining
+                                                                                   globally      consistent      exactly
+                                                                                                                  partial     one
+                                                                                                                            variable    assignments.     Re-
+              bit string calling Voss,
+                             representation      1998b) relying
+                                                              and on          problem-specific
+                                                                        an from adaptive                 variation
+                                                                                                    fitness            operators and
+                                                                                                                   function           (Bäckfitness  functions
+                                                                                                                                                  et al.,       based
+                                                                                                                                                            1998;   Eiben and
+e solution, while a path is      ableon  to the
+                                        the   represent
+                                               Boolean
+                                                    number       aofamily
+                                                             function             of feasible
+                                                                      inconsistencies  Equation among solutions.
+                                                                                                       (1), the
+                                                                                                             eight   variable
+                                                                                                                  selected        assignments
+                                                                                                                               literals.   As theexist    for results
+                                                                                                                                                     obtained
+              van der Hauw,
+ e path representation                  1997),
+                              the variables
+                             was    evaluated
+                                       were            and
+                                                   occurring
+                                                         in an
+                                                 discouraging    which  comparedwe present
+                                                                   inexperimental
+                                                                        the   first  clause,
+                                                                                        to  the  and
+                                                                                                study   string  Section
+                                                                                                          in(Gottlieb
+                                                                                                   bit only      one of    them3.1.
+                                                                                                                              and
+                                                                                                                  representation,   causesno a  clause vio-
+                                                                                                                                             further   attempts have
+                              lation: been made to improve. this              In the    clausal
+                                                                                    representation.  representation,        a  solution     candidate    is a
+998b) relying on problem-specific              variation        operators          and     fitness       functions        based
+              2.3 The Clausal Representation
+                              combination         of       variable      assignments,        where       each    defines    all  variables    contained    in
+ number of inconsistencies         among
+                                       3 and
+                              one clause          the
+                                              Selected    selected
+                                                               Evolutionary
+                                                     only feasible         literals.     As     the
+                                                                                       Algorithmsare
+                                                                           variable assignments         obtained
+                                                                                                             and         results
+                                                                                                                     WSATThe solution candidate
+                                                                                                                  allowed.
+                                                                Feature               SAWEA                  RFEA                    FlipGA                    ASAP
+                             2 The
+                       Feature          Representation
+                                    SAWEA            RFEA           Issue
+                                                                     FlipGA              ASAP
+                                                   replacement                          steady-state    generational
+                   replacement                   steady-state generational
+                                                        parent
+                             2.1 The Bit String Representation                                              fitness
+                        parent          –        tournament           fitness–          tournament
+                                                                                           –
+                                                                                                                                 –
+                      selection
+                                                       selection proportional                           proportional
+                             The most
+                        fitness    J. SAW
+                                         obvious REF    way
+                                                        fitness
+                                      Gottlieb, E. Marchiori,
+                                                               to represent
+                                                              and C. Rossi
+                                                                      MAXSATSAW a solution   REF candidate
+                                                                                        MAXSAT
+                                                                                                               for SAT is aMAXSAT
+                                                                                                            MAXSAT             bit string of len
+                               , where
+                   initialization   randomevery random
+                                                     variable israndom
+                                                   initialization      associated to
+                                                                         random              one bit. While this representation is s
+                                                                                          random
+                                                                                       random              random            random
+                      crossover         –               –
+                                                      crossover      uniform –
+                             explanatory, the choice of an appropriate fitness             –   –           uniform
+                                                                                                       function    is important, – which can
+                      mutation                   knowledge-
+                                    MutOne the great                 random            random
+                                                                                        knowledge-                           random
+                             observed
+                                   Voss,by            mutationvariety     of  distinct
+                                                                         MutOne            functions    proposed
+                                                                                                           random     in literature  (De Jong a
+                                                      FITNESS
+                                          1998b). based
+                                                     Additional   heuristic   knowledgeadaptive
+                                                                                            can be captured
+                                                                                            based            in a refining function
+                                                                                                                             adaptive
+                             Spears, IB
+                    local search       1989; Eiben
+                                        –             and and
+                                                        –  used van
+                                                                 withinder
+                                                                  flip         Hauw,
+                                                                       heuristic    flip
+                                                                          the refined      1997;
+                                                                                         heuristic
+                                                                                       fitness     Frank, 1994; Gottlieb and Voss, 1998
+                                                                                               function
+                     adaptation      fitness Booleanlocal
+                                                     fitnesssearch           –                 –        flip heuristic flip heuristic
+                             The original                    function– itself might
+                                                              adaptation
+                                                                                       tabu list
+                                                                                        fitness  be used as fitness function since SAT so
+                                                                                                             fitness                      –                  tabu list
+                                                             REF
+                        tions correspond to global                 optima of . However, this approach typically fails becau
+                         to the
+            In additionthe   EAEAs,
+                                 wherewethe consider
+                                   degenerates        WSAT
+                                                      to
+                                              influence  ofpure(Selman
+                                                                is   random        1994)
+                                                                           et al.,by
+                                                                    controlled     search     comparison
+                                                                                         for.as  all
+                                                                                               Using  solution
+                                                                                                       an           candidates have fitness 0 u
+                                                                                                           influence level
+       purposes. WSAT is a popular
+                                 allows    local
+                                            In   search heuristic
+                                               addition
+                                          discrimination    to  the
+                                                            between    that evaluates
+                                                                       EAs,   we        solutions
+                                                                                   consider
+                                                                         chromosomes           WSAT
+                                                                                          satisfying    thesame
+                                                                                                    bythe(Selman     et
+                                                                                                                    umberal.,of1994)  forJong
+                                                                                                                                 clauses.  comparison
+                        lessclauses.
+       number of satisfied    a solution is found. Except for the fitness function proposed                                    by   De        and Spe
+                                 Higher   influence  levels   bias   the  evolutionary    search  towards      , which
+                                     purposes. WSAT is a popular local search heuristic that evaluates solutions by the can  be  helpful
+                        (1989) iffornumber
+                                      isarbitrary
+                                        designed      SAT
+                                                 of andof
+                                                               instances,
+                                                         adapted
+                                                    satisfied         in order to
+                                                                 clauses.
+                                                                                 allescape
+                                                                                      other    fitness
+                                                                                            from          functions
+                                                                                                   local optima.          assume
+                                                                                                                    Gottlieb   and Voss conjunctive n
+       3.1 SAWEA: Using Stepwise         Adaptation        Weights
+•     itselfand
+    f Eiben     - van
+                  notder  good
+                        mal   form.
+                                 (1998a)
+                                 of the
+                                        In the    MAXSAT
+                                          introduced    different kinds of
+                            Hauw (1997) examined evolutionary algorithms for 3-SAT, which
+                                        parameter     . Although
+                                                                   formulation,
+                                                                       adaptive
+                                                                               refiningthe    fitness
+                                                                                         functions
+                                                                                  parameter   control
+                                                                                                     andvalue
+                                                                                                       of
+                                                                                                                   is the
+                                                                                                                     equivalent
+                                                                                                          investigated
+                                                                                                             is  promising,
+                                                                                                                               influence
+                                                                                                                             the
+                                                                                                                                        to the number
+                                                                                                                                  results
+                        adaptation of3.1
+       use the stepwise satisfied    clauses,SAWEA:
+                                       weights          Using Stepwise
+                                                  i.e.,principle
+                                               (SAW)                             Adaptation
+                                                                    and the fitness   function of Weights
+                                    presented in Section 5 are based on using a constant value for , which is determined by
+• Number of satisfied clauses       some  Eiben
+                                              a priori  and      van der Hauw
+                                                             experiments.           Recently,
+                                                                                      MAXSAT  (1997)      examined
+                                                                                                   Gottlieb     and Vossevolutionary
+                                    SAWuse the stepwise adaptation of weights (SAW) principle and the fitness function
+                                                                                                                                 (2000) presented     algorithms
+                                                                                                                                                          improvements    for 3-SAT, which
+                                  J.that
+                                     Gottlieb,
+                                            led toE.the Marchiori,
+                                                               best andperforming C. Rossi  EA based on a refining function, which is called RFEA
+                           where                   represents
+                                                           orderintothe the          truth       value of   thatthe are th          clause. This fitness function is used
+• Weight the problematic clauses
+        The weights          IN areand is
+                                      adapted indescribed                     following.
+                                                                           identify     those clauses                      difficult to
+        satisfy in the current  search      RFEA
+                                           phase.       uses
+                                                        In   the  population
+                                                                   beginning,
+                           most EAs for SAT (Fleurent and Ferland, 1996; Folino        size
+                                                                                       all    4,  parent
+                                                                                            weights
+                                                                                           SAW         are   selection
+                                                                                                             initialized      byby   tournaments        of size Frank,
+                                                                                                                                              et al., 1998;         2, and a1994; Marchi
+          , which means that the MAXSAT
+                                    steady-statefitness              function is
+                                                           replacement            schemeused.    After
+                                                                                              based    oncertain
+                                                                                                            eliminatingtime the periods worst individual. Duplicate
+        ofUpdate           and Rossi,
+            250 fitness after                    1999;        Park,          1995;        Rossi       et in
+                                                                                                          al.,order2000).           As EAs          based        on     thisare fitness   functi
+    •   where
+                                some
+                                  Voss,
+                         evaluations,    the
+                                    elimination
+                                        IB
+                    is the current fittest
+                                          The   iterations
+                                             1998b).weights
+                                               weights
+                                               individual.
+                                                          is Additional
+                                                               are
+                                                              used,
+                                                             and
+                                                                     adjusted
+                                                                     used
+                                                                    This
+                                                                         i.e.,  IN
+                                                                                the are
+                                                                                  heuristic adapted
+                                                                                    according
+                                                                               within
+                                                                                      offspring
+                                                                             adaptation    the
+                                                                                                knowledge
+                                                                                                refined
+                                                                                              scheme
+                                                                                                    to
+                                                                                                    is rejected
+                                                                                                           fitness
+                                                                                                          increases
+                                                                                                                   can      to
+                                                                                                                      if itbe   captured
+                                                                                                                             is already
+                                                                                                                        function
+                                                                                                                           only
+                                                                                                                                 identify
+                                                                                                                                    those
+                                                                                                                                                 those
+                                                                                                                                            , in a    refining
+                                                                                                                                              contained  clauses
+                                                                                                                                                            in  the    that
+                                                                                                                                                                   function
+                                                                                                                                                                      current      difficult to
+                                          satisfy
+                                    population.          inThetheonlycurrent         search
+                                                                             variation           phase.is In
+                                                                                             operator         a   the
+                                                                                                                 mutation beginning,
+                                                                                                                                   operatorallthat weights
+                                                                                                                                                       selects are      initialized by
+                                                                                                                                                                   an unsat-
+        weights that 2  correspond to      unsatisfied          clauses       in      , and   therefore     the    weights         reflect
+                                                                                                                             Evolutionary           Computation                1
+                                                                                                                                                                             Volume
+                                                                                                                                                                                 time 10,  Numb
+• Refining function
+                                    isfied, clause
+                                               whichand       meansflips thatexactly the  one   randomly
+                                                                                            MAXSAT              chosen
+                                                                                                             fitness          variable
+                                                                                                                            function         contained
+                                                                                                                                             is used. Afterin  the certain
+                                                                                                                                                                     clause.          periods
+        the “hardness” of the associated
+                                    Besides         clauses.
+                                                   this           This
+                                                          problem-specific  implicitly
+                                                                              REF           forces
+                                                                                        mutation     the   evolutionary
+                                                                                                       operator,       the        search
+                                                                                                                              major      component       of  the   EA    is the
+                                          of 250 fitness evaluations, the weights are adjusted according to                                                                                    ,
+        to focus on these “difficult”
+                                    refining  clauses,
+                                                    function  and hence the search process is guided by the
+        weights.                          where                is  the
+                                  where the influence of is controlled by   current       fittest   individual.            This      adaptation
+                                                                                                                      . Using an influence level       scheme        increases     only  those
+              The SAW principleallowswas  weights
+                                              further       that     correspond
+                                                            studied by
+                                                discrimination                   Bäck et to
+                                                                             between         al. unsatisfied
+                                                                                                 (1998),
+                                                                                           chromosomes      who       clauses
+                                                                                                                     identifiedthe
+                                                                                                                 satisfying           inthesame, and   therefore
+                                                                                                                                                   number               the weights reflect
+                                                                                                                                                                of clauses.
+        most promising configuration
+                                  Higher  theas    “hardness”
+                                                     follows:
+                                                 influence          They
+                                                                  levels   of bias
+                                                                               the
+                                                                              employedassociated
+                                                                                      the     the        clauses.
+                                                                                                    MutOne
+                                                                                            evolutionary                 This
+                                                                                                                 operator,
+                                                                                                                 search            implicitly
+                                                                                                                                   which
+                                                                                                                              towards                    canthe
+                                                                                                                                                    forces
+                                                                                                                                               , which                evolutionary search
+                                                                                                                                                                be helpful
+        flips exactly one uniformly
+                                  if is    chosen
+                                          to     focus
+                                              designed    bit,
+                                                             on and
+                                                                and thesean    extinctive
+                                                                         adapted “difficult”
+                                                                                       in          clauses,
+                                                                                            order to     replacement
+                                                                                                        escape       fromhence
+                                                                                                                   and         scheme,
+                                                                                                                               local      the
+                                                                                                                                         optima. search           and is
+                                                                                                                                                            process
+                                                                                                                                                     Gottlieb            Vossguided by the
+        where the parameter (1998a) where
+                                     wasweights.
+                                             fine-tuned  IB for each problem      is defined  sizeby . That evolutionary and             al-       , and            IR is the
+                                                 introduced different kinds of refining functions and investigated the influence
+        gorithm, referred to as of  weight associated
+                                  SAWEA,            was further       toimproved
+                                                                            the variable   by de .JongHigh andpositive
+                                                                                                                   Kosters      weights
+                                                                                                                                  (1998),      indicate that the corre-
+                                       the parameterThe      SAW    . Although
+                                                                         principle      adaptive
+                                                                                            was       parameter
+                                                                                                   further      studied control   byofBäck  is et
+                                                                                                                                                promising,
+                                                                                                                                                     al. (1998),the results
+                                                                                                                                                                       who identified the
+        who suggested applying an   sponding additionalvariablesoperatorare   favored
+                                                                                 to  one to of be
+                                                                                               the1, while
+                                                                                                     offsprings  negative
+                                                                                                                       produced  weights by express a preference to
+                                  presented
+                                          most        in Section
+                                                      promising         5 are based
+                                                                             configuration on using  as afollows:
+                                                                                                          constant value   They      for ,
+                                                                                                                                      employedwhich is   determined
+                                                                                                                                                       the   MutOne         by
+                                                                                                                                                                             operator, which
+        MutOne. This additional     0. Initially,
+                                         operator the           weights are
+                                                          randomly            electset to
+                                                                                        some0 andclausesthenand adapted
+                                                                                                                     flips one  such  uni-that strong preferences are
+                                  someflips  a prioriexactlyexperiments.
+                                                                     one that      Recently,
+                                                                              uniformly           Gottlieb
+                                                                                                 chosen        and
+                                                                                                               bit,ThisVoss
+                                                                                                                       and an   (2000)     presented
+                                                                                                                                       extinctive        improvements
+                                                                                                                                                                   replacement scheme,
+                                    represented
+        formly chosen variable in each                    by high
+                                                   selected      clause   (absolute  is   value)
+                                                                                         not       weights.
+                                                                                              satisfied     yet.             approach
+                                  that led to the best performing EA based on a refining function, which is called RFEA
+        is called Lamarckian structural   where
+                                            Theerror the
+                                                     adaptation parameter
+                                                        assignment        ofandaims has at  was   fine-tuned
+                                                                                               escaping
+                                                                                           outperformed       from
+                                                                                                                SAW    for
+                                                                                                                        local each
+                                                                                                                           on a  optima       and is size
+                                                                                                                                         problem
+                                                                                                                                    large,             defined   . by
+                                                                                                                                                                   That evolutionary al-
+        3-SAT benchmark suite;and         is  described
+                                     we gorithm,
+                                           refer     to it as    in
+                                                              referred
+                                                                      the
+                                                                 LSAWEA.
+                                                                       ,
+                                                                             following.
+                                                                         where to as is     the current
+                                                                                         SAWEA,          was best    individual,
+                                                                                                                 further         improved by       represents
+                                                                                                                                                        de Jongtheand    set of
+                                                                                                                                                                              Kosters (1998),
+                                          RFEA uses population size 4, parent selection by tournaments of size 2, and a
+                                    unsatisfied
+                                          who            clauses
+                                                     suggested         containing
+                                                                            applying      theancorresponding
+                                                                                                  additional            variable,
+                                                                                                                       operator         and
+                                                                                                                                         to   one   of   denotes
+                                                                                                                                                        the            its
+                                                                                                                                                              offsprings   car- produced by
+        3.2 RFEA: Using Refining  steady-state
+                                            Functions
+                                    dinality.        Thisreplacement
+                                                             scheme              scheme
+                                                                             adjusts     thebased
+                                                                                              weights on eliminating
+                                                                                                           towards         thethe      worst individual.
+                                                                                                                                 complement          of the      Duplicate
+                                                                                                                                                              current      bestflips one uni-
+                                  elimination
+        The original idea of refining
+                                          MutOne.
+                                          functions     is      This
+                                                             used,     i.e.,
+                                                            wasisinspired
+                                                                           additional
+                                                                              the   offspring operator
+                                                                                                   is rejected randomly
+                                                                                                                    if  it is        selects
+                                                                                                                               already           some
+                                                                                                                                             contained    clauses
+                                                                                                                                                           in the       and
+                                                                                                                                                                     current
+                                    individual          and          referredby     to the   observation
+                                                                                         as AW2.       In that
+                                                                                                           addition,    many wediffer-
+                                                                                                                                    consider AW2+, a hybridized
+                                          formly
+                                  population.             chosen  onlyvariable            inoperator
+                                                                                              each     selected         clause        that is thatnot selects
+                                                                                                                                                       satisfied  an yet.     This approach
+        ent bit strings exist havingschemethe      that The
+                                                  same      quality
+                                                           incorporates     variation
+                                                                          concerning
+                                                                                  SAW tothe      MAXSAT
+                                                                                              accelerate is a   mutation
+                                                                                                              thefitness
+                                                                                                                    adaptation    operator
+                                                                                                                              formula-   process. The     scheme      unsat-
+                                                                                                                                                                       AW2+
+                                    Evolutionary Algorithms for the Satisfiability Problem
+                           EVAS FOR SAT
+
+             Table 1: Main features of selected evolutionary algorithms.
+
+          Feature       SAWEA        RFEA          FlipGA             ASAP
+       replacement                steady-state   generational
+           parent          –      tournament        fitness              –
+         selection                               proportional
+           fitness        SAW          REF           MAXSAT           MAXSAT
+       initialization   random      random          random           random
+         crossover         –            –           uniform             –
+         mutation       MutOne    knowledge-        random           random
+                                     based                           adaptive
+        local search       –            –        flip heuristic   flip heuristic
+         adaptation     fitness      fitness           –             tabu list
+
+
+    In addition to the EAs, we consider WSAT (Selman et al., 1994) for comparison
+purposes. WSAT is a popular local search heuristic that evaluates solutions by the
+number of satisfied clauses.
+
+3.1 SAWEA: Using Stepwise Adaptation of Weights
+Eiben and van der Hauw (1997) examined evolutionary algorithms for 3-SAT, which
+       OTHER TASKS - SCHEDULING
+
+
+• Scheduling is NP-hard:
+• Individual is a schedule, direct matrix encoding
+   •   Rows are teachers, columns classes, values are codes of subjects
+   •   Mutation – mix the subjects
+   •   Crossover – swap better rows from individuals
+• Fitness
+   •   Fitness of a row (how a teacher is satisfied)
+   •   Other soft criteria and constrains about the schedule quality
+• Hard constrains
+   •   Must respect in operators, otherwise too many inadmissible solutions are generated
+   •   Teachers constrains, when, where what to teach, …
+        OTHER TASKS – JOB SHOP
+            SCHEDULING
+
+
+• Production planning
+     • products o1…oN, from parts p1…pK, for each part more plans
+       how to produce it on machines m1…mM, machines have
+       different times for setup to a different product
+     • Fitness – production time
+• Encoding is critical:
+  • Permutation – plan is just a permutation of products order. Decoder
+    must choose plans for parts. Simple representation, can use TSP-
+    inspired crossovers. But shows not very efficient, decoder solves the
+    complicated part, TSP operators not suitable.
+  • Direct representation of individual as the complete plan –
+    specialized and complex evolutionary operators.
+GENETIC PROGRAMMING
+
+ The very basics of tree-based representations of
+ programs
+     EVOLUTION OF PROGRAMS
+
+
+• 1950s – Alan Turing proposes evolution of programs
+• 1980 – Forsyth – BEAGLE: A Darwinian Approach to
+  Pattern Recognition
+• Late 1980s – Tree representations were discussed among
+  Holland PhD students
+• 1985 Nichael Cramer – first description of tree individuals,
+• 1989 – John Koza – tree based GP as we know it now
+  (publication, patent)
+                    GENERAL GP
+
+
+• General structure of the GP algorithm:
+  • Generate initial population of random programs
+  • Evaluate the programs by running them and test on data
+  • Generate new population of programs:
+    • Selection based on fitness
+    • Crossover of two programs
+    • Mutation of programs
+  • As usual, repeat until a good enough solution is found
+                    TREE-BASED GP
+
+
+• John Koza, late 80s-early 90s:
+• Programs are represented as syntactic trees
+• Terminals are variables and constants
+• Non-terminals are operations
+• Crossover is a subtree exchange, non-terminals have typically bigger
+  probability to be a crossover point
+• Mutation replaces a subtree with random one
+• Fitness is determined by running the program
+• Selection is standard, often tournament
+• First examples in Lisp
+                              MUTATIONS
+
+
+• It is good (almost necessary) to use more mutation types:
+   •   Random or systematic mutation of constants
+       •   GP traditionally had problems fine-tuning numerical values
+       •   Thus, a specialized mutations of constants speed-up the algorithm
+       •   Either (any) arithmetic mutation on constants
+       •   Or iterations of hill-climbing or other optimization methods on one or all
+           constant set of the tree
+   •   Random exchange of a node for the same arity one
+   •   Permutations
+   •   Swap non-terminal for terminal
+   •   Mutations that decrease the size of the tree (smaller sub-tree, new individual from a
+       sub-tree, … )
+                    CROSSOVERS
+
+
+• Swap two subtrees
+• Uniform crossover – GPUX (Poli, Langdon)
+  • At early stages GPUX swaps large subtrees, as the population
+    converges the operator becomes more and more local.,
+  • Identify the common region C between two trees. Each node in
+    C is considered for crossover with a constant probability.
+  • Nodes in the interior of C are swapped without affecting the
+    subtrees rooted at these nodes.
+  • Nodes on the boundary of C - their subtrees are swapped.
+              INITIALIZATIONS
+
+
+• Random procedure how to generate trees from two sets –
+  terminals and non-terminals
+• Grow: Generate random trees from both sets till a limit on
+  number of nodes is reached
+• Full: Generate random trees from non-terminal till certain
+  depths, then only terminals are added
+• Ramped half-and-half: half of population by grow, half by full
+      WAY DOWN – LINEAR GP
+
+
+• Program is represented in a linear way, most often in some
+  machine/byte code
+• Simpler, some claim more natural representation
+• Simpler operators (crossover, mutation work on linear vectors)
+• Faster emulation of the run
+• But high risk of creating nonsense programs by mutations and
+  crossovers
+• Favourite representation in artificial life, evolution of bots and
+  control code in games
+           WAY UP – GRAPH GP
+
+
+• Program is not a tree, but a more general graph, often acyclic (DAG)
+• First considered as extensions of tree GP to parallel programs
+• Later it was discovered, that graph structures are really useful to
+  describe lots of things
+   • Evolution of circuits
+   • Finite automata, you guessed it
+   • Neural networks
+   • Reinforcement learning for robots, planning …
+• Complicated genetic operators – how to cross over general graphs
+

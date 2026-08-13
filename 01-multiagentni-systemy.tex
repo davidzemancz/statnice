@@ -471,6 +471,9 @@ koaliční
 naučená
   & maximalizace naučené $Q$-funkce / stochastická politika
   & Q-learning, actor-critic (kap.~\ref{sec:uceni}) \\
+generativní
+  & stav se zakóduje do promptu, výstup jazykového modelu se čte jako akce
+  & LLM agenti (\S\ref{ssec:llm-agenti}) \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1324,6 +1327,26 @@ Graf bývá zadán \emph{implicitně} nástupnickou funkcí (mřížka 4-/8-souv
 graf viditelnosti).
 \end{defbox}
 
+\paragraph{Odkud se vezmou vrcholy.} Prostředí je spojité, prohledávání potřebuje graf ---
+volba diskretizace rozhoduje o~kvalitě cesty víc než volba algoritmu:
+\begin{itemize}
+\item \textbf{Mřížka} (4- nebo 8-souvislá) --- triviální na implementaci, ale cesta je
+  \uv{schodovitá} a~vrcholů je mnoho.
+\item \textbf{Graf viditelnosti} --- vrcholy jsou rohy mnohoúhelníkových překážek, hrany
+  spojují vzájemně viditelné rohy. V~rovině s~mnohoúhelníkovými překážkami dá
+  \emph{skutečně optimální} cestu, ale roste kvadraticky s~počtem rohů.
+\item \textbf{Navigační síť} (\emph{navmesh}) --- prostor se pokryje konvexními plochami,
+  uvnitř nichž je pohyb volný; standard v~herních enginech a~robotice.
+\item \textbf{Stavová mřížka} --- vrchol není jen poloha, ale i~orientace (a případně
+  rychlost); nutné pro neholonomní vozidla, která se nemohou otáčet na místě.
+\item \textbf{Vzorkovací metody} --- \emph{PRM} (\emph{probabilistic roadmap}, předpočítaný
+  graf náhodných konfigurací) a~\emph{RRT}/\emph{RRT*} (inkrementálně rostoucí strom).
+  Jediná praktická volba pro vysokodimenzionální konfigurační prostory (rameno robota).
+\item \textbf{Potenciálová pole} --- cíl přitahuje, překážky odpuzují, agent jde po gradientu.
+  Velmi levné a~reaktivní (patří spíš do reaktivní vrstvy, \S\ref{ssec:subsumpce}), ale
+  \emph{uvíznou v~lokálním minimu} a~nedávají žádnou záruku úplnosti.
+\end{itemize}
+
 \subsection{A*}
 
 Prohledávání typu \emph{best-first} udržuje pro každý vrchol $n$ hodnoty
@@ -1373,6 +1396,22 @@ algoritmus}. Typické heuristiky na mřížce jsou manhattanská $|\Delta x| + |
 (4~směry), oktilová (8~směrů) a~eukleidovská. \textbf{Weighted A*} používá
 $f = g + \varepsilon h$, $\varepsilon > 1$ --- je rychlejší, ale nalezená cesta je nejvýše
 $\varepsilon\times$ dražší; \textbf{IDA*} šetří paměť ($O(d)$ místo exponenciální).
+
+\paragraph{Zařazení mezi prohledávací algoritmy.} A* je jeden bod na škále, na jejíchž koncích
+stojí dvě krajnosti: \emph{BFS} a~\emph{Dijkstra/uniform-cost} berou v~úvahu jen dosavadní cenu
+$g$ (úplné a~optimální, ale prohledávají všemi směry stejně), zatímco \emph{greedy best-first}
+bere jen odhad $h$ (rychlé, ale \emph{neoptimální} a~snadno se dá svést). A* obojí kombinuje
+a~je optimální při přípustné $h$. Obousměrné prohledávání (současně od startu a~od cíle)
+řádově zmenšuje prohledaný objem.
+
+\paragraph{Zrychlení bez ztráty optimality.} Na mřížkách se používá \textbf{JPS}
+(\emph{jump point search}): mřížka má obrovské množství stejně dlouhých cest lišících se jen
+pořadím kroků, JPS tuto symetrii odstraní tím, že přeskakuje \uv{nezajímavé} vrcholy
+a~expanduje jen \emph{skokové body}. \textbf{Theta*} a~další \emph{any-angle} algoritmy
+uvolňují požadavek, aby cesta vedla po hranách mřížky --- při expanzi zkusí napojit vrchol
+přímo na \emph{dědečka}, je-li mezi nimi přímá viditelnost, a~dají tak podstatně kratší
+a~přirozenější cesty. \textbf{HPA*} (\emph{hierarchical}) rozdělí mapu na clustery, předpočítá
+cesty mezi jejich vstupy a~hledá nejdřív hrubě mezi clustery a~teprve pak uvnitř nich.
 
 \medskip
 \noindent\textbf{Malý příklad.} Mřížka $3\times3$, pohyb do 4~směrů, cena hrany $1$,
@@ -1450,6 +1489,15 @@ na dva potomky --- do každého se přidá omezení pro jednoho z~kolidujících
 se \emph{jen} on.
 \end{defbox}
 
+\textbf{Škálovatelné varianty.} Optimální CBS zvládá desítky agentů; pro stovky až tisíce
+(sklady Amazon/Kiva) se optimalita obětuje kontrolovaným způsobem:
+\emph{ECBS} (\emph{bounded suboptimal} --- na obou úrovních se používá \emph{focal search}
+a~výsledek je zaručeně nejvýše $w\times$ horší než optimum), \emph{SIPP}
+(\emph{safe interval path planning} --- místo jednotlivých časových kroků se pracuje se
+\emph{souvislými intervaly}, v~nichž je vrchol volný, takže stavový prostor nezávisí na délce
+horizontu) a~\emph{MAPF-LNS} (\emph{large neighborhood search} --- opakovaně se zahodí a~znovu
+naplánují cesty malé podmnožiny agentů).
+
 \subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
@@ -1462,7 +1510,12 @@ se \emph{jen} on.
   optimální MAPF je NP-těžký.
 \item Prioritizované plánování / Cooperative A* s~rezervační tabulkou --- rychlé, ale neúplné.
   \textbf{CBS} --- nízká úroveň A* s~omezeními, vysoká úroveň větvení stromu omezení podle
-  konfliktu; optimální a~úplný.
+  konfliktu; optimální a~úplný. Škálovatelně: ECBS, SIPP, LNS.
+\item Diskretizace prostoru rozhoduje o~kvalitě cesty víc než algoritmus: mřížka, graf
+  viditelnosti (optimální v~rovině s~mnohoúhelníky), navmesh, stavová mřížka, PRM/RRT
+  (vysoké dimenze), potenciálová pole (levná, uvíznou v~lokálním minimu).
+\item Zařazení: BFS/Dijkstra berou jen $g$, greedy best-first jen $h$, A* obojí. Zrychlení
+  bez ztráty optimality: JPS (symetrie v~mřížce), Theta* (any-angle), HPA* (hierarchie).
 \end{itemize}
 
 %=====================================================================
@@ -1753,6 +1806,7 @@ Povšimněte si, že efektem \emph{Inform} \emph{není} \uv{posluchač uvěří 
 kdo řekne --- to je přesně ten rozdíl oproti volání metody.
 
 \subsection{KQML a~FIPA-ACL}
+\label{ssec:kqml-acl}
 
 \begin{defbox}[KQML --- \emph{Knowledge Query and Manipulation Language}]
 Vznikl v~90.~letech v~rámci projektu DARPA \emph{Knowledge Sharing Effort} (KSE) společně s~KIF.
@@ -2344,6 +2398,13 @@ se ptá opačně: jak z~individuálních preferencí \emph{odvodit} kolektivní 
 nikoli většinové hlasování); \emph{Slaterův systém} (acyklické uspořádání minimalizující počet
 obrácených hran v~turnajovém grafu --- NP-těžké).
 
+\textbf{Bordovy kombinace} opravují hlavní slabinu Bordovy metody --- to, že nemusí zvolit
+Condorcetova vítěze. Všechny tři ho zvolí, pokud existuje:
+\emph{Blackova metoda} (nejdřív zkus Condorcetovu metodu; není-li vítěz, vezmi Bordova);
+\emph{Baldwinova metoda} (spočti Bordova skóre, vyřaď kandidáta s~nejnižším, skóre
+\emph{přepočti} jen mezi zbylými a~opakuj); \emph{Nansonova metoda} (totéž, ale v~každém kole
+se vyřadí všichni pod průměrem --- rychlejší konvergence).
+
 Vítěz prosté většiny nemusí být většinový: při $o_1 = 40~\%$, $o_2 = 30~\%$, $o_3 = 30~\%$
 vyhrává $o_1$, ačkoli ho 60~\% voličů nechtělo. Odtud \textbf{taktické hlasování}.
 
@@ -2819,6 +2880,7 @@ kredit na více předchozích kroků.
 \end{defbox}
 
 \subsection{Metody založené na politice}
+\label{ssec:policy-metody}
 
 \begin{defbox}[Policy gradient a~actor--critic]
 Namísto hodnotových funkcí lze optimalizovat \emph{přímo politiku}. Politiku parametrizujeme
@@ -2841,6 +2903,30 @@ Varianty: A3C, A2C, PPO, SAC, DDPG.
 \textbf{Hluboké RL:} \textbf{DQN} nahrazuje tabulku $Q$ neuronovou sítí; klíčové triky jsou
 \emph{experience replay} (rozbití korelací mezi vzorky) a~\emph{target network} (stabilizace
 cíle).
+\end{defbox}
+
+\paragraph{Proč hluboké RL potřebuje ty triky: smrtící trojice.} Konvergenční záruky
+Q-learningu platí pro \emph{tabulkovou} reprezentaci. Sejdou-li se současně tři věci ---
+\textbf{aproximace hodnotové funkce} (neuronová síť místo tabulky), \textbf{bootstrapping}
+(cíl aktualizace obsahuje vlastní odhad $\max_{a'} Q(s',a')$) a~\textbf{off-policy učení}
+(data pocházejí z~jiné politiky, než kterou se učíme) --- může učení \emph{divergovat}.
+Sutton a~Barto tuto trojici nazývají \emph{deadly triad}. Každá dvojice sama o~sobě je
+zvládnutelná; DQN se s~ní vyrovnává právě replay bufferem a~zamrzlou cílovou sítí, které
+oslabují druhý a~třetí člen.
+
+\begin{defbox}[Tvarování odměny (\emph{reward shaping})]
+Řídká odměna (agent dostane signál až v~cíli) činí učení prakticky neproveditelným, proto se
+odměna doplňuje o~průběžné nápovědy $F(s,a,s')$. Naivní doplnění ale mění optimální politiku
+--- agent se naučí sbírat nápovědy místo řešit úlohu.
+
+\textbf{Ng, Harada, Russell (1999):} doplnění tvaru
+\[
+F(s,a,s') \;=\; \gamma\,\Phi(s') - \Phi(s)
+\]
+pro libovolnou \emph{potenciálovou funkci} $\Phi : S \to \mathbb{R}$ zachovává množinu
+optimálních politik --- a~je to jediný tvar, který to zaručuje pro všechny MDP.
+Intuice: součet takových přírůstků po libovolné cestě teleskopicky závisí jen na koncových
+bodech, nikoli na tom, kudy agent šel, takže cykly se nevyplatí.
 \end{defbox}
 
 \subsection{Multiagentní zpětnovazební učení}
@@ -2899,8 +2985,11 @@ metody.
 \item \textbf{SARSA}: $\dots + \alpha[r + \gamma Q(s',a') - Q(s,a)]$, on-policy, opatrnější
   (cliff walking). $\varepsilon$-greedy jako řešení dilematu průzkum/využití.
 \item \textbf{Policy gradient} (REINFORCE, $\nabla \ln \pi$ krát výnos) a~\textbf{actor-critic}
-  (herec = politika, kritik = hodnotová funkce, výhoda $A = Q - V$); DQN (replay buffer,
-  target network).
+  (herec = politika, kritik = hodnotová funkce, výhoda $A = Q - V$); A3C jako asynchronní
+  varianta; DQN (replay buffer, target network).
+\item \textbf{Smrtící trojice}: aproximace $+$ bootstrapping $+$ off-policy může divergovat ---
+  proto ty triky v~DQN. \textbf{Tvarování odměny}: jen potenciálový tvar
+  $F = \gamma\Phi(s')-\Phi(s)$ zaručeně nemění optimální politiku.
 \item \textbf{Markovská hra} = MDP pro $N$ agentů se sdruženým akčním prostorem
   a~individuálními odměnami; nejlepší odpověď, Nashovo ekvilibrium, Pareto-optimalita.
   \textbf{Minimax-Q} (nulový součet, LP v~každé aktualizaci), Nash-Q (obecný součet).
@@ -2970,6 +3059,7 @@ Standard dále definuje jazyk ACL, obsahové jazyky (SL), interakční protokoly
 \end{defbox}
 
 \subsection{Jazyky a~prostředí}
+\label{ssec:jazyky}
 
 \noindent\mimoq{AGENT-0 a~Concurrent MetateM ve slidech nejsou; JADE a~Jason ano}
 Historickým východiskem je \textbf{agentově orientované programování} (Shoham 1993) ---
@@ -3024,6 +3114,55 @@ Jadex staví BDI vrstvu nad JADE); \emph{MASON}, \emph{Repast} a~\emph{GAMA} (si
 platformy pro agentní modely); \emph{PettingZoo}, \emph{Gymnasium} a~\emph{OpenSpiel}
 (standardní prostředí pro multiagentní zpětnovazební učení).
 
+\subsection{Agenti postavení na velkých jazykových modelech}
+\label{ssec:llm-agenti}
+
+\noindent\mimoq{nově ve slidech verze 2025 (kapitola \emph{LLM Agents})}
+
+Poslední přírůstek do rodiny mechanismů výběru akcí (\S\ref{ssec:vyber-akci}) nepoužívá ani
+dedukci, ani pravidla, ani naučenou $Q$-funkci, nýbrž \textbf{velký jazykový model} (LLM).
+Agent je pak smyčka, v~níž se stav prostředí zakóduje do textového promptu a~výstup modelu se
+interpretuje jako akce.
+
+\begin{defbox}[LLM v~roli komponenty agenta]
+\begin{itemize}
+\item \textbf{LLM jako politika} (\emph{action selection}). Prompt obsahuje popis role, stav
+  prostředí a~seznam dostupných akcí; výstupem je zvolená akce. Odpovídá funkci
+  $\mathit{action} : I \to A$ z~abstraktní architektury --- vnitřním stavem $I$ je kontextové
+  okno (případně externí paměť).
+\item \textbf{LLM jako plánovač.} Model dekomponuje cíl na podcíle a~generuje kandidátní plány;
+  prohledávání prostoru plánů řídí buď model sám (\emph{chain of thought}, \emph{ReAct}), nebo
+  vnější prohledávací algoritmus, jemuž model slouží jako generátor nástupníků a~jako
+  heuristika.
+\item \textbf{LLM jako kritik.} Ve schématu \emph{actor--critic} (\S\ref{ssec:policy-metody})
+  hodnotí model kvalitu provedené akce nebo celé trajektorie a~poskytuje zpětnou vazbu tam,
+  kde prostředí skalární odměnu nedává.
+\item \textbf{LLM jako rozhraní k~nástrojům} (\emph{tool use}). Model volí, který externí
+  nástroj (vyhledávání, kalkulátor, API, jiný agent) zavolat a~s~jakými argumenty --- to je
+  přímá obdoba \emph{služeb} registrovaných v~DF a~volání přes ACL.
+\item \textbf{Učení s~člověkem ve smyčce} (\emph{human-in-the-loop}): člověk opravuje
+  a~doplňuje zpětnou vazbu, podle níž se upravuje prompt, paměť nebo váhy modelu.
+\end{itemize}
+\end{defbox}
+
+\textbf{Typické nasazení --- agentové simulace.} Nejčastější aplikací nejsou optimalizační
+úlohy, ale \emph{agent-based modeling} (\S\ref{ssec:jazyky}, NetLogo), kde LLM agent nahradí
+jednoduchého reaktivního agenta a~dodá mu doménovou znalost i~jazykové chování:
+\begin{itemize}
+\item \emph{Šíření informací v~sociální síti.} Agenti jsou uzly grafu sociálních interakcí,
+  zprávu si předávají v~přirozeném jazyce a~sleduje se rychlost a~tvar šíření zprávy sítí.
+\item \emph{Syntetický volební panel.} Populace agentů je vygenerována podle sociologických
+  průzkumů (demografie, postoje) a~používá se k~odhadu výsledků voleb nebo reakce na kampaň.
+\end{itemize}
+
+\textbf{Zařazení a~kritika.} Z~hlediska okruhu jde o~další rodinu mechanismů výběru akcí ---
+subsymbolickou jako neuronové sítě, ale s~výrazně širší doménovou znalostí a~bez nutnosti
+trénovat model úlohy. Slabiny jsou zrcadlovým obrazem jejích silných stránek: agent nemá
+explicitní model světa (nelze o~něm dokazovat tvrzení jako u~deduktivního agenta),
+sémantika jeho \uv{přesvědčení} je \textbf{neverifikovatelná} ve stejném smyslu jako
+u~FIPA-ACL (\S\ref{ssec:kqml-acl}), chování je nedeterministické a~cena jednoho rozhodnutí je
+o~několik řádů vyšší než u~pravidlového agenta.
+
 \subsection{Shrnutí ke~zkoušce}
 
 \begin{itemize}
@@ -3040,6 +3179,11 @@ platformy pro agentní modely); \emph{PettingZoo}, \emph{Gymnasium} a~\emph{Open
   hotové protokoly a~ladicí nástroje. \textbf{Jason/AgentSpeak} = BDI jazyk,
   plán \texttt{spouštěč : kontext <- tělo}, potomek PRS. \textbf{NetLogo} = ABM simulace
   (turtles/patches/links). \textbf{SPADE} = Python + XMPP.
+\item \textbf{LLM agenti}: jazykový model jako \emph{politika} (prompt $\to$ akce),
+  \emph{plánovač}, \emph{kritik} v~actor-critic a~rozhraní pro \emph{volání nástrojů};
+  nasazení hlavně v~agentových simulacích (šíření zpráv sítí, syntetický volební panel).
+  Další rodina mechanismů výběru akcí --- bez explicitního modelu světa
+  a~s~neverifikovatelnou sémantikou přesvědčení, zato se širokou doménovou znalostí.
 \end{itemize}
 
 \section*{Závěrem: jak na zkoušku}

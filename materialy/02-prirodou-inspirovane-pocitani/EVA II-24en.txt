@@ -1,0 +1,1850 @@
+EVA II
+NAIL 086 – 2023/24
+Roman Neruda
+Introduction
+Themes, outlines, resources.
+Literature
+• Mitchell, M.: Introduction to Genetic Algorithms. MIT Press, 1996.
+• Eiben, A.E and Smith, J.E.: Introduction to Evolutionary Computing,
+  Springer, 2007.
+• Michalewicz Z.: Genetic Algorithms + Data Structures = Evolution
+  Programs (3ed), Springer, 1996
+• Holland, J.: Adaptation in Natural and Artificial Systems, MIT Press,
+  1992 (2nd ed).
+• Current papers/surveys
+Themes
+• Theory of GA revisited – (in)finite populations, Markov chains, black box
+  optimization
+• Evolutionary programming
+• Genetic programming – going deeper
+• Scatter search, Tabu search
+• CMA-ES and similar modern (evolutionary) strategies
+• Artificial life, PSO, ants, and similar animals/algorithms
+• Neuroevolution – grammatical encoding, cellular encoding, NEAT,
+  HyperNEAT, Deep neuroevolution included a lot
+• Memetic algorithms
+• Tuning, control, meta-evolution, co-evolution
+Genetic programming
+Going deeper
+
+R. Poli et al: A Field Guide to Genetic Programming, 2008,
+http://www.gp-field-guide.org.uk
+Evolution of programs
+• 1950s – Alan Turing proposes evolution of programs
+• 1980 – Forsyth – BEAGLE: A Darwinian Approach to Pattern
+  Recognition
+• Late 1980s – Tree representations were discussed among Holland PhD
+  students
+• 1985 Nichael Cramer – first description of tree individuals,
+• 1989 – John Koza – tree based GP as we know it now (publication,
+  patent)
+
+
+                          ROMAN NERUDA: EVA1 - 2023/2024
+General GP
+• General structure of the GP algorithm:
+   • Generate initial population of random programs
+   • Evaluate the programs by running them and test on data
+   • Generate new population of programs:
+      • Selection based on fitness
+      • Crossover of two programs
+      • Mutation of programs
+   • As usual, repeat until a good enough solution is found
+
+
+
+
+                                     ROMAN NERUDA: EVA1 - 2023/2024
+Way down – linear GP
+ • Program is represented in a linear way, most often in some machine/byte
+   code
+ • Simpler, some claim more natural representation
+ • Simpler operators (crossover, mutation work on linear vectors)
+ • Faster emulation of the run
+ • But high risk of creating nonsense programs by mutations and crossovers
+ • Favourite representation in artificial life, evolution of bots and control code in
+   games
+
+
+
+
+                               ROMAN NERUDA: EVA1 - 2023/2024
+Way up – graph gp
+ • Program is not a tree, but a more general graph, often acyclic (DAG)
+ • First considered as extensions of tree GP to parallel programs
+ • Later it was discovered, that graph structures are really useful to describe lots
+   of things
+    • Evolution of circuits
+    • Finite automata, you guessed it
+    • Neural networks
+    • Reinforcement learning for robots, planning …
+ • Complicated genetic operators – how to cross over general graphs
+
+
+
+
+                                 ROMAN NERUDA: EVA1 - 2023/2024
+Tree-based GP
+• John Koza, late 80s-early 90s:
+• Programs are represented as syntactic trees
+• Terminals are variables and constants
+• Non-terminals are operations
+• Crossover is a subtree exchange, non-terminals have typically bigger
+  probability to be a crossover point
+• Mutation replaces a subtree with random one
+• Fitness is determined by running the program
+• Selection is standard, often tournament
+• First examples in Lisp
+                              ROMAN NERUDA: EVA1 - 2023/2024
+Initializations
+  • Random procedure how to generate trees from two sets – terminals and non-
+    terminals
+  • Grow: Generate random trees from both sets till a limit on number of nodes
+    is reached
+  • Full: Generate random trees from non-terminal till certain depths, then only
+    terminals are added
+  • Ramped half-and-half: half of population by grow, half by full
+
+
+
+
+                              ROMAN NERUDA: EVA1 - 2023/2024
+Mutations
+• It is good (almost necessary) to use more mutation types:
+   • Random or systematic mutation of constants
+      • GP traditionally had problems fine-tuning numerical values
+      • Thus, a specialized mutations of constants speed-up the algorithm
+      • Either (any) arithmetic mutation on constants
+      • Or iterations of hill-climbing or other optimization methods on one or all constant set of
+        the tree
+   • Random exchange of a node for the same arity one
+   • Permutations
+   • Swap non-terminal for terminal
+   • Mutations that decrease the size of the tree (smaller sub-tree, new individual
+     from a sub-tree, … )
+
+                                    ROMAN NERUDA: EVA1 - 2023/2024
+Crossovers
+• Swap two subtrees
+• Uniform crossover – GPUX (Poli, Langdon)
+   • At early stages GPUX swaps large subtrees, as the population converges the
+     operator becomes more and more local.,
+   • Identify the common region C between two trees. Each node in C is
+     considered for crossover with a constant probability.
+   • Nodes in the interior of C are swapped without affecting the subtrees rooted
+     at these nodes.
+   • Nodes on the boundary of C - their subtrees are swapped.
+
+
+
+                               ROMAN NERUDA: EVA1 - 2023/2024
+Bloat of GP programs
+• Programs in GP have tendencies to grow in size - bloat
+• In nature, the extensive growth hits some physical limit that prevents
+  excesses
+• In GP we must fight bloat explicitly:
+   • Limit tree size (no. of nodes), limit tree depth:
+      • Penalize it as a negative term in fitness
+      • Or, check and repair/eliminate new individuals
+   • Anti-bloat operators:
+      • Watch mutation and crossover so that do not enlarge much
+      • Or, special mutations making trees smaller
+Variations of tree-based GP
+• Initializations
+   • Ramped half-and-half creates bushier rather regular tree shapes, suitable for
+     problems with “symmetries” where all inputs are of similar importance
+   • Uniform sampling from all possible trees
+       • More irregular shapes, some terminals are closer to the root
+   • Seeding
+       • Initialize population with partial solution to the problem
+       • Experiment with human expert solutions or “useful” patterns
+       • Danger of premature convergence
+   • Crossover and mutation tend to mix population fast
+Variations of tree-based GP
+• Mutations
+    • Mutations of trees
+    • Mutations of constants
+    • Mutations to fight bloat
+• Subtree mutation
+• Size fair subtree mutation – sample the size of a subtree
+• Node replacement mutation – arity preserving
+• Hoist mutation – replace individual by its subtree
+• Shrink mutation – replace subtree with terminal
+• Permutation mutation – swap subtrees of a non-terminal
+• Mutating constants at random
+• Mutating all constants by optimization algorithm
+Variations of tree-based GP
+  • Homologous crossover – tries to preserve the position of genetic material in
+    both parents
+  • Identify common region in both parents – going from root, check for nodes
+    with same parity (not necessarily the same function)
+     • One-point crossover – choose crossover points from this common region
+     • Uniform crossover – iterate through common region and choose a node (with a subtree
+       if there is) at random from either parent
+  • Context preserving crossover – identify coordinates of nodes (a sequence of
+    directions in nodes on path from root)
+     • Strong – allow crossover only on nodes with same coordinates
+     • Weak – choose one node in one parent, and any subtree of node with the same
+       coordinates in the second parent
+Common region and one-point                                                                 Context preserving crossover
+crossover                                                                                   - coordinates of nodes
+    5.3 GP Crossover                                                                   45
+
+       Parent 1                Parent 2
+ 2 Node
+     +  Coordinates
+              *
+                                               Parent 1
+                                                                 +*
+                                                                                  Common                                   ()
+
+     sin       +                                          sin*          +*         Region
+                               *       *
+                                        Alignment                             Parent 2
+       The position of each node             in a rooted tree can be              uniquely                                 (2)
+      x     x    x y    y y       *                        y x y xy      x*
+ identified by specifying the path to be followed from the root to reach
+ this specific node. A ynode's      y    position can therefore        y    be
+                                                                             y described by a                      (2,1)
+ tuple of n coordinates T = (b1, b2, ...,Common     Selection of
+                                                        bn), where n is the depth of the                                   (2,1,3)
+ nodeOffspring
+          in the1 tree,   and b indicates which
+                      Offspring 2 i
+                                                            branch to choose at level i
+                                                  Crossover Point
+                                                                        Crossover Point
+ (counting +
+                left to right). For example, (2,1,3,1)           +
+                                                                     would be the node                                     (2,1,3,1)
+                            *                                      *
+ found by taking the 2nd branch          Swapat the root of the tree, then take the
+                                 +
+ firstsinbranch* at that*   level,                          sin*
+                                                   Parent 1branch
+                                      then the third                 + * Parent 2
+                                                                     there, and then the first.   Figure 1: Rooted tree with tree coordinates.
+      x    y       *       y       y   x   x          y x        y xy        x*
+
+               y       y
+ 3 Strong Context Preserving Crossovery (SCPC):
+                                          y
+
+
+    Figure 5.1: Example of one-point crossover between parents of di↵erent
+    sizes
+      SCPCand shapes.
+               only allows subtrees to be chosen for crossover if the nodes at which these subtrees are found in the
+ parent trees have exactly the same node coordinates (see Figure 2).
+      This
+    each     operator
+         locus to         imposesthequite
+                  decide whether              severe o↵spring
+                                        corresponding   restrictions
+                                                                  node on    which nodes of the tree are eligible to be selected for
+                                                                        should be
+    picked from the first or the second parent. If a node to be inherited belongs
+ crossover. In fact, it can easily be seen that using this technique, a subtree generated at a certain level in a certain
+ADF
+• Automatically defined functions
+   • Subprograms – necessary to achieve modularity, higher complexity, represent
+     symmetries in the problem
+• Characterized by their arity,
+• Have limited (or different) terminal and non-terminal sets
+• A program typically has main() routine and one or more ADF subtrees
+   • ADF call becomes a new non-terminal in the main program
+• GP operators work on mains and ADFs separately, the routines are not
+  mixed together
+• Specialized code constructs have been proposed based on ADF approach:
+  automatically defined loops, iterations, recursions …
+• Alternative approach – co-evolution of population of mains and ADFs
+Enforcing particular structures
+• Types
+   • Strongly typed GP – check strict types
+   • Type hierarchies – complex
+• Grammar-based GP
+   • Specify the form of suitable trees by a grammar
+   • Use the grammar for initialization
+   • and as a guide for operators
+Way down: linear GP
+• Program is represented in a linear way, most often in some
+  machine/byte code
+   • simpler operators, but high risk of creating nonsense programs by mutations
+     and crossovers
+• Example – Tierra by T. Ray
+   • Simulations of artificial ecosystem
+   • Individuals are self-copying programs in machine code competing for memory
+     and run-time
+   • Emergent behavior
+          • Check Avida and Avida-ED successors https://avida-ed.msu.edu/
+          • Check T.Ray interview https://youtu.be/Wl5rRGVD0QI
+Way up, graph GP
+• Graph-based GP:
+  • Program is not a tree, but a more general graph, often acyclic (DAG)
+  • First considered as extensions of tree GP to parallel programs
+  • Later it was discovered, that graph structures are really useful to describe lots
+    of things
+     • Evolution of circuits
+     • Finite automata, you guessed it
+     • Neural networks
+     • Reinforcement learning for robots, planning …
+  • Complicated genetic operators – how to cross over general graphs (EP made it
+    illegal)
+This is also GP
+Developmental GP
+Grammatical Evolution
+Cartesian GP
+Developmental GP
+Evolve trees that grow graphs
+Developmental GP
+• Instead of evolving general graph structures, evolve trees that
+  represent a “program” to grow/develop a general graph
+• Used in various application areas
+   • Koza – evolving electrical circuits
+   • Gruau – evolving neural network structures
+   • Auto-ML – evolution of scikit-learn ML models
+• Start with “embryo”,
+• Operations for structure – parallel, serial, 3-tier, …
+• Operations for elements – resistors, capacitors, …
+Evolving electrical circuit
+… utilizing ADFs
+Auto-ML
+Grammatical evolution
+Evolve grammar derivation trees
+Grammatical evolution (GE)
+• Consider a (context free) grammar
+   • a list of (numbered) rules
+   • containing non-terminal and terminal symbols
+   • with initial symbol
+• By applying the rules, one finally creates a valid word in the language
+  described by the grammar
+• This can be represented by a derivation (parse) tree
+• And, the sequential application of rules can be represented by a
+  sequence of their numbers
+Grammar and 2 derivation trees
+GE – genotype and phenotype
+• We have a fixed grammar
+• Genotype is linear – a variable-length list of integers representing
+  rules of the grammar to be applied
+• To make encoding robust, a modulus operation is used to get rule
+  number from (any) integer
+• From genotype we get derivation sequence and a derivation tree.
+• Phenotype is a syntax tree obtained from derivation tree by
+  reduction.
+GE wrap-up
+• The genome is linear
+   • we can use standard GA operators for evolution
+• The genome maps into GP tree in a simple way
+   • The MOD operator
+   • Some technical issues to prevent large trees to be derived
+       • wrap up operator that fires after limit size is reached
+       • Low fitness for infeasible individuals
+       • Repair mechanisms (after size limit, remove non-terminal expanding rules from the grammar)
+• The genetic operators are not “local”
+   • Small change in genotype can produce big change in the tree
+• Grammatical swarm – PSO used for search
+Cartesian GP
+Represent graph using cartesian coordinates
+Cartesian genetic programming
+• Evolving general graph structures is difficult
+• Let us represent a directed acyclic graph by its planar image in a 2D
+  mesh with (x,y) coordinates of nodes – this is the phenotype
+• Genotype is a linear sequence of nodes describing:
+   • The node
+   • Inputs to the node
+   • Function the node performs
+   • Output nodes of the graph
+CGP phenotype and genotype
+CGP Example – digital circuit
+
+
+
+
+         Functions are represented as a lookup table 0 = AND, 1 = AND with
+         one input inverted, 2 = XOR, 3 = OR
+CGP algorithm
+• The initial parameters of CGP:
+   • Functional set, Size of the mesh of nodes Depth of connections
+   • Mutation and crossover probabilities
+• Mutation
+   • Point mutation in a linear genome
+   • Careful – the mutation always provides valid functions, valid connections
+   • Still small changes can have big effects on the phenotype
+CGP algorithm
+• Crossover
+   • Less important
+   • naïve 1-point found too disruptive
+   • Version of arithmetic crossover
+   • Careful
+      • cross on nodes boundaries
+• Selections:
+   • (1+L) strategy, where L is typically 4
+
+• The genome is general, DAG is not a necessary constrain
+CGP algorithm
+Evolution of cooperation
+Prisoners and their dilemma, Nash, von Neumann, Axelrod, Dawkins
+
+
+
+
+                              ROMAN NERUDA: EVA1 - 2023/2024
+Altruism vs. Darwinism ?
+• Darwinism is inherently competitive – survival of the fittest
+                   •   Social Darwinism – backing the laissez-faire („let it be“) capitalism
+                   •   Andrew Carnegie, The Gospel of Wealth, 1900 While the law of competition may be sometimes hard for the individual, it is best for the race,
+                       because it ensures the survival of the fittest in every department. We accept and welcome, therefore, as conditions to which we must
+                       accommodate ourselves, great inequality of environment; the concentration of business, industrial and commercial, in the hands of the few;
+                       and the law of competition between these, as being not only beneficial, but essential to the future progress of the race.
+• But there is a lot of cooperation both in nature and society
+• The main problem of evolutionary (social) biology:
+• How can altruistic behavior be evolved, when it (by definition) decreases a fitness of an individual?
+
+
+
+
+                                                              ROMAN NERUDA: EVA1 - 2023/2024
+Theories of evolution of altruism
+• Group selection
+                  •   Evolution can work on groups of individuals (Darwin)
+                  •   How to explain individuals who cheat and do not help
+• Kin selection
+                  •   Preservation of almost identical genes in close relatives
+                  •   How to explain altruism of strangers, even other species
+
+• Dawkins, selfish gene
+                  •   The unit of evolution is a gene, not an individual
+                  •   Wilson: „the organism is only DNA's way of making more DNA.“
+
+• Trivers, 1971: reciprocal altruism
+                   • Mutual benefits for both organisms (even different species)
+                   • Shadow of the future, parallel with iterated prisoner's dilemma
+
+
+
+
+                                                              ROMAN NERUDA: EVA1 - 2023/2024
+Prisoner’s dilemma
+
+       i/j        C          D                      i/j           C     D
+       C          -1 / -1    -3 / 0                 C             R/R   S/T
+       D          0 / -3     -2 / -2                D             T/S   P/P
+
+
+
+      •Temptation > Reward > Penalty
+      > Suckers payoff
+      • R>P: mutual cooperation is
+      better than mutual deception
+      • T>R and P>S: deception is a
+      dominant strategy for both
+      players
+      • (50s - RAND corp.)
+                                 ROMAN NERUDA: EVA1 - 2023/2024
+Nash
+• A strategy s is dominant for agent i, if it gives better or the same
+  result than any other strategy of an agent i against all strategies of
+  agent j
+• Strategies si and sj are in Nash equilibrium, if:
+   • If agent i plays strategy si, agent j does best with strategy sj
+   • If j plays sj, i does best with si
+• Or, si and sj are the best mutual answers to each other
+• These are called pure strategies
+
+
+                                  ROMAN NERUDA: EVA1 - 2023/2024
+Nash in mixed strategies
+• Mixed strategies – random
+  selection among pure strategies
+• Nash theorem: Every game with
+  finite number of strategies have
+  Nash equilibrium in mixed
+  strategies.
+• Example: Rock-Paper-Scissors
+
+
+
+
+                           ROMAN NERUDA: EVA1 - 2023/2024
+Nash and Pareto
+• The solution is Pareto-
+  optimal/efficient
+   • If there is no other strategy which
+     would improve agent outcome
+     without worsening some other
+     agent outcome
+   • The solution is not Pareto-
+     efficient: if an outcome of one
+     agent can be improved without
+     decreasing other agent‘s outcome
+
+
+
+                                ROMAN NERUDA: EVA1 - 2023/2024
+Thus …
+• For rational agents there is no dilemma/or is there?
+   • DD is Nash equilibrium
+   • DD is the only solution that is not Pareto-optimal
+   • CC is a solution maximizing common outcome
+• Tragedy of the commons
+• What is rational, and are people rational?
+• Shadow of future – iterated version – Axelrod
+
+
+
+                                ROMAN NERUDA: EVA1 - 2023/2024
+Iterated prisoner‘s dilemma
+• Players play more games, they
+  remember the results/actions of
+  the opponent, and can modify their
+  strategies according to the history
+• T>R>P>S,
+• 2R>T+S – it does not pay off to
+  alternate C and D
+• If the game is played N-times (and
+  the players know the N) it can be
+  proved by induction, the best
+  strategy is „deceive all the time“.
+
+                             ROMAN NERUDA: EVA1 - 2023/2024
+Axelrod tournaments
+• The first tournament:
+          • 14 strategies plus RANDOM, 200 games, everybody played with everybody (ncludit itself), 5x
+            repeat
+• TFT = Tit For Tat strategy
+   • Start cooperate, then copy opponent's moves
+• The second tournament:
+          • 62 strategies– everybody knew the results of previous tournament –TFT wins again
+• The third „ecological“ tournament
+          • Resembling the generations of GA, initial population was the second tournament strategies,
+            there were 1000 generations
+          • The number of individuals in the next generation was proportional to number of victories in
+            the previous generation
+          • Aaaaand, the TFT wins again!
+
+                                      ROMAN NERUDA: EVA1 - 2023/2024
+What does it mean for strategies?
+• 4 important properties of successful strategies:
+   • Niceness – do not deceive first
+   • Provocability – quickly punish deception
+   • Forgiveness – but quickly calm down
+   • Clarity – be simple, so others understand you
+• There is not a single strategy that would win against all strategies
+• It is necessary to be successful against very diverse strategies (ALL-D,
+  TFTT, RANDOM, TRIGGER)
+• It is also good to learn play well against itself
+• Attempts to beat TFT by more deception did not help
+
+                               ROMAN NERUDA: EVA1 - 2023/2024
+What does it mean for cooperation?
+• In environments that support cooperation …
+         • Payoffs favor cooperation,
+         • There is a big probability of iterated PD (shadow of the future)
+
+• … the cooperation is usually evolved
+         • But not always, such as in the ALL-D world
+
+• Rationality, intelligence, consciousness, … is not necessary for
+  cooperation, just bigger fitness values
+• Initial cooperation can emerge at random, and then it can survive
+
+
+
+                                      ROMAN NERUDA: EVA1 - 2023/2024
+Twenty years after
+• In environments with noise, the Pavlov strategy (win-stay, lose-shift)
+  is successful
+      • If the payoff R or P => C,
+      • if T or S => D
+• After 20 years the tournament was repeated with more strategies
+  from each team
+      • The winning strategies were cooperating as a team
+      • Few moves (10) to recognize the opponent, then all strategies helped one father strategy
+        from the team to get better score
+      • The teams were even fighting the organizers (false teams to get more slots in the
+        tournament …)
+
+
+                                     ROMAN NERUDA: EVA1 - 2023/2024
+Tuning, control,
+meta-evolution
+Everything can be changed
+General EA
+• Create initial population P(0) at
+  random                                       R
+
+• In a cycle create P(t+1) from P(t):
+                 INITIALIZATION              ESUL
+                                               T
+
+
+   • Parental selection
+                   EVALUATION         PARENTAL
+                                      SELECTION
+   • Recombination, and mutation
+                                    TERMINATION
+   • New individuals P’(t+1) are     CONDITION
+
+
+     created
+                    ENVIRONMENTAL
+   • Environmental selection
+                      SELECTION   chooses
+                                   RECOMBINATION
+
+     P(t+1) based on P(t) a P’(t+1)
+                                EVALUATION
+                                                    MUTATION
+
+
+
+
+                                                    ROMAN NERUDA: EVA1 - 2020/21
+Tuning vs. control
+• EA has various parameters (population size, probability of operators,
+  tournament size, elitism rate, ...)
+• Common practice is to tune those parameters for a task at hand
+   • Trial and error, grid search
+   • Experience and good luck
+• They are not independent & it is usually not possible to do exhaustive
+  search really
+• One possible solution is to not consider them static but dependent on
+  time or other algorithm properties (e.g. fitness variance in
+  population), and change them – control.
+How?
+• Fixed strategy
+   • Time-dependent change of parameter
+   • Deterministic
+       • Decrease mutation probability 0.1% each generation
+   • Stochastic
+       • Simulated annealing
+• Adaptive strategy
+   • Based on information about the quality of solution, statistical properties of
+     population, …
+• Self-adaptive
+   • Evolution of evolution
+   • Mutation variances in genome of ES
+Ex 1: Representation
+• Adaptive change of representation (encoding of individual) based on
+  population diversity:
+   • GA with binary encoded real numbers, unknown precision is needed, so start
+     with small number of bits per real
+   • Run GA iteratively, every run is stopped when population diversity goes
+     bellow 1
+      • Measured by Hamming distance between the best and the worst individual in the
+        population.
+   • Save the best individual as reference, and run GA again
+   • If the second run produces the same best individual, increase number of bits
+     per real and start again
+Ex 2: Mutation
+• Gaussian mutation of real vectors:
+   • x(t+1) = x(t) + N(0,s), where s is variance
+• Deterministic change:
+   • s(t) = 1 – 0.9 (t/T), where t=0, ... T
+• Evolutionary strategies – first kind:
+   • Heuristic observation from Berlin – the optimal success rate of mutation is
+     1/5,
+       • If the current rate is bigger, increase s about 10%,
+       • If the current rate is smaller, decrease s about 10%
+• Evolutionary strategies – second kind (self-adaptation):
+   • Put s (for every x(t)) into the genome and evolve
+Ex 3: Selection
+• Boltzmann tournament:
+   • Probability that the worse individual can win will depend exponentially on the
+     ratio of fitness difference and temperature
+   • Temperature decreases with time
+   • If we stuck in local optima, increase the temperature
+• Simulated annealing as local search:
+   • Like hill climbing, but with Boltzmann probability of acceptance of worse
+     solution
+Ex 4: Population
+• Indirect control of population size depending on the fitness of
+  individuals
+   • When new individual is generated, we define its life span proportional to its
+     fitness
+   • After the defined number of generations, the individual dies
+   • Better individuals live longer, thus the system supports spread of successful
+     individuals
+   • Population size is thus only a derived, dynamic, and not so important thing
+Theory revisited
+Beyond schemata
+Exact models of simple GA
+• 90s: Vose, Lepins, Nix, Whitley, ...
+• Attempt to mathematically study:
+   • How exactly the population looks like
+   • Describe mapping of transition from one population to the next
+   • Properties of this mapping
+   • Asymptotic behavior of simple GA
+• Infinite populations
+• Finite populations
+Let us simplify the (already simple) plain
+vanilla GA - SGA
+• Random initial population of length l binary strings x
+   • Compute fitness f(x)
+   • Repeat until new population is filled:
+      • Select 2 individuals,
+      • Cross them over with probability pc
+      • Discard one of them (!) <- this is the simplification
+      • Mutate each bit with probability pM
+      • Insert new (one) individual to new population
+• Repeat until a good enough individual x is found
+Formalize the SGA
+• Each binary string is represented by a number from 0..2l
+   • 00000111 is 7
+• Population in time t is represented:
+   • By two vectors: p(t) a s(t) of lenght 2l
+   • pi (t) represents the part of population t occupied by a string (relative
+     frequency) – simplex
+   • si (t) is probability of selection of string i
+• p(t) defines the population composition
+• s(t) defines selection probabilities
+ The capital G operator
+• We have fitness f, define matrix F(i,j):
+    • F(i,i) = f(i); F(i,j) = 0 pro i<>j
+• Then s(t) = F p(t)/(Σ F(j,j) pj(t))
+    • (that’s in fact a definition of fitness-proportional selection)
+• Our dream is to define operator G that would realize the SGA iteration:
+    • i.e. p(t+1) = G p(t), or similarly s(t+1) = G s(t)
+• If we have G, we iterate it from initial population, and we know everything
+  about SGA
+• Let us decompose G = F°M (F fitness, M mutation and crossover - mixing)
+First let G=F
+• E(x) expected value
+• E(p(t+1)) = s(t)
+• s(t+1) ~ F p(t+1) (just multiplicative constant c)
+• Thus: E(s(t+1)) ~ F s(t)
+   • In case of (small) finite population, the statistical errors can cause deviations
+     from expected values E(.)
+   • The bigger population, the smaller deviation
+   • Infinite populations are exact, albeit a bit impractical
+Now let G=M
+• M is a recombination operator (including both crossover and
+  mutation)
+• The derivation requires some probability skills and lots of time:
+    • Let us use a handy function r(i,j,k)
+    • r(i,j,k) ... Probability that offspring k is created from parents i and j
+    • When we have r(i,j,k), we can compute p(t+1)
+    • Well, one part of vector after another, and also in expected values, but that’s
+      why we now consider infinite populations:
+• E(pk(t+1)) = ΣiΣj si(t) sj(t) r(i,j,k)
+R(i,j,0)
+
+
+
+
+• Derivation of r(i,j,k) is possible, this is r(i,j,0)
+Results
+• SGA works by applying G to each population in time, it is a dynamical
+  system, and vectors p(t) or s(t) are points of the trajectory of such a
+  system.
+• What are the fixed points of G? (well, that exactly we still do NOT
+  know)
+   • Fixed points of F are populations consisting only of copies of the element with
+     the highest fitness from the initial population
+   • (The only) fixed point of M: identical probabilities s (or, the same relative
+     frequencies of individuals p)
+   • Combination of shaking by M and focusing by F - punctuated equilibria
+     (known from biology)
+Finite populations
+• Markov chains:
+   • Stochastic process in discrete time
+   • System has states, the probability of going from one state to another depends
+     only on the current state (no memory of previous states)
+   • Table of transition probabilities between all states represents a complete
+     description of such a system
+• Now, let us define SGA over finite populations as Markov chain
+States
+• Each state of our Markov chain is one particular population.
+• There is quite a lot of populations
+• N = number of populations containing n individuals of length l:
+   • N = (n+2l-1) over (2l-1)
+• Matrix Z
+   • Columns are populations
+   • Z(y,i) = number of individuals y in population i
+• (thus, columns of Z are states of our Markov chain)
+Transition matrix
+• Q is a matrix of transition between populations, it has NxN elements
+• So, e.g. for n=l=8 , Q has 1029 numbers!
+• Q can be derived, but seldom used
+What have we achieved, really?
+• Exact analysis of SGA, given f
+• In practice intractable, though
+• Asymptotical results – provide insight into convergence and SGA
+  behavior, although the composition of F and M into G is still open.
+• A correspondence exists between infinite pop. SGA and finite pop.
+  SGA (limit approach)
+Neuroevolution
+A rollercoaster of hopes and obstacles in two generations, Neural architecture
+search
+Neuroevolution
+“Neuroevolution is a method for modifying neural network weights,
+topologies, or ensembles in order to learn a specific task. Evolutionary
+computation is used to search for network parameters that maximize a
+fit- ness function that measures performance in the task. Compared to
+other neural network learning methods, neuroevolution is highly
+general, allowing learning without explicit targets, with non-
+differentiable activation functions, and with recurrent networks.”
+
+   Miikkulainen R (2017) Neuroevolution. In: Sammut C, Webb GI (eds)
+   Encyclopedia of machine learning and data mining. Springer, pp 899–904
+Train NN by EA
+• First attempts in late 1980s
+   • Learn parameters (weights)
+   • Learn other parameters (activation function, …)
+   • Learn architecture (topology, connections)
+   • Learn both architecture and weights at once
+   • Learn the (parameters) of the training algorithm
+• Panacea for reinforcement learning – where it is not possible to use
+  supervised learning (robotics)
+• Hybrid methods – combine EA with local search, back propagation, …
+Train weights by EA
+• Straightforward
+   • Encode weights into fixed-length vector
+   • Use floating point GA, evolutionary strategies, …
+   • Standard operators, well known approaches
+• Still, will be slower than specialized gradient based local search algorithms,
+  such as back propagation
+• + can be parallelized
+• + can be used for reinforcement tasks
+• Recent renewal of interest for evolution of weights
+   • Actually, works quite comparatively
+   • use mini batches training strategy for fitness
+Search for the architecture
+• Fitness = performance estimation of the network
+   • build the network, initialize, try to learn (by BP, or another EA, maybe), better to do it
+     more times,
+• Direct encoding
+   • The structure of connections is represented as binary matrix or similar natural
+     representation
+   • Then the individual is either linearized matrix – i.e. long binary vector (standard
+     operators), or the matrix itself (special 2D operators)
+• Grammatical encoding
+   • Kitano, 1990 proposed to represent binary matrices by means of simple formal 2D
+     grammars that will induce the matrix. EA then evolves the grammar rules
+   • compact, logarithmic, but too indirect
+Grow the architecture
+• Simulated growth of network connections in 2D planes
+   • Early attempts in evolutionary robotics
+   • Not scalable
+• Cellular encoding
+   • Gruau proposed to use GP to represent architecture
+   • GP is a program how to grow a network by means of operations:
+      • Add neuron, split neuron in a serial way, split neuron in a parallel way, swap synapse, …
+GNARL – EP evolving NN
+• Angeline et al, 1993
+• EP evolves graphs, NN is a graph
+• Input and output nodes are fixed, hidden nodes and connections will be
+  evolving, evolve structure & parameters together
+• 2 kinds of mutation
+   • Structural – add node (no connections), add connection (zero weight), delete node,
+     delete connection
+   • Biased mutation of connection weight
+   • Structural changes should be “smooth”, small, not too disruptive
+   • The mutation strength is controlled by a temperature parameter (simulated
+     annealing approach)
+• Selection – better half of population serves as parents
+NEAT
+• K. Stanley, 2002 –
+  Neuroevolution of augmenting
+  topologies
+• NN is represented as a list of
+  edges, each edge:
+   • Information about its vertices,
+   • Weights, disabled flag, and
+   • Globally maintained Edge ID.
+NEAT cont.
+• Crossover edges with the same ID only, the rest remains unchanged
+   • This crosses over only edges with the same evolutionary origin, does not mess
+     the overall structure, no headless chicken here
+• Define similarity measure on vectors of edge IDs (how much two
+  network architectures differ)
+   • Niching – similar networks are considered to be the same species. Fitness is
+     computed as relative in each species.
+   • This solves the problem that structural changes disrupt the fitness, but are
+     necessary for exploration.
+   • Niching allows to protect newly created topologies before the weights are
+     tuned.
+• Later the same principles were applied in HyperNEAT.
+HyperNEAT
+• Follow-up on NEAT by using it in different context – to evolve weights
+  for fixed NNs
+• Combination of two major ideas:
+   • Substrate – weights of neural networks are NOT represented as a vector of
+     floats, but are rather generated by a function.
+   • CPPN – compositional pattern-producing networks – a type of NNs with
+     diverse activation functions in each node.
+HyperNEAT cont.
+• Substrate is a function that takes four parameters – coordinates (x,y)
+  of two neurons on a plane
+• … and outputs the value of the weight for the connection between
+  those two neurons
+• Thus, S: R4 -> R, thus it maps “hyper-cube” to R, and that’s why it is
+  called hyperNEAT
+• Representation of weights by a function R allows the network to
+  express symmetries and other properties of the problem
+HyperNEAT cont.
+• The substrate is represented by a CPPN which is evolved by NEAT
+• CPPN is a NN-like structure with nodes connected in a DAG,
+• Each node can compute one function from a dictionary of sigmoidals,
+  polynomials, sin, cos, tan, gaussian, … to ensure a rich universe of
+  possible substrate functions
+HyperNEAT cont.
+• Several variants of HyperNEAT exist:
+   • Evolving deep network structures
+   • Evolving also the architecture of the first NN (i.e., positions of the neurons,
+     not just the substrate)
+   • Considering the networks to exist in 3-D, not just planes (then the substrate is
+     S: R6 -> R)
+• Check:
+      • Picbreeder https://nbenko1.github.io/#/
+      • EndlessForms http://endlessforms.com/
+Deep Networks and Evolution
+Neuroevolution for the deep NN era
+NAS – neural architecture search
+• What is the search space
+   • Linear – layers
+   • Direct acyclic graph of modules
+   • Sub-architecture of Super DNN
+• What is the search strategy
+   • Evolutionary algorithms
+   • Random search
+   • Bayesian optimization
+   • Reinforcement learning
+   • Gradient-based methods
+• How to estimate the performance
+   • Single/multi-objective
+• Convolutional NN
+  • VGG, ResNet, DenseNet
+• Autoencoders
+  • SAE
+• Recurrent NN
+• DBN
+  • Stacked restricted Boltzman
+    machines
+• LSTM
+Search space
+
+
+
+
+               https://arxiv.org/abs/1808.05377
+Search space - Linear
+• Max number of layers
+• Type of layer
+• Hyperparameters of the layer
+   • Number of units for fully connected layers
+   • Kernel size, number of filters, strides for convolutional layers
+   • Filter size, stride, pooling type for pooling layers
+• Variable length conditioned chromosome
+Search space – DAG
+• Modern architectures have skip connections, …
+• Cells (blocks)
+   • Normal – preserve dimensionality
+   • Reduction – reduce spatial dimension
+• Complete architecture – stack the cells
+   • Linear, simple DAG
+   • Use SOTA principles
+   • Search for DAG
+• Search space is reduced
+• Transfer cells for other tasks
+SOTA Blocks
+• ResNet Block
+   • Skip connections between layers
+• DenseNet Block
+• ConvBlock
+   • Conv2D + BatchNorm + ReLU
+• InceptionBlock
+Search space – ENAS
+                                                • ENAS – efficient NAS
+                                                • The search space is a single DAG
+                                                • Search means selecting
+                                                  subgraphs of the DAG
+                                                • Weight sharing – do not train
+                                                  each model from scratch
+                                                • GPU optimized
+
+             https://arxiv.org/abs/1802.03268
+CoDeepNEAT
+• DeepNEAT – each node in the
+  chromosome is now not a
+  neuron but a DNN layer
+  • Repairs to make sure the input
+    and output sizes match
+• CoDeepNEAT – Coevolution
+  DeepNEAT
+  • Two populations
+     • Modules – blocks, small DNNs
+     • Blueprints – graphs utilizing modules
+CoDeepNEAT for LSTM
+• LSTM – Long short-term memory
+  recurrent NN
+  • The unit is complex with short-
+    memory/hidden state
+• CoDeepNEAT with two special
+  LSTM mutations:
+  • Changing the inner structure of
+    the unit
+  • Search for unit organization in
+    layers
+Hill climbing NAS for CNN
+• Elsken, Metzen, Hutter, 2018
+• Start with small pre-trained network
+• In a hill-climbing loop, apply one of the mutations/morphism
+  operations:
+   • Make the net deeper - Add the ConvBlock [Conv2D + BatchNorm + ReLU]
+   • Make the net wider – increase no. of channels
+   • Add skip connections between layers
+• Train the child net for limited time
+ES strike back for RL with DNN
+• “Clune says the fact that the exploratory algorithm worked on such large networks was “eye-popping,”
+  because millions of connections were being randomly mutated simultaneously. Further, he was surprised that
+  their very basic “vanilla” version of the exploratory algorithm beat the industry-standard algorithms.”
+• Miikkulainen and Clune (2017) used simple ES with mutations only to encode
+  large DNN used to train RL problems such as MuJoCo walking or Atari games.
+• More memory was needed, but ES outperforms A3C algorithm by a factor of 10 in
+  wall-clock time
+• ES can be used to estimate gradient, but for supervised learning (image
+  classification) is still much slower than BP
+
+
+  https://openai.com/blog/evolution-strategies/
+Evolutionary programming
+Genotype is phenotype, crossover is evil
+Evolutionary programming
+• L. Fogel, 60s (older than Holland GAs)
+• The ultimate goal was to evolve „artificial intelligence“:
+• Agent is situated in an environment
+• Agent should predict environment state
+• Agent should derive a suitable action w.r.t the environment state
+• Agent was represented by a finite automaton
+• Environment: sequence of finite alphabet symbols
+Finite automaton
+EP over FA
+• Population of finite automata – (remember, genotype = phenotype)
+• Inputs are presented to the automaton
+• Outputs are compared to the next symbol in the sequence
+• Fitness: success of the prediction (measured differently)
+   • Absolute error
+   • Mean square error
+EP over FA cont.
+• Creating new automata: mutation
+   • Change output symbol
+   • Change successor state
+   • Add a state
+   • Remove state
+   • Change initial state
+• No crossover (!)
+• Half of population replaced by new automata
+• Fitness often considers the size of automaton
+Famous Ex.: Primes prediction
+• The goal is to predict a sequence of 0s and 1s
+   • Where 0 means that number corresponding to this position is not a prime.
+   • i.e. learning the sieve of Eratosthenes
+   • 111010100010100010100010000010 …
+• Iteratively:
+   • Sequence of fixed length is learned,
+   • Then, increase the size by one symbol …
+• Fitness:
+   • Point for each guessed symbol in sequence
+   • Negative fitness part : - 0.01 * N (=number of states)
+• Automata were evolving simpler and simpler, ultimately being 1-state and
+  generating 0 all the time
+Primes cont
+EP today
+• Benevolent to encoding of individuals
+   • Encoding should be natural for the problem at hand
+   • Often Genotype = Phenotype
+• A collection of “smart” mutations, tailored to problem and encoding
+• No crossover
+• Parental selection: every is selected once
+• Environmental selection: from parents and offspring, new population
+  is selected by tournament
+• Converged with Evolutionary strategies
+EP over reals
+• Encoding
+   • Vector of reals
+   • Contains variances of mutations
+• Mutation
+   • Small random change according to normal distribution with corresponding
+     variance
+• Meta-evolution
+   • Parameters that are used in algorithm, are modified by the algorithm
+• Selection: all are parents, then tournament
+EP over reals
+procedure EP-with-variances
+t←0
+Initialize Pt N by random real vectors x⃗t =(x1t,...,xnt,σ1t,...,σnt)
+Evaluate individuals in Pt
+while (not terminal criterion) do
+    for i ← 1, . . . , N do
+             for a parent x⃗t generate offspring y⃗t by a mutation:
+             for j ← 1,...,n do
+                            σjʹ ←σj ·(1+α·N(0,1))
+                            xj ʹ ← xj + σj ʹ · N ( 0 , 1 )
+             end for
+             Put y⃗t into candidate offspring population Pʹt
+    end for
+    Select Pt+1 from parents Pt and offspring Ptʹ by tournament
+    Drop Pt a Ptʹ
+    t←t+1
+end while
+end procedure
+EP vs GA
+• Crossover:
+   • Exchange of building blocks – ideal case
+   • Strange big random mutation – not respecting the encoding
+• Jones 1995: headless chicken experiment:
+   • The success of crossover was tested by comparing the traditional crossover
+     with random crossover (crossing the individual over with random string)
+   • There is no crossover without the idea of crossover, do not call headless
+     chicken a chicken, although it has many chicken features.
+Headless chicken
+• In cases with clear idea of building blocks, the crossover is better than
+  random crossover
+• In cases, where the random crossover is better, it is in fact a macro-
+  mutation
+• In such a case there are no clear building blocks
+   • Wrong encoding?
+   • Wrong crossover for this encoding?
+   • Difficult problem for crossover?
+• The moral: Is our chicken headless?
+GA vs EP: experiment
+GA vs EP experiment cont.
+Memetic algorithms
+Urban legends and fake news
+R. Dawkins of Selfish gene
+• Meme
+• (neo)-Darwinist look at cultural and social areas
+• Evolution, spread and survival of various ideas, thoughts, concepts, …
+  in human society
+• Something like biological evolution, but without DNA
+• Two types of memetic algorithms:
+
+• Simulation of memes in society
+     • Bordering with psychology, literature (urban legends), religionism, cultural anthropology
+
+
+
+• Utilizing the concept of memetic (sometimes called cultural) space for
+  meta-heuristics in EA
+     • Moscato, 1989
+     • Also cultural, lamarckian or baldwinian, genetic local searchers, …
+Memetic algorithm
+•   Procedure Memetic Algorithm
+•   Initialize: Generate an initial population;
+•   while Stopping conditions are not satisfied do
+•     Evaluate all individuals in the population.
+•     Evolve a new population using stochastic search operators.
+•     Select the subset of individuals, O that undergo the improvement procedure.
+•     for each individual x in O do
+•       Perform individual learning of x using meme(s)
+          • With probablity p for a period of time t
+•       Proceed with Lamarckian or Baldwinian learning.
+•     end for
+•   end while
+Memetic algorithm
+• In fact, memetic algorithms represent a local search nested inside classical
+  EA cycle
+• ”By transferring information between different runs of the local search (by
+  means of genetic operators) the MA is capable of performing a much more
+  efficient search. ” (N. Krasnogor and J. Smith, 2005)
+• Individual learning - local search:
+   • Hill climbing
+   • Simulated annealing
+   • Tabu search
+   • Combinatorial search
+   • Gradient search (such as back propagation for learning neural networks)
+   • …
+How to handle a result
+• Lamarckism
+  • When local search finds a better individual, let us take it
+  • This is not kosher from Darwinist point of view, we have changed genotype
+    based on phenotype changes
+• Baldwinism
+  • When local search finds a better individual, let us take the fitness of the
+    better one, and assign it to the original – unchanged – individual
+  • So, no genotype change, Darwin-wise correct, yet the fitness is better, can be
+    interpreted as a potential of the original individual
+From MA to MComputing
+• Self-generating MAs - Do not assume that the memes to be used are
+  known a priori
+• ”Memetic Computing is a broad subject which studies complex and
+  dynamic computing structures composed of interacting modules
+  (memes) whose evolution dynamics is inspired by the diffusion of
+  ideas. Memes are simple strategies whose harmonic coordination
+  allows the solution of various problems.“
+Memetic space
+• Memes are elements of memetic/cultural space (think of phenotypes)
+• They can be selected by various heuristics for each individual
+• They can compete based on their success in changing individuals
+• They can be separated in sub-populations
+• They can be controlled by meta-memetic algorithm
+Memes in individual
+• Memes can be encoded as part of the individual
+• Multi-meme MA
+• meme is part of genotype
+• This meme is used for local improvement search
+• Must be inherited
+• Crossover
+• better fitness or random
+Memes in co-evolution
+• Meta-Lamarckian MA
+• Memes have their own population
+• They co-evolve with the individuals of the EA
+• In improvement, a meme is selected to the individual
+• Individual fitness is a reward for the meme
+• Second evolutionary algorithm operates on memes
+Dynamic fitness landscapes
+When the world is changing
+Fitness landscape
+• First introduced by Sewall Wright, 1932
+• Graphical representation of fitness dependent on:
+   • Genotype
+   • Allele frequency
+   • (some feature of) phenotype
+• They are popular in EA
+   • Theoretical tool to explore EAs
+   • Clear illustration of relation genotype-fitness
+      • But higher-dimensions are not intuitive
+Changing fitness
+• Why? – quite common
+   • Robot in the room, somebody turns on the light
+   • It starts raining, but Google car was tested only in California
+   • A crisis on stock exchange
+   • Tournaments of agents playing some game
+• Solution:
+   • Human changes something, restart, … very offline
+• Can we continue our EA when fitness changes?
+Classical GA with dynamic fitness
+• Usually poor performance, it redefines the task
+• Typically, we want to find an optimal solution of a static task:
+   • First explore, but then converge to local extreme which is good enough
+   • During the GA run we are losing diversity
+• With dynamic fitness we want generality and possibility to change
+• Kenneth de Jong:
+   • Comparison of (1+10) ES a GA with 10 individuals
+214                                                     CHAPTER 7. ADVANCED EC TOPICS
+
+
+
+
+ Simple fitness landscape with 2 alternating
+7.2.1    Standard EAs on Dynamic Landscapes
+There is considerable evidence that many of our EAs do not perform particularly well in
+a changing environment. This is due, largely, to the fact that we have “overfit” many of
+
+
+ states
+our EAs to various classes of static optimization problems, with the focus on getting the
+representation and the operators to produce rapid convergence to (near) optimal points.
+However, this rapid telescoping down from a diverse initial population to a highly fit ho-
+mogeneous one can be a significant detriment if the fitness landscape suddenly changes. In
+such cases this lack of diversity results in rather weak capabilities to respond and adapt to
+change.
+    It is rather easy to illustrate these issues with very simple experimental setups. Figure 7.1
+depicts a two-state landscape in which each of the two states, A and B, are simple piecewise
+linear functions over the interval [0, 4], and have a global maximum of 10.0 at x = 3.5 and
+x = 0.5 respectively.                                                                       7.2. DYNAMIC LANDSCAPES                                                                                              215
+
+                    10
+
+
+                                                                                                                                      10
+
+
+                    8
+
+                                                                                                                                      8
+
+
+
+
+                                                                                                        Fitness: Best in Population
+                    6
+                                                                                                                                      6
+             F(X)
+
+                    4
+                                                                                                                                      4                                                      ES
+                                                                                                                                                                                             GA
+
+
+
+                    2                           A                                                                                     2
+                                                A
+                                                B
+                                                B
+
+
+                    0                                                                                                                 0
+                         0         1                2           3              4                                                           0    100   200   300   400   500      600   700    800   900   1000
+                                                    X                                                                                                                   Trials
+
+
+
+
+                             Figure 7.1: A simple two-state landscape.                                                                         Figure 7.2: EA response to a single abrupt change.
+
+    Alone, neither landscape poses a particularly diﬃcult challenge for any EA, but abruptly
+                                                                                          peak at 0.5; however, it moves more slowly than before primarily because the self-adapting
+switching from one to the other during an evolutionary run presents some diﬃculties.mutationAn       operator had evolved to a very small step size.
+interesting exercise is to try your favorite EA on something as simple as this. Figure 7.2By contrast, a GA (generational with a population of size 10, using fitness-proportional
+illustrates the sort of behavior you are likely to see by running two simple EAs with standard
+                                                                                          selection) maintains a fair amount of diversity. The fact that it is non-elitist means that the
+settings for 1000 trials (births). About halfway through the landscape abruptly switches  fitness of the best individual in the population can actually decrease from one generation to
+from state A to state B.                                                                  the next, yielding additional diversity. Consequently, an abrupt change has less eﬀect on it.
+Modification of EA for dynamic f.l.
+• Goldberg, Smith
+   • Diploid representation works as a long-term memory when fitness oscillates
+      • Nevertheless, most of our EAs is haploid
+• Cobb, Grefenstette
+   • Hypermutation
+      • When average fitness in population goes down (probably fitness has changed), increase
+        mutation rate quite a lot.
+   • Random migration
+      • When fitness goes down, generate a relevant amount of new random individuals and put
+        them to population
+• Comma ES, makes them more prone to landscape changes
+More modifications
+• Keep population diverse
+   • Decrease selection pressure
+   • Crowding, niching
+      • Protects population to be overthrown by few fit (at the moment) individuals
+   • Sub-populations
+      • The island model – very good just for distributed EA
+   • Dynamic species – explicit
+      • Utilizing tag-bits for differentiating species
+      • Mating only within species
+How dynamic landscape are
+• When fitness changes rapidly, no solution might be ideal, remember the
+  No-free-lunch theorem
+• Small changes are reasonable
+   • Robots hardware warns out
+   • Slight changes of chemicals in a factory …
+• Relevant morphological changes
+   • The hills of fitness emerge or disappear, “emerging markets”
+• Cyclic changes
+   • Times of the year, electricity consumption, …
+• Non-continuous catastrophic changes
+   • Powerplant explosion, traffic accident, war, …
+Oscillating changes
+
+7.2. DYNAMIC LANDSCAPES                                                                                                217
+                                                                                                                     218                                                                              CHAPTER 7. ADVANCED EC TOPICS
+
+
+                                           10
+                                                                                                                                                           10
+
+
+
+
+                                           8
+                                                                                                                                                           8
+
+
+
+
+             Fitness: Best in Population                                                                                     Fitness: Best in Population
+                                           6                                                                                                               6
+
+
+
+
+                                           4                                                                                                               4
+
+
+
+
+                                           2                                               ES                                                              2                                                  ES
+                                                                                           GA                                                                                                                 GA
+
+
+
+                                           0                                                                                                               0
+                                                0   100   200   300   400   500      600    700   800   900   1000                                              0    100   200   300   400   500        600    700   800   900   1000
+                                                                            Trials                                                                                                           Trials
+
+
+
+
+                                                    Figure 7.3: EA response to oscillating change.                                                              Figure 7.4: EA response to more rapid oscillating change.
+
+
+produces a more pronounced eﬀect and a longer recovery time. This is because after each
+recovery there is less diversity than before, making the population more sensitive to of  change. Increased diversity can be accomplished in a number of ways. The first and most
+                                                                                     change.
+   This raises an important point. In addition to the type of nonstationarity, the rateobvious
+                                                                                            of strategy is to weaken selection pressure. The diﬃculty with this approach is getting
+                                                                                       the right amount of selection pressure without a priori knowledge about the dynamics of
+change of the environment relative to the evolutionary clock is also an important factor.
+One can imagine rates of change ranging from very rapid (within a generation) to verythe    environment. Too much pressure (typical of many static optimizers) results in poor
+                                                                                         slow
+(many generations between changes). These eﬀects are illustrated in figure 7.4, in which performance. Too little pressure produces overall mediocre performance.
+                                                                                       recovery
+Biologically accurate EA
+Nature is complicated, engineers don’t care
+Species
+• Even small selection pressure leads to vanishing diversity of
+  population
+   • C.f. also Flegr – Frozen evolution concept
+• To introduce species or some other mechanism of non-random
+  mating might save the diversity
+• Goals:
+   • Better reaction to changes in fitness (old Darwin)
+   • Parallel exploration of search space
+Niching
+• Goals:
+   • Slow the convergence towards one optimum
+   • Create parallel sub-populations, exploring and converging in different areas
+• Recombination is limited to similar genomes only
+• Fitness is considered relative for the niche – group of similar
+  individuals
+• Crowding: tournaments of similar individuals
+Pros and cons
+• It works, the declared goals are improved
+• It is sensitive to parameter setting:
+• How to compute similarity of individuals?
+   • Hamming for binary
+   • Cf. NEAT and edge IDs
+• What is one niche?
+   • Dynamic situation
+   • Requires a threshold on similarity
+Non-random mating
+• General mechanism where mating is allowed for individuals that are
+  “close”
+• It is necessary to define topology for the individuals
+   • Artificial life simulations like this
+   • Usually individuals are on a 2D (3D) mesh
+   • Island model of GA – usually sub-populations on different machines
+• Explicit species and only intra-species mating
+Co-evolution
+• Evolution of strategies for games – from Tic-tac-toe to checkers …
+• Collective type of task
+   • Cooperation in team
+   • predator-prey
+• Context fitness
+   • Depends on other individuals in population
+   • Or on other species
+   • Relationships between co-population can have complex dynamics – deterministic
+     chaos
+• ADF in GP
+• Sorting networks and evil number sequences – classical
+More bio-ideas
+• Morphogenetics and generative representations
+  • Neuroevolution
+  • Cellular automata
+  • l-systems
+• Agent-based approaches
+  • Holland a ECHO
+  • Artificial life
+• Lamarck – mentioned many times
+Several search algorithms
+Novelty search, Tabu search, scatter search
+Tabu search
+• tabu (or taboo) – Polynesian word for   • Algorithm (hill-climbing plus
+  forbidden, can’t touch, sacred            taboo):
+• (Glover, 86, 98)                           • Current solution is x(t),
+                                             • Generate at random x(t+1) from
+• First described as a heuristics              neighborhood N(x(t))
+  operating on top of other search           • If f(x(t))<=f(x(t+1)), continue with x(t+1),
+  heuristics                                 • Else continue with x(t)
+• Approach to local search which             • N(x) is neighborhood of x,
+  tries to not go where it already was       • Moreover, keep a buffer of several last
+                                               x(t) that will be excluded from N(x)
+• Tabu set can be customized to task         • call this a Tabu set
+  at hand, may represent more
+  complex constrains
+Tabu set as a list of candidates
+sBest ← s0
+bestCandidate ← s0
+tabuList ← []
+tabuList.push(s0)
+while (not stoppingCondition())
+  sNeighborhood ← getNeighbors(bestCandidate)
+  bestCandidate ← sNeighborhood[0]
+  for (sCandidate in sNeighborhood)
+      if ( (not tabuList.contains(sCandidate)) and (fitness(sCandidate) > fitness(bestCandidate)) )
+          bestCandidate ← sCandidate
+      end
+  end
+  if (fitness(bestCandidate) > fitness(sBest))
+      sBest ← bestCandidate
+  end
+  tabuList.push(bestCandidate)
+  if (tabuList.size > maxTabuSize)
+      tabuList.removeFirst()
+  end
+end
+return sBest
+Tabu set for different purposes
+• Short-time memory
+  • List of recent previously visited solutions
+  • Cannot revisit them while they are in the time span of the list
+• Mid-term memory
+  • Rules guiding the search towards areas of the search space that have good
+    chance of finding a solution
+• Long-term memory
+  • Diversification rules pointing to new non-explored areas
+Tabu details
+• Tabu list – it is more efficient to not store complete solutions, but
+  moves towards those solutions
+   • Swap nodes in a graph/tour
+   • Toggle a bit in GA individual
+   • Insert or delete edge in a graph
+• Tabu tenure – number of iterations a move stays in the tabu list
+   • Static – choose a fixed no. of iterations T
+   • Dynamic – choose T randomly from some range
+Tabu details
+• Aspiration criteria – to prevent stagnation when tabu prevents from
+  possible moves.
+   • if the new solution is better than current best, use it
+   • Lower the tenure T
+• Frequency memory – global counter for each solution, remembering
+  how many times it has been visited. More frequent positions are less
+  likely selected.
+   • Restart Diversification – restart search from infrequent solutions
+   • Continuous diversification – bias the evaluation of individuals by their
+     frequency
+Ex: Taboo search and TSP
+• Efficient graph structure exploration – ejection chain method
+• Simple:
+   • Random (or nearest neighbor) initial solution
+   • Random swaps of two cities
+   • Take better
+   • Remember good visited solutions in taboo list
+Tabu wrap-up
+• Tabu principles used in many applications, like TSP, vehicle routing,
+  DNA sequencing
+• Pros
+   • Escapes local optima
+   • Avoids cycles and repeating solutions
+   • Supports exploration
+   • Can be used in discrete and continuous domains
+• Cons
+   • Takes time, increases number of iterations
+   • Many parameters to tune
+Scatter search
+• The motivation was to improve global search by focusing on diversity
+  of individuals
+• Global population based meta-heuristics
+• Proposed originally for solving hard combinatorial optimization
+  problems
+• The idea is to improve diversity of the population by means of the so-
+  called reference set
+Scatter search principles
+• Algorithm:
+   • Generate initial population P(0)
+   • Select reference set R(0) as subset of P(0)
+• Cycle in time :
+   • Generate new candidate solutions P(t) by arithmetic crossover of individuals
+     from R(t-1)
+   • Apply local changes to P(t)
+      • mutation
+      • hill-climbing
+      • tabu search
+   • Update R(t) by (some) members of P(t)
+Scatter parts
+Diversification generation and improvement methods
+while (stopping criteria not satisfied)
+       Reference set update method
+       while(new reference solutions) {
+              Subset generation method
+              Combination method
+              Improvement method
+              Reference set update method
+       Rebuild reference set
+end
+Scatter parts
+• Diversification – smart diverse population initialization
+   • best results combine diversity and fitness
+• Improvement – local search improving the fitness of one individual by
+  mutations
+• Reference set update – blend of high fitness and diverse individuals
+• Subset generation – typically all possible pairs of individuals
+• Combination – crossover of pairs, arithmetic, permutation, …
+Reference set
+• Can be created and updated in various ways
+• Criterium to be in R is typically some combination of good fitness and
+  diversity (members of R have to be good and not similar to each
+  other)
+• maximize minimal distances of newly added x from the rest of R
+• Can be updated:
+   • incrementally (1 or more individuals per population),
+   • Or completely renewed every population,
+   • Or created in the inner cycle, new individuals are already members of R and
+     recombination is performed with them.
+Scatter search wrap-up
+• Evolutionary algorithm that explicitly supports diversification of
+  individuals
+• Exploration capabilities
+• Can be tailored for limited number of fitness evaluations
+• Implemented many times
+   • e.g. OptQuest is a black-box global optimizer for problems with expensive
+     objective function
+Novelty search
+• Lehman, Stanley, 2011 - Abandoning Objectives: Evolution through
+  the Search for Novelty Alone
+• Fitness-based search can be “deceiving”
+• Leading to local optima
+• Diversity of solution is important
+• Diversity can be the objective
+• Search for behavioral novelty (only!)
+• Inspired by previous research in theory of GA and open-ended
+  artificial life simulations
+Deception
+• Goldberg, 1987 – building block hypothesis has a problem – deceptive
+  fitness
+• such a fitness where smaller building blocks actually do not allow for
+  global optimum when combined
+• Some proposed the deception as a measure of EVA problem difficulty
+  (some disagreed)
+• The important motivation is that for deceptive problems, there is not
+  a clear trajectory towards global optimum
+The search for novelty
+• Originated in evolutionary robotics
+• Now successful in reinforcement learning
+• Typically efficient in tackling hard problems with complex search
+  space
+• Support from natural evolution
+   • No clear trajectories
+   • No smooth transitions
+Sparseness
+• The key idea – define behavior space, the space of unique behaviors
+  (phenotypical)
+• Then, characterize how far away is a solution from the population and
+  predecessors
+• Define metrics to identify sparseness in behavior space
+• Areas with dense clusters of visited points are less novel than sparse
+  areas, and therefore rewarded less.
+• Sparseness is a sum of distances of a point from its k-nearest
+  neighbors
+Algorithm
+• Keep permanent archive of novel individuals
+• Sparseness is computed from current population and the archive
+• If the individual sparseness is high above some threshold, it enters
+  the archive
+• The new thing is using the novelty measure only
+• Combined with NEAT
+   • Robot in maze, experiment
+   • Bipod evolution experiment
+Ant colony optimization
+Population based search inspired by
+Ants and ACO
+• M. Dorigo (1991)
+• Group search inspired by highly-evolved social behavior of ants
+• No explicit crossover or exchange of information
+• Indirect communication via pheromone marks
+• Used in hard optimization problems, first on graphs (shortest path,
+  routing, …)
+• Extensions for continuous optimization
+• EVA (is it?) meet multi-agent systems
+Example: Steels’ Mars explorer
+• The goal is to collect precious rock samples on distant planet by a
+  swarm of robotic explorers
+
+• Means:
+• The base transmits a navigation signal
+• Communication is not necessary, it is sufficient to detect a gradient of
+  the signal
+• Every robot has radioactive crumbles for indirect communication with
+  other robots
+Random walk and return of one robot
+• R1: if detect obstacle then change direction
+• R2: if carrying sample and at the base then drop sample
+• R3: if carrying sample and not at the base then travel up gradient
+• R4: if detect a sample then pick sample up
+• R5: if true the move randomly
+
+• Priority!
+Second iteration: better exploration
+ • What to do if I carry a sample:
+ • R6: if carrying a sample and at the base drop sample
+ • R7: if carrying a sample and not the base then drop 2 crumbs and
+   travel up gradient
+ • R8: if sense crumb then pickup 1 crumb and travel down gradient
+
+ • Priority
+ACO general scheme
+• Convert the problem to finding a shortest path in weighted graph
+   • Ants are then agents searching for solution
+• Each edge will carry a pheromone information
+   • The more pheromone, the “better” part of solution
+• Algorithm iterates:
+   • Stochastically generate solution (order of edges) for each ant
+   • Sometimes perform local search on paths – daemon actions
+   • Compare the solutions w.r.t fitness
+   • Update pheromones on edges
+AS – Ant system
+• The original algorithm by Dorigo, solves TSP
+• Ants are travelling from city to city, searching for optimal path, adding
+  cities to their path:
+   • Choose from cities not in your path
+   • Probability of city C choice depends on:
+      • The distance of the city C from current city
+      • The pheromone level on the edge between C and current
+• Pheromone updates:
+   • All pheromone evaporates with some small rate
+   • If ant travels the edge, pheromone is increased proportionally to the fitness
+     of this ant solution
+ACS – ant colony system
+• Improved version competitive with TSP solvers
+• Inspiration from q-learning
+• Main changes:
+   • AS updates pheromones using all solutions, in ACS, only the best solution is
+     used to globally update pheromones
+   • ACS introduces local pheromone updates: Each time ant travels the edge, the
+     pheromone evaporates a bit
+   • The choice of the next city has two versions:
+      • The AS choice with some probability (exploitation)
+      • Choice based on pheromones only (exploration)
+Other ACO improvements
+• Elitist – only globally best updates pheromones (implemented in ACS)
+• Rank-based – group of N best solutions is used for update, the rate
+  depends on their fitness
+• Min-Max – levels of pheromones are kept within a range
+• Continuous optimization:
+   • Discretize the space into interval-based subspaces
+   • Pheromone mechanism is used to guide search into better sub-intervals
+ACO wrap-up
+• Inspiration from social insect:
+   • Decentralized control
+   • Emergence of behavior
+   • Indirect communication
+• Close relation to reactive architectures of intelligent agents – Brooks
+  subsumption architecture
+• The advantage over other approaches is that they can optimize in
+  dynamic environments
+• Used in practice: TSP, vehicles routing, internet, protein folding, image
+  edge detection, …
+CMA-ES
+Covariance matrix adaptation, black-box optimization
+Black-box optimization
+• Minimize an objective function (cost, or fitness function) f : Rn→R
+  x→f(x) .
+   • We do not state the objective of searching for a global optimum, as this is
+     often neither feasible nor relevant in practice.
+• Black box optimization:
+   • function values of evaluated search points are the only accessible information
+     on f (no access to gradient)
+   • the search points to be evaluated can be freely chosen.
+   • the search costs is the number of executed function evaluations.
+BBO how-to zoo
+• Stochastic Searches:
+   • Evolutionary Algorithms,
+   • Evolutionary strategies,
+   • Covariance Matrix Adaptation ES,
+   • EDAs
+• (Local) Heuristics:
+   • Simulated Annealing
+   • Hill Climbing
+   • Downhill Simplex
+BBO stochastic search principle
+• The algorithm maintains a probability distribution Pθ(x)
+• It is used for efficient sampling of function values
+• In each iteration it takes n samples
+   • {xi; i=1..n} from distribution Pθ(x)
+• Each xi is evaluated → we get data {(xi,f(xi)); i=1..n}
+• That data is used to update θ
+       • The general recipe:
+         – The algorithm maintains a probability distribution p✓ (x)
+
+I.E.     – In each iteration it takes n samples {xi }ni=1 ⇠ p✓ (x)
+         – Each xi is evaluated ! data {(xi , f (xi ))}ni=1
+         – That data is used to update ✓
+
+
+       • Stochastic Search:
+         Input: initial parameter ✓, function f (x), distribution model p✓ (x), update
+             heuristic h(✓, D)
+         Output: final ✓ and best point x
+          1: repeat
+          2:    Sample {xi }n i=1 ⇠ p✓ (x)
+          3:    Evaluate samples, D = {(xi , f (xi ))}n
+                                                      i=1
+          4:    Update ✓      h(✓, D)
+          5: until ✓ converges
+
+
+
+
+                                                                                         8/25
+Distribution is:
+• The parameter θ is the only knowledge/information that is being
+  propagated between iterations
+• θ encodes what has been learned from the history
+• θ defines where to search in the future
+• Examples:
+   • Evolutionary Algorithms: θ is a parent population
+   • Evolution Strategies: θ defines a Gaussian with mean & variance
+   • Estimation of Distribution Algorithms: θ are parameters of some distribution
+     model, e.g. Bayesian Network
+   • Simulated Annealing: θ is the “current point” and a temperature
+CMA-ES
+• θ = (xˆ,σ,C,pσ,pC)
+• Pθ(x) = N(x|mean(x),σ2C)
+• where C is the covariance matrix of the search distribution
+• The θ maintains two more pieces of information:
+   • pσ and pC
+   • capture the “path” (motion) of the mean(x) in recent iterations
+• Rough outline of the θ-update:
+   • Let Dʹ = bestOfμ(D) be the set of selected points
+   • Compute the new mean(x) from Dʹ
+   • Update pσ and pC proportional to mean(x)k+1 − mean(x)k
+   • Update σ depending on |pσ|
+   • Update C depending on pcpc⊤ (rank-1-update) and Var(Dʹ)
+EVA – conclusion
+Context of diverse algorithms
+• Artificial intelligence (AI):
+   • Goals divided between Artificial general intelligence (AGI) and problem-
+     oriented AI
+   • methods traditionally divided into “hard” logic-based, formal, algorithms and
+     “soft” more directly nature-inspired ones
+• Computational intelligence (CI):
+   • Neural networks
+   • Fuzzy computing
+   • Evolutionary computing (EC)
+• CI used to be also called soft computing
+EC
+• Evolutionary computing (computation) (EC)
+   • considered a general term encompassing biologically oriented meta-heuristic
+     search/optimization techniques
+   • Includes many diverse approaches
+   • EVA, swarms, memetic algorithms, other nature-inspired optimizations
+• Evolutionary algorithms (EVA) is an EC subset using basic principles of
+  natural evolution
+   • population based search
+   • stochastic methods
+   • fitness, mutation, crossover
+EVA
+• We have seen different EVA algorithms, e.g.:
+• Genetic algorithms
+   • Many kinds
+• Evolutionary strategies
+• Differential evolution
+• Learning classifier systems
+• Evolutionary programming
+• Genetic programming
+   • Tree-based
+   • Cartesian
+   • Grammatical
+   • Linear
+Nature-inspired algorithms
+• And we have seen nature-inspired optimization:
+   • Ant colony optimization
+   • Particle swarm optimization
+• Sometimes the inspiration is not biological:
+   • Tabu search
+   • Scatter search
+   • Novelty search
+   • Memetic algorithms
+• and there’s more of them
+Application areas
+• Sometimes an EVA area does not even have a name, but the focus on
+  specific application area leads to specialized encodings and operators:
+• Combinatorial optimization – permutation encoding
+• Neuroevolution – vast and evolving area
+• Reinforcement learning
+• Multi-objective optimization
+• and there’s more of them
+
