@@ -63,8 +63,8 @@
 \end{qbox}
 
 \footnotesize
-Sedm vět oficiálního znění okruhu, sedm stran tohoto textu. Podrobný výklad je
-v~\path{03-dobyvani-znalosti.pdf}, anglicky v~\path{ENG/03-data-mining.pdf}.
+Oficiální znění okruhu má sedm vět a~tento text jim věnuje sedm stran, na každou otázku jednu.
+Podrobný výklad je v~\path{03-dobyvani-znalosti.pdf}, anglicky v~\path{ENG/03-data-mining.pdf}.
 
 \begin{enumerate}[leftmargin=2em,itemsep=1pt]
 \item Základní paradigmata dobývání znalostí. \hfill \textit{str.~2}
@@ -84,50 +84,55 @@ v~\path{03-dobyvani-znalosti.pdf}, anglicky v~\path{ENG/03-data-mining.pdf}.
 
 \hh{Průřezová témata --- ptají se napříč otázkami}
 \begin{itemize}
-\item \tm{Přesnost vs.\ srozumitelnost}: stromy a~pravidla jsou čitelné, SVM a~sítě přesnější
-  a~neinterpretovatelné; typ úlohy (klasifikace / popis / nugety) rozhoduje, které kritérium
-  vyhraje.
-\item \tm{Nevyvážená data}: accuracy je zavádějící $\Rightarrow$ precision/recall, $F_1$,
-  ROC/AUC, lift; váhy chyb nebo různé pravděpodobnosti výběru už při přípravě dat.
-\item \tm{Škály atributů} (nominální, ordinální, intervalová, poměrová) určují přípustné
-  operace, metriky i~volbu metody --- to je nejčastější \uv{proč} u~doplňujících otázek.
-\item \tm{Transformace vs.\ selekce atributů}: PCA (nové atributy, ztráta interpretace, nutné
-  znát všechny původní) vs.\ filtry a~wrappery (podmnožina, interpretace zůstává).
-\item \tm{Složitost}: AOI $O(na)$, indukce stromu $O(np\log p)$, PAM $O(kn^2d)$,
-  Girvanové--Newman $O(m^2n)$, Louvain $O(n\log n)$; NP-těžké: hledání klik, vyvážený řez
-  s~vahami, maximalizace vlivu (hladově 63~\% optima).
-\item \tm{Proces, ne algoritmus}: CRISP-DM je cyklický, příprava dat spotřebuje 60--80~\% času,
-  nasazení není konec (drift, soukromí, spravedlnost).
+\item \tm{Přesnost proti srozumitelnosti.} Stromy a~pravidla si člověk přečte, SVM a~neuronové
+  sítě klasifikují přesněji, ale nevysvětlí proč. Které kritérium vyhraje, rozhoduje typ úlohy,
+  tedy zda jde o~klasifikaci, popis, nebo hledání nugetů.
+\item \tm{Nevyvážená data.} Accuracy tu zavádí, a~proto se hodnotí přesností a~úplností, mírou
+  $F_1$, křivkami ROC a~lift a~plochou AUC. S~nerovnováhou se dá zatočit už při přípravě dat,
+  a~to vahami chyb nebo různými pravděpodobnostmi výběru.
+\item \tm{Škály atributů.} Nominální, ordinální, intervalová a~poměrová škála určují, které
+  operace jsou přípustné, jakou metriku zvolit i~kterou metodu vůbec nasadit. Je to nejčastější
+  \uv{proč} u~doplňujících otázek.
+\item \tm{Transformace proti selekci atributů.} PCA vyrobí nové atributy, takže se ztrácí
+  interpretace a~je nutné znát všechny původní. Filtry a~wrappery vyberou podmnožinu původních
+  atributů a~interpretace zůstane zachována.
+\item \tm{Složitost.} AOI běží v~$O(na)$, indukce stromu v~$O(np\log p)$, PAM v~$O(kn^2d)$,
+  Girvanové--Newman v~$O(m^2n)$ a~Louvain v~$O(n\log n)$. NP-těžké je hledání klik, vyvážený
+  řez s~vahami a~maximalizace vlivu; tu hladový postup vyřeší na 63~\% optima.
+\item \tm{Proces, ne algoritmus.} CRISP-DM běží v~cyklu, příprava dat spotřebuje 60--80~\%
+  času a~nasazením práce nekončí: přijde drift, soukromí a~spravedlnost.
 \end{itemize}
 
 \columnbreak
 
 \hh{Co se chce spočítat u~tabule}
 \begin{itemize}
-\item \tm{Support, confidence, lift} z~malé tabulky transakcí; jeden krok Apriori
-  (spojení $+$ prořezání).
-\item \tm{Entropie a~informační zisk} pro volbu atributu; příklad s~úvěrem (příjem 0,5747;
-  konto 0,6667; pohlaví 0,9183; nezaměstnaný 0,825), Gini index.
-\item \tm{Naivní Bayes} na malé tabulce (0,1042 vs.\ 0,0416).
-\item \tm{$\chi^2$} na čtyřpolní tabulce ($42{,}857>3{,}84$), stupně volnosti $(R-1)(S-1)$.
-\item \tm{Kvartily, IQR} a~mez odlehlosti $\pm 1{,}5\,\mathrm{IQR}$, box plot.
+\item \tm{Support, confidence a~lift} z~malé tabulky transakcí a~k~tomu jeden krok Apriori,
+  tedy spojení a~prořezání.
+\item \tm{Entropii a~informační zisk} pro volbu atributu; v~příkladu s~úvěrem vyjde příjem
+  0,5747; konto 0,6667; pohlaví 0,9183 a~nezaměstnaný 0,825. Vedle toho Gini index.
+\item \tm{Naivního Bayese} na malé tabulce (0,1042 proti 0,0416).
+\item \tm{$\chi^2$} na čtyřpolní tabulce ($42{,}857>3{,}84$) se stupni volnosti $(R-1)(S-1)$.
+\item \tm{Kvartily a~IQR}, mez odlehlosti $\pm 1{,}5\,\mathrm{IQR}$ a~box plot.
 \item \tm{t-weight a~d-weight} z~tabulky generalizovaných záznamů.
-\item \tm{Matice záměn}: $p$, $r$, $F_1$; konstrukce \tm{ROC} ze žebříčku a~úvaha o~AUC.
-\item \tm{Centrality} na malém grafu (stupňová, mezilehlá, blízkostní, vlastní);
-  \tm{klastrovací koeficient}; \tm{modularita} $Q$.
-\item \tm{Test homofilie} (5 z~18 vs.\ $2pq=8$), test korelace (14~\% vs.\ 49~\%).
-\item \tm{PageRank} jednou iterací; \tm{HITS} s~normalizací.
+\item \tm{Matici záměn} a~z~ní $p$, $r$ a~$F_1$; dále konstrukci \tm{ROC} ze žebříčku a~úvahu
+  o~AUC.
+\item \tm{Centrality} na malém grafu, tedy stupňovou, mezilehlou, blízkostní a~vlastní; k~tomu
+  \tm{klastrovací koeficient} a~\tm{modularitu} $Q$.
+\item \tm{Test homofilie} (5 z~18 proti $2pq=8$) a~test korelace (14~\% proti 49~\%).
+\item \tm{PageRank} jednou iterací a~\tm{HITS} s~normalizací.
 \end{itemize}
 
 \hh{Nejčastější chyby}
 \begin{itemize}
-\item Tvrdit, že vysoká t-weight znamená vysokou d-weight (typičnost $\neq$ rozlišovací síla).
+\item Tvrdit, že vysoká t-weight znamená i~vysokou d-weight. Typičnost není totéž co
+  rozlišovací síla.
 \item Zapomenout, že u~\tm{MS-Apriori} \emph{neplatí} uzavřenost dolů.
-\item Míchat trénovací a~testovací data, resp.\ ladit parametry na testovací množině
-  (na to je \emph{validační} množina).
-\item Zaměnit \tm{bagging} (snižuje rozptyl, paralelní) a~\tm{boosting} (snižuje zkreslení,
-  sekvenční, citlivý na šum).
-\item U~PageRanku tvrdit, že potřebuje normalizaci (nepotřebuje --- na rozdíl od HITS).
+\item Míchat trénovací a~testovací data, případně ladit parametry na testovací množině.
+  Na ladění je \emph{validační} množina.
+\item Zaměnit \tm{bagging}, který snižuje rozptyl a~běží paralelně, s~\tm{boostingem}, který
+  snižuje zkreslení, běží sekvenčně a~je citlivý na šum.
+\item Tvrdit u~PageRanku, že potřebuje normalizaci. Nepotřebuje ji, na rozdíl od HITS.
 \end{itemize}
 
 \end{multicols}
@@ -141,56 +146,60 @@ v~\path{03-dobyvani-znalosti.pdf}, anglicky v~\path{ENG/03-data-mining.pdf}.
 \footnotesize
 
 \hh{Co je KDD}
-\tm{Dobývání znalostí z~databází} (\en{knowledge discovery in databases}) $=$ netriviální proces
-získávání \emph{implicitních}, dosud \emph{neznámých} a~\emph{potenciálně užitečných} informací
-z~dat. Je \tm{interaktivní} (uživatel rozhoduje) a~\tm{iterativní} (fáze se opakují).
-\emph{Data mining} je v~úzkém smyslu jen jedna fáze tohoto procesu, v~běžné mluvě celý proces.
+\tm{Dobývání znalostí z~databází} (\en{knowledge discovery in databases}) je netriviální proces,
+který z~dat získává informace \emph{implicitní}, dosud \emph{neznámé} a~\emph{potenciálně
+užitečné}. Je \tm{interaktivní}, protože o~dalším kroku rozhoduje uživatel,
+a~\tm{iterativní}, protože se jeho fáze opakují.
+Pojem \emph{data mining} označuje v~úzkém smyslu jen jednu fázi tohoto procesu, v~běžné mluvě
+celý proces.
 
 \hh{Pět fází KDD}
-\emph{výběr dat $\to$ předzpracování $\to$ transformace $\to$ dobývání (data mining) $\to$
-interpretace a~vyhodnocení}. Příprava dat (první tři fáze) spotřebuje
-\tm{60--80~\% času} celého projektu --- to je nejčastěji ověřovaný fakt.
+Proces má pět fází: \emph{výběr dat $\to$ předzpracování $\to$ transformace $\to$ dobývání
+(data mining) $\to$ interpretace a~vyhodnocení}. První tři z~nich tvoří dohromady přípravu dat
+a~spotřebují \tm{60--80~\% času} celého projektu. To je nejčastěji ověřovaný fakt.
 
 \hh{Kořeny oboru}
-Umělá inteligence (strojové učení), \tm{databáze} (velké objemy, dotazování) a~\tm{statistika}
-(inference, testování), motivované potřebou \emph{podpory rozhodování}.
-Odlišení od \tm{OLAP}: OLAP odpovídá na \emph{předem položené} otázky (agregace, kostky,
-drill-down), KDD hledá vzory, \emph{o~nichž předem nevíme}.
-Odlišení od klasické statistiky: KDD pracuje s~daty, která nebyla sbírána pro daný účel,
-a~hledá hypotézy, nejen je testuje.
+Obor vyrostl ze tří kořenů. Z~umělé inteligence si bere strojové učení, z~\tm{databází} práci
+s~velkými objemy a~dotazování a~ze \tm{statistiky} inferenci a~testování; všechny tři spojuje
+potřeba \emph{podpory rozhodování}.
+Od \tm{OLAP} se KDD liší tím, na co odpovídá: OLAP zpracuje \emph{předem položenou} otázku
+agregacemi, kostkami a~drill-downem, kdežto KDD hledá vzory, \emph{o~nichž předem nevíme}.
+Od klasické statistiky se liší vstupem i~cílem, protože pracuje s~daty, která nebyla sbírána
+k~tomuto účelu, a~hypotézy hledá, nejen testuje.
 
 \hh{Tři typy úloh}
 \begin{itemize}
-\item \tm{klasifikace a~predikce} --- rozhoduje \emph{přesnost}, srozumitelnost je bonus;
-\item \tm{popis} (deskripce) --- rozhoduje \emph{srozumitelnost} a~\emph{plné pokrytí} dat;
-\item \tm{hledání nugetů} --- rozhoduje \emph{překvapivost}; nuget nemusí pokrývat téměř nic,
+\item U~\tm{klasifikace a~predikce} rozhoduje \emph{přesnost} a~srozumitelnost je bonus.
+\item U~\tm{popisu} (deskripce) rozhoduje \emph{srozumitelnost} a~\emph{plné pokrytí} dat.
+\item U~\tm{hledání nugetů} rozhoduje \emph{překvapivost}. Nuget nemusí pokrývat téměř nic,
   stačí, že je zajímavý a~akceschopný.
 \end{itemize}
 
 \hh{Dělení úloh a~metod}
-\tm{Deskriptivní} (popsat data: asociační pravidla, klastrování, sumarizace) vs.\
-\tm{prediktivní} (odhadnout neznámou hodnotu: klasifikace, regrese).
-\tm{S~učitelem} (známé cílové hodnoty) vs.\ \tm{bez učitele} (jen struktura dat) vs.\
-\tm{poloučené} (málo označkovaných $+$ hodně neoznačkovaných dat).
+\tm{Deskriptivní} úlohy data popisují (asociační pravidla, klastrování, sumarizace),
+\tm{prediktivní} odhadují neznámou hodnotu (klasifikace, regrese).
+Podle toho, co o~datech víme, se učí \tm{s~učitelem}, jsou-li známé cílové hodnoty,
+\tm{bez učitele}, máme-li jen strukturu dat, nebo \tm{poloučeně}, tedy z~mála označkovaných
+a~mnoha neoznačkovaných dat.
 
 \hh{Škály atributů}
-\tm{Nominální} (jen rovnost --- barva), \tm{ordinální} (uspořádání --- známka),
-\tm{intervalová} (rozdíly, ne poměry --- teplota ve~$^\circ$C),
-\tm{poměrová} (i~poměry, absolutní nula --- příjem).
-Škála určuje \emph{přípustné operace} (nelze počítat průměr nominálního atributu),
-volbu metriky i~metody. Typické transformace: nominální atribut $\to$ $v$ binárních atributů;
-poměrový atribut s~exponenciálním chováním $\to$ logaritmovat.
+\tm{Nominální} škála dovoluje jen rovnost (barva), \tm{ordinální} navíc uspořádání (známka),
+\tm{intervalová} rozdíly, ale ne poměry (teplota ve~$^\circ$C), a~\tm{poměrová} i~poměry,
+protože má absolutní nulu (příjem).
+Škála určuje \emph{přípustné operace} --- průměr nominálního atributu spočítat nelze ---
+a~s~nimi volbu metriky i~metody. Typicky se nominální atribut převede na $v$ binárních
+atributů a~poměrový atribut s~exponenciálním chováním se zlogaritmuje.
 
 \hh{Metodologie}
-\tm{SEMMA} (SAS): \emph{Sample, Explore, Modify, Model, Assess}.
-\tm{CRISP-DM} (6 fází): porozumění problému $\to$ porozumění datům $\to$ příprava dat $\to$
-modelování $\to$ vyhodnocení $\to$ nasazení. Pořadí \emph{není striktní} a~proces je
-\emph{cyklický}. \tm{ASUM-DM} (IBM) $=$ CRISP-DM $+$ projektové řízení a~provoz.
+\tm{SEMMA} (SAS) má fáze \emph{Sample, Explore, Modify, Model, Assess}.
+\tm{CRISP-DM} jich má šest: porozumění problému $\to$ porozumění datům $\to$ příprava dat $\to$
+modelování $\to$ vyhodnocení $\to$ nasazení. Jejich pořadí \emph{není striktní} a~proces je
+\emph{cyklický}. \tm{ASUM-DM} (IBM) doplňuje CRISP-DM o~projektové řízení a~provoz.
 
 \hh{Nejčastější doplňující otázka}
-\emph{Proč pořadí fází CRISP-DM není striktní?} --- protože výsledky každé fáze určují další
-kroky: zjištěná kvalita dat vede zpět k~přeformulování cíle, výsledek modelování zpět
-k~jiné přípravě dat. Proces je smyčka s~návraty, ne lineární postup.
+\emph{Proč pořadí fází CRISP-DM není striktní?} Protože výsledky každé fáze určují další kroky:
+zjištěná kvalita dat vede zpět k~přeformulování cíle a~výsledek modelování zpět k~jiné přípravě
+dat. Proces je smyčka s~návraty, ne lineární postup.
 
 \end{multicols}
 \newpage
@@ -202,74 +211,81 @@ k~jiné přípravě dat. Proces je smyčka s~návraty, ne lineární postup.
 \footnotesize
 
 \hh{Cíl přípravy dat}
-Vybrat relevantní data a~reprezentovat je tak, aby je zvolený algoritmus zvládl; výsledkem je
-\emph{jedna} tabulka \emph{objekty $\times$ atributy} (denormalizace, agregace přes vztahy 1:N).
+Cílem je vybrat relevantní data a~reprezentovat je tak, aby je zvolený algoritmus zvládl.
+Výsledkem je \emph{jedna} tabulka \emph{objekty $\times$ atributy}, ke které se dojde
+denormalizací a~agregací přes vztahy 1:N.
 
 \hh{Chybějící hodnoty}
-Možnosti: \emph{ignorovat objekt} (ztráta dat, riziko zkreslení) / \emph{nová hodnota
-\uv{nevím}} / \emph{doplnit existující hodnotu} (modus, poměrně podle rozdělení, libovolně) /
-\emph{doplnit modelem} (regrese, $k$-NN, EM).
-Umět říct, kdy je která volba vhodná: je-li \emph{absence sama informací} (nevyplněný příjem
-u~žadatele o~úvěr), patří jí vlastní kategorie \uv{nevím}.
+Nabízejí se čtyři cesty. Objekt lze \emph{ignorovat}, čímž ovšem přijdeme o~data a~riskujeme
+zkreslení. Lze zavést \emph{novou hodnotu} \uv{nevím}. Lze \emph{doplnit existující hodnotu},
+a~to modem, poměrně podle rozdělení, nebo libovolně. A~konečně lze hodnotu \emph{doplnit
+modelem} (regrese, $k$-NN, EM).
+U~zkoušky se ptají, kdy je která volba vhodná: je-li \emph{absence sama informací} (nevyplněný
+příjem u~žadatele o~úvěr), patří jí vlastní kategorie \uv{nevím}.
 
 \hh{Odlehlé hodnoty}
-$\mathrm{IQR}=Q_3-Q_1$; odlehlá hodnota leží mimo
+Mezikvartilové rozpětí je $\mathrm{IQR}=Q_3-Q_1$ a~odlehlá hodnota leží mimo interval
 $[\,Q_1-1{,}5\,\mathrm{IQR},\; Q_3+1{,}5\,\mathrm{IQR}\,]$.
-Umět spočítat kvartily ze vzestupně seřazených dat (pozice $n/4$ a~$3n/4$, zaokrouhlení nahoru)
-a~nakreslit \tm{box plot} (medián, kvartily, vousy, body mimo).
-Odlehlá hodnota může být chyba měření (odstranit) i~nejzajímavější případ (detekce podvodů).
+Kvartily se počítají ze vzestupně seřazených dat na pozicích $n/4$ a~$3n/4$ se zaokrouhlením
+nahoru; k~nim se kreslí \tm{box plot} s~mediánem, kvartily, vousy a~body mimo.
+Odlehlá hodnota může být chyba měření, kterou je nutné odstranit, ale i~nejzajímavější případ
+v~datech --- právě na tom stojí detekce podvodů.
 
 \hh{Standardizace}
-Desítkové škálování, \tm{min-max} do $[0,1]$ nebo $[-1,1]$,
-\tm{z-skóre} podle \emph{střední absolutní odchylky} (robustnější k~odlehlým hodnotám),
-\tm{std-skóre} podle směrodatné odchylky.
-Motivace: bez standardizace ovládne vzdálenost atribut s~největším rozsahem (příjem
-v~korunách vs.\ počet dětí).
+Používá se desítkové škálování, \tm{min-max} do $[0,1]$ nebo $[-1,1]$, \tm{z-skóre} podle
+\emph{střední absolutní odchylky}, které je robustnější k~odlehlým hodnotám, a~\tm{std-skóre}
+podle směrodatné odchylky.
+Bez standardizace ovládne vzdálenost ten atribut, který má největší rozsah: příjem v~korunách
+přebije počet dětí.
 
 \hh{Diskretizace}
-\tm{Ekvidistantní} (stejně široké intervaly --- citlivá na odlehlé hodnoty),
-\tm{ekvifrekvenční} (stejně obsazené), \tm{s~využitím třídy} (dělení podle entropie nebo
-$\chi^2$ --- hranice tam, kde se mění rozdělení tříd).
-\tm{Fuzzy diskretizace}: rozostřené hranice, jedné hodnotě odpovídají dvě kategorie se součtem
-charakteristických funkcí 1; váha fuzzy-objektu je součin $\prod_j \mu_j$.
-Rizika diskretizace: ztráta informace a~vznik \emph{kontradikcí} (shodné vzory s~různou třídou).
+\tm{Ekvidistantní} diskretizace tvoří stejně široké intervaly a~je citlivá na odlehlé hodnoty,
+\tm{ekvifrekvenční} intervaly stejně obsazené a~diskretizace \tm{s~využitím třídy} klade
+hranice tam, kde se mění rozdělení tříd, tedy dělí podle entropie nebo $\chi^2$.
+\tm{Fuzzy diskretizace} hranice rozostří: jedné hodnotě odpovídají dvě kategorie, jejichž
+charakteristické funkce dávají v~součtu 1, a~váha fuzzy-objektu je součin $\prod_j \mu_j$.
+Diskretizací se ztrácí informace a~mohou vzniknout \emph{kontradikce}, tedy shodné vzory
+s~různou třídou.
 \tm{KEX} seskupuje hodnoty kategoriálního atributu podle $\chi^2$ testu proti \emph{apriornímu}
-rozdělení tříd (procedury \emph{Assign} a~\emph{Group}).
+rozdělení tříd; slouží k~tomu procedury \emph{Assign} a~\emph{Group}.
 
 \hh{Redukce dat}
-\emph{Příliš mnoho objektů} $\to$ vzorkování (pozor na \tm{reprezentativnost}), efektivnější
-uložení, více modelů nad podmnožinami. \emph{Nevyvážené třídy} $\to$ váhy chyb nebo různé
-pravděpodobnosti výběru (převzorkování minority, resp.\ podvzorkování majority).
-\emph{Příliš mnoho atributů} $\to$ dvě různé cesty:
+Redukovat je potřeba ve třech situacích. Je-li \emph{objektů příliš mnoho}, pomůže vzorkování
+(pozor na \tm{reprezentativnost}), efektivnější uložení nebo stavba více modelů nad
+podmnožinami. Jsou-li \emph{třídy nevyvážené}, nasadí se váhy chyb nebo různé pravděpodobnosti
+výběru, tedy převzorkování minority či podvzorkování majority.
+Je-li \emph{atributů příliš mnoho}, vedou dvě různé cesty:
 \begin{itemize}
-\item \tm{transformace} (\tm{PCA}): méně \emph{nových} atributů jako lineární kombinace
-  původních; nutné však znát \emph{všechny} původní atributy a~mizí interpretace;
-\item \tm{selekce}: podmnožina \emph{původních} atributů, interpretace zůstává.
+\item \tm{transformace} (\tm{PCA}) vyrobí méně \emph{nových} atributů jako lineární kombinace
+  původních; je však nutné znát \emph{všechny} původní atributy a~mizí interpretace;
+\item \tm{selekce} ponechá podmnožinu \emph{původních} atributů, takže interpretace zůstává.
 \end{itemize}
 
 \hh{Filtry vs.\ wrappery}
-\tm{Filtr} počítá charakteristiku pro každý atribut \emph{samostatně}, nezávisle na modelu ---
-rychlý, ale nezachytí \emph{interakce} atributů.
-\tm{Wrapper} postaví model nad podmnožinou atributů a~vyhodnotí jej --- drahý, zohledňuje
-interakce a~konkrétní algoritmus.
-Prohledávání podmnožin \emph{bottom-up} (přidávání atributů) nebo \emph{top-down} (odebírání).
+\tm{Filtr} spočítá charakteristiku pro každý atribut \emph{samostatně} a~nezávisle na modelu:
+je rychlý, ale nezachytí \emph{interakce} atributů.
+\tm{Wrapper} naproti tomu postaví model nad podmnožinou atributů a~vyhodnotí jej: je drahý,
+zato zohlední interakce i~konkrétní algoritmus.
+Podmnožiny se prohledávají \emph{bottom-up} přidáváním atributů, nebo \emph{top-down}
+jejich odebíráním.
 
 \hh{Filtrační kritéria}
-$\chi^2$ (větší $=$ lepší), entropie $H(A)$ (menší $=$ lepší), vzájemná informace
-$\mathrm{MI}(A,C)$, informační míra závislosti $\mathrm{ID}(A,C)=\mathrm{MI}(A,C)/H(C)$
-(větší $=$ lepší).
-Umět zdůvodnit \emph{normalizaci} $\mathrm{ID}$: bez ní jsou zvýhodněny atributy s~mnoha
-hodnotami (extrém: identifikátor rozdělí data na jednoprvkové skupiny).
+Používá se $\chi^2$, kde je větší lepší, entropie $H(A)$, kde je lepší menší, dále vzájemná
+informace $\mathrm{MI}(A,C)$ a~informační míra závislosti
+$\mathrm{ID}(A,C)=\mathrm{MI}(A,C)/H(C)$, u~níž je opět větší lepší.
+Zkoušející chce zdůvodnit \emph{normalizaci} $\mathrm{ID}$: bez ní jsou zvýhodněny atributy
+s~mnoha hodnotami a~v~extrému vyhraje identifikátor, který rozdělí data na jednoprvkové skupiny.
 
 \hh{$\chi^2$ test a~regrese}
-\tm{$\chi^2$ test} nezávislosti: $(R-1)(S-1)$ stupňů volnosti, podmínka použitelnosti
-$r_k s_l/n \ge 5$; pro malé četnosti \tm{Fisherův exaktní test}.
-Umět projít výpočet na čtyřpolní tabulce (příklad s~úvěrem: $\chi^2 = 42{,}857 > 3{,}84$
-$\Rightarrow$ zamítáme nezávislost).
-\tm{Regrese a~korelace}: metoda nejmenších kvadrátů, $\beta$ jako kovariance dělená rozptylem,
-$\alpha=\bar y-\beta\bar x$; vícerozměrně $\beta=(X^{\!\top}X)^{-1}X^{\!\top}Y$.
-Korelační koeficient $\rho=\sigma_{xy}/(\sigma_x\sigma_y)$ měří \emph{jen lineární} závislost
---- nulová korelace neznamená nezávislost.
+\tm{$\chi^2$ test} nezávislosti má $(R-1)(S-1)$ stupňů volnosti a~je použitelný jen za podmínky
+$r_k s_l/n \ge 5$; pro malé četnosti se sáhne po \tm{Fisherově exaktním testu}.
+Výpočet na čtyřpolní tabulce je typická úloha u~tabule: v~příkladu s~úvěrem vyjde
+$\chi^2 = 42{,}857 > 3{,}84$, takže nezávislost zamítáme.
+\tm{Regrese a~korelace} stojí na metodě nejmenších kvadrátů. Koeficient $\beta$ je kovariance
+dělená rozptylem, $\alpha=\bar y-\beta\bar x$, a~vícerozměrně
+$\beta=(X^{\!\top}X)^{-1}X^{\!\top}Y$.
+Korelační koeficient $\rho=\sigma_{xy}/(\sigma_x\sigma_y)$ měří \emph{jen lineární} závislost,
+takže nulová korelace neznamená nezávislost.
 
 \end{multicols}
 \newpage
@@ -282,100 +298,112 @@ učení s~učitelem a~klastrová analýza}
 \footnotesize
 
 \hh{Asociační pravidla --- míry}
-\tm{Support} $=$ podíl transakcí obsahujících $i$ i~$j$; \tm{confidence} $=$ podíl transakcí
-s~$i$ i~$j$ \emph{mezi transakcemi s~$i$}; \tm{lift} $=p(i\wedge j)/(p(i)p(j))$.
-Lift $<1$ $\Rightarrow$ pravidlo je horší než náhoda a~negace závěru může být lepší pravidlo.
-\emph{Umět spočítat všechny tři z~malé tabulky transakcí.}
+\tm{Support} je podíl transakcí obsahujících $i$ i~$j$, \tm{confidence} podíl transakcí
+s~$i$ i~$j$ \emph{mezi transakcemi s~$i$} a~\tm{lift} $=p(i\wedge j)/(p(i)p(j))$.
+Je-li lift $<1$, je pravidlo horší než náhoda a~lepším pravidlem může být negace závěru.
+Všechny tři míry se počítají z~malé tabulky transakcí.
 
 \hh{Apriori a~varianty}
-\tm{Apriori} využívá \tm{uzavřenost dolů} (každá podmnožina frekventované množiny je
-frekventovaná) a~prohledává \emph{do šířky}. \textsc{Apriori-Gen} $=$ krok \emph{spojení}
-(kombinace shodné v~$k-2$ kategoriích) $+$ krok \emph{prořezání} (chybí-li některá podkombinace
-délky $k-1$). Prostor pravidel je $O(2^m)$, MBA typicky vyprodukuje \emph{nadměrné množství}
+\tm{Apriori} využívá \tm{uzavřenost dolů}, tedy že každá podmnožina frekventované množiny je
+frekventovaná, a~prohledává \emph{do šířky}. Krok \textsc{Apriori-Gen} nejprve \emph{spojí}
+kombinace shodné v~$k-2$ kategoriích a~pak \emph{prořeže} ty, jimž chybí některá podkombinace
+délky $k-1$. Prostor pravidel je $O(2^m)$, takže MBA typicky vyprodukuje \emph{nadměrné
+množství} pravidel.
+\tm{Taxonomie a~virtuální položky}: vzácné položky se berou výše v~taxonomii, časté níže;
+virtuální položky nesou informaci o~transakci (den, čas, zákazník), za což se platí redundancí
 pravidel.
-\tm{Taxonomie a~virtuální položky}: vzácné položky brát výše v~taxonomii, časté níže; virtuální
-položky nesou informaci o~transakci (den, čas, zákazník) --- pozor na redundanci pravidel.
-\tm{MS-Apriori} (vzácné položky): každá položka má vlastní $\mathrm{MIS}$, minsup pravidla je
-\emph{minimum} MIS jeho položek, navíc omezení rozdílu supportů $\varphi$.
-\emph{Uzavřenost dolů přestává platit} $\Rightarrow$ položky se setřídí vzestupně podle MIS,
-místo $F_1$ se použije množina \emph{semen} $L$ a~\texttt{tailCount} při generování pravidel.
-\emph{Umět uvést protipříklad k~uzavřenosti dolů.}
-\tm{CAR}: transakce označkované třídou, pravidlo $X\to y$; dolují se \emph{přímo v~jednom
-kroku} přes pravidlové položky $(\mathit{condset},y)$; různým třídám lze dát různý minsup
-(101~\% $=$ třídu zakázat).
-\tm{Sekvenční vzory}: sekvence $=$ uspořádaný seznam množin položek, \emph{velikost} $=$ počet
-prvků, \emph{délka} $=$ počet položek; \tm{GSP} pracuje obdobně jako Apriori. Pozor:
+\tm{MS-Apriori} míří na vzácné položky. Každá položka má vlastní $\mathrm{MIS}$, minsup
+pravidla je \emph{minimum} MIS jeho položek a~přibývá omezení rozdílu supportů $\varphi$.
+Tím \emph{přestává platit uzavřenost dolů} (umět protipříklad), a~proto se položky setřídí
+vzestupně podle MIS a~místo $F_1$ nastoupí množina \emph{semen} $L$ a~\texttt{tailCount}
+při generování pravidel.
+\tm{CAR} pracuje s~transakcemi označkovanými třídou a~hledá pravidlo $X\to y$; doluje je
+\emph{přímo v~jednom kroku} přes pravidlové položky $(\mathit{condset},y)$ a~různým třídám lze
+dát různý minsup (101~\% třídu zakáže).
+\tm{Sekvenční vzory}: sekvence je uspořádaný seznam množin položek, \emph{velikost} je počet
+prvků a~\emph{délka} počet položek; \tm{GSP} pracuje obdobně jako Apriori. Pozor,
 $\langle\{3\}\{8\}\rangle$ a~$\langle\{3,8\}\rangle$ se navzájem \emph{neobsahují}.
-\tm{FP-Growth}: 2 průchody daty, \emph{žádní kandidáti}; FP-strom sdílí \emph{prefixy} (pořadí
-položek podle klesajícího supportu je heuristika) $+$ spojové seznamy položek; extrakce zdola
-nahoru \emph{rozděl a~panuj} přes prefixové podstromy a~podmíněné FP-stromy. Nejhorší případ:
-unikátní transakce $\Rightarrow$ strom větší než data.
+\tm{FP-Growth} projde data dvakrát a~negeneruje \emph{žádné kandidáty}. FP-strom sdílí
+\emph{prefixy} (pořadí položek podle klesajícího supportu je heuristika) a~doplňuje jej
+spojovými seznamy položek; extrakce jde zdola nahoru metodou \emph{rozděl a~panuj} přes
+prefixové podstromy a~podmíněné FP-stromy. Jsou-li všechny transakce unikátní, vyjde
+v~nejhorším případě strom větší než data.
 
 \hh{Rozhodovací stromy}
-\tm{TDIDT} (rozděl a~panuj): atribut se volí podle \emph{minimální vážené entropie}
-$H(A)=\sum_v \frac{|A(v)|}{|D|}H(A(v))$, ekvivalentně maximálního \emph{informačního zisku}.
-Složitost indukce $O(np\log p)$, klasifikace $O(q\log p)$. Strom lze přepsat na pravidla.
-\tm{ID3} (Quinlan 1986) --- hladový, informační zisk.
-\tm{C4.5} --- chybějící a~spojité hodnoty, prořezávání validací (\en{reduced-error pruning},
-\en{subtree raising}), \en{rule post-pruning}, odhad přesnosti dolní mezí
-$\mathit{acc}-1{,}96\sqrt{\mathit{acc}(1-\mathit{acc})/n}$, \emph{poměrný} informační zisk
-(penalizuje nadměrné větvení). \tm{C5.0} --- komerční, boosting.
-\tm{CART} --- \emph{binární} stromy, Gini $G(v_i)=1-\sum_j p_j^2$ (nižší $=$ lepší), kritérium
-$\Phi=2P_LP_R\sum_j |P(C_j|t_L)-P(C_j|t_R)|$. \tm{CHAID} --- $\chi^2$, automatické seskupování
-hodnot kategoriálních atributů.
+\tm{TDIDT} staví strom metodou rozděl a~panuj: atribut volí podle \emph{minimální vážené
+entropie} $H(A)=\sum_v \frac{|A(v)|}{|D|}H(A(v))$, což je totéž jako maximální
+\emph{informační zisk}. Indukce stojí $O(np\log p)$, klasifikace $O(q\log p)$, a~hotový strom
+lze přepsat na pravidla.
+\tm{ID3} (Quinlan 1986) je hladový a~řídí se informačním ziskem.
+\tm{C4.5} přidává chybějící a~spojité hodnoty, prořezávání validací (\en{reduced-error
+pruning}, \en{subtree raising}) a~\en{rule post-pruning}; přesnost odhaduje dolní mezí
+$\mathit{acc}-1{,}96\sqrt{\mathit{acc}(1-\mathit{acc})/n}$ a~používá \emph{poměrný} informační
+zisk, který penalizuje nadměrné větvení. \tm{C5.0} je komerční a~umí boosting.
+\tm{CART} staví \emph{binární} stromy a~měří Gini $G(v_i)=1-\sum_j p_j^2$, kde je nižší lepší;
+dělí podle kritéria $\Phi=2P_LP_R\sum_j |P(C_j|t_L)-P(C_j|t_R)|$. \tm{CHAID} se řídí $\chi^2$
+a~sám seskupuje hodnoty kategoriálních atributů.
 
 \hh{Další metody učení s~učitelem}
-\tm{Bayes}: hypotéza s~maximální aposteriorní pravděpodobností
-$H_{MAP}=\arg\max_H P(E\mid H)P(H)$ (jmenovatel lze zanedbat); \emph{naivní}
-předpoklad podmíněné nezávislosti $\Rightarrow \arg\max_{H_t}P(H_t)\prod_i P(E_i\mid H_t)$.
-Zvládne nekompletní vzory; problém nulových pravděpodobností (Laplaceovo vyhlazení).
-\tm{SVM}: maximální okraj $2/\|w\|$, primární úloha $\min \frac{\langle w\cdot w\rangle}{2}$
-za podmínek $y_i(\langle w\cdot x_i\rangle+b)\ge 1$; Kuhn--Tuckerovy podmínky jsou u~konvexní
-úlohy s~lineárními omezeními nutné \emph{i~postačující}; $\alpha_i>0$ jen pro \emph{podpůrné
-vektory} (Wolfeho duál). \tm{Kernelový trik}: duál potřebuje jen skalární součiny
-$\Rightarrow K(x,z)=\langle\phi(x)\cdot\phi(z)\rangle$ a~$\phi$ nikdy nevyčíslíme (Mercer). \emph{Měkký okraj}: pomocné proměnné $\xi_i\ge0$
-v~podmínkách a~penalizace $C\sum_i\xi_i$ v~účelové funkci; $C$ řídí kompromis mezi šířkou
+\tm{Bayes} vybírá hypotézu s~maximální aposteriorní pravděpodobností
+$H_{MAP}=\arg\max_H P(E\mid H)P(H)$, protože jmenovatel lze zanedbat. \emph{Naivní}
+předpoklad podmíněné nezávislosti z~toho udělá
+$\arg\max_{H_t}P(H_t)\prod_i P(E_i\mid H_t)$.
+Zvládne nekompletní vzory, ale trápí jej nulové pravděpodobnosti, na což je Laplaceovo
+vyhlazení.
+\tm{SVM} maximalizuje okraj $2/\|w\|$; primární úloha zní $\min \frac{\langle w\cdot
+w\rangle}{2}$ za podmínek $y_i(\langle w\cdot x_i\rangle+b)\ge 1$. Kuhn--Tuckerovy podmínky
+jsou u~konvexní úlohy s~lineárními omezeními nutné \emph{i~postačující} a~ve~Wolfeho duálu
+vyjde $\alpha_i>0$ jen pro \emph{podpůrné vektory}. \tm{Kernelový trik} využívá toho, že duál
+potřebuje jen skalární součiny: stačí $K(x,z)=\langle\phi(x)\cdot\phi(z)\rangle$ a~samotné
+$\phi$ nikdy nevyčíslíme (Mercer). \emph{Měkký okraj} přidá do podmínek pomocné proměnné
+$\xi_i\ge0$ a~do účelové funkce penalizaci $C\sum_i\xi_i$, kde $C$ řídí kompromis mezi šířkou
 okraje a~chybami.
-Omezení: dvě třídy, reálný prostor, neinterpretovatelné.
-\tm{Logistická regrese}: $\ln\frac{p}{1-p}=\beta^{\!\top}x$, tedy $p=\sigma(z)$; učení
-maximální věrohodností (křížová entropie), $\sigma'=\sigma(1-\sigma)\Rightarrow
-\Delta\beta_j=\eta\sum_i (y_i-\sigma(z_i))x_{ij}$.
-\tm{Diskriminační analýza}: $g_j(x)$ pro každou třídu, klasifikuje maximum; optimální
-$g_j\propto P(C_j\mid x)$; normální rozdělení $\to$ kvadratická funkce, při \emph{shodných}
-kovariančních maticích \emph{lineární} (stačí $\mu_j$ a~$S$).
-\tm{ELM}: náhodné parametry skrytých neuronů, výstupní váhy \emph{jednou} pseudoinverzí
-$\beta=H^{+}T$ (regularizace $I/C$); rychlé, bez lokálních minim.
+Metoda je omezena na dvě třídy a~reálný prostor a~výsledek není interpretovatelný.
+\tm{Logistická regrese} modeluje $\ln\frac{p}{1-p}=\beta^{\!\top}x$, tedy $p=\sigma(z)$, a~učí
+se maximální věrohodností, což vede na křížovou entropii; ze $\sigma'=\sigma(1-\sigma)$ plyne
+$\Delta\beta_j=\eta\sum_i (y_i-\sigma(z_i))x_{ij}$.
+\tm{Diskriminační analýza} zavede pro každou třídu funkci $g_j(x)$ a~klasifikuje podle maxima;
+optimální je $g_j\propto P(C_j\mid x)$. U~normálního rozdělení vyjde funkce kvadratická,
+a~jsou-li kovarianční matice \emph{shodné}, dokonce \emph{lineární} (stačí $\mu_j$ a~$S$).
+\tm{ELM} nastaví parametry skrytých neuronů náhodně a~výstupní váhy dopočítá \emph{jednou}
+pseudoinverzí $\beta=H^{+}T$ (regularizace $I/C$); je rychlá a~nemá lokální minima.
 \tm{Ensembly}: \tm{bagging} snižuje \emph{rozptyl} ($\sigma^2\to\sigma^2/k$ pro i.i.d.),
-bootstrap obsahuje $\approx 63{,}2$~\% různých bodů ($1-1/e$), ideální komponenta je strom
-(nízké zkreslení, vysoký rozptyl); zkreslení nesníží.
-\tm{Náhodné lesy} řeší korelaci komponent: rozptyl $\rho\sigma^2+(1-\rho)\sigma^2/k$ ---
-první člen na $k$ nezávisí; náhodnost přes bootstrap \emph{a} podmnožinu
-$m\approx\sqrt{\#\text{příznaků}}$ v~každém uzlu.
-\tm{AdaBoost} snižuje \emph{zkreslení}: váhy chybně klasifikovaných rostou,
-$\alpha_t=\frac12\ln\frac{1-\epsilon_t}{\epsilon_t}$, běží \emph{sekvenčně}, citlivý na šum.
+jeden bootstrap obsahuje $\approx 63{,}2$~\% různých bodů ($1-1/e$) a~ideální komponentou je
+strom, protože má nízké zkreslení a~vysoký rozptyl; zkreslení bagging nesníží.
+\tm{Náhodné lesy} řeší korelaci komponent: rozptyl je $\rho\sigma^2+(1-\rho)\sigma^2/k$
+a~první člen na $k$ nezávisí. Náhodnost proto přichází z~bootstrapu \emph{a} navíc
+z~podmnožiny $m\approx\sqrt{\#\text{příznaků}}$ v~každém uzlu.
+\tm{AdaBoost} naproti tomu snižuje \emph{zkreslení}: váhy chybně klasifikovaných vzorů rostou,
+váha modelu je $\alpha_t=\frac12\ln\frac{1-\epsilon_t}{\epsilon_t}$, běží \emph{sekvenčně}
+a~je citlivý na šum.
 
 \hh{Klastrová analýza}
-\tm{Metriky}: Hammingova/Manhattan ($L_1$), euklidovská ($L_2$), Čebyševova ($L_\infty$),
-Minkowského ($L_q$ --- ostatní jsou její speciální případy), \tm{Mahalanobisova}
-$d_M^2=(x_1-x_2)^{\!\top}S^{-1}(x_1-x_2)$ pro veličiny s~různým rozptylem. Před shlukováním
-\emph{normalizovat}. Vzdálenost klastrů: nejbližší soused, nejvzdálenější soused, průměrná,
-centroidní.
-\tm{$k$-means} (Lloyd): náhodné rozdělení $\to$ centroidy $\to$ přesuny $\to$ opakuj;
-cenu nikdy nezvýší, ale bez záruky aproximace $\Rightarrow$ \tm{$k$-means++} (pravděpodobnost
-$\propto$ kvadrát vzdálenosti k~nejbližšímu centroidu), LocalSearch++.
-\tm{$k$-medians} (Manhattan, medián po dimenzích, robustnější) vs.\ \tm{$k$-medoids}
-(reprezentanti \emph{z~dat}, hill-climbing s~výměnami, $O(knd)$ na iteraci, libovolný typ dat):
-\tm{PAM} testuje všech $k(n-k)$ výměn ($O(kn^2d)$), \tm{CLARA} vzorkuje (riziko špatného
-vzorku), \tm{CLARANS} prohledává náhodně nad plnými daty (\emph{MaxAttempt}, \emph{MaxLocal}).
-\tm{Hierarchické} zdola nahoru: každý vzor svůj klastr $\to$ slučuj dva nejbližší; výstup
-\tm{dendrogram}, počet klastrů se volí až \emph{řezem}. \tm{CURE}: vzorek $\to$ $p$ částí
-$\to$ nezávisle hierarchicky na $k'$ $\to$ hierarchicky na $k$ $\to$ přiřaď zbytek.
-\tm{LVQ} $=$ shlukování \emph{s~učitelem} (vítězný vektor se přitáhne při souhlasu tříd,
-odtlačí při nesouhlasu, $\mu$ klesá jako $\mu(k-1)/(k+1)$).
-\tm{Mřížkové} (MAFIA): $p^d$ hyperkrychlí, prah hustoty $\tau$, klastry $=$ komponenty
-souvislosti grafu buněk. \tm{DBSCAN}: \emph{jádrový} bod ($\ge\tau$ bodů v~radiu
-$\varepsilon$), \emph{hraniční}, \emph{šumový}; klastry $=$ komponenty souvislosti jádrových
-bodů. Zvládne klastry \emph{libovolného tvaru} a~sám detekuje odlehlé hodnoty.
+\tm{Metriky}: Hammingova neboli Manhattan ($L_1$), euklidovská ($L_2$), Čebyševova
+($L_\infty$) a~Minkowského ($L_q$), jejímiž speciálními případy jsou všechny předchozí;
+pro veličiny s~různým rozptylem \tm{Mahalanobisova}
+$d_M^2=(x_1-x_2)^{\!\top}S^{-1}(x_1-x_2)$. Před shlukováním se \emph{normalizuje}.
+Vzdálenost dvou klastrů se měří přes nejbližšího souseda, nejvzdálenějšího souseda, průměr,
+nebo centroidy.
+\tm{$k$-means} (Lloyd) rozdělí data náhodně, spočítá centroidy, přesune body a~opakuje.
+Cenu nikdy nezvýší, ale nedává záruku aproximace, a~proto vznikl \tm{$k$-means++}, který volí
+centroid s~pravděpodobností $\propto$ kvadrátu vzdálenosti k~nejbližšímu centroidu, a~dále
+LocalSearch++.
+\tm{$k$-medians} pracuje v~Manhattanské metrice a~bere medián po dimenzích, takže je
+robustnější. \tm{$k$-medoids} volí reprezentanty \emph{z~dat} a~hledá hill-climbingem
+s~výměnami; stojí $O(knd)$ na iteraci a~zvládne libovolný typ dat. \tm{PAM} testuje všech
+$k(n-k)$ výměn ($O(kn^2d)$), \tm{CLARA} vzorkuje a~riskuje špatný vzorek a~\tm{CLARANS}
+prohledává náhodně nad plnými daty (\emph{MaxAttempt}, \emph{MaxLocal}).
+\tm{Hierarchické} shlukování zdola nahoru dá každému vzoru vlastní klastr a~pak slučuje dva
+nejbližší; výstupem je \tm{dendrogram} a~počet klastrů se volí až \emph{řezem}. \tm{CURE} vezme
+vzorek, rozdělí jej na $p$ částí, každou zpracuje nezávisle hierarchicky na $k'$ klastrů, ty
+hierarchicky na $k$ a~nakonec přiřadí zbytek dat.
+\tm{LVQ} je shlukování \emph{s~učitelem}: vítězný vektor se při souhlasu tříd přitáhne, při
+nesouhlasu odtlačí a~$\mu$ klesá jako $\mu(k-1)/(k+1)$.
+\tm{Mřížkové} metody (MAFIA) rozdělí prostor na $p^d$ hyperkrychlí, uplatní prah hustoty $\tau$
+a~za klastry prohlásí komponenty souvislosti grafu buněk. \tm{DBSCAN} rozlišuje bod
+\emph{jádrový} ($\ge\tau$ bodů v~radiu $\varepsilon$), \emph{hraniční} a~\emph{šumový};
+klastry jsou komponenty souvislosti jádrových bodů. Zvládne klastry \emph{libovolného tvaru}
+a~sám detekuje odlehlé hodnoty.
 
 \end{multicols}
 \newpage
@@ -388,64 +416,69 @@ zajímavosti}
 \footnotesize
 
 \hh{Charakterizace vs.\ diskriminace}
-\tm{Charakterizace} popisuje \emph{cílovou třídu} --- co je pro ni typické.
-\tm{Diskriminace} ji \emph{porovnává} s~kontrastními třídami --- čím se od nich odlišuje.
-Rozdíl je v~otázce: \emph{typičnost} $\neq$ \emph{rozlišovací síla}. Vlastnost může být pro
-třídu typická (většina zákazníků jsou muži), a~přesto bezcenná pro rozlišení (muži tvoří
-většinu i~v~ostatních třídách).
+\tm{Charakterizace} popisuje \emph{cílovou třídu} a~odpovídá na otázku, co je pro ni typické.
+\tm{Diskriminace} tutéž třídu \emph{porovnává} s~kontrastními třídami a~ptá se, čím se od nich
+odlišuje. Rozdíl mezi oběma úlohami je rozdílem mezi \emph{typičností} a~\emph{rozlišovací
+silou}. Vlastnost může být pro třídu naprosto typická (většina zákazníků jsou muži), a~přesto
+pro rozlišení bezcenná, protože muži tvoří většinu i~v~ostatních třídách.
 
 \hh{AOI --- indukce řízená atributy}
-Postup \en{attribute-oriented induction}:
+Indukce řízená atributy (\en{attribute-oriented induction}) zobecňuje data tak dlouho, dokud
+z~tabulky nezbude relace o~několika řádcích. Postupuje v~šesti krocích:
 \begin{enumerate}
-\item sběr relevantních dat dotazem (cílová, případně kontrastní třída);
-\item přidání atributu \texttt{count} k~záznamům;
-\item pro každý atribut \emph{odstranění} (má mnoho hodnot a~neexistuje k~němu koncepční
-  hierarchie) nebo \emph{generalizace} (nahrazení nadřazenou hodnotou podle hierarchie);
-\item agregace shodných záznamů (součet \texttt{count});
-\item další generalizace, dokud relace není menší než prahová velikost $T$;
-\item prezentace výsledné generalizované relace.
+\item dotazem se seberou relevantní data, tedy cílová a~případně i~kontrastní třída;
+\item ke~každému záznamu se přidá atribut \texttt{count};
+\item každý atribut se buď \emph{odstraní}, má-li mnoho hodnot a~neexistuje k~němu koncepční
+  hierarchie, nebo \emph{generalizuje}, tedy nahradí nadřazenou hodnotou podle hierarchie;
+\item shodné záznamy se agregují a~jejich \texttt{count} se sečtou;
+\item generalizuje se dál, dokud relace není menší než prahová velikost $T$;
+\item výsledná generalizovaná relace se předloží uživateli.
 \end{enumerate}
-Složitost $O(na)$ --- \emph{lineární} v~počtu záznamů i~atributů.
-Prahy: \emph{attribute threshold} (kolik hodnot atributu se ještě snese) a~\emph{generalized
-relation threshold} $T$.
+Celý postup stojí $O(na)$, je tedy \emph{lineární} v~počtu záznamů i~atributů. Řídí jej dva
+prahy: \emph{attribute threshold} říká, kolik hodnot se u~atributu ještě snese,
+a~\emph{generalized relation threshold} $T$ určuje velikost výsledné relace.
 
 \hh{Koncepční hierarchie}
-\tm{Schématová} (dána strukturou dat: ulice $\to$ město $\to$ stát), \tm{seskupovací}
-(explicitní výčet skupin hodnot), \tm{operační} (odvozená výpočtem: e-mail $\to$ doména),
-\tm{pravidlová} (definovaná pravidly). Bez hierarchie lze atribut jen odstranit.
+Bez hierarchie se s~atributem nedá udělat nic jiného než jej odstranit, a~proto na její podobě
+záleží. \tm{Schématová} hierarchie plyne přímo ze struktury dat (ulice $\to$ město $\to$ stát),
+\tm{seskupovací} vzniká explicitním výčtem skupin hodnot, \tm{operační} se odvodí výpočtem
+(z~e-mailu doména) a~\tm{pravidlová} je definovaná pravidly.
 
 \hh{Dvě váhy}
+Nad generalizovanou relací se počítají dvě čísla a~každé odpovídá na jinou otázku.
 $$\text{t-weight}=\frac{\mathrm{count}(q_a)}{\sum_i \mathrm{count}(q_i)}$$
-Typičnost \emph{uvnitř} cílové třídy; součet t-weight přes všechny záznamy generalizované
-relace je 100~\%. Slouží pro \tm{charakteristická} pravidla --- implikace \uv{$\Rightarrow$}
-ve směru \emph{třída $\Rightarrow$ vlastnosti} (nutná podmínka).
+T-weight měří typičnost \emph{uvnitř} cílové třídy, takže součet t-weight přes všechny záznamy
+generalizované relace dá 100~\%. Stojí na ní \tm{charakteristická} pravidla, která míří ve
+směru \emph{třída $\Rightarrow$ vlastnosti} (implikace \uv{$\Rightarrow$}) a~formulují nutnou
+podmínku.
 $$\text{d-weight}=\frac{\mathrm{count}(q_a\in C_{\mathit{target}})}
 {\sum_j \mathrm{count}(q_a\in C_j)}$$
-Rozlišovací síla vůči kontrastním třídám (jmenovatel je součet přes \emph{všechny}
-třídy včetně cílové). Slouží pro \tm{diskriminační} pravidla ---
-\uv{$\Leftarrow$}, tedy \emph{vlastnosti $\Rightarrow$ třída} (postačující podmínka).
+D-weight měří rozlišovací sílu vůči kontrastním třídám; ve jmenovateli se proto sčítá přes
+\emph{všechny} třídy včetně cílové. Stojí na ní \tm{diskriminační} pravidla, tedy směr
+\emph{vlastnosti $\Rightarrow$ třída} (\uv{$\Leftarrow$}) a~postačující podmínka.
 \tm{Popisné pravidlo} kombinuje obojí (\uv{$\Leftrightarrow$}) a~uvádí obě váhy.
 
 \hh{Interpretace}
-\emph{Umět spočítat obě váhy z~tabulky} a~vysvětlit, proč vysoká t-weight neznamená vysokou
-d-weight: d-weight je nutné srovnávat s~\emph{apriorním} podílem cílové třídy. Je-li podíl
-třídy v~datech 50~\% a~d-weight vlastnosti je také 50~\%, vlastnost nerozlišuje vůbec.
+Obě váhy se u~tabule počítají z~tabulky generalizovaných záznamů a~vzápětí přijde otázka, proč
+vysoká t-weight neznamená vysokou d-weight. Odpověď zní, že d-weight je nutné srovnávat
+s~\emph{apriorním} podílem cílové třídy: je-li podíl třídy v~datech 50~\% a~d-weight vlastnosti
+vyjde také 50~\%, vlastnost nerozlišuje vůbec.
 
 \hh{Zajímavost znalosti}
-\tm{Objektivní} míry (počítá stroj): t-weight a~d-weight, support a~confidence, \tm{lift},
-pokrytí, $\chi^2$, informační zisk, \emph{jednoduchost} (krátká pravidla).
-\tm{Subjektivní} míry (rozhoduje uživatel): \tm{neočekávanost} (odporuje dosavadní představě)
-a~\tm{akceschopnost} (\en{actionability} --- lze podle toho něco udělat).
-Objektivní míry umí systém spočítat sám, ale teprve subjektivní rozhodují, zda je výsledek
-\emph{znalost}, nebo notorieta --- stejné pravidlo může být pro jednoho uživatele objevem
-a~pro druhého samozřejmostí.
+Míry zajímavosti se dělí podle toho, kdo rozhoduje. \tm{Objektivní} míry počítá stroj: t-weight
+a~d-weight, support a~confidence, \tm{lift}, pokrytí, $\chi^2$, informační zisk
+a~\emph{jednoduchost}, tedy délku pravidla. \tm{Subjektivní} míry patří uživateli;
+\tm{neočekávanost} znamená, že pravidlo odporuje jeho dosavadní představě, a~\tm{akceschopnost}
+(\en{actionability}), že se podle něj dá něco udělat.
+Objektivní míry si systém spočítá sám, ale teprve subjektivní rozhodnou, jestli je výsledek
+\emph{znalost}, nebo notorieta: totéž pravidlo bývá pro jednoho uživatele objevem a~pro druhého
+samozřejmostí.
 
 \hh{Souvislosti}
-Charakterizace a~diskriminace jsou \emph{deskriptivní} úlohy (otázka~1); vstupem je
-tabulka po přípravě dat a~diskretizaci (otázka~2) plus koncepční
-hierarchie, výstupem generalizovaná relace; zajímavost jako filtr
-nadprodukce pravidel navazuje na asociační pravidla (otázka~3) a~na kritéria hodnocení
-znalostí (otázka~5).
+Charakterizace i~diskriminace jsou \emph{deskriptivní} úlohy z~otázky~1. Vstupem je tabulka po
+přípravě dat a~diskretizaci z~otázky~2 doplněná o~koncepční hierarchie, výstupem generalizovaná
+relace. Zajímavost pak funguje jako filtr nadprodukce pravidel, čímž navazuje na asociační
+pravidla z~otázky~3 a~na kritéria hodnocení znalostí z~otázky~5.
 
 \end{multicols}
 \newpage
@@ -457,47 +490,53 @@ znalostí (otázka~5).
 \footnotesize
 
 \hh{Formy reprezentace znalostí}
-\tm{IF-THEN pravidla} --- nejsrozumitelnější, lokální (každé pravidlo lze číst samostatně);
-\tm{rozhodovací strom} --- globální, čitelný do hloubky 4--5; \tm{rozhodovací tabulka};
-\tm{matematická funkce} (SVM, sítě, regrese) --- kompaktní, ale neinterpretovatelná;
-\tm{prototypy/centroidy} (klastrování); \tm{pravděpodobnostní model} (Bayes);
-\tm{grafy a~sítě}; \tm{instance} ($k$-NN, CBR --- \uv{model} jsou samotná data).
-Ke každé formě umět říct, z~jaké metody vzniká a~čím se za srozumitelnost platí.
+Forma, v~níž znalost vyjde, je dána metodou a~rozhoduje o~tom, kolik z~ní člověk pochopí.
+\tm{IF-THEN pravidla} jsou nejsrozumitelnější a~jsou \emph{lokální}, protože každé pravidlo se
+dá číst samostatně. \tm{Rozhodovací strom} je naopak \emph{globální} a~čitelný zůstává do
+hloubky 4--5. Dále se používá \tm{rozhodovací tabulka}, \tm{matematická funkce} (SVM, neuronové
+sítě, regrese), která je kompaktní, zato neinterpretovatelná, \tm{prototypy a~centroidy}
+z~klastrování, \tm{pravděpodobnostní model} u~Bayese, \tm{grafy a~sítě} a~konečně
+\tm{instance} ($k$-NN, CBR), kde jsou \uv{modelem} samotná data.
+U~každé formy se ptají, z~jaké metody vzniká a~čím se za srozumitelnost platí.
 
 \hh{Kritéria hodnocení metod}
-Prediktivní přesnost, efektivita (čas konstrukce \emph{i} použití), robustnost (šum, chybějící
-hodnoty), škálovatelnost, interpretovatelnost, kompaktnost modelu. Volba metody je vždy
-kompromis mezi nimi --- viz typ úlohy z~otázky~1.
+Metody se srovnávají podle prediktivní přesnosti, efektivity (počítá se čas konstrukce
+\emph{i} čas použití), robustnosti vůči šumu a~chybějícím hodnotám, škálovatelnosti,
+interpretovatelnosti a~kompaktnosti modelu. Žádná metoda nevyhraje ve všem, takže volba je vždy
+kompromisem a~řídí ji typ úlohy z~otázky~1.
 
 \hh{Odhad chyby}
-\tm{Holdout} --- rozdělení na trénovací a~testovací množinu (velká data);
-\emph{množiny se nesmí míchat}.
-\tm{$k$-násobná křížová validace} --- data na $k$ částí, $k$ modelů; běžné je 5 a~10; přesnost
-$=$ průměr $k$ přesností $+$ interval spolehlivosti s~$t_{N,k-1}$ (menší data).
-\tm{Leave-one-out} --- $m$-násobná CV pro velmi malá data.
-\tm{Validační množina} --- třetí část dat; na ní se ladí \emph{parametry} algoritmu, aby
-testovací množina zůstala nezávislá.
+\tm{Holdout} rozdělí data na trénovací a~testovací množinu a~hodí se pro velká data; obě
+množiny se \emph{nesmí míchat}. \tm{$k$-násobná křížová validace} rozdělí data na $k$ částí
+a~postaví $k$ modelů, běžně pro $k$ rovné 5 nebo 10; výsledná přesnost je průměrem $k$ přesností
+a~doplní se interval spolehlivosti s~$t_{N,k-1}$. Používá se na menších datech.
+\tm{Leave-one-out} je $m$-násobná křížová validace pro data opravdu malá.
+Ladí-li se \emph{parametry} algoritmu, odděluje se ještě třetí, \tm{validační množina}, aby
+testovací data zůstala nezávislá.
 
 \hh{Matice záměn a~míry}
-$TP$, $FN$, $FP$, $TN$; přesnost $p=\frac{TP}{TP+FP}$, úplnost $r=\frac{TP}{TP+FN}$,
-$F_1=\frac{2pr}{p+r}$ (harmonický průměr --- leží blíž k~\emph{menšímu} z~obou čísel, proto
-netoleruje nulu ani v~jedné míře).
-Umět vysvětlit, \emph{proč accuracy nestačí} u~nevyvážených dat: při 1~\% pozitivních případů
-má triviální \uv{nedělat nic} 99~\% přesnost.
+Matice záměn obsahuje $TP$, $FN$, $FP$ a~$TN$; z~nich se spočítá přesnost
+$p=\frac{TP}{TP+FP}$, úplnost $r=\frac{TP}{TP+FN}$ a~jejich harmonický průměr
+$F_1=\frac{2pr}{p+r}$. Harmonický průměr leží blíž k~\emph{menšímu} z~obou čísel, a~proto
+$F_1$ netoleruje nulu ani v~jedné míře.
+Otázka, \emph{proč accuracy nestačí}, míří na nevyvážená data: při 1~\% pozitivních případů má
+triviální postup \uv{nedělat nic} přesnost 99~\%.
 
 \hh{ROC a~AUC}
-$\mathit{TPR}=\frac{TP}{TP+FN}$ (senzitivita $=$ recall pozitivní třídy) proti
-$\mathit{FPR}=\frac{FP}{FP+TN}$; $\mathit{TNR}=$ specificita $=1-\mathit{FPR}$.
-Křivka vede z~$(0,0)$ do $(1,1)$, diagonála $=$ náhodné hádání, levý horní roh $=$ ideál.
-Konstrukce: vzory se seřadí podle skóre a~postupně se posouvá práh (dělení na každém případu).
-\tm{AUC} $=1$ pro perfektní, $0{,}5$ pro náhodný klasifikátor; je potřebná proto, že se ROC
-křivky dvou klasifikátorů mohou \emph{křížit} --- pak žádný není lepší ve všech prazích.
+Křivka ROC vynáší $\mathit{TPR}=\frac{TP}{TP+FN}$, tedy senzitivitu neboli úplnost
+(\en{recall}) pozitivní třídy, proti $\mathit{FPR}=\frac{FP}{FP+TN}$; doplňkem je
+$\mathit{TNR}$, specificita
+$=1-\mathit{FPR}$. Vede z~$(0,0)$ do $(1,1)$, diagonála odpovídá náhodnému hádání a~ideálem je
+levý horní roh. Sestrojí se tak, že se vzory seřadí podle skóre a~práh se posouvá po
+jednotlivých případech.
+\tm{AUC} vyjde 1 pro perfektní a~$0{,}5$ pro náhodný klasifikátor. Potřebná je proto, že se ROC
+křivky dvou klasifikátorů mohou \emph{křížit}, takže ani jeden není lepší ve všech prazích.
 
 \hh{Skórování a~lift}
-Místo třídy se přiřadí \emph{odhad pravděpodobnosti} (u~stromu confidence v~listu); vzory se
-seřadí a~rozdělí do přihrádek (decilů). \tm{Lift křivka} porovnává zásah v~přihrádce
-s~diagonálou náhodného výběru. Umět provést ekonomickou úvahu: kolik zásilek se vyplatí
-poslat, když známe cenu zásilky a~výnos z~reakce.
+Skórování přiřadí místo třídy \emph{odhad pravděpodobnosti}; u~stromu jím je confidence
+v~listu. Vzory se podle skóre seřadí a~rozdělí do přihrádek, typicky decilů, a~\tm{lift křivka}
+porovná zásah v~přihrádce s~diagonálou náhodného výběru. Na to navazuje ekonomická úvaha:
+známe-li cenu zásilky a~výnos z~reakce, spočítá se, kolik zásilek se ještě vyplatí poslat.
 
 \hh{Tři roviny vyhodnocování}
 \begin{enumerate}
@@ -505,18 +544,20 @@ poslat, když známe cenu zásilky a~výnos z~reakce.
 \item zajímavost jednotlivých vzorů (lift, $\chi^2$, jednoduchost) --- objektivní;
 \item vyhodnocení uživatelem --- subjektivní.
 \end{enumerate}
-\tm{Čtyři kritéria zajímavosti znalosti}: \emph{srozumitelnost}, \emph{platnost},
-\emph{užitečnost}, \emph{novost}.
+Samotná znalost se posuzuje podle \tm{čtyř kritérií}: musí být \emph{srozumitelná},
+\emph{platná}, \emph{užitečná} a~\emph{nová}.
 
 \hh{Vizualizace}
-Technika podle úlohy: histogram (rozdělení), box plot (odlehlé hodnoty), scatter a~SPLOM
-(vztahy dvojic), paralelní souřadnice (mnoho dimenzí), heatmapa (matice), dendrogram
-(hierarchie klastrů), projekce (PCA, t-SNE, UMAP), ROC a~lift (kvalita modelu).
-\tm{Tři role v~KDD}: explorace dat (\tm{Anscombeho kvartet} --- shodné statistiky, různé grafy),
-vizualizace modelu, prezentace výsledků.
-Zásady (Tufte): nezkreslovat osami, poměr dat k~inkoustu, barva podle typu dat (kvalitativní
-vs.\ sekvenční vs.\ divergující). Znát omezení: \emph{t-SNE a~UMAP zkreslují globální
-vzdálenosti} --- vzdálenost mezi klastry v~projekci nelze interpretovat.
+Technika se volí podle úlohy: histogram ukáže rozdělení, box plot odlehlé hodnoty, scatter
+a~SPLOM vztahy dvojic, paralelní souřadnice mnoho dimenzí najednou, heatmapa matici, dendrogram
+hierarchii klastrů, projekce (PCA, t-SNE, UMAP) sníženou dimenzi a~ROC s~liftem kvalitu modelu.
+V~KDD má vizualizace \tm{tři role}: exploraci dat, vizualizaci modelu a~prezentaci výsledků.
+Pro tu první je klasickým argumentem \tm{Anscombeho kvartet}, tedy shodné statistiky a~přitom
+zcela různé grafy.
+Tufteho zásady žádají nezkreslovat osami, hlídat poměr dat k~inkoustu a~volit barvu podle typu
+dat, tedy škálu kvalitativní, sekvenční, nebo divergující.
+Znát je potřeba i~omezení: \emph{t-SNE a~UMAP zkreslují globální vzdálenosti}, takže vzdálenost
+mezi klastry v~projekci nelze interpretovat.
 
 \end{multicols}
 \newpage
@@ -528,121 +569,128 @@ vzdálenosti} --- vzdálenost mezi klastry v~projekci nelze interpretovat.
 \footnotesize
 
 \hh{Co je SNA}
-Sociální vědy $+$ analýza sítí $+$ teorie grafů; zajímají ji \emph{vztahy}, ne entity a~jejich
-atributy. Reprezentace: obrázek, seznam hran, matice sousednosti (u~orientovaných grafů
-nemusí být symetrická). \tm{Ego síť} vs.\ \uv{celá} síť --- \tm{problém specifikace hranic}: žádná
+Analýza sociálních sítí spojuje sociální vědy, analýzu sítí a~teorii grafů. Zajímají ji
+\emph{vztahy}, ne entity a~jejich atributy. Síť se zapisuje obrázkem, seznamem hran nebo maticí
+sousednosti, která u~orientovaných grafů nemusí být symetrická. Zkoumat lze \tm{ego síť} kolem
+jednoho uzlu, nebo \uv{celou} síť; \tm{problém specifikace hranic} připomíná, že žádná
 studovaná síť není celá.
 
 \hh{Síla vazeb}
-Silné vs.\ slabé vazby; \tm{síla slabých vazeb} (Granovetter 1973 --- práci člověk najde přes
-slabé vazby, protože nesou nové informace).
-\tm{Homofilie} (podobní se spojují), \tm{tranzitivita} a~\tm{přemostění};
-homofilie $+$ tranzitivita $\to$ \emph{kliky}.
-\tm{Most} $=$ hrana, jejíž odstranění rozpojí koncové uzly; \tm{zkratkový most} $=$ vzdálenost
-po odstranění vzroste nad 2. \tm{Překryv sousedství}
-$O(i,j)=\frac{|N_i\cap N_j|}{|N_i\cup N_j|-2}$ --- čím větší, tím silnější vazba.
+Vazby jsou silné, nebo slabé a~\tm{síla slabých vazeb} (Granovetter 1973) říká, že práci člověk
+najde přes vazby slabé, protože jedině ty nesou nové informace.
+Sítě formuje \tm{homofilie} (podobní se spojují), \tm{tranzitivita} a~\tm{přemostění};
+homofilie s~tranzitivitou dohromady vytvářejí \emph{kliky}.
+\tm{Most} je hrana, jejíž odstranění rozpojí koncové uzly, a~\tm{zkratkový most} taková, po
+jejímž odstranění vzdálenost vzroste nad 2. Sílu vazby měří \tm{překryv sousedství}
+$O(i,j)=\frac{|N_i\cap N_j|}{|N_i\cup N_j|-2}$: čím větší, tím silnější vazba.
 
 \hh{Čtyři míry centrality}
 \begin{itemize}
-\item \tm{stupňová} --- kolik lidí uzel \emph{přímo} dosáhne (lokální aktivita);
-\item \tm{mezilehlá} --- na kolika nejkratších cestách leží; kde se síť \emph{rozpadne},
-  kdo kontroluje tok;
-\item \tm{blízkostní} --- převrácená průměrná délka nejkratších cest; rychlost \emph{šíření};
-\item \tm{vlastní} --- $Ax=\lambda x$, jen \emph{největší} vlastní číslo dává nezáporný vektor;
-  jak dobře je uzel spojen s~\emph{dobře propojenými}.
+\item \tm{stupňová} počítá, kolik lidí uzel \emph{přímo} dosáhne, a~měří tak lokální aktivitu;
+\item \tm{mezilehlá} počítá, na kolika nejkratších cestách uzel leží, a~ukazuje, kdo kontroluje
+  tok a~kde se síť \emph{rozpadne};
+\item \tm{blízkostní} je převrácená průměrná délka nejkratších cest, tedy rychlost
+  \emph{šíření};
+\item \tm{vlastní} řeší $Ax=\lambda x$, přičemž nezáporný vektor dává jen \emph{největší}
+  vlastní číslo; říká, jak dobře je uzel spojen s~\emph{dobře propojenými}.
 \end{itemize}
-Umět interpretační tabulku a~vysvětlit, proč nestačí jedna míra (dva průměrné uzly mohou být
-\emph{společně} důležitější než jeden s~nejvyšším stupněm).
-\tm{Strukturní ekvivalence}: pozice lze vyměnit bez změny struktury sítě.
+U~zkoušky se chce interpretační tabulka a~zdůvodnění, proč jedna míra nestačí: dva průměrné
+uzly mohou být \emph{společně} důležitější než jeden s~nejvyšším stupněm.
+\tm{Strukturní ekvivalence} znamená, že pozice lze vyměnit bez změny struktury sítě.
 
 \hh{Koheze a~vlastnosti reálných sítí}
-Reciprocita (jen orientované grafy), hustota $|E|/\binom{|V|}{2}$ (klika $=1$),
-\tm{klastrovací koeficient} $C_i=\frac{2|\{e_{jk}\}|}{k_i(k_i-1)}$ a~jeho průměr,
-\emph{průměr sítě} (\en{diameter}) $=$ nejdelší nejkratší cesta, průměrná vzdálenost,
-excentricita. \tm{Malý svět} $=$ vysoké $C$ $+$ krátká průměrná cesta.
-\tm{Šest vlastností reálných komplexních sítí}: efekt malého světa (Milgram, medián 6),
-tranzitivita/klastrování, \emph{mocninné} rozdělení stupňů, odolnost (robustní k~náhodnému,
-zranitelná cíleným odstraněním hubů), vzorce míchání (asortativní $=$ homofilie), komunitní
-struktura.
-\tm{Bezškálové sítě}: růst $+$ \tm{preferenční připojování} (rich-get-richer, Matoušův efekt);
-\tm{centralizace} a~struktura \emph{jádro--periferie} (bow-tie).
+Kohezi popisuje reciprocita (jen u~orientovaných grafů), hustota $|E|/\binom{|V|}{2}$, která je
+pro kliku rovna 1, a~\tm{klastrovací koeficient} $C_i=\frac{2|\{e_{jk}\}|}{k_i(k_i-1)}$ i~jeho
+průměr. Vzdálenosti měří \emph{průměr sítě} (\en{diameter}), tedy nejdelší nejkratší cesta,
+dále průměrná vzdálenost a~excentricita. \tm{Malý svět} je vysoké $C$ spolu s~krátkou průměrnou
+cestou.
+Reálné komplexní sítě mají \tm{šest vlastností}: efekt malého světa (Milgram, medián 6),
+tranzitivitu čili klastrování, \emph{mocninné} rozdělení stupňů, odolnost (robustní
+k~náhodnému, zranitelné cíleným odstraněním hubů), vzorce míchání (asortativní míchání je
+homofilie) a~komunitní strukturu.
+\tm{Bezškálové sítě} vznikají růstem a~\tm{preferenčním připojováním} (rich-get-richer,
+Matoušův efekt); s~tím souvisí \tm{centralizace} a~struktura \emph{jádro--periferie} (bow-tie).
 
 \hh{Modely šíření vlivu}
-Společné rysy: orientovaný graf, aktivní/neaktivní uzly, \emph{aktivovaný uzel nelze
-deaktivovat}.
-\tm{LTM} (prahový): $\theta_v$ uniformně z~$[0,1]$, aktivace při
-$\sum_{\text{aktivní}} w_{u,v}\ge \theta_v\sum w_{u,v}$ --- pohled \emph{příjemce}.
-\tm{ICM} (kaskádový): každý soused se aktivuje s~pravděpodobností $p_{v,u}$, ale
-\emph{jen jednou} --- pohled \emph{vysílajícího}.
-\tm{Maximalizace vlivu} je NP-těžká, hladový přístup dává $\ge 63$~\% optima.
+Oba modely sdílejí orientovaný graf, dělení uzlů na aktivní a~neaktivní a~pravidlo, že
+\emph{aktivovaný uzel už nelze deaktivovat}.
+\tm{LTM} je prahový a~dívá se očima \emph{příjemce}: práh $\theta_v$ se losuje uniformně
+z~$[0,1]$ a~uzel se aktivuje, jakmile
+$\sum_{\text{aktivní}} w_{u,v}\ge \theta_v\sum w_{u,v}$.
+\tm{ICM} je kaskádový a~dívá se očima \emph{vysílajícího}: každý soused se aktivuje
+s~pravděpodobností $p_{v,u}$, ale pokus proběhne \emph{jen jednou}.
+\tm{Maximalizace vlivu} je NP-těžká a~hladový přístup dává aspoň 63~\% optima.
 
 \hh{Vliv, korelace, homofilie}
-\tm{Test korelace}: podíl hran mezi různými hodnotami atributu vs.\ $2p(1-p)$ (kuřáci:
-$14~\% < 49~\%$). Tři procesy, které korelaci vysvětlují: \emph{homofilie}, \emph{zmatení}
-(společné prostředí), \emph{vliv}.
-Logistický model $\ln\frac{p(a)}{1-p(a)}=\alpha\ln(a+1)+\beta$, $\alpha$ $=$ koeficient
-sociální korelace; \tm{shuffle test} zpřehází \emph{časové značky} --- významná změna $\alpha$
-je důkaz \emph{vlivu}.
-\tm{Test homofilie}: heterogenních hran významně méně než $2pq$ $\Rightarrow$ homofilie,
-významně více $\Rightarrow$ \emph{inverzní} homofilie (příklad: 5 z~18 vs.\ $2pq=8$ z~18).
-\tm{Výběr vs.\ sociální vliv}: výběr $=$ charakteristiky řídí tvorbu vazeb, vliv $=$ vazby
-formují \emph{mutabilní} charakteristiky (imutabilní: pohlaví, rasa, věk). Rozlišit lze jen
-\emph{longitudinálně} (obezita: Christakis \& Fowler).
-\tm{Afiliační sítě} (bipartitní osoby $\times$ fokusy) a~\tm{tři uzávěry}: tranzitivní
-(společný přítel), \emph{fokální} (společný fokus $=$ výběr), \emph{členský} (přítel už ve
-fokusu $=$ vliv); bázový model $T_{\text{base}}(k)=1-(1-p)^k$, empiricky klesající výnosy.
-\tm{Schellingův model}: agenti dvou typů, spokojeni při $\ge t$ sousedech téhož typu
-$\Rightarrow$ \emph{samovolná segregace} z~lokální homofilie.
-\tm{Strukturní balance}: balancované trojúhelníky jsou $+{+}{+}$ a~$+{-}{-}$;
-\emph{věta o~balanci} --- úplný balancovaný graf znamená všichni přátelé, nebo dvě skupiny
-vnitřních přátel a~vzájemných nepřátel; \emph{slabá balance} (zakázáno jen $+{+}{-}$)
-$\Rightarrow$ libovolný počet skupin.
+\tm{Test korelace} porovná podíl hran mezi různými hodnotami atributu s~hodnotou $2p(1-p)$;
+u~kuřáků vyjde $14~\% < 49~\%$. Korelaci mohou vysvětlit tři procesy: \emph{homofilie},
+\emph{zmatení} společným prostředím a~\emph{vliv}.
+Sociální korelaci kvantifikuje logistický model $\ln\frac{p(a)}{1-p(a)}=\alpha\ln(a+1)+\beta$,
+kde $\alpha$ je koeficient sociální korelace. \tm{Shuffle test} zpřehází \emph{časové značky};
+významná změna $\alpha$ je důkazem \emph{vlivu}.
+\tm{Test homofilie} srovnává počet heterogenních hran s~$2pq$: významně méně znamená homofilii,
+významně více \emph{inverzní} homofilii (v~příkladu 5 z~18 proti očekávaným $2pq=8$ z~18).
+\tm{Výběr} znamená, že charakteristiky řídí tvorbu vazeb, kdežto \tm{sociální vliv} znamená, že
+vazby formují charakteristiky \emph{mutabilní} (pohlaví, rasa a~věk jsou imutabilní). Rozlišit
+je lze jen \emph{longitudinálně}, jak ukázali na obezitě Christakis a~Fowler.
+\tm{Afiliační sítě} jsou bipartitní, spojují osoby $\times$ fokusy, a~vazby v~nich vznikají
+\tm{třemi uzávěry}: tranzitivním (společný přítel), \emph{fokálním} (společný fokus, tedy
+výběr) a~\emph{členským} (přítel už je ve fokusu, tedy vliv). Bázový model dává
+$T_{\text{base}}(k)=1-(1-p)^k$, empiricky se ale projeví klesající výnosy.
+\tm{Schellingův model} pracuje s~agenty dvou typů, kteří jsou spokojeni při $\ge t$ sousedech
+téhož typu, a~ukazuje, jak z~lokální homofilie vzejde \emph{samovolná segregace}.
+\tm{Strukturní balance}: balancované jsou trojúhelníky $+{+}{+}$ a~$+{-}{-}$. \emph{Věta
+o~balanci} říká, že úplný balancovaný graf znamená buď samé přátele, nebo dvě skupiny
+vnitřních přátel a~vzájemných nepřátel; \emph{slabá balance} zakazuje jen $+{+}{-}$
+a~připouští libovolný počet skupin.
 
 \hh{Autority: HITS a~PageRank}
-\tm{HITS} --- dotazově \emph{závislý}; kořenová množina $S$ $\to$ bázová $B$;
-$a=L^{\!\top}h$, $h=La$, mocninná iterace s~\emph{nutnou normalizací};
-$a_k=(L^{\!\top}L)^{k-1}a_0$ ($L^{\!\top}L$ $=$ ko-citační matice). Slabiny: spamovatelnost,
-drift tématu, náklady v~době dotazu.
-\tm{PageRank} --- dotazově \emph{nezávislý}, $P(i)=\sum_{(j,i)\in E}P(j)/O_j$,
-\emph{normalizaci nepotřebuje} (celkový PageRank je konstantní). Problém \uv{pomalého úniku}
-$\Rightarrow$ tlumicí faktor $d$ ($0{,}85$): $P(i)=(1-d)+d\sum P(j)/O_j$.
-Markovský řetězec potřebuje matici \emph{stochastickou, ireducibilní a~aperiodickou} --- webový
-graf nesplňuje ani jednu: stochasticitu kazí \emph{visící stránky} (nulový řádek --- řeší se
-zvlášť: odstranit, nebo dát řádek $1/n$), ireducibilitu a~aperiodicitu spraví \emph{jediná}
-úprava (odkaz odkudkoli kamkoli s~malou pravděpodobností).
+\tm{HITS} je dotazově \emph{závislý}: z~kořenové množiny $S$ vznikne bázová $B$ a~mocninná
+iterace střídá $a=L^{\!\top}h$ a~$h=La$, přičemž normalizace je \emph{nutná}. Po $k$ krocích
+je $a_k=(L^{\!\top}L)^{k-1}a_0$, kde $L^{\!\top}L$ je ko-citační matice. Slabinou je
+spamovatelnost, drift tématu a~náklady v~době dotazu.
+\tm{PageRank} je naproti tomu dotazově \emph{nezávislý}, $P(i)=\sum_{(j,i)\in E}P(j)/O_j$,
+a~\emph{normalizaci nepotřebuje}, protože celkový PageRank zůstává konstantní. Problém
+\uv{pomalého úniku} řeší tlumicí faktor $d$ ($0{,}85$): $P(i)=(1-d)+d\sum P(j)/O_j$.
+Markovský řetězec potřebuje matici \emph{stochastickou, ireducibilní a~aperiodickou}, a~webový
+graf nesplňuje ani jednu podmínku. Stochasticitu kazí \emph{visící stránky} s~nulovým řádkem,
+které se řeší zvlášť (odstranit, nebo dát řádek $1/n$), zatímco ireducibilitu i~aperiodicitu
+spraví \emph{jediná} úprava: odkaz odkudkoli kamkoli s~malou pravděpodobností.
 
 \hh{Detekce komunit}
-Definice komunity je \emph{subjektivní}; explicitní vs.\ implicitní skupiny.
-\tm{Řezy}: minimální řez dává nevyvážené skupiny, s~vahami a~balancí je NP-těžký $\Rightarrow$
-\emph{poměrový} a~\emph{normalizovaný} řez (dělení $|C_i|$, resp.\ $\mathrm{vol}(C_i)$).
-\tm{Girvanové--Newman} --- divizivní, odstraňuje hrany s~nejvyšší \emph{mezilehlostí},
-$O(m^2n)$; počet komunit podle maxima \tm{modularity}
-$Q=\frac{1}{2m}\sum_{i,j}\bigl(A_{ij}-\frac{k_ik_j}{2m}\bigr)\delta(c_i,c_j)$,
-$Q\in[-1,1]$, smysluplné komunity $Q\ge 0{,}3$.
-\tm{Louvain} --- hladová aglomerativní maximalizace modularity ve dvou fázích (lokální přesuny
-$\to$ supergraf), $O(n\log n)$; nevýhody: citlivost na pořadí, \emph{nesouvislé komunity},
-lokální optima. \tm{Leiden} přidává fázi \emph{upřesnění rozdělení}.
-\tm{Čtyři kategorie metod}: \emph{uzlově orientované} (kliky --- NP-těžké, \tm{CPM} pro
-\emph{překrývající se} komunity, $k$-klika/klub/klan, $k$-jádro a~$k$-plex),
-\emph{skupinově orientované} ($\gamma$-husté kvazikliky), \emph{síťově orientované}
-(podobnost vrcholů $+$ $k$-means, MDS, blokové modely, spektrální shlukování přes laplacián
-s~\emph{nejmenšími} vlastními čísly, maximalizace modularity s~\emph{největšími} --- vše jako
-maticová faktorizace $X\approx S\Sigma S^{\!\top}$), \emph{hierarchicky orientované}
-(divizivní GN, aglomerativní Louvain).
-\tm{Tematické komunity} $K=(T,M)$ se mohou \emph{překrývat}; \emph{bipartitní jádra}
-(vějíře $=$ huby, středy $=$ autority).
+Definice komunity je \emph{subjektivní} a~skupiny mohou být explicitní, nebo implicitní.
+\tm{Řezy}: minimální řez dává nevyvážené skupiny a~s~vahami a~balancí je NP-těžký, a~proto se
+sáhne po \emph{poměrovém} a~\emph{normalizovaném} řezu (dělení $|C_i|$, resp.\
+$\mathrm{vol}(C_i)$).
+\tm{Girvanové--Newman} je divizivní: odstraňuje hrany s~nejvyšší \emph{mezilehlostí}, stojí
+$O(m^2n)$ a~počet komunit se určí podle maxima \tm{modularity}
+$Q=\frac{1}{2m}\sum_{i,j}\bigl(A_{ij}-\frac{k_ik_j}{2m}\bigr)\delta(c_i,c_j)$;
+$Q$ leží v~$[-1,1]$ a~smysluplné komunity začínají u~$Q\ge 0{,}3$.
+\tm{Louvain} maximalizuje modularitu hladově a~aglomerativně ve dvou fázích (lokální přesuny
+$\to$ supergraf) v~čase $O(n\log n)$; je ale citlivý na pořadí, vrací \emph{nesouvislé
+komunity} a~uvázne v~lokálních optimech. \tm{Leiden} proto přidává fázi \emph{upřesnění
+rozdělení}.
+Metody se dělí do \tm{čtyř kategorií}. \emph{Uzlově orientované} hledají kliky, což je
+NP-těžké; \tm{CPM} zvládne \emph{překrývající se} komunity a~kliku změkčuje $k$-klika, klub
+a~klan, $k$-jádro a~$k$-plex. \emph{Skupinově orientované} hledají $\gamma$-husté kvazikliky.
+\emph{Síťově orientované} spočítají podobnost vrcholů a~nasadí $k$-means, MDS, blokové modely
+nebo spektrální shlukování přes laplacián s~\emph{nejmenšími} vlastními čísly (maximalizace
+modularity naopak bere \emph{největší}); vše lze psát jako maticovou faktorizaci
+$X\approx S\Sigma S^{\!\top}$. \emph{Hierarchicky orientované} jsou divizivní GN
+a~aglomerativní Louvain.
+\tm{Tematické komunity} $K=(T,M)$ se mohou \emph{překrývat}; v~\emph{bipartitních jádrech} jsou
+vějíře huby a~středy autority.
 
 \hh{Predikce vazeb}
-Obsahové míry (homofilie) vs.\ strukturní (tranzitivní uzávěr --- silnější).
-\emph{Společní sousedé} $|S_i\cap S_j|$ (ignoruje stupně), \emph{Jaccard}
-$\frac{|S_i\cap S_j|}{|S_i\cup S_j|}$, \emph{Adamic--Adar} $\sum_k \frac{1}{\log|S_k|}$
-(váha klesá se stupněm společného souseda).
-\tm{Katzova míra} $K_{ij}=\sum_t \beta^t W^{(t)}_{ij}$, maticově $K=(I-\beta A)^{-1}-I$
-(pro dostatečně malé $\beta$) --- pro \emph{řídké} sítě
-s~málo společnými sousedy.
-\tm{Klasifikační pojetí}: pozitivně-neoznačkovaná úloha, vzorek negativ, logistická regrese;
-klasifikátor se sám naučí relevanci příznaků a~zvládne \emph{asymetrické} příznaky
-u~orientovaných sítí.
+Míry jsou obsahové (staví na homofilii), nebo strukturní (staví na tranzitivním uzávěru), a~ty
+strukturní bývají silnější. Počítají se \emph{společní sousedé} $|S_i\cap S_j|$, což stupně
+ignoruje, \emph{Jaccard} $\frac{|S_i\cap S_j|}{|S_i\cup S_j|}$ a~\emph{Adamic--Adar}
+$\sum_k \frac{1}{\log|S_k|}$, kde váha klesá se stupněm společného souseda.
+\tm{Katzova míra} $K_{ij}=\sum_t \beta^t W^{(t)}_{ij}$, maticově $K=(I-\beta A)^{-1}-I$ pro
+dostatečně malé $\beta$, míří na \emph{řídké} sítě s~málo společnými sousedy.
+\tm{Klasifikační pojetí} bere predikci vazeb jako pozitivně-neoznačkovanou úlohu: doplní se
+vzorek negativ a~nasadí logistická regrese. Klasifikátor se relevanci příznaků naučí sám
+a~zvládne \emph{asymetrické} příznaky u~orientovaných sítí.
 
 \end{multicols}
 \newpage
@@ -654,56 +702,58 @@ u~orientovaných sítí.
 \footnotesize
 
 \hh{Jak odpovídat}
-Ke každé aplikaci umět říct \tm{trojici}: \emph{typ úlohy} (deskriptivní / prediktivní,
-s~učitelem / bez učitele), \emph{použitá metoda}, \emph{způsob vyhodnocení}. Zkoušející
+Ke~každé aplikaci patří \tm{trojice}: \emph{typ úlohy} (deskriptivní, nebo prediktivní;
+s~učitelem, nebo bez učitele), \emph{použitá metoda} a~\emph{způsob vyhodnocení}. Zkoušející
 neověřuje výčet aplikací, ale schopnost přiřadit k~úloze metodu a~metriku.
 
 \hh{Vlajkové aplikace dobývání znalostí}
 \begin{itemize}
-\item \tm{Analýza nákupního košíku} --- asociační pravidla; vyhodnocení supportem,
-  confidence a~liftem; pozor na nadprodukci pravidel.
-\item \tm{Detekce podvodů} (příklad zdravotní pojišťovny) --- stroj \emph{zaostřuje} pozornost
-  experta, nenahrazuje jej; nevyvážená data, hodnotí se lift a~náklady chyb.
-\item \tm{Kreditní skórování} --- rozhodovací stromy a~Bayes; klíčový požadavek
-  \emph{srozumitelnosti} (rozhodnutí je nutné umět odůvodnit žadateli i~regulátorovi).
-\item \tm{Segmentace zákazníků} --- klastrování; centroid $=$ typický zákazník; vyhodnocení
-  interpretovatelností segmentů, ne přesností.
-\item \tm{Churn a~cílený marketing} --- klasifikace na nevyvážených datech $\Rightarrow$
-  ROC/AUC a~\emph{lift}; ekonomická úvaha o~počtu kontaktovaných zákazníků.
-\item \tm{Klasifikace textu} --- SVM (vysoká dimenze, řídká data).
-\item \tm{Predikce časových řad} --- posuvné okno (převod na tabulku objekty $\times$ atributy).
-\item \tm{Web usage mining} --- sekvenční vzory nad logy.
+\item \tm{Analýza nákupního košíku} stojí na asociačních pravidlech a~hodnotí se supportem,
+  confidence a~liftem; hlavním rizikem je nadprodukce pravidel.
+\item \tm{Detekce podvodů} (příkladem je zdravotní pojišťovna) pracuje s~nevyváženými daty
+  a~hodnotí se liftem a~náklady chyb; stroj tu pozornost experta \emph{zaostřuje}, nenahrazuje
+  jej.
+\item \tm{Kreditní skórování} používá rozhodovací stromy a~Bayese, protože klíčovým požadavkem
+  je \emph{srozumitelnost}: rozhodnutí je nutné umět odůvodnit žadateli i~regulátorovi.
+\item \tm{Segmentace zákazníků} je klastrování, v~němž centroid představuje typického
+  zákazníka; hodnotí se interpretovatelností segmentů, ne přesností.
+\item \tm{Churn a~cílený marketing} jsou klasifikace na nevyvážených datech, takže se sáhne po
+  ROC, AUC a~\emph{liftu} a~doplní se ekonomická úvaha o~počtu kontaktovaných zákazníků.
+\item \tm{Klasifikace textu} je doménou SVM kvůli vysoké dimenzi a~řídkým datům.
+\item \tm{Predikce časových řad} se posuvným oknem převede na tabulku objekty $\times$ atributy.
+\item \tm{Web usage mining} hledá sekvenční vzory nad logy.
 \end{itemize}
 
 \hh{Vlajkové aplikace SNA}
 \begin{itemize}
-\item \tm{Klíčoví hráči v~kriminálních a~teroristických sítích} --- míry centrality
-  (mezilehlá pro spojky, vlastní pro vliv).
-\item \tm{Doporučování přátel} --- predikce vazeb (společní sousedé, Adamic--Adar).
-\item \tm{Optimalizace komunikačních sítí} --- koheze, úzká hrdla, mezilehlost.
-\item \tm{Epidemiologie} (Rockdale County 1996) --- struktura kontaktní sítě vysvětlí šíření
-  lépe než počet kontaktů.
-\item \tm{Vakcinace cílená na huby} --- přímý důsledek vlastností bezškálových sítí.
-\item \tm{Marketing a~kaskádové finanční krachy} --- modely šíření vlivu (LTM, ICM).
-\item \tm{Segmentace zákazníků operátora} podle jazykových komunit --- Louvain nad sítí volání
-  (2~mil.\ zákazníků; ukázka škálovatelnosti).
+\item \tm{Klíčoví hráči v~kriminálních a~teroristických sítích} se hledají mírami centrality:
+  mezilehlá najde spojky, vlastní vliv.
+\item \tm{Doporučování přátel} je predikce vazeb (společní sousedé, Adamic--Adar).
+\item \tm{Optimalizace komunikačních sítí} sleduje kohezi, úzká hrdla a~mezilehlost.
+\item \tm{Epidemiologie} (Rockdale County 1996) ukázala, že šíření vysvětlí struktura kontaktní
+  sítě lépe než počet kontaktů.
+\item \tm{Vakcinace cílená na huby} plyne přímo z~vlastností bezškálových sítí.
+\item \tm{Marketing a~kaskádové finanční krachy} se popisují modely šíření vlivu (LTM, ICM).
+\item \tm{Segmentace zákazníků operátora} podle jazykových komunit se dělá Louvainem nad sítí
+  volání; 2~mil.\ zákazníků je ukázkou škálovatelnosti.
 \end{itemize}
 
 \hh{Klíčová vlastnost SF sítí pro praxi}
-Odolnost proti \emph{náhodným} poruchám (síť vydrží až 80~\% odstraněných uzlů) vs.\
-zranitelnost \emph{cíleným} útokem (stačí 5--15~\% hubů). Z~toho plyne jak strategie vakcinace
-a~ochrany infrastruktury, tak nemožnost vymýtit internetové viry běžnými prostředky.
+Bezškálová síť je odolná proti \emph{náhodným} poruchám, protože vydrží až 80~\% odstraněných
+uzlů, ale zranitelná \emph{cíleným} útokem, kde stačí 5--15~\% hubů. Z~toho plyne jak strategie
+vakcinace a~ochrany infrastruktury, tak nemožnost vymýtit internetové viry běžnými prostředky.
 
 \hh{Nasazení není konec}
-\tm{Monitoring driftu} (rozdělení dat se v~čase mění, model stárne), \emph{zpětná vazba modelu
-do dat} (doporučení ovlivní chování, které se pak učí znovu), \tm{soukromí} (i~anonymizovaný
-graf lze deanonymizovat porovnáním struktury), \tm{spravedlnost} (chráněný atribut lze
-rekonstruovat z~ostatních, takže jeho vynechání nestačí), právní rámec ---
-\tm{GDPR čl.~22} (automatizované rozhodování a~právo na vysvětlení) a~\tm{AI Act}.
+Po nasazení se monitoruje \tm{drift}, protože rozdělení dat se v~čase mění a~model stárne, a~také
+\emph{zpětná vazba modelu do dat}: doporučení ovlivní chování, které se pak model učí znovu.
+K~tomu přistupuje \tm{soukromí}, neboť i~anonymizovaný graf lze deanonymizovat porovnáním
+struktury, a~\tm{spravedlnost}, protože chráněný atribut jde rekonstruovat z~ostatních a~jeho
+vynechání nestačí. Právní rámec dává \tm{GDPR čl.~22} (automatizované rozhodování a~právo na
+vysvětlení) a~\tm{AI Act}.
 
 \hh{Vazby na ostatní otázky}
-Volba metody vychází z~typu úlohy (otázka~1), kvalita výsledku stojí na přípravě dat
-(otázka~2), metriky a~ROC/lift pocházejí z~otázky~5, komunity a~centrality z~otázky~6.
+Volba metody vychází z~typu úlohy (otázka~1) a~kvalita výsledku stojí na přípravě dat
+(otázka~2); metriky, ROC a~lift pocházejí z~otázky~5 a~komunity s~centralitami z~otázky~6.
 
 \end{multicols}
 

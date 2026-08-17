@@ -67,9 +67,9 @@
 \end{qbox}
 
 \footnotesize
-Šest vět okruhu, šest stran. Podrobný výklad v~\path{02-prirodou-inspirovane-pocitani.pdf}
-(anglicky \path{ENG/02-nature-inspired-computing.pdf}); zdrojové slidy \path{materialy/}
-(EVA~I --- NAIL025, EVA~II --- NAIL086, Neruda).
+Okruh má šest vět a~toto shrnutí jim věnuje šest stran. Podrobný výklad je
+v~\path{02-prirodou-inspirovane-pocitani.pdf} (anglicky \path{ENG/02-nature-inspired-computing.pdf}),
+zdrojové slidy leží v~\path{materialy/} (EVA~I je NAIL025, EVA~II je NAIL086, obojí Neruda).
 
 \begin{enumerate}[leftmargin=2em,itemsep=1pt]
 \item Genetické algoritmy, genetické a~evoluční programování. \hfill \textit{str.~2}
@@ -85,16 +85,16 @@
 \begin{qbox}{}
 \footnotesize\raggedright
 \textbf{Jednotící pohled --- tímhle lze začít kteroukoli odpověď.}
-Všechny probírané metody jsou \emph{stochastické black-box hledání}: k~dispozici jsou jen
-hodnoty $f$ ve zvolených bodech (žádný gradient), cenou je počet vyhodnocení.
-Algoritmus drží \emph{rozdělení} $p_\theta$ nad prostorem řešení a~opakuje
-\textbf{vzorkuj \ra{} vyhodnoť \ra{} aktualizuj $\theta$}; $\theta$ je jediná informace, která
-přechází mezi iteracemi (co se naučil $+$ kde hledat dál). Liší se jen tím, co je $\theta$:
-\textbf{EA} rodičovská populace $\cdot$ \textbf{ES} gaussián (střed, $\sigma$) $\cdot$
-\textbf{CMA-ES} $(\vec m,\sigma,\mathbf C,\vec p_\sigma,\vec p_c)$ $\cdot$
-\textbf{EDA} parametry modelu (marginály, bayesovská síť) $\cdot$
-\textbf{PSO} pozice, rychlosti a~paměť $\cdot$ \textbf{ACO} feromonová matice $\cdot$
-\textbf{SA} aktuální bod $+$ teplota $\cdot$ \textbf{tabu} aktuální bod $+$ zakázané tahy.
+Všechny probírané metody dělají totéž: \emph{stochastické black-box hledání}. K~dispozici jsou
+jen hodnoty $f$ ve zvolených bodech, gradient nikoli, a~cenou je počet vyhodnocení.
+Algoritmus si drží \emph{rozdělení} $p_\theta$ nad prostorem řešení a~opakuje
+\textbf{vzorkuj \ra{} vyhodnoť \ra{} aktualizuj $\theta$}. Mezi iteracemi přechází jediná
+informace, totiž $\theta$ --- co se algoritmus naučil a~kde má hledat dál. Metody se pak liší
+už jen tím, co do $\theta$ ukládají: \textbf{EA} rodičovskou populaci, \textbf{ES} gaussián se
+středem a~$\sigma$, \textbf{CMA-ES} pětici $(\vec m,\sigma,\mathbf C,\vec p_\sigma,\vec p_c)$,
+\textbf{EDA} parametry modelu (marginály, bayesovskou síť), \textbf{PSO} pozice, rychlosti
+a~paměť, \textbf{ACO} feromonovou matici, \textbf{SA} aktuální bod s~teplotou a~\textbf{tabu}
+aktuální bod se seznamem zakázaných tahů.
 \end{qbox}
 
 \vspace{0.2em}
@@ -134,52 +134,53 @@ NEAT & seznam hran & mutace struktury, křížení dle ID & sdílená fitness v~
 
 \hh{Průřezová témata --- ptají se napříč otázkami}
 \begin{itemize}
-\item \tm{Explorace vs.\ exploatace} a~kde ji každý algoritmus řídí: GA (křížení vs.\ selekční
-  tlak), ES ($\sigma$, pravidlo 1/5), SA (teplota), PSO ($w$, topologie), ACO ($q_0$,
-  odpařování), tabu (tabu list), novelty search (jen explorace).
-\item \tm{Udržení diverzity}: fitness sharing, crowding, speciace, ostrovní model, nenáhodné
-  páření, restart, hypermutace.
-\item \tm{Adaptace parametrů}: ladění vs.\ řízení; pevné / adaptivní / samoadaptivní.
-\item \tm{Práce s~omezeními}: penalizace, oprava, dekodér, uzavřené operátory, vícekriteriální
-  formulace.
-\item \tm{Lamarckismus vs.\ baldwinismus}: memetické algoritmy, oprava jedinců, neuroevoluce
-  s~doučováním vah.
-\item \tm{Teorie}: věta o~schématech a~její kritika, Voseho model, Markovovy řetězce
-  a~konvergence elitistického GA, No Free Lunch, konvergence SA.
+\item \tm{Explorace a~exploatace} --- u~každého algoritmu vědět, čím se poměr obou řídí:
+  v~GA křížením proti selekčnímu tlaku, v~ES parametrem $\sigma$ a~pravidlem 1/5, v~SA teplotou,
+  v~PSO vahou $w$ a~topologií, v~ACO prahem $q_0$ a~odpařováním, v~tabu search délkou tabu listu;
+  novelty search jen exploruje.
+\item \tm{Diverzitu} udržují fitness sharing, crowding, speciace, ostrovní model, nenáhodné
+  páření, restart a~hypermutace.
+\item \tm{Parametry} se buď ladí před během, nebo řídí za běhu, a~to pevně, adaptivně či
+  samoadaptivně.
+\item \tm{Omezení} se řeší penalizací, opravou, dekodérem, uzavřenými operátory nebo
+  vícekriteriální formulací.
+\item \tm{Lamarckismus proti baldwinismu} se objeví u~memetických algoritmů, opravy jedinců
+  a~neuroevoluce s~doučováním vah.
+\item Z~\tm{teorie} se ptají na větu o~schématech a~její kritiku, Voseho model, Markovovy
+  řetězce s~konvergencí elitistického GA, No Free Lunch a~konvergenci SA.
 \end{itemize}
 
 \hh{Co se chce spočítat u~tabule}
 \begin{itemize}
-\item Ruletová selekce pro danou populaci; jeden krok DE s~čísly.
-\item PMX a~OX na devítiprvkovém příkladu; inverze (2-opt) na permutaci.
-\item Věta o~schématech: $o(S)$, $d(S)$, celé odvození nerovnosti.
-\item Crowding distance v~NSGA-II; dominance a~Pareto fronta z~tabulky kritérií.
-\item Metropolisovo kritérium pro konkrétní $\Delta$ a~$T$; samoadaptace $\sigma$.
+\item Ruletovou selekci pro zadanou populaci a~jeden krok DE s~konkrétními čísly.
+\item PMX a~OX na devítiprvkovém příkladu, inverzi (2-opt) na permutaci.
+\item Z~věty o~schématech $o(S)$ a~$d(S)$, případně celé odvození nerovnosti.
+\item Crowding distance v~NSGA-II, dominanci a~Pareto frontu z~tabulky kritérií.
+\item Metropolisovo kritérium pro konkrétní $\Delta$ a~$T$, jeden krok samoadaptace $\sigma$.
 \end{itemize}
 
 \columnbreak
 
 \hh{Zařazení oboru --- na úvodní otázku}
-UI se dělí na \uv{tvrdé} logicko-formální metody a~\uv{měkké} přírodou inspirované.
-\tm{Computational intelligence} (dříve soft computing) $=$ neuronové sítě $+$ fuzzy $+$
-\tm{evoluční výpočty (EC)}. EC zastřešuje biologicky motivované metaheuristiky;
-\tm{EVA} je jeho podmnožina stavějící na principech evoluce (populace, stochastičnost, fitness,
-mutace, křížení). Mimo biologickou inspiraci stojí tabu, scatter a~novelty search.
+Umělá inteligence se dělí na \uv{tvrdé} logicko-formální metody a~\uv{měkké} metody inspirované
+přírodou. Do \tm{computational intelligence} (dříve soft computing) patří neuronové sítě, fuzzy
+přístupy a~\tm{evoluční výpočty (EC)}. EC zastřešuje biologicky motivované metaheuristiky
+a~\tm{EVA} je jeho podmnožina, která staví na principech evoluce: na populaci, stochastičnosti,
+fitness, mutaci a~křížení. Biologickou inspiraci naopak postrádají tabu, scatter a~novelty search.
 
 \ph{Nejčastější chyby}
 \begin{itemize}
-\item Zaměnit \emph{adaptivní} (pravidlo 1/5) a~\emph{samoadaptivní} ($\sigma$ v~genomu) řízení.
-\item U~samoadaptace mutovat $x$ dřív než $\sigma$ --- je to naopak (nový krok se musí hned
-  otestovat).
-\item Tvrdit, že věta o~schématech dokazuje konvergenci GA --- je to nerovnost na \emph{jeden}
-  krok a~o~\emph{střední hodnotě}.
-\item Zaměnit $(\mu,\lambda)$ a~$(\mu+\lambda)$, resp.\ jejich elitismus.
-\item Považovat No Free Lunch za argument proti EA --- je to argument \emph{pro} doménovou
-  specializaci reprezentace a~operátorů.
-\item Říct, že lineární skalarizace vícekriteriální úlohy najde celou Pareto frontu ---
-  nenajde nekonvexní části.
-\item Zaměnit Pareto \emph{množinu} (v~prostoru řešení) a~Pareto \emph{frontu} (v~prostoru
-  kritérií).
+\item Pravidlo 1/5 je řízení \emph{adaptivní}; \emph{samoadaptivní} je až $\sigma$ uložené
+  v~genomu.
+\item Při samoadaptaci se mutuje nejdřív $\sigma$ a~teprve pak $x$, aby se nový krok hned
+  otestoval.
+\item Věta o~schématech nedokazuje konvergenci GA: je to nerovnost na \emph{jeden} krok
+  a~jen o~\emph{střední hodnotě}.
+\item $(\mu,\lambda)$ a~$(\mu+\lambda)$ se liší elitismem, a~právě to se plete nejčastěji.
+\item No Free Lunch není argument proti EA, ale argument \emph{pro} doménovou specializaci
+  reprezentace a~operátorů.
+\item Lineární skalarizace nenajde celou Pareto frontu --- nekonvexní části jí uniknou.
+\item Pareto \emph{množina} leží v~prostoru řešení, Pareto \emph{fronta} v~prostoru kritérií.
 \end{itemize}
 
 \end{multicols}
@@ -198,77 +199,90 @@ mutace, křížení). Mimo biologickou inspiraci stojí tabu, scatter a~novelty 
 GP \ok{7} EP a~srovnání čtyř historických větví.
 
 \hh{Obecné schéma EA}
-Populační stochastické prohledávání; cyklus \emph{inicializace \ra{} ohodnocení \ra{}
-rodičovská selekce \ra{} rekombinace \ra{} mutace \ra{} ohodnocení \ra{} environmentální
-selekce}. \tm{Variace} (křížení, mutace) diverzitu \emph{tvoří}, \tm{selekce} ji \emph{odebírá}
-a~směřuje hledání; návrh EA $=$ hledání rovnováhy \tm{explorace/exploatace}.
-\tm{No Free Lunch} (Wolpert \& Macready 1995--97): průměrně přes všechny úlohy si všechny
-algoritmy vedou stejně \ra{} smysl má \emph{doménová specializace} reprezentace a~operátorů.
+Evoluční algoritmus je populační stochastické prohledávání. Opakuje cyklus \emph{inicializace
+\ra{} ohodnocení \ra{} rodičovská selekce \ra{} rekombinace \ra{} mutace \ra{} ohodnocení
+\ra{} environmentální selekce}.
+Dvě síly v~něm stojí proti sobě: \tm{variace} (křížení a~mutace) diverzitu \emph{tvoří}, kdežto
+\tm{selekce} ji \emph{odebírá} a~směřuje hledání. Navrhnout EA proto znamená najít rovnováhu
+mezi \tm{explorací a~exploatací}.
+\tm{No Free Lunch} (Wolpert \& Macready 1995--97) říká, že průměrně přes všechny úlohy si všechny
+algoritmy vedou stejně. Smysl má tedy jen \emph{doménová specializace} reprezentace a~operátorů.
 
 \hh{Selekce}
-\tm{Ruleta} ($p_i=f_i/\sum_j f_j$; vysoký rozptyl, citlivá na škálování fitness),
-\tm{SUS} (jedno náhodné místo a~dál posuny po $1/n$ --- stejné střední hodnoty, nižší rozptyl,
-\uv{spravedlivější ruleta}), \tm{turnaj} (tlak řídí velikost $k$, typicky 2--5; invariantní
-k~\emph{monotónním} transformacím fitness a~nepotřebuje explicitní fitness --- stačí porovnání,
-proto je jediný použitelný, když se hraje hra nebo běží simulace),
-\tm{pořadová} (konstantní tlak), \tm{Boltzmannova} (tlak roste s~časem).
-\tm{Elitismus} zaručuje monotonii nejlepší fitness. \tm{Generační} vs.\ \tm{steady-state} model
-se liší podílem nahrazované populace.
-\tm{Škálování fitness} (lineární, sigma truncation, mocninné, pořadové, Boltzmannovo) opravuje
-dvě slabiny ruletové selekce: dominanci \uv{supermanů} na začátku a~ztrátu tlaku na konci běhu.
+\tm{Ruleta} dává jedinci pravděpodobnost $p_i=f_i/\sum_j f_j$; má vysoký rozptyl a~je citlivá
+na škálování fitness.
+\tm{SUS} losuje jediné náhodné místo a~dál se posouvá po $1/n$, takže při stejných středních
+hodnotách má nižší rozptyl --- je to \uv{spravedlivější ruleta}.
+V~\tm{turnaji} řídí selekční tlak velikost $k$, typicky 2--5. Turnaj je invariantní vůči
+\emph{monotónním} transformacím fitness a~explicitní fitness vůbec nepotřebuje, protože mu stačí
+dva jedince porovnat; proto je jediný použitelný, když se hraje hra nebo běží simulace.
+\tm{Pořadová} selekce drží tlak konstantní, \tm{Boltzmannova} jej v~čase zvyšuje.
+\tm{Elitismus} zaručuje, že nejlepší fitness nikdy neklesne. \tm{Generační} a~\tm{steady-state}
+model se liší podílem populace, který se v~jednom kroku nahradí.
+\tm{Škálování fitness} --- lineární, sigma truncation, mocninné, pořadové a~Boltzmannovo ---
+opravuje dvě slabiny ruletové selekce: dominanci \uv{supermanů} na začátku a~ztrátu tlaku na
+konci běhu.
 
 \hh{SGA a~binární kódování}
-\tm{SGA} $=$ binární řetězce $+$ ruleta $+$ 1-bodové křížení $+$ bit-flip mutace $+$ generační
-náhrada; parametry $n$, $p_C\approx 0{,}7$, $p_M\approx 1/m$.
-Reálná čísla binárně: $x=a+z(b-a)/(2^k-1)$; \tm{Hammingovy útesy} řeší \tm{Grayův kód}.
-Hollandův argument pro binární abecedu (nejvíc schémat na bit) dnes \emph{neobstojí} --- binární
-kódování je pro řadu úloh nepřirozené.
-Křížení: \tm{1-bodové} (rozbije schéma s~pravd.\ $d(S)/(m-1)$, poziční bias),
-\tm{2-bodové} (bez okrajového biasu), \tm{uniformní} (nejvíc disruptivní, bez pozičního biasu).
-Mutace je v~GA \emph{sekundární} --- brání nevratné ztrátě alel; \tm{inverze} je historický
-operátor pro evoluci uspořádání genů.
+\tm{SGA} pracuje s~binárními řetězci a~kombinuje ruletu, 1-bodové křížení, bit-flip mutaci
+a~generační náhradu; nastavuje se u~něj velikost populace $n$ a~pravděpodobnosti
+$p_C\approx 0{,}7$ a~$p_M\approx 1/m$.
+Reálné číslo se do řetězce převede vztahem $x=a+z(b-a)/(2^k-1)$, přičemž \tm{Hammingovy útesy}
+odstraní \tm{Grayův kód}.
+Hollandův argument pro binární abecedu (nejvíc schémat na jeden bit) dnes \emph{neobstojí},
+protože binární kódování je pro řadu úloh nepřirozené.
+Křížení má tři podoby. \tm{1-bodové} rozbije schéma s~pravděpodobností $d(S)/(m-1)$ a~má poziční
+bias, \tm{2-bodové} se okrajového biasu zbaví a~\tm{uniformní} je nejvíc disruptivní, zato bez
+pozičního biasu.
+Mutace hraje v~GA \emph{sekundární} roli: brání nevratné ztrátě alel. \tm{Inverze} je historický
+operátor, kterým se mělo evolvovat uspořádání genů.
 
 \hh{Reprezentace a~operátory}
-\emph{Reprezentace $+$ operátory $=$ fitness krajina.}
-\tm{Celočíselná}: mutace \emph{nezaujatá} (nová hodnota z~celé domény) nebo \emph{zaujatá}
-(\en{creep}, normální posun) --- zaujatá dává smysl jen u~ordinálních atributů, ne
-u~nominálních.
-\tm{Reálná}: gaussovská mutace $x'=x+\sigma N(0,1)$; křížení \emph{strukturní} (1-bodové,
-uniformní) nebo \emph{aritmetické} $\alpha\vec x+(1-\alpha)\vec y$ --- to však
-\emph{zmenšuje rozptyl} populace, proto BLX-$\alpha$ a~SBX.
-\tm{Permutace}: PMX (pozice $+$ mapování), OX (relativní pořadí), CX (absolutní pozice pomocí
-cyklů), ER (hrany --- nejlepší pro TSP); mutace swap, insert, inverze (2-opt), scramble.
-\emph{Umět předvést PMX a~OX na devítiprvkovém příkladu.}
+\emph{Fitness krajinu určuje teprve reprezentace spolu s~operátory.}
+U~\tm{celočíselné} reprezentace je mutace buď \emph{nezaujatá} (nová hodnota se losuje z~celé
+domény), nebo \emph{zaujatá} (\en{creep}, normálně rozdělený posun); zaujatá dává smysl jen
+u~ordinálních atributů, u~nominálních ne.
+V~\tm{reálné} reprezentaci se mutuje gaussovsky, $x'=x+\sigma N(0,1)$, a~křížení je buď
+\emph{strukturní} (1-bodové, uniformní), nebo \emph{aritmetické},
+$\alpha\vec x+(1-\alpha)\vec y$. Aritmetické však \emph{zmenšuje rozptyl} populace, a~proto
+vznikly BLX-$\alpha$ a~SBX.
+Pro \tm{permutace} zachovává PMX pozice pomocí mapování, OX relativní pořadí, CX absolutní pozice
+pomocí cyklů a~ER hrany, což je nejlepší volba pro TSP. Mutací jsou swap, insert, inverze (2-opt)
+a~scramble. \emph{Umět předvést PMX a~OX na devítiprvkovém příkladu.}
 
 \hh{Stromové GP (Koza 1989)}
-Terminály $+$ neterminály, požadavky \tm{uzavřenosti} (každý neterminál zpracuje každou hodnotu)
-a~\tm{dostatečnosti} (řešení je v~prostoru vyjádřitelné);
-inicializace \en{grow} / \en{full} / \en{ramped half-and-half}; křížení $=$ výměna podstromů
-(neterminály volit s~vyšší pravděpodobností, jinak se mění jen listy), víc typů mutací včetně
-mutace konstant; fitness $=$ spuštění programu na datech.
-\tm{Bloat} $=$ růst velikosti bez zlepšení fitness (\en{introny}); tři vysvětlení ---
-\en{replication accuracy}, \en{removal bias}, \en{crossover bias}. Obrana: limity velikosti,
-penalizace (\en{parsimony pressure}), anti-bloat operátory (hoist, shrink, size-fair),
-vícekriteriální přístup.
-\tm{ADF} $=$ evolvované podprogramy (modularita), operátory pracují na větvích odděleně;
-typované a~gramatické GP omezují prostor na smysluplné programy.
+Jedinec je strom sestavený z~terminálů a~neterminálů. Množina symbolů musí splnit
+\tm{uzavřenost} (každý neterminál zpracuje každou hodnotu) a~\tm{dostatečnost} (řešení je
+v~prostoru vůbec vyjádřitelné). Populace se inicializuje metodou \en{grow}, \en{full} nebo
+\en{ramped half-and-half}. Křížení vyměňuje podstromy a~neterminály je přitom nutné volit
+s~vyšší pravděpodobností, jinak se mění jen listy; mutací je několik typů včetně mutace konstant.
+Fitness se získá tak, že se program spustí na datech.
+\tm{Bloat} je růst velikosti bez zlepšení fitness (přibývají \en{introny}). Vysvětlují jej tři
+teorie --- \en{replication accuracy}, \en{removal bias} a~\en{crossover bias} --- a~bránit se
+lze limity velikosti, penalizací (\en{parsimony pressure}), anti-bloat operátory (hoist, shrink,
+size-fair) a~vícekriteriálním přístupem.
+\tm{ADF} jsou evolvované podprogramy, které do řešení vnášejí modularitu; operátory pak pracují
+na jednotlivých větvích odděleně. Typované a~gramatické GP omezují prostor na smysluplné programy.
 
 \hh{Varianty GP}
-\tm{Lineární GP} (byte kód; jednodušší operátory a~rychlá emulace, ale mutace snadno vyrobí
-nesmysl; oblíbené v~a-life a~pro boty ve hrách). \tm{Grafové GP} (DAG --- obvody, automaty,
-neuronové sítě). \tm{Cartesian GP} (lineární genotyp \ra{} 2D mřížka uzlů, bodová mutace,
-$(1+4)$-ES; část uzlů zůstává neaktivní). \tm{Vývojové GP} (strom je program, který staví graf).
-\tm{Gramatická evoluce}: lineární genom celých čísel, pravidlo gramatiky se vybírá
-\emph{modulem}, derivační strom \ra{} fenotyp; robustní kódování a~standardní operátory GA, ale
-nelokální mapování genotyp--fenotyp.
+\tm{Lineární GP} zapisuje program jako byte kód: operátory jsou jednodušší a~emulace rychlá,
+zato mutace snadno vyrobí nesmysl. Oblíbené je v~a-life a~pro boty ve hrách.
+\tm{Grafové GP} pracuje s~DAG, tedy s~obvody, automaty a~neuronovými sítěmi.
+\tm{Cartesian GP} mapuje lineární genotyp na dvourozměrnou mřížku uzlů, mutuje bodově a~běží
+jako $(1+4)$-ES; část uzlů přitom zůstává neaktivní.
+Ve \tm{vývojovém GP} je strom program, který teprve staví výsledný graf.
+\tm{Gramatická evoluce} má lineární genom celých čísel a~pravidlo gramatiky vybírá \emph{modulem};
+z~derivačního stromu pak vznikne fenotyp. Kódování je robustní a~operátory standardně jako v~GA,
+platí se za to ale nelokálním mapováním genotypu na fenotyp.
 
 \hh{Evoluční programování a~poučení}
-\tm{EP}: konečné automaty, \emph{genotyp $=$ fenotyp} (a proto \uv{křížení je zlo}), jen mutace,
-turnajová selekce z~rodičů i~potomků; příklad predikce prvočísel.
+\tm{EP} evolvuje konečné automaty a~ztotožňuje \emph{genotyp s~fenotypem}; odtud jeho heslo
+\uv{křížení je zlo}. Pracuje tedy jen s~mutací a~s~turnajovou selekcí z~rodičů i~potomků,
+školním příkladem je predikce prvočísel.
 Umět vyjmenovat čtyři historické větve \tm{GA / ES / EP / GP} a~jejich charakteristické volby.
-\tm{Headless chicken test}: porovnej skutečné křížení s~křížením s~náhodně vygenerovaným
-partnerem. Vyhraje-li náhodné, křížení nekombinuje stavební bloky, ale funguje jen jako
-\emph{makromutace} --- špatné kódování, špatný operátor, nebo úloha bez stavebních bloků.
+\tm{Headless chicken test} porovná skutečné křížení s~křížením, v~němž je partner náhodně
+vygenerovaný. Vyhraje-li náhodný partner, křížení nekombinuje stavební bloky a~funguje jen jako
+\emph{makromutace}; na vině je špatné kódování, špatný operátor, nebo úloha bez stavebních bloků.
 
 \end{multicols}
 \newpage
@@ -286,68 +300,72 @@ krocích \ok{3} BBH, implicitní paralelismus, bandita \ok{4} kritika \ok{5} Vos
 důsledek.
 
 \hh{Schéma}
-Slovo nad $\{0,1,*\}$. \tm{Řád} $o(S)$ $=$ počet pevných pozic; \tm{definující délka} $d(S)$ $=$
-vzdálenost první a~poslední pevné pozice; $F(S)$ $=$ průměrná fitness reprezentantů
-\emph{v~dané populaci} --- tedy veličina závislá na populaci, ne na úloze.
-Počty: schémat délky $m$ je $3^m$, jeden jedinec je reprezentantem $2^m$ z~nich, schéma s~$r$
-hvězdičkami pokrývá $2^r$ jedinců a~populace $n$ jedinců obsahuje mezi $2^m$ a~$n\cdot2^m$
-schémat.
+Schéma je slovo nad abecedou $\{0,1,*\}$. Jeho \tm{řád} $o(S)$ udává počet pevných pozic,
+\tm{definující délka} $d(S)$ vzdálenost první a~poslední pevné pozice a~$F(S)$ je průměrná
+fitness jeho reprezentantů \emph{v~dané populaci}. Poslední veličina tedy závisí na populaci,
+ne na úloze.
+Počty vypadají takto: schémat délky $m$ je $3^m$, jeden jedinec je reprezentantem $2^m$ z~nich,
+schéma s~$r$ hvězdičkami pokrývá $2^r$ jedinců a~populace $n$ jedinců obsahuje mezi $2^m$
+a~$n\cdot2^m$ schémat.
 
 \hh{Věta o~schématech (TST)}
 $$\mathbb{E}[C(S,t{+}1)] \ge C(S,t)\,\frac{F(S)}{\bar f}
 \Bigl[1 - p_C \frac{d(S)}{m-1} - p_M\, o(S)\Bigr]$$
-Odvození ve třech krocích: \emph{selekce} \ra{} faktor $F(S)/\bar f$ (nadprůměrná schémata
-rostou exponenciálně), \emph{křížení} \ra{} schéma se rozbije s~pravděpodobností nejvýš
-$d(S)/(m-1)$, \emph{mutace} \ra{} přežije s~pravděpodobností $(1-p_M)^{o(S)}\approx 1-p_M o(S)$.
-Slovně (Holland): \emph{krátká, nízkého řádu a~nadprůměrná} schémata rostou v~populaci
-exponenciálně.
+Odvozuje se ve třech krocích. \emph{Selekce} dodá faktor $F(S)/\bar f$, takže nadprůměrná
+schémata rostou exponenciálně. \emph{Křížení} schéma rozbije s~pravděpodobností nejvýš
+$d(S)/(m-1)$. \emph{Mutace} nechá schéma přežít s~pravděpodobností
+$(1-p_M)^{o(S)}\approx 1-p_M o(S)$.
+Slovy Hollanda: v~populaci exponenciálně rostou schémata \emph{krátká, nízkého řádu
+a~nadprůměrná}.
 
 \hh{Příklad na dosazení ($m=8$, $p_C=0{,}7$, $p_M=0{,}01$, $F(S)/\bar f=1{,}5$)}
-$S=\mathtt{1{*}{*}0{*}{*}{*}1}$: $o(S)=3$, $d(S)=7$ \ra{}
-$1-0{,}7\cdot\tfrac{7}{7}-0{,}01\cdot3=0{,}27$, tedy $1{,}5\cdot0{,}27=0{,}41$ --- schéma
+Pro $S=\mathtt{1{*}{*}0{*}{*}{*}1}$ je $o(S)=3$ a~$d(S)=7$, závorka tedy vyjde
+$1-0{,}7\cdot\tfrac{7}{7}-0{,}01\cdot3=0{,}27$ a~celkem $1{,}5\cdot0{,}27=0{,}41$. Schéma
 \emph{ubývá}, přestože je nadprůměrné.
-$S'=\mathtt{110{*}{*}{*}{*}{*}}$: $o=3$, $d=2$ \ra{}
-$1-0{,}7\cdot\tfrac{2}{7}-0{,}03=0{,}77$, tedy $1{,}5\cdot0{,}77=1{,}16$ --- \emph{roste}.
-Přesně to je obsah slov \uv{krátká a~nízkého řádu}: rozhoduje $d(S)$, ne jen fitness.
+Pro $S'=\mathtt{110{*}{*}{*}{*}{*}}$ je $o=3$ a~$d=2$, závorka dá
+$1-0{,}7\cdot\tfrac{2}{7}-0{,}03=0{,}77$ a~celkem $1{,}5\cdot0{,}77=1{,}16$: schéma \emph{roste}.
+Přesně tohle znamenají slova \uv{krátká a~nízkého řádu} --- rozhoduje $d(S)$, ne jen fitness.
 
 \hh{BBH a~implicitní paralelismus}
-\tm{Hypotéza stavebních bloků}: GA skládá řešení z~krátkých, nízkého řádu a~nadprůměrných
-schémat. Důsledky: záleží na \emph{kódování} (příbuzné geny blízko sebe) i~na \emph{velikosti
-populace}, škodí předčasná konvergence.
-\tm{Implicitní paralelismus}: populace $n$ jedinců implicitně zpracovává $2^m$ až $n\cdot2^m$
-schémat, ale exponenciálně roste jen řádově $n^3$ z~nich (\uv{jediný případ, kdy je
-kombinatorická exploze na naší straně}).
+\tm{Hypotéza stavebních bloků} tvrdí, že GA skládá řešení z~krátkých, nízkého řádu
+a~nadprůměrných schémat. Plyne z~toho, že záleží na \emph{kódování} (příbuzné geny mají ležet
+blízko sebe) i~na \emph{velikosti populace} a~že škodí předčasná konvergence.
+\tm{Implicitní paralelismus} znamená, že populace $n$ jedinců zpracovává $2^m$ až $n\cdot2^m$
+schémat, exponenciálně jich ale roste jen řádově $n^3$. Bývá to označováno za \uv{jediný případ,
+kdy je kombinatorická exploze na naší straně}.
 
 \hh{Bandita}
-$N$ mincí, dvouruký bandita s~výplatami o~středech $\mu_1,\mu_2$ a~rozptylech
-$\sigma_1,\sigma_2$. Analytické řešení: \emph{exponenciálně} více pokusů dosud vítězné páce,
-$N-n^*=O(e^{c\,n^*})$. GA alokuje sloty v~populaci stejně, a~řeší tak dilema
-explorace/exploatace optimálně.
-Přesněji: schémata řádu $k$ soupeří o~týchž $k$ pevných pozic, hrají tedy
-\tm{$2^k$-rukého banditu} (ne jednu hru s~$3^m$ pákami).
+Dáno je $N$ mincí a~dvouruký bandita s~výplatami o~středech $\mu_1,\mu_2$ a~rozptylech
+$\sigma_1,\sigma_2$. Analytické řešení přiděluje dosud vítězné páce \emph{exponenciálně} více
+pokusů, $N-n^*=O(e^{c\,n^*})$. Stejně alokuje GA sloty v~populaci, a~řeší tak dilema explorace
+a~exploatace optimálně.
+Přesnější pohled: schémata řádu $k$ soupeří o~týchž $k$ pevných pozic, hrají tedy
+\tm{$2^k$-rukého banditu}, nikoli jednu hru s~$3^m$ pákami.
 
 \columnbreak
 
 \hh{Kritika teorie schémat}
 \begin{itemize}
-\item Nerovnost platí jen na \emph{jeden} krok a~o~\emph{střední hodnotě} --- nelze iterovat,
-  $F(S)$ i~$\bar f$ se mění; v~malé populaci navíc vznikají výběrové chyby (drift).
-\item Ramena bandity jsou nezávislá, schémata \emph{nejsou} --- SGA je nevzorkuje nezávisle,
-  a~proto \emph{špatně odhaduje jejich fitness}. Kanonický protipříklad: $f(x)=2$ pro
-  $111*\dots*$, $1$ pro $0*\dots*$, jinak $0$. Skutečně je $F(1*\dots*)=1/2 < F(0*\dots*)=1$,
-  ale SGA odhadne $F(1*\dots*)\approx2$, protože v~populaci převládnou zástupci $111*\dots*$.
-\item \tm{Statická BBH} (Grefenstette 1991): lidé očekávají konvergenci ke schématům se
-  skutečnou průměrnou fitness, GA však konverguje k~fitness \emph{pozorované v~populacích}.
-  Odtud \tm{kolaterální konvergence} (po konvergenci prefixu se ostatní schémata vzorkují
-  zaujatě) a~problém \tm{velkého rozptylu fitness} uvnitř schématu.
-\item \tm{Deceptivní úlohy} (stavební bloky vedou pryč od optima); TST ignoruje
-  \emph{konstruktivní} efekty křížení a~mutace, počítá jen s~destruktivními.
+\item Nerovnost platí jen na \emph{jeden} krok a~jen o~\emph{střední hodnotě}. Iterovat ji nelze,
+  protože $F(S)$ i~$\bar f$ se mění, a~v~malé populaci navíc vznikají výběrové chyby (drift).
+\item Ramena bandity jsou nezávislá, kdežto schémata \emph{nezávislá nejsou}: SGA je nevzorkuje
+  nezávisle, a~proto \emph{špatně odhaduje jejich fitness}. Kanonický protipříklad je $f(x)=2$
+  pro $111*\dots*$, $1$ pro $0*\dots*$ a~jinak $0$. Skutečně je
+  $F(1*\dots*)=1/2 < F(0*\dots*)=1$, ale SGA odhadne $F(1*\dots*)\approx2$, protože v~populaci
+  převládnou zástupci $111*\dots*$.
+\item \tm{Statickou BBH} zpochybnil Grefenstette (1991): lidé očekávají konvergenci ke schématům
+  se skutečnou průměrnou fitness, GA však konverguje k~fitness \emph{pozorované v~populacích}.
+  Odtud plyne \tm{kolaterální konvergence} (jakmile zkonverguje prefix, vzorkují se ostatní
+  schémata zaujatě) a~problém \tm{velkého rozptylu fitness} uvnitř schématu.
+\item U~\tm{deceptivních úloh} vedou stavební bloky pryč od optima. TST navíc ignoruje
+  \emph{konstruktivní} efekty křížení a~mutace a~počítá jen s~destruktivními.
 \end{itemize}
 
 \hh{Voseho model (nekonečná populace)}
-Řetězce ztotožníme s~čísly $0..2^l-1$. Populaci popisuje vektor relativních četností $p(t)$
-v~simplexu, vektor \emph{selekčních pravděpodobností} $s(t)$.
-Hledáme $\mathcal{G}=\mathcal{M}\circ\mathcal{F}$ s~$p(t+1)=\mathcal{G}(p(t))$:
+Řetězce ztotožníme s~čísly $0..2^l-1$. Populaci pak popisuje vektor relativních četností $p(t)$
+ležící v~simplexu a~výběr vektor \emph{selekčních pravděpodobností} $s(t)$.
+Hledá se operátor $\mathcal{G}=\mathcal{M}\circ\mathcal{F}$ takový, že
+$p(t+1)=\mathcal{G}(p(t))$:
 \begin{itemize}
 \item $\mathcal{F}$ (selekce) je dána diagonální maticí fitness,
   $s=\mathbf{F}p/\sum_j \mathbf{F}_{jj}p_j$;
@@ -355,26 +373,27 @@ Hledáme $\mathcal{G}=\mathcal{M}\circ\mathcal{F}$ s~$p(t+1)=\mathcal{G}(p(t))$:
   $\mathbb{E}[p'_k]=\sum_{i,j}s_is_j\,r(i,j,k)$; díky symetrii
   $r(i,j,k)=r(i\oplus k,j\oplus k,0)$ stačí \emph{jediná} míchací matice.
 \end{itemize}
-\tm{Pevné body}: $\mathcal{F}$ --- populace kopií nejlepšího jedince; $\mathcal{M}$ ---
-rovnoměrné rozdělení. Jejich napětí vysvětluje \emph{přerušované rovnováhy}; pevné body celého
-$\mathcal{G}$ známy nejsou.
+\tm{Pevným bodem} samotné $\mathcal{F}$ je populace kopií nejlepšího jedince, pevným bodem
+$\mathcal{M}$ rovnoměrné rozdělení. Napětí mezi nimi vysvětluje \emph{přerušované rovnováhy};
+pevné body celého $\mathcal{G}$ známy nejsou.
 
 \hh{Konečné populace: Markovův řetězec}
-Stavy $=$ možné populace, jejich počet $N=\binom{n+2^l-1}{2^l-1}$; přechodová matice
+Stavy řetězce jsou možné populace a~je jich $N=\binom{n+2^l-1}{2^l-1}$; přechodová matice
 $\mathbf{Q}$ je \emph{exaktní}, ale astronomicky velká.
-Při $p_M>0$ je řetězec \tm{ireducibilní} (z~každé populace lze dosáhnout každé), takže optimum
-je navštíveno s~pravděpodobností~1 --- ale bez elitismu se zase ztratí;
-\tm{elitistický GA proto konverguje k~optimu s~pravděpodobností~1}.
-Shrnutí: nekonečné populace $=$ deterministický model (exaktní, nepraktický), konečné $=$
-stochastický (realistický, nezvládnutelný); limitní přechod je spojuje.
+Je-li $p_M>0$, je řetězec \tm{ireducibilní}, protože z~každé populace lze dosáhnout každé jiné.
+Optimum je proto navštíveno s~pravděpodobností~1, jenže bez elitismu se zase ztratí. Odtud plyne,
+že \tm{elitistický GA konverguje k~optimu s~pravděpodobností~1}.
+Nekonečné populace tedy dávají model deterministický, exaktní a~nepraktický, konečné populace
+model stochastický, realistický a~nezvládnutelný; spojuje je limitní přechod.
 
 \hh{EDA --- praktický důsledek}
-Algoritmy odhadu rozdělení berou pohled \uv{GA $=$ transformace rozdělení} doslova: místo
-operátorů se \emph{učí model} $p_\theta$ a~z~něj vzorkují. Cyklus \emph{vzorkuj \ra{} vyber
-lepší \ra{} přeuč model}.
-\tm{UMDA} --- nezávislé marginály přepočítané z~vybrané podpopulace; \tm{PBIL} ---
-inkrementálně $p_i\gets(1-\alpha)p_i+\alpha x_i^{\mathrm{best}}$; \tm{MIMIC/BMDA} --- párové
-závislosti; \tm{BOA} --- bayesovská síť; \tm{CMA-ES} --- gaussovské rozdělení (otázka~3).
+Algoritmy odhadu rozdělení berou pohled \uv{GA je transformace rozdělení} doslova: místo
+operátorů se \emph{učí model} $p_\theta$ a~z~něj vzorkují nové jedince. Opakují cyklus
+\emph{vzorkuj \ra{} vyber lepší \ra{} přeuč model}.
+\tm{UMDA} používá nezávislé marginály přepočítané z~vybrané podpopulace, \tm{PBIL} je posouvá
+inkrementálně podle $p_i\gets(1-\alpha)p_i+\alpha x_i^{\mathrm{best}}$, \tm{MIMIC} a~\tm{BMDA}
+zachytí párové závislosti, \tm{BOA} bayesovskou síť a~\tm{CMA-ES} gaussovské rozdělení
+(otázka~3).
 
 \end{multicols}
 \newpage
@@ -391,75 +410,80 @@ geometrická podstata \ok{4} koevoluce: typy, patologie, léky \ok{5} otevřená
 a~novelty search.
 
 \hh{Evoluční strategie}
-Reálné vektory, \emph{mutace je hlavní operátor}, rodičovská selekce \emph{náhodná},
-environmentální selekce \emph{deterministická}; jedinec $=[\vec x,\vec\sigma]$.
-$(\mu,\lambda)$ vs.\ $(\mu+\lambda)$ --- umět rozdíly v~elitismu, konvergenci, schopnosti
-opustit lokální optimum a~v~samoadaptaci (čárková varianta zapomíná, a~proto v~ní samoadaptace
-funguje lépe: zastaralé $\sigma$ nepřežije).
-\tm{$(1+1)$-ES a~pravidlo 1/5}: podíl úspěšných mutací $p>1/5$ \ra{} zvětši $\sigma$ (o~cca
-10\,\%), $p<1/5$ \ra{} zmenši --- jde o~\emph{adaptivní}, nikoli samoadaptivní řízení.
-\tm{Samoadaptace}: $\sigma'=\sigma\exp(\tau'N(0,1)+\tau N_i(0,1))$, teprve poté
-$x'=x+\sigma'N(0,1)$ --- \emph{nejdřív $\sigma$, pak $x$}, aby se nový krok hned otestoval.
-Počet strategických parametrů: 1 (izotropní), $n$ (nekorelované), $n(n+1)/2$ (korelované,
-včetně úhlů natočení).
-\tm{Rekombinace}: lokální ($\rho=2$) / globální ($\rho=\mu$), diskrétní (dominantní) /
-intermediární (aritmetická).
+ES pracují s~reálnými vektory a~\emph{hlavním operátorem je mutace}. Rodičovská selekce je
+\emph{náhodná}, environmentální \emph{deterministická} a~jedinec má tvar $[\vec x,\vec\sigma]$.
+U~dvojice $(\mu,\lambda)$ a~$(\mu+\lambda)$ je potřeba umět rozdíly v~elitismu, konvergenci
+a~ve schopnosti opustit lokální optimum. Liší se i~v~samoadaptaci: čárková varianta zapomíná,
+a~proto v~ní samoadaptace funguje lépe, neboť zastaralé $\sigma$ nepřežije.
+\tm{$(1+1)$-ES a~pravidlo 1/5}: je-li podíl úspěšných mutací $p>1/5$, $\sigma$ se zvětší
+(o~cca 10\,\%), při $p<1/5$ se zmenší. Jde o~řízení \emph{adaptivní}, nikoli samoadaptivní.
+Při \tm{samoadaptaci} se nejprve přepočítá
+$\sigma'=\sigma\exp(\tau'N(0,1)+\tau N_i(0,1))$ a~teprve poté $x'=x+\sigma'N(0,1)$. Pořadí
+\emph{nejdřív $\sigma$, pak $x$} je podstatné, aby se nový krok hned otestoval.
+Strategických parametrů může být jeden (izotropní mutace), $n$ (nekorelovaná) nebo $n(n+1)/2$
+(korelovaná, tedy včetně úhlů natočení).
+\tm{Rekombinace} je lokální ($\rho=2$), nebo globální ($\rho=\mu$), a~zvlášť je buď diskrétní
+(dominantní), nebo intermediární (aritmetická).
 
 \hh{CMA-ES}
-Stav $\theta=(\vec m,\sigma,\mathbf C,\vec p_\sigma,\vec p_c)$, vzorkuje se
-$\mathcal N(\vec m,\sigma^2\mathbf C)$.
-Aktualizace: nový střed z~$\mu$ nejlepších vzorků; \tm{evoluční cesty} $\vec p_\sigma,\vec p_c$
-akumulují posuny středu; \tm{rank-1} update podle $\vec p_c\vec p_c^{\top}$ a~\tm{rank-$\mu$}
-update podle rozptylu vybraných jedinců; \emph{délka} $\vec p_\sigma$ řídí velikost kroku
-$\sigma$.
-Invariantní vůči monotónním transformacím fitness a~lineárním transformacím prostoru; de facto
-standard pro spojitou black-box optimalizaci.
+Stavem je pětice $\theta=(\vec m,\sigma,\mathbf C,\vec p_\sigma,\vec p_c)$ a~vzorkuje se
+z~rozdělení $\mathcal N(\vec m,\sigma^2\mathbf C)$.
+Nový střed se spočítá z~$\mu$ nejlepších vzorků, \tm{evoluční cesty} $\vec p_\sigma,\vec p_c$
+akumulují posuny středu, \tm{rank-1} update opravuje $\mathbf C$ podle
+$\vec p_c\vec p_c^{\top}$ a~\tm{rank-$\mu$} update podle rozptylu vybraných jedinců. Velikost
+kroku $\sigma$ řídí \emph{délka} $\vec p_\sigma$.
+Metoda je invariantní vůči monotónním transformacím fitness i~lineárním transformacím prostoru
+a~je de facto standardem pro spojitou black-box optimalizaci.
 
 \hh{Diferenciální evoluce}
-\tm{DE/rand/1/bin}: dárce $\vec v=\vec x_a+F(\vec x_b-\vec x_c)$; \emph{binomické} křížení
-s~prahem $C$ a~pojistkou $j=I_{\mathrm{rand}}$ (alespoň jedna složka od dárce); souboj potomka
-\emph{s~vlastním rodičem} --- nahrazení jen při zlepšení.
-Parametry: $F\in[0,2]$ (typicky $0{,}5$--$0{,}9$), $C\in[0,1]$, $N\approx 10D$.
-\tm{Geometrická podstata}: měřítko \emph{i} orientace kroků se přebírají z~aktuálního rozptylu
-populace \ra{} adaptace bez strategických parametrů (široká populace = velké kroky,
-zkonvergovaná = jemné doladění).
-Varianty: rand/1, rand/2, best/1, best/2, current-to-best; \texttt{bin} vs.\ \texttt{exp}
-křížení. \emph{Umět předvést krok s~čísly: mutace \ra{} křížení \ra{} selekce.}
+V~\tm{DE/rand/1/bin} vznikne dárce jako $\vec v=\vec x_a+F(\vec x_b-\vec x_c)$. Následuje
+\emph{binomické} křížení s~prahem $C$ a~pojistkou $j=I_{\mathrm{rand}}$, která zaručí, že
+alespoň jedna složka pochází od dárce. Potomek pak bojuje \emph{s~vlastním rodičem} a~nahradí
+jej jen tehdy, když je lepší.
+Parametry jsou $F\in[0,2]$ (typicky $0{,}5$--$0{,}9$), $C\in[0,1]$ a~$N\approx 10D$.
+\tm{Geometrická podstata} metody spočívá v~tom, že se měřítko \emph{i} orientace kroků přebírají
+z~aktuálního rozptylu populace. Adaptace tak funguje bez strategických parametrů: široká populace
+dělá velké kroky, zkonvergovaná jemně dolaďuje.
+Varianty jsou rand/1, rand/2, best/1, best/2 a~current-to-best, křížení buď \texttt{bin}, nebo
+\texttt{exp}. \emph{Umět předvést krok s~čísly: mutace \ra{} křížení \ra{} selekce.}
 
 \hh{Koevoluce}
-$=$ kontextová fitness (hodnotí se \emph{proti ostatním}) $+$ dynamická krajina.
-\tm{Kompetitivní}: predátor--kořist, host--parazit, Hillisovy řadicí sítě.
-\tm{Kooperativní}: dekompozice na komponenty, CCGA, moduly $+$ blueprinty.
-\tm{Patologie}: cyklení (intranzitivita), odpojení (jedna populace uteče), efekt
-\emph{Červené královny} (všichni se zlepšují, ale \emph{relativní} fitness zůstává konstantní
---- z~naměřených hodnot nepoznáme, zda je pokrok skutečný), průměrné stabilní stavy,
-přespecializace, zapomínání.
-\tm{Léky}: archivy (\en{hall of fame}), sdílená fitness, měření proti \emph{pevné externí sadě}
+Koevoluce stojí na kontextové fitness, kdy se jedinec hodnotí \emph{proti ostatním}, a~krajina je
+proto dynamická.
+\tm{Kompetitivní} podobu mají predátor s~kořistí, host s~parazitem a~Hillisovy řadicí sítě,
+\tm{kooperativní} dekompozice úlohy na komponenty, CCGA a~schéma moduly $+$ blueprinty.
+Mezi \tm{patologie} patří cyklení (intranzitivita), odpojení (jedna populace uteče), efekt
+\emph{Červené královny} (všichni se zlepšují, ale \emph{relativní} fitness zůstává konstantní,
+takže z~naměřených hodnot nepoznáme, zda je pokrok skutečný), dále průměrné stabilní stavy,
+přespecializace a~zapomínání.
+Léčí se archivy (\en{hall of fame}), sdílenou fitness a~měřením proti \emph{pevné externí sadě}
 protivníků.
-\tm{Vězňovo dilema} jako modelová úloha: $T>R>P>S$ a~$2R>T+S$; $D$ dominantní, $DD$ je Nashovo
-ekvilibrium a~jediné Pareto-neoptimální pole; iterovaná verze \ra{} TFT a~čtyři vlastnosti
-úspěšné strategie (slušnost, dráždivost, odpouštění, nezávistivost) $+$ srozumitelnost jako
-pátá. V~\emph{zašuměném} prostředí vítězí \tm{Pavlov} (win-stay, lose-shift: při výplatě $R$
-nebo $P$ hraj $C$, při $T$ nebo $S$ hraj $D$).
-Opakování Axelrodova turnaje po 20~letech vyhrál \emph{tým} ze Southamptonu: strategie se
-prvními cca 10~tahy rozpoznaly a~pak všechny obětavě nahrávaly jedné z~nich.
+Modelovou úlohou je \tm{vězňovo dilema} s~výplatami $T>R>P>S$ a~$2R>T+S$. Zradit ($D$) je
+dominantní tah, $DD$ je Nashovo ekvilibrium a~zároveň jediné Pareto-neoptimální pole.
+V~iterované verzi uspěje TFT a~s~ní čtyři vlastnosti úspěšné strategie: slušnost, dráždivost,
+odpouštění a~nezávistivost, k~nimž se jako pátá řadí srozumitelnost. V~\emph{zašuměném} prostředí
+vítězí \tm{Pavlov} (win-stay, lose-shift: při výplatě $R$ nebo $P$ hraj $C$, při $T$ nebo $S$
+hraj $D$).
+Opakování Axelrodova turnaje po 20~letech vyhrál \emph{tým} ze Southamptonu: jeho strategie se
+prvními zhruba 10~tahy rozpoznaly a~pak všechny obětavě nahrávaly jedné z~nich.
 
 \hh{Diverzita a~dynamické krajiny}
-Diverzita: fitness sharing, crowding, speciace, ostrovní model, nenáhodné páření.
-Dynamická fitness: diploidie, hypermutace, náhodná migrace, udržování diverzity,
-$(\mu,\lambda)$-ES (zapomínání je zde výhodou).
+Diverzitu udrží fitness sharing, crowding, speciace, ostrovní model a~nenáhodné páření.
+Mění-li se fitness v~čase, pomáhá diploidie, hypermutace, náhodná migrace, udržování diverzity
+a~$(\mu,\lambda)$-ES, jejíž zapomínání je tu výhodou.
 
 \hh{Otevřená evoluce}
-Evoluce \emph{bez pevného cíle}. Znaky: trvalá novost, neomezený růst složitosti, vznik nových
-tříd entit, evoluce evolvability. Systémy Tierra, Avida, Polyworld, ECHO --- všechny se dříve
-či později \emph{zaseknou}.
-\tm{Generativní (nepřímé) reprezentace}: L-systémy, celulární automaty, buněčné kódování, CPPN.
-\tm{Novelty search}: účelová funkce se \emph{vůbec nepoužívá}, měří se řídkost $\rho(x)$
-v~prostoru \emph{chování} vůči populaci \emph{a} permanentnímu archivu --- u~deceptivních úloh
-se vyplatí cíl zahodit. Navazuje \en{quality-diversity} a~\tm{MAP-Elites} (mřížka deskriptorů
-chování, v~každé buňce nejlepší jedinec).
-\tm{Interaktivní evoluce}: fitness $=$ člověk (Biomorphs, Picbreeder, EndlessForms); omezením
-je malá populace a~únava uživatele.
+Otevřená evoluce běží \emph{bez pevného cíle}. Poznává se podle trvalé novosti, neomezeného růstu
+složitosti, vzniku nových tříd entit a~evoluce evolvability. Systémy Tierra, Avida, Polyworld
+a~ECHO se však dříve či později \emph{zaseknou}.
+\tm{Generativní (nepřímé) reprezentace} jsou L-systémy, celulární automaty, buněčné kódování
+a~CPPN.
+\tm{Novelty search} účelovou funkci \emph{vůbec nepoužívá} a~měří místo ní řídkost $\rho(x)$
+v~prostoru \emph{chování}, a~to vůči populaci \emph{i} permanentnímu archivu. U~deceptivních úloh
+se cíl vyplatí zahodit. Navazuje na něj \en{quality-diversity} a~\tm{MAP-Elites}, který drží
+mřížku deskriptorů chování a~v~každé buňce nejlepšího jedince.
+V~\tm{interaktivní evoluci} je fitness člověk (Biomorphs, Picbreeder, EndlessForms); omezuje ji
+malá populace a~únava uživatele.
 
 \end{multicols}
 \newpage
@@ -475,75 +499,84 @@ je malá populace a~únava uživatele.
 \ok{4} ACO: rovnice a~konstrukce řešení \ok{5} varianty ACO \ok{6} kdy který algoritmus.
 
 \hh{Východiska rojové inteligence}
-Mnoho jednoduchých agentů bez centrálního řízení; z~lokálních interakcí a~úprav prostředí
-vzniká globálně rozumné chování. Klíčová slova: \tm{stigmergie} (komunikace přes prostředí),
-\tm{emergence}, \tm{decentralizace}, \tm{kladná zpětná vazba} (feromon) tlumená \tm{odpařováním}
-jako zápornou zpětnou vazbou. Přímá vazba na reaktivní architektury agentů (subsumpce, Steelsův
-průzkumník Marsu) --- rojové algoritmy jsou MAS řešící optimalizaci.
+Roj tvoří mnoho jednoduchých agentů bez centrálního řízení. Globálně rozumné chování nikdo
+nenaplánuje, nýbrž \tm{emerguje} z~lokálních interakcí a~z~úprav prostředí; právě komunikaci
+přes prostředí, nikoli zprávou, se říká \tm{stigmergie}.
+Systém drží v~rovnováze dvojice protichůdných sil. \tm{Kladnou zpětnou vazbu} obstarává feromon,
+protože úspěšnou volbu posiluje, a~tlumí ji \tm{odpařování} coby vazba záporná.
+\tm{Decentralizace} váže rojové algoritmy přímo na reaktivní architektury agentů (subsumpce,
+Steelsův průzkumník Marsu): rojový algoritmus je multiagentní systém, který řeší optimalizaci.
 
 \hh{PSO --- rovnice}
 $$\vec v \gets w\vec v + c_1r_1(\vec p-\vec x) + c_2r_2(\vec g-\vec x),\qquad
 \vec x \gets \vec x+\vec v$$
-$w$ $=$ \tm{setrvačnost} (klesá $0{,}9\to0{,}4$: nejdřív explorace, pak exploatace);
-$c_1(\vec p-\vec x)$ $=$ \tm{kognitivní} složka (osobní nejlepší pozice);
-$c_2(\vec g-\vec x)$ $=$ \tm{sociální} složka (nejlepší v~okolí); typicky $c_1=c_2=2$,
-$r_1,r_2\sim U(0,1)$ po složkách.
-Divergenci brání omezení $v_{\max}$ nebo \tm{constriction} $\chi\approx0{,}729$.
-\tm{Topologie}: \en{gbest} (úplný graf --- rychlá konvergence, riziko uvíznutí) vs.\ \en{lbest}
-(kruh, mřížka --- pomalejší šíření informace, lepší explorace).
+Rychlost částice skládají tři příspěvky. \tm{Setrvačnost} $w$ udržuje dosavadní směr a~během
+běhu klesá z~$0{,}9$ na $0{,}4$, takže se roj nejprve rozhlíží a~teprve pak dolaďuje.
+\tm{Kognitivní} složka $c_1(\vec p-\vec x)$ táhne částici k~její vlastní nejlepší pozici,
+\tm{sociální} složka $c_2(\vec g-\vec x)$ k~nejlepší pozici v~okolí; typicky se volí $c_1=c_2=2$
+a~čísla $r_1,r_2\sim U(0,1)$ se losují \emph{po složkách}.
+Aby rychlost nedivergovala, omezí se shora hodnotou $v_{\max}$, nebo se použije
+\tm{constriction} $\chi\approx0{,}729$.
+Co je pro částici \uv{okolí}, určuje \tm{topologie}. V~\en{gbest} je okolím celý roj (úplný
+graf), což konverguje rychle, zato hrozí uvíznutí; \en{lbest} (kruh, mřížka) šíří informaci
+pomaleji, a~proto lépe prozkoumává.
 
 \hh{PSO vs.\ GA}
-Žádné křížení ani mutace; částice mají \emph{paměť} ($\vec p_i$, $\vec g$); informace teče
-\emph{jednosměrně} od lepších k~horším; populace se nenahrazuje, jen se pohybuje.
+PSO nemá křížení ani mutaci a~populace se nenahrazuje, jen se pohybuje prostorem. Částice si
+navíc \emph{pamatují} ($\vec p_i$ a~$\vec g$) a~informace mezi nimi teče \emph{jednosměrně}
+od lepších k~horším.
 
 \hh{ACO --- rovnice}
-Úloha se převede na hledání nejkratší cesty v~ohodnoceném grafu; mravenci řešení
-\emph{konstruují} po hranách, nikoli vylepšují.
-Pravděpodobnost přechodu $p_{ij}\propto\tau_{ij}^{\alpha}\,\eta_{ij}^{\beta}$, kde $\tau$ $=$
-feromon (naučená zkušenost) a~$\eta=1/d_{ij}$ $=$ heuristika (viditelnost); $\alpha,\beta$ váží
-zkušenost proti heuristice.
-Aktualizace $\tau\gets(1-\rho)\tau+\sum_k Q/L_k$ --- \emph{odpařování} $+$ přídavek úměrný
-kvalitě řešení (kratší cesta \ra{} víc feromonu).
+Úloha se nejdřív převede na hledání nejkratší cesty v~ohodnoceném grafu. Mravenci pak řešení
+\emph{konstruují} hranu po hraně, nikoli vylepšují.
+Hranu volí s~pravděpodobností $p_{ij}\propto\tau_{ij}^{\alpha}\,\eta_{ij}^{\beta}$, kde $\tau$ je
+feromon, tedy naučená zkušenost, a~$\eta=1/d_{ij}$ heuristika (viditelnost); exponenty $\alpha$
+a~$\beta$ váží zkušenost proti heuristice.
+Feromon se pak aktualizuje podle $\tau\gets(1-\rho)\tau+\sum_k Q/L_k$: nejprve se \emph{odpaří}
+a~potom přibude přídavek úměrný kvalitě řešení, takže kratší cesta dostane víc.
 
 \hh{Varianty ACO}
-\tm{AS} (původní, Dorigo 1991: feromon aktualizují \emph{všichni} mravenci) $\cdot$
-\tm{elitní} a~\tm{rank-based} (aktualizuje jen globálně nejlepší, resp.\ $N$ nejlepších s~vahou
-podle pořadí) $\cdot$
-\tm{ACS} (inspirace Q-learningem: globální update jen nejlepším; navíc \emph{lokální} update
-při každém průchodu hranou, který feromon \emph{snižuje}, aby ostatní zkoušeli jiné cesty;
-pseudonáhodné pravidlo --- s~pravděpodobností $q_0$ rovnou nejlepší hrana, jinak vzorkování
-jako v~AS) $\cdot$
-\tm{MAX--MIN} (meze $\tau_{\min},\tau_{\max}$ proti předčasné konvergenci).
-\tm{Akce démona} $=$ centralizovaný krok mimo mravence, typicky lokální prohledávání nad
-zkonstruovanými řešeními.
-Pro spojité úlohy se prostor diskretizuje na podintervaly a~feromon navádí do lepších z~nich.
+V~původním \tm{AS} (Dorigo 1991) aktualizují feromon \emph{všichni} mravenci. \tm{Elitní}
+varianta jej svěří jen globálně nejlepšímu, \tm{rank-based} $N$ nejlepším s~vahou podle pořadí.
+\tm{ACS} se inspiruje Q-learningem: globální update dělá jen nejlepší mravenec a~navíc při
+každém průchodu hranou proběhne \emph{lokální} update, který feromon \emph{snižuje}, aby ostatní
+zkoušeli jiné cesty. Hranu k~tomu vybírá pseudonáhodným pravidlem, tedy s~pravděpodobností $q_0$
+rovnou tu nejlepší, jinak vzorkováním jako v~AS.
+\tm{MAX--MIN} drží feromon v~mezích $\tau_{\min}$ a~$\tau_{\max}$, a~brání tak předčasné
+konvergenci.
+\tm{Akce démona} je centralizovaný krok, který dělá algoritmus mimo mravence; typicky jde
+o~lokální prohledávání nad zkonstruovanými řešeními.
+Spojité úlohy se řeší tak, že se prostor diskretizuje na podintervaly a~feromon navádí do těch
+lepších.
 
 \hh{Další rojové algoritmy (nadstavba nad slidy EVA)}
-\tm{ABC} (\en{artificial bee colony}): \emph{dělnice} u~zdrojů, \emph{pozorovatelky} vybírají
-zdroj ruletou podle kvality, \emph{průzkumnice} po vyčerpání limitu neúspěšných pokusů zdroj
-opustí a~restartují jej náhodně.
-\tm{Firefly}: přitažlivost klesá exponenciálně se vzdáleností, takže se roj samovolně dělí na
-podskupiny okolo lokálních optim --- vhodné pro multimodální úlohy.
+V~\tm{ABC} (\en{artificial bee colony}) má roj tři role: \emph{dělnice} pracují u~zdrojů,
+\emph{pozorovatelky} si zdroj vybírají ruletou podle kvality a~\emph{průzkumnice} zdroj po
+vyčerpaném limitu neúspěšných pokusů opustí a~restartují jej náhodně.
+V~algoritmu \tm{firefly} klesá přitažlivost exponenciálně se vzdáleností, takže se roj samovolně
+rozdělí na podskupiny kolem lokálních optim; hodí se proto na multimodální úlohy.
 
 \hh{Kdy který}
-Spojitá úloha bez struktury \ra{} PSO nebo CMA-ES; konstrukce cesty či permutace, kde existuje
-heuristika \ra{} ACO; \emph{dynamické} prostředí (mění se hrany, vypadávají uzly) \ra{} ACO,
-protože odpařování samo zapomíná neplatnou zkušenost; multimodální krajina \ra{} firefly,
-lbest PSO.
-Praxe ACO: TSP, směrování vozidel a~paketů, skládání proteinů, detekce hran v~obraze.
+Na spojitou úlohu bez zjevné struktury se hodí PSO nebo CMA-ES. Kde se řešení konstruuje jako
+cesta či permutace a~existuje k~tomu heuristika, vede ACO. V~\emph{dynamickém} prostředí, kde se
+mění hrany a~vypadávají uzly, je ACO dobrou volbou také, protože odpařování samo zapomíná
+neplatnou zkušenost. S~multimodální krajinou si poradí firefly a~lbest PSO.
+V~praxi se ACO používá na TSP, směrování vozidel i~paketů, skládání proteinů a~detekci hran
+v~obraze.
 
 \hh{Meze rojových metod}
-Mnoho parametrů bez teorie, jak je nastavit; konvergenční záruky jen pro speciální případy
-(u~PSO za omezujících předpokladů na $w,c_1,c_2$); u~PSO hrozí \emph{stagnace} roje, když
-všechny částice splynou s~$\vec g$ (léky: restart, náboj/odpuzování, lbest topologie);
-ACO je drahé na vyhodnocení, protože každý mravenec staví celé řešení.
-\tm{Diskrétní PSO}: rychlost se interpretuje jako pravděpodobnost překlopení bitu
-(sigmoida), případně jako posloupnost prohození u~permutací.
+Rojové metody mají mnoho parametrů a~žádnou teorii, jak je nastavit; konvergenční záruky platí
+jen pro speciální případy, u~PSO za omezujících předpokladů na $w,c_1,c_2$. Roji navíc hrozí
+\emph{stagnace}, když všechny částice splynou s~$\vec g$ --- pomáhá restart, náboj neboli
+odpuzování a~lbest topologie. ACO je drahé na vyhodnocení, protože každý mravenec staví celé
+řešení.
+V~\tm{diskrétním PSO} se rychlost interpretuje jako pravděpodobnost překlopení bitu (přes
+sigmoidu), případně u~permutací jako posloupnost prohození.
 
 \ph{Pasti}
-PSO nemá selekci --- populace se nikdy nenahrazuje, jen se pohybuje.
+PSO nemá selekci: populace se nikdy nenahrazuje, jen se pohybuje.
 ACO řešení \emph{staví} po hranách, nevylepšuje hotové.
-Lokální update v~ACS feromon \emph{snižuje} --- je to nástroj explorace, ne exploatace.
+Lokální update v~ACS feromon \emph{snižuje}, je to tedy nástroj explorace, ne exploatace.
 Stigmergie není komunikace zprávou, ale \emph{úpravou prostředí}.
 
 \end{multicols}
@@ -561,70 +594,76 @@ Stigmergie není komunikace zprávou, ale \emph{úpravou prostředí}.
 parametrů \ok{7} kam to celé patří.
 
 \hh{Hill climbing}
-Prohledávání okolí jednoho řešení: \tm{steepest ascent} (nejlepší soused) $\cdot$
-\tm{first improvement} (první lepší --- levnější) $\cdot$ \tm{stochastic} (soused
-s~pravděpodobností úměrnou zlepšení) $\cdot$ \tm{s~náhodnými restarty}.
-Tři nepřátelé: \emph{lokální optima}, \emph{plošiny} (žádný gradient, jen náhodná chůze),
-\emph{hřebeny} (zlepšení jen kombinací více kroků najednou).
+Hill climbing prohledává okolí jediného řešení a~jednotlivé varianty se liší jen tím, kterého
+souseda vyberou. \tm{Steepest ascent} vezme toho nejlepšího, \tm{first improvement} první lepší,
+což je levnější, \tm{stochastic} losuje souseda s~pravděpodobností úměrnou zlepšení a~varianta
+\tm{s~náhodnými restarty} celý běh několikrát zopakuje z~jiného místa.
+Nepřátelé jsou tři. V~\emph{lokálním optimu} se metoda zastaví, na \emph{plošině} nemá žádný
+gradient, kterého by se držela, a~zbude jí náhodná chůze, a~přes \emph{hřeben} se dostane jen
+kombinací několika kroků najednou.
 
 \hh{Simulované žíhání}
-\tm{Metropolisovo kritérium}: horší soused se přijme s~pravděpodobností
-$P=\min\bigl(1,e^{-\Delta/T}\bigr)$ --- při vysoké teplotě téměř náhodná chůze, při nízké téměř
-hill climbing.
-\tm{Rozvrh chlazení}: geometrický $T\gets\alpha T$ (v~praxi), logaritmický $T_k\propto1/\log k$
-(nutný pro důkaz konvergence, prakticky nepoužitelný).
-Pro \emph{pevné} $T$ konverguje rozdělení stavů k~Boltzmannovu $\propto e^{-f/T}$.
+\tm{Metropolisovo kritérium} přijme i~horšího souseda, a~to s~pravděpodobností
+$P=\min\bigl(1,e^{-\Delta/T}\bigr)$. Při vysoké teplotě je běh téměř náhodnou chůzí, při nízké
+téměř hill climbingem.
+\tm{Rozvrh chlazení} se v~praxi volí geometrický, $T\gets\alpha T$. Logaritmický
+$T_k\propto1/\log k$ je sice nutný pro důkaz konvergence, ale prakticky nepoužitelný.
+Pro \emph{pevné} $T$ konverguje rozdělení stavů k~Boltzmannovu, $\propto e^{-f/T}$.
 
 \hh{Tabu search (Glover 1986)}
-Vždy se přejde do \emph{nejlepšího nezakázaného} souseda, i~když je horší než aktuální řešení
---- odtud schopnost opustit lokální optimum bez náhody.
-\tm{Tabu list} zakazuje nedávné \emph{tahy} (swap měst, překlopení bitu, přidání hrany), ne celá
-řešení --- je to úspornější a~zobecňuje to lépe. \tm{Tenure} $=$ počet iterací, po které tah
-zůstává zakázán (statické $T$, nebo náhodné z~rozsahu).
+Tabu search vždy přejde do \emph{nejlepšího nezakázaného} souseda, i~když je horší než aktuální
+řešení. Lokální optimum tedy opouští systematicky, ne náhodou.
+\tm{Tabu list} zakazuje nedávné \emph{tahy} (prohození měst, překlopení bitu, přidání hrany),
+nikoli celá řešení; je to úspornější a~lépe se to zobecňuje. Jak dlouho tah zakázaný zůstane,
+udává \tm{tenure}, buď statické $T$, nebo náhodné z~rozsahu.
 \tm{Aspirační kritérium} zákaz zruší, vede-li tah k~novému nejlepšímu řešení.
-Tři paměti: \tm{krátkodobá} (tabu list) $\cdot$ \tm{střednědobá} (intenzifikace nad elitními
-řešeními) $\cdot$ \tm{dlouhodobá frekvenční} (diverzifikace --- často navštěvované komponenty
-se penalizují nebo se od nich restartuje).
+Paměti jsou tři. \tm{Krátkodobou} je sám tabu list, \tm{střednědobá} intenzifikuje hledání nad
+elitními řešeními a~\tm{dlouhodobá frekvenční} diverzifikuje, protože často navštěvované
+komponenty penalizuje nebo od nich restartuje.
 
 \hh{Scatter search}
-Referenční množina se vybírá podle \emph{kvality i~diverzity}, nová řešení vznikají
-\emph{aritmetickými kombinacemi} podmnožin a~následným vylepšením lokálním prohledáváním;
-deterministické tam, kde EA používá náhodu.
+Referenční množina se vybírá podle \emph{kvality i~diverzity}. Nová řešení vznikají
+\emph{aritmetickými kombinacemi} jejích podmnožin a~pak se ještě vylepší lokálním prohledáváním.
+Metoda je deterministická tam, kde EA sahá po náhodě.
 
 \hh{Memetické algoritmy (Moscato 1989)}
-$=$ EA $+$ lokální prohledávání nad jedinci: populace hledá globálně, \emph{mem} (hill climbing,
-SA, tabu, 2-opt, gradient/backpropagation) dolaďuje lokálně. Genetické operátory navíc
-\emph{přenášejí informaci mezi běhy lokálního hledání}, což je celý zisk. Dvě varianty:
+Memetický algoritmus je EA doplněný o~lokální prohledávání nad jedinci: populace hledá globálně
+a~\emph{mem} (hill climbing, SA, tabu, 2-opt, gradient či backpropagation) dolaďuje lokálně.
+Celý zisk je v~tom, že genetické operátory \emph{přenášejí informaci mezi běhy lokálního
+hledání}. Varianty jsou dvě:
 \begin{itemize}
-\item \tm{lamarckismus} --- vylepšený jedinec \emph{přepíše genotyp}; rychlejší konvergence, ale
-  rychlejší ztráta diverzity (a darwinisticky \uv{nekošer});
-\item \tm{baldwinismus} --- vylepšení se projeví \emph{jen ve fitness}, genotyp zůstane;
-  pomalejší, zachovává diverzitu a~vyhlazuje krajinu (fitness $=$ \emph{potenciál} jedince).
+\item \tm{lamarckismus} nechá vylepšeného jedince \emph{přepsat genotyp}; konverguje rychleji,
+  zato rychleji ztrácí diverzitu (a~darwinisticky je \uv{nekošer});
+\item \tm{baldwinismus} promítne vylepšení \emph{jen do fitness} a~genotyp nechá být; je
+  pomalejší, zachovává diverzitu a~vyhlazuje krajinu, protože fitness měří \emph{potenciál}
+  jedince.
 \end{itemize}
-Rozhodnutí návrhu: na koho lokální hledání pustit (všichni / nejlepší / náhodně
+Návrhář ještě rozhoduje, na koho lokální hledání pustit (na všechny, na nejlepší, nebo náhodně
 s~pravděpodobností $p$), jak dlouho $t$ a~jak silně.
-\tm{Memetic computing}: memy nejsou známy dopředu --- \emph{multi-meme MA} (mem je součást
-genotypu a~dědí se) a~\emph{meta-Lamarckian MA} (memy mají vlastní populaci a~koevolvují
-s~jedinci, odměnou memu je fitness jedince, který vylepšil).
+V~\tm{memetic computing} nejsou memy známy dopředu. \emph{Multi-meme MA} nese mem přímo
+v~genotypu, takže se dědí; \emph{meta-Lamarckian MA} dá memům vlastní populaci, která koevolvuje
+s~jedinci, a~odměnou memu je fitness jedince, kterého vylepšil.
 
 \hh{Ladění vs.\ řízení parametrů}
-\tm{Ladění} (\en{tuning}) --- hledá se \emph{před} během (grid search, iterované závody,
-meta-EA); parametry ale nejsou nezávislé a~vyčerpávající hledání je nereálné.
-\tm{Řízení} (\en{control}) --- mění se \emph{za} běhu:
+\tm{Ladění} (\en{tuning}) hledá parametry \emph{před} během, ať už grid searchem, iterovanými
+závody, nebo meta-EA. Naráží na to, že parametry nejsou nezávislé a~vyčerpávající hledání je
+nereálné.
+\tm{Řízení} (\en{control}) je mění \emph{za} běhu a~má tři podoby:
 \begin{itemize}
-\item \tm{pevné} --- deterministicky podle času ($T$ v~SA, $w$ v~PSO, $\sigma(t)=1-0{,}9\,t/T$),
-  případně stochasticky;
-\item \tm{adaptivní} --- podle zpětné vazby z~běhu (pravidlo 1/5, Boltzmannův turnaj
+\item \tm{pevné} se řídí deterministicky časem ($T$ v~SA, $w$ v~PSO,
+  $\sigma(t)=1-0{,}9\,t/T$), případně stochasticky;
+\item \tm{adaptivní} reaguje na zpětnou vazbu z~běhu (pravidlo 1/5 nebo Boltzmannův turnaj
   s~teplotou, kterou lze při uvíznutí zase zvýšit);
-\item \tm{samoadaptivní} --- parametr je součástí genomu a~evolvuje ($\sigma$ v~ES).
+\item \tm{samoadaptivní} nese parametr v~genomu a~nechá jej evolvovat ($\sigma$ v~ES).
 \end{itemize}
-Řídit lze i~\emph{reprezentaci} (přidávat bity, klesne-li hammingovská diverzita) a~\emph{velikost
+Řídit lze i~\emph{reprezentaci} (přidat bity, klesne-li hammingovská diverzita) a~\emph{velikost
 populace} (jedinec dostane délku života úměrnou fitness a~pak zemře).
 
 \hh{Souvislosti}
-SA, tabu a~HC jsou \emph{jednobodové} metody, které EA doplňují jako lokální krok (memetické
-algoritmy, akce démona v~ACS, 2-opt v~TSP, WalkSAT v~SAT). U~kombinatorických úloh je
-hybridizace s~lokální heuristikou téměř vždy výhodná (otázka~6).
+SA, tabu search a~hill climbing jsou \emph{jednobodové} metody a~evoluční algoritmus je používá
+jako lokální krok: v~memetických algoritmech, v~akci démona u~ACS, jako 2-opt u~TSP nebo WalkSAT
+u~SAT. U~kombinatorických úloh se hybridizace s~lokální heuristikou vyplatí téměř vždy
+(otázka~6).
 
 \end{multicols}
 \newpage
@@ -642,93 +681,97 @@ konvence, NEAT a~HyperNEAT \ok{3} kombinatorické úlohy: rozhoduje kódování 
 \ok{4} vícekriteriální optimalizace: dominance, skalarizace, NSGA-II.
 
 \hh{LCS: dva přístupy}
-\tm{Michigan}: jedinec $=$ \emph{jedno pravidlo}, řešením je celá populace \ra{} nutné rozdělení
-odměny (\en{credit assignment}).
-\tm{Pittsburgh}: jedinec $=$ \emph{celá sada pravidel}, fitness přímočará, ale operátory složité
-(GIL).
-\tm{Hollandův LCS}: podmínky nad $\{0,1,*\}$, vnitřní zprávy a~receptory, \tm{bucket brigade}
-(pravidlo platí předchůdci za právo jednat).
-\tm{ZCS}: bez zpráv; \en{match set} $M$ \ra{} ruletový výběr akce \ra{} \en{action set} $A$;
-posílení $A$ a~$A_{-1}$, daň pro $M\setminus A$; operátor \en{cover} při prázdném $M$.
-Slabiny: neevolvuje \emph{úplnou} sadu pravidel, pravidla na začátku řetězců se odměňují zřídka
-a~vymírají, stejně tak pravidla vedoucí k~malým, ale nutným odměnám.
-\tm{XCS}: klasifikátor $(c,a,p,\epsilon,F)$, \emph{fitness podle přesnosti predikce}
-$\kappa=\alpha(\epsilon/\epsilon_0)^{-\nu}$ (pro $\epsilon\le\epsilon_0$ je $\kappa=1$; fitness
-je \emph{relativní} přesnost v~action setu), predikce se aktualizuje Q-learningem, GA běží
-\emph{nikově} uvnitř action setu.
-Výsledkem je \emph{úplná a~minimální} mapa vstup--výstup --- to je hlavní pointa oproti
-\uv{strength-based} systémům, kde silné, ale nepřesné pravidlo vyhrávalo.
-Varianty UCS (s~učitelem), XCSF (aproximace funkcí).
+V~\tm{michiganském} pojetí je jedinec \emph{jedno pravidlo} a~řešením je celá populace; odměnu je
+proto nutné mezi pravidla rozdělit (\en{credit assignment}). V~\tm{pittsburském} je jedinec
+\emph{celá sada pravidel}, takže fitness je přímočará, zato operátory složité (GIL).
+\tm{Hollandův LCS} má podmínky nad $\{0,1,*\}$, vnitřní zprávy a~receptory. Odměnu rozděluje
+\tm{bucket brigade}: pravidlo platí svému předchůdci za právo jednat.
+\tm{ZCS} zprávy zruší. Z~\en{match setu} $M$ se ruletou vybere akce a~vznikne \en{action set}
+$A$; posílí se $A$ a~$A_{-1}$, zbytek $M\setminus A$ platí daň, a~je-li $M$ prázdná, zasáhne
+operátor \en{cover}. Slabiny má tři: neevolvuje \emph{úplnou} sadu pravidel, pravidla na začátku
+řetězců se odměňují zřídka a~vymírají a~stejně dopadnou pravidla vedoucí k~malým, ale nutným
+odměnám.
+\tm{XCS} popisuje klasifikátor pěticí $(c,a,p,\epsilon,F)$ a~staví fitness na \emph{přesnosti
+predikce}, $\kappa=\alpha(\epsilon/\epsilon_0)^{-\nu}$, přičemž pro $\epsilon\le\epsilon_0$ je
+$\kappa=1$ a~fitness je \emph{relativní} přesnost v~rámci action setu. Predikci aktualizuje
+Q-learning a~GA běží \emph{nikově} uvnitř action setu.
+Výsledkem je \emph{úplná a~minimální} mapa vstup--výstup. To je hlavní pointa proti
+\uv{strength-based} systémům, kde vyhrávalo pravidlo silné, ale nepřesné. Varianty jsou UCS
+(učení s~učitelem) a~XCSF (aproximace funkcí).
 
 \hh{Neuroevoluce}
-Co se evolvuje: váhy / topologie / obojí / hyperparametry učení. Přednosti EA: nepotřebuje
-gradient, zvládá rekurentní sítě a~RL s~řídkou odměnou, snadno se paralelizuje.
-\tm{Problém konkurujících konvencí} (permutační problém): dvě funkčně stejné sítě mají různě
-uspořádané genomy \ra{} křížení je bez opatření destruktivní.
-\tm{Kódování architektury}: přímé (matice vah), gramatické (Kitano), buněčné (Gruau --- GP
-program řídí růst sítě); \tm{GNARL} $=$ EP nad grafy, strukturální i~parametrické mutace řízené
-\uv{teplotou}.
-\tm{NEAT}: seznam hran s~\emph{inovačními čísly} (křížení jen shodných genů --- tím řeší
-konkurující konvence), \emph{speciace} podle podobnosti genomů se sdílenou fitness (chrání nové
-topologie, než se stihnou vyladit), \emph{complexification} od minimální sítě.
-\tm{HyperNEAT}: neurony leží v~geometrickém \emph{substrátu} a~váhu spoje generuje z~jejich
-souřadnic funkce $\mathbb{R}^4\to\mathbb{R}$ reprezentovaná \tm{CPPN} (DAG s~různými aktivačními
-funkcemi) evolvovanou pomocí NEAT --- zachytí symetrie a~regularity, oddělí velikost genomu od
-velikosti sítě.
-\tm{NAS}: prostor (lineární / DAG buněk / super síť), strategie (EA, RL, bayesovská, gradientní),
-odhad výkonu (sdílení vah --- ENAS); DeepNEAT a~CoDeepNEAT (moduly $+$ blueprinty); ES jako
-škálovatelná alternativa gradientu v~deep RL.
+Evolvovat lze váhy, topologii, obojí, nebo hyperparametry učení. EA má tři přednosti: nepotřebuje
+gradient, zvládá rekurentní sítě i~RL s~řídkou odměnou a~snadno se paralelizuje.
+\tm{Problém konkurujících konvencí} (permutační problém) spočívá v~tom, že dvě funkčně stejné
+sítě mají různě uspořádané genomy, a~křížení je pak bez opatření destruktivní.
+\tm{Kódování architektury} bývá přímé (matice vah), gramatické (Kitano), nebo buněčné (Gruau,
+kde růst sítě řídí GP program). \tm{GNARL} je EP nad grafy se strukturálními i~parametrickými
+mutacemi řízenými \uv{teplotou}.
+\tm{NEAT} zapisuje síť jako seznam hran s~\emph{inovačními čísly} a~kříží jen shodné geny, čímž
+konkurující konvence řeší. \emph{Speciace} podle podobnosti genomů se sdílenou fitness chrání
+nové topologie, než se stihnou vyladit, a~\emph{complexification} začíná od minimální sítě.
+\tm{HyperNEAT} umístí neurony do geometrického \emph{substrátu} a~váhu spoje generuje z~jejich
+souřadnic funkce $\mathbb{R}^4\to\mathbb{R}$, reprezentovaná \tm{CPPN} (DAG s~různými aktivačními
+funkcemi) a~evolvovaná pomocí NEAT. Zachytí tak symetrie a~regularity a~oddělí velikost genomu
+od velikosti sítě.
+\tm{NAS} popisuje trojice prostor (lineární, DAG buněk, super síť), strategie (EA, RL,
+bayesovská, gradientní) a~odhad výkonu (sdílení vah, tedy ENAS). Patří sem DeepNEAT a~CoDeepNEAT
+(moduly $+$ blueprinty); ES jsou škálovatelnou alternativou gradientu v~deep RL.
 
 \hh{Kombinatorické úlohy}
-\tm{Batoh}: bitová mapa, triviální operátory, problém je \emph{kapacitní omezení} --- čtyři
-strategie: \tm{penalizace} (volba váhy $\alpha$), \tm{oprava} (lamarckovsky nebo baldwinovsky),
-\tm{dekodér} (\uv{1 znamená: přidej, pokud se vejde} --- \emph{každý} genotyp je pak přípustný),
-\tm{vícekriteriální} formulace (maximalizuj cenu, minimalizuj překročení).
-\tm{TSP}: fitness triviální, rozhoduje kódování. Sousednostní a~ordinální reprezentaci
-nepoužívat; permutační $+$ PMX/OX/CX/ER, případně maticová. Inicializace nejbližším sousedem či
-vkládáním hran; mutace inverze (2-opt).
-\tm{SAT}: fitness $=$ počet splněných klauzulí (počet splněných \emph{proměnných} nestačí ---
-plošiny), dále vážení klauzulí a~\emph{zjemňující funkce} $f+\alpha r(x)$, která rozliší jedince
-se stejnou fitness (váhy $v_j$ sledují tendenci proměnné k~0/1). Reprezentace bitová, reálná,
-klauzulová, cestová; WalkSAT jako lokální heuristika. U~reálné reprezentace
-($x\mapsto(1-y)^2$, $\neg x\mapsto(1+y)^2$, minimalizace) pozor: hodnoty jsou \emph{penalty},
-takže disjunkce (klauzule) je \tm{součin} a~konjunkce (formule) \tm{součet}.
-\tm{Rozvrhování}: přímé maticové kódování; \emph{tvrdá} omezení řešit v~operátorech,
-\emph{měkká} ve fitness; job shop --- permutace s~dekodérem vs.\ přímé kódování celého plánu.
-Obecné pravidlo: rozhoduje kódování a~operátory respektující strukturu úlohy $+$ hybridizace
+\tm{Batoh} se kóduje bitovou mapou a~operátory jsou triviální; problémem je \emph{kapacitní
+omezení}. Řeší se čtyřmi způsoby: \tm{penalizací} (je nutné zvolit váhu $\alpha$), \tm{opravou}
+(lamarckovsky, nebo baldwinovsky), \tm{dekodérem} (jednička znamená \uv{přidej, pokud se vejde},
+takže \emph{každý} genotyp je přípustný) a~\tm{vícekriteriální} formulací (maximalizuj cenu,
+minimalizuj překročení).
+U~\tm{TSP} je fitness triviální a~rozhoduje kódování. Sousednostní a~ordinální reprezentaci
+nepoužívat; volí se permutační s~PMX, OX, CX či ER, případně maticová. Inicializuje se nejbližším
+sousedem nebo vkládáním hran a~mutací je inverze (2-opt).
+U~\tm{SAT} je fitness počet splněných klauzulí; počet splněných \emph{proměnných} nestačí,
+protože vyrábí plošiny. Dále se klauzule váží a~přidává se \emph{zjemňující funkce}
+$f+\alpha r(x)$, která rozliší jedince se stejnou fitness (váhy $v_j$ sledují tendenci proměnné
+k~0 či 1). Reprezentace je bitová, reálná, klauzulová, nebo cestová a~WalkSAT slouží jako lokální
+heuristika. U~reálné reprezentace ($x\mapsto(1-y)^2$, $\neg x\mapsto(1+y)^2$, minimalizuje se)
+pozor na to, že hodnoty jsou \emph{penalty}: disjunkce (klauzule) je proto \tm{součin}
+a~konjunkce (formule) \tm{součet}.
+\tm{Rozvrhování} používá přímé maticové kódování. \emph{Tvrdá} omezení se řeší v~operátorech,
+\emph{měkká} ve fitness; u~job shopu stojí proti sobě permutace s~dekodérem a~přímé kódování
+celého plánu.
+Obecně rozhoduje kódování a~operátory respektující strukturu úlohy, doplněné o~hybridizaci
 s~lokální heuristikou.
 
 \hh{Vícekriteriální optimalizace}
-Místo jedné fitness vektor $f_1,\dots,f_n$ (uvažujme minimalizaci).
-\tm{Slabá dominance} $f_i(x)\le f_i(y)$ pro všechna $i$; \tm{dominance} navíc
-$\exists j: f_j(x)<f_j(y)$; jinak jsou řešení \tm{neporovnatelná}.
-\tm{Pareto množina} (v~prostoru řešení) a~\tm{Pareto fronta} (v~prostoru kritérií, množina
-nedominovaných). Dvojí cíl: \emph{konvergence} k~frontě $+$ \emph{rovnoměrné pokrytí} fronty.
-\tm{Skalarizace}: lineární vážený součet (jednoduchá, ale nenajde nekonvexní části fronty
-a~váhy neumíme zvolit), \emph{$\varepsilon$-constraint} (minimalizuj $f_1$, ostatní jako
-omezení), Čebyševova.
-\tm{VEGA} (1985, první): populace se rozdělí na $n$ dílů po $N/n$ nejlepších podle každého
-$f_i$ --- konverguje k~jednotlivým optimům a~ztrácí diverzitu.
-\tm{NSGA} (1994): nedominované třídění do front $F_1,F_2,\dots$ ($F_1$ nedominovaní z~$P$,
-$F_2$ z~$P\setminus F_1$, \dots) $+$ nikový faktor $\mathrm{sh}(i,j)=1-(d_{ij}/d_{\text{share}})^2$
-pro $d_{ij}<d_{\text{share}}$; slabiny: volba $d_{\text{share}}$ a~chybějící elitismus.
-\tm{NSGA-II} (2000) obojí opravuje: místo $d_{\text{share}}$ \emph{crowding distance}
-$d_i=\sum_m\bigl(f_m(i{+}1)-f_m(i{-}1)\bigr)/(f_m^{\max}-f_m^{\min})$, krajní body $\infty$;
-\emph{crowded comparison} (nižší fronta vyhrává, při shodě větší crowding) v~turnaji --- žádná
-fitness se nepočítá, porovnávají se jen ta dvě čísla; elitismus spojením $P_t\cup Q_t$.
-\emph{Umět spočítat crowding distance na příkladu.}
-\tm{NSGA-III}: pro \en{many-objective} nahrazuje crowding \emph{referenčními body}
-(rovnoměrně rozmístěné směry, počet $\approx$ velikost populace, $N=\binom{p+M+1}{p}$);
-při plnění se přednostně doplňují nedostatečně zastoupené směry.
-\tm{MOEA/D}: dekompozice na podpopulace s~různými váhovými vektory $\lambda^{(i)}$, Čebyševova
-skalarizace $\min\max_i\lambda_i|f_i(x)-z_i|$ vůči referenčnímu bodu $z$, křížení jen
+Místo jedné fitness je dán vektor $f_1,\dots,f_n$; uvažujme minimalizaci. Řešení $x$ \tm{slabě
+dominuje} $y$, platí-li $f_i(x)\le f_i(y)$ pro všechna $i$, a~\tm{dominuje} je, existuje-li
+navíc $j$ s~$f_j(x)<f_j(y)$; jinak jsou obě \tm{neporovnatelná}.
+Nedominovaná řešení tvoří \tm{Pareto množinu} v~prostoru řešení a~\tm{Pareto frontu} v~prostoru
+kritérií. Cíl je dvojí: \emph{konvergovat} k~frontě a~\emph{rovnoměrně ji pokrýt}.
+\tm{Skalarizace} převede úlohu na jednokriteriální. Lineární vážený součet je jednoduchý, ale
+nenajde nekonvexní části fronty a~váhy neumíme zvolit; \emph{$\varepsilon$-constraint}
+minimalizuje $f_1$ a~ostatní kritéria uplatní jako omezení; třetí možností je Čebyševova.
+\tm{VEGA} (1985) byla první: populaci rozdělí na $n$ dílů po $N/n$ nejlepších podle každého
+$f_i$, čímž ale konverguje k~jednotlivým optimům a~ztrácí diverzitu.
+\tm{NSGA} (1994) zavádí nedominované třídění do front $F_1,F_2,\dots$ ($F_1$ jsou nedominovaní
+z~$P$, $F_2$ z~$P\setminus F_1$ a~tak dál) a~nikový faktor
+$\mathrm{sh}(i,j)=1-(d_{ij}/d_{\text{share}})^2$ pro $d_{ij}<d_{\text{share}}$. Slabinou je
+volba $d_{\text{share}}$ a~chybějící elitismus.
+\tm{NSGA-II} (2000) opravuje obojí. Místo $d_{\text{share}}$ počítá \emph{crowding distance}
+$d_i=\sum_m\bigl(f_m(i{+}1)-f_m(i{-}1)\bigr)/(f_m^{\max}-f_m^{\min})$ s~krajními body $\infty$
+a~v~turnaji rozhoduje \emph{crowded comparison} (vyhrává nižší fronta, při shodě větší
+crowding), takže se žádná fitness nepočítá a~stačí porovnat ta dvě čísla; elitismus zajišťuje
+spojení $P_t\cup Q_t$. \emph{Umět spočítat crowding distance na příkladu.}
+\tm{NSGA-III} míří na \en{many-objective} úlohy a~crowding nahrazuje \emph{referenčními body},
+tedy rovnoměrně rozmístěnými směry, jejichž počet $N=\binom{p+M+1}{p}$ zhruba odpovídá velikosti
+populace; při plnění se přednostně doplňují nedostatečně zastoupené směry.
+\tm{MOEA/D} úlohu dekomponuje na podpopulace s~různými váhovými vektory $\lambda^{(i)}$, používá
+Čebyševovu skalarizaci $\min\max_i\lambda_i|f_i(x)-z_i|$ vůči referenčnímu bodu $z$ a~kříží jen
 v~\emph{sousedství} $B(i)$ nejbližších váhových vektorů.
-\tm{SMS-EMOA}: steady-state, z~$P\cup\{q\}$ se vybere podmnožina velikosti $\mu$ maximalizující
-\tm{hypervolume} (S-metriku). \tm{SPEA2}: archiv, síla dominujících, hustota přes $k$-tého
-souseda.
-\tm{Hypervolume} $=$ objem dominovaný frontou vůči referenčnímu bodu --- jediná běžná metrika
-monotónní vůči dominanci a~nepotřebující znát skutečnou frontu; dále GD, IGD, spread,
-$\varepsilon$-indikátor.
+\tm{SMS-EMOA} je steady-state a~z~$P\cup\{q\}$ vybere podmnožinu velikosti $\mu$, která
+maximalizuje \tm{hypervolume} (S-metriku). \tm{SPEA2} pracuje s~archivem, silou dominujících
+a~hustotou měřenou přes $k$-tého souseda.
+\tm{Hypervolume} je objem dominovaný frontou vůči referenčnímu bodu. Jako jediná běžná metrika
+je monotónní vůči dominanci a~nepotřebuje znát skutečnou frontu; vedle ní se používají GD, IGD,
+spread a~$\varepsilon$-indikátor.
 
 \end{multicols}
 
