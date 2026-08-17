@@ -3568,10 +3568,10 @@ ledabylým operátorem snadno stane cesta, která žádnou cestou není.
   $(123456789)$ zakóduje jako $(112141311)$. Motivací bylo umožnit standardní
   jednobodové křížení. To sice produkuje platné cesty, jenže výsledek nemá
   s~rodiči nic společného. \emph{Také nepoužívat.}
-\item \textbf{Cestová (permutační)} reprezentace popisuje cestu prostě pořadím měst,
-  takže cesta $5{-}1{-}7{-}8{-}9{-}4{-}6{-}2{-}3$ se zapíše jako $(517894623)$.
-  Je nejpřirozenější,
-  ale vyžaduje speciální operátory PMX, OX, CX a~ER (odst.~\ref{sec:reprez}).
+\item \textbf{Cestová (permutační)} reprezentace popisuje cestu prostě pořadím
+  měst. Je nejpřirozenější, ale vyžaduje speciální operátory PMX, OX, CX
+  a~ER (odst.~\ref{sec:reprez}). Cesta $5{-}1{-}7{-}8{-}9{-}4{-}6{-}2{-}3$
+  se v~ní zapíše jako $(517894623)$.
 \item \textbf{Maticová} reprezentace používá binární matici, kde $1$ na pozici $(i,j)$
   znamená buď hranu $i \to j$, nebo, což je častější, že $i$ předchází $j$. Operátory jsou
   opět speciální: \emph{konjunkce} udělá bitové AND obou rodičů a~náhodně doplní chybějící
